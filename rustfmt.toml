@@ -1,0 +1,6 @@
+wrap_comments = true
+version = "Two"
+use_field_init_shorthand = true
+unstable_features = true
+newline_style = "Unix"
+imports_granularity = "Crate"
