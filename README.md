@@ -1,4 +1,4 @@
-# Windows-Native Rust Library
+# Windows Native Rust Library
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
