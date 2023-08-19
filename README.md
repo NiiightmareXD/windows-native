@@ -24,7 +24,9 @@ windows-native = "0.51.1"
 ```
 or run this command
 
-`cargo add windows-native`
+```
+cargo add windows-native
+```
 
 ## Usage
 
