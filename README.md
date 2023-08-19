@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-The **Windows-Native** Rust library provides a convenient and safe way to access the native Windows undocumented APIs using the Rust programming language. These APIs are mostly exported from the Process Hacker (PH) NT headers, enabling you to interact with Windows internals in a reliable and efficient manner.
+The **Windows-Native** Rust library provides a convenient and safe way to access the native Windows undocumented APIs using the Rust programming language. These APIs are mostly exported from the Process Hacker native API headers (phnt), enabling you to interact with Windows internals in a reliable and efficient manner.
 
 Please note that using undocumented APIs can be risky, as they might change without notice in different Windows versions and can potentially cause system instability. Use this library with caution and ensure you have a good understanding of the implications of using undocumented APIs.
 
