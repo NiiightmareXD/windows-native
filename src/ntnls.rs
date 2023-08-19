@@ -47,12 +47,15 @@ impl std::fmt::Debug for NLSTABLEINFO {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub static mut NlsAnsiCodePage: u16;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub static mut NlsMbCodePageTag: BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub static mut NlsMbOemCodePageTag: BOOLEAN;
 }

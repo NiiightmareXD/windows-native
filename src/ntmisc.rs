@@ -22,10 +22,12 @@ pub enum VDMSERVICECLASS {
     VdmQueryVdmProcess = 14,
     VdmPreInitialize = 15,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtVdmControl(Service: VDMSERVICECLASS, ServiceData: *mut std::ffi::c_void) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtTraceEvent(
         TraceHandle: HANDLE,
         Flags: u32,
@@ -79,7 +81,8 @@ pub enum TRACE_CONTROL_INFORMATION_CLASS {
     TraceControlQueryUsedProcessorCount = 44,
     TraceControlGetPmcOwnership = 45,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtTraceControl(
         TraceInformationClass: TRACE_CONTROL_INFORMATION_CLASS,
         InputBuffer: *mut std::ffi::c_void,

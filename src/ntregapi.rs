@@ -1117,7 +1117,8 @@ impl std::fmt::Debug for VR_UNLOAD_DIFFERENCING_HIVE_FOR_HOST {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateKey(
         KeyHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -1128,7 +1129,8 @@ extern "C" {
         Disposition: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateKeyTransacted(
         KeyHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -1140,14 +1142,16 @@ extern "C" {
         Disposition: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenKey(
         KeyHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenKeyTransacted(
         KeyHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -1155,7 +1159,8 @@ extern "C" {
         TransactionHandle: HANDLE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenKeyEx(
         KeyHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -1163,7 +1168,8 @@ extern "C" {
         OpenOptions: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenKeyTransactedEx(
         KeyHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -1172,16 +1178,20 @@ extern "C" {
         TransactionHandle: HANDLE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDeleteKey(KeyHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRenameKey(KeyHandle: HANDLE, NewName: *mut UNICODE_STRING) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDeleteValueKey(KeyHandle: HANDLE, ValueName: *mut UNICODE_STRING) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryKey(
         KeyHandle: HANDLE,
         KeyInformationClass: KEY_INFORMATION_CLASS,
@@ -1190,7 +1200,8 @@ extern "C" {
         ResultLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationKey(
         KeyHandle: HANDLE,
         KeySetInformationClass: KEY_SET_INFORMATION_CLASS,
@@ -1198,7 +1209,8 @@ extern "C" {
         KeySetInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryValueKey(
         KeyHandle: HANDLE,
         ValueName: *mut UNICODE_STRING,
@@ -1208,7 +1220,8 @@ extern "C" {
         ResultLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetValueKey(
         KeyHandle: HANDLE,
         ValueName: *mut UNICODE_STRING,
@@ -1218,7 +1231,8 @@ extern "C" {
         DataSize: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryMultipleValueKey(
         KeyHandle: HANDLE,
         ValueEntries: *mut KEY_VALUE_ENTRY,
@@ -1228,7 +1242,8 @@ extern "C" {
         RequiredBufferLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtEnumerateKey(
         KeyHandle: HANDLE,
         Index: u32,
@@ -1238,7 +1253,8 @@ extern "C" {
         ResultLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtEnumerateValueKey(
         KeyHandle: HANDLE,
         Index: u32,
@@ -1248,29 +1264,35 @@ extern "C" {
         ResultLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFlushKey(KeyHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCompactKeys(Count: u32, KeyArray: *mut HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCompressKey(KeyHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtLoadKey(
         TargetKey: *mut OBJECT_ATTRIBUTES,
         SourceFile: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtLoadKey2(
         TargetKey: *mut OBJECT_ATTRIBUTES,
         SourceFile: *mut OBJECT_ATTRIBUTES,
         Flags: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtLoadKeyEx(
         TargetKey: *mut OBJECT_ATTRIBUTES,
         SourceFile: *mut OBJECT_ATTRIBUTES,
@@ -1282,7 +1304,8 @@ extern "C" {
         Reserved: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtLoadKey3(
         TargetKey: *mut OBJECT_ATTRIBUTES,
         SourceFile: *mut OBJECT_ATTRIBUTES,
@@ -1294,39 +1317,48 @@ extern "C" {
         Reserved: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReplaceKey(
         NewFile: *mut OBJECT_ATTRIBUTES,
         TargetHandle: HANDLE,
         OldFile: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSaveKey(KeyHandle: HANDLE, FileHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSaveKeyEx(KeyHandle: HANDLE, FileHandle: HANDLE, Format: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSaveMergedKeys(
         HighPrecedenceKeyHandle: HANDLE,
         LowPrecedenceKeyHandle: HANDLE,
         FileHandle: HANDLE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRestoreKey(KeyHandle: HANDLE, FileHandle: HANDLE, Flags: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtUnloadKey(TargetKey: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtUnloadKey2(TargetKey: *mut OBJECT_ATTRIBUTES, Flags: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtUnloadKeyEx(TargetKey: *mut OBJECT_ATTRIBUTES, Event: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtNotifyChangeKey(
         KeyHandle: HANDLE,
         Event: HANDLE,
@@ -1340,7 +1372,8 @@ extern "C" {
         Asynchronous: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtNotifyChangeMultipleKeys(
         MasterKeyHandle: HANDLE,
         Count: u32,
@@ -1356,11 +1389,13 @@ extern "C" {
         Asynchronous: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryOpenSubKeys(TargetKey: *mut OBJECT_ATTRIBUTES, HandleCount: *mut u32)
     -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryOpenSubKeysEx(
         TargetKey: *mut OBJECT_ATTRIBUTES,
         BufferLength: u32,
@@ -1368,22 +1403,28 @@ extern "C" {
         RequiredSize: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtInitializeRegistry(BootCondition: u16) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtLockRegistryKey(KeyHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtLockProductActivationKeys(pPrivateVer: *mut u32, pSafeMode: *mut u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFreezeRegistry(TimeOutInSeconds: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtThawRegistry() -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateRegistryTransaction(
         RegistryTransactionHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -1391,17 +1432,20 @@ extern "C" {
         CreateOptions: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenRegistryTransaction(
         RegistryTransactionHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCommitRegistryTransaction(RegistryTransactionHandle: HANDLE, Flags: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRollbackRegistryTransaction(RegistryTransactionHandle: HANDLE, Flags: u32)
     -> NTSTATUS;
 }

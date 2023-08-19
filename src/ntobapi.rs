@@ -153,7 +153,8 @@ impl std::fmt::Debug for OBJECT_HANDLE_FLAG_INFORMATION {
         write!(f, "OBJECT_HANDLE_FLAG_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryObject(
         Handle: HANDLE,
         ObjectInformationClass: OBJECT_INFORMATION_CLASS,
@@ -162,7 +163,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationObject(
         Handle: HANDLE,
         ObjectInformationClass: OBJECT_INFORMATION_CLASS,
@@ -170,7 +172,8 @@ extern "C" {
         ObjectInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDuplicateObject(
         SourceProcessHandle: HANDLE,
         SourceHandle: HANDLE,
@@ -181,13 +184,16 @@ extern "C" {
         Options: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtMakeTemporaryObject(Handle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtMakePermanentObject(Handle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSignalAndWaitForSingleObject(
         SignalHandle: HANDLE,
         WaitHandle: HANDLE,
@@ -195,11 +201,13 @@ extern "C" {
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWaitForSingleObject(Handle: HANDLE, Alertable: BOOLEAN, Timeout: *mut i64)
     -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWaitForMultipleObjects(
         Count: u32,
         Handles: *mut HANDLE,
@@ -208,7 +216,8 @@ extern "C" {
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWaitForMultipleObjects32(
         Count: u32,
         Handles: *mut i32,
@@ -217,14 +226,16 @@ extern "C" {
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetSecurityObject(
         Handle: HANDLE,
         SecurityInformation: u32,
         SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQuerySecurityObject(
         Handle: HANDLE,
         SecurityInformation: u32,
@@ -233,20 +244,24 @@ extern "C" {
         LengthNeeded: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtClose(Handle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCompareObjects(FirstObjectHandle: HANDLE, SecondObjectHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateDirectoryObject(
         DirectoryHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateDirectoryObjectEx(
         DirectoryHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -255,7 +270,8 @@ extern "C" {
         Flags: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenDirectoryObject(
         DirectoryHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -277,7 +293,8 @@ impl std::fmt::Debug for OBJECT_DIRECTORY_INFORMATION {
         write!(f, "OBJECT_DIRECTORY_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryDirectoryObject(
         DirectoryHandle: HANDLE,
         Buffer: *mut std::ffi::c_void,
@@ -398,7 +415,8 @@ impl std::fmt::Debug for OBJECT_BOUNDARY_DESCRIPTOR {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreatePrivateNamespace(
         NamespaceHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -406,7 +424,8 @@ extern "C" {
         BoundaryDescriptor: *mut OBJECT_BOUNDARY_DESCRIPTOR,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenPrivateNamespace(
         NamespaceHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -414,10 +433,12 @@ extern "C" {
         BoundaryDescriptor: *mut OBJECT_BOUNDARY_DESCRIPTOR,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDeletePrivateNamespace(NamespaceHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateSymbolicLinkObject(
         LinkHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -425,14 +446,16 @@ extern "C" {
         LinkTarget: *mut UNICODE_STRING,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenSymbolicLinkObject(
         LinkHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQuerySymbolicLinkObject(
         LinkHandle: HANDLE,
         LinkTarget: *mut UNICODE_STRING,
@@ -446,7 +469,8 @@ pub enum SYMBOLIC_LINK_INFO_CLASS {
     SymbolicLinkAccessMask = 2,
     MaxnSymbolicLinkInfoClass = 3,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationSymbolicLink(
         LinkHandle: HANDLE,
         SymbolicLinkInformationClass: SYMBOLIC_LINK_INFO_CLASS,

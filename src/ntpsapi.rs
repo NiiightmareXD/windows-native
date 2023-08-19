@@ -2603,7 +2603,8 @@ impl std::fmt::Debug for PROCESS_MEMBERSHIP_INFORMATION {
         write!(f, "PROCESS_MEMBERSHIP_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryPortInformationProcess() -> NTSTATUS;
 }
 #[repr(C)]
@@ -3136,7 +3137,8 @@ pub enum THREAD_WORKLOAD_CLASS {
     ThreadWorkloadClassGraphics = 1,
     MaxThreadWorkloadClass = 2,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateProcess(
         ProcessHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -3148,7 +3150,8 @@ extern "C" {
         TokenHandle: HANDLE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateProcessEx(
         ProcessHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -3161,7 +3164,8 @@ extern "C" {
         Reserved: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenProcess(
         ProcessHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -3169,19 +3173,24 @@ extern "C" {
         ClientId: *mut CLIENT_ID,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtTerminateProcess(ProcessHandle: HANDLE, ExitStatus: NTSTATUS) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSuspendProcess(ProcessHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtResumeProcess(ProcessHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub static mut __ImageBase: IMAGE_DOS_HEADER;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInformationProcess(
         ProcessHandle: HANDLE,
         ProcessInformationClass: PROCESSINFOCLASS,
@@ -3190,7 +3199,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtGetNextProcess(
         ProcessHandle: HANDLE,
         DesiredAccess: u32,
@@ -3199,7 +3209,8 @@ extern "C" {
         NewProcessHandle: *mut HANDLE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtGetNextThread(
         ProcessHandle: HANDLE,
         ThreadHandle: HANDLE,
@@ -3209,7 +3220,8 @@ extern "C" {
         NewThreadHandle: *mut HANDLE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationProcess(
         ProcessHandle: HANDLE,
         ProcessInformationClass: PROCESSINFOCLASS,
@@ -3224,7 +3236,8 @@ pub enum PROCESS_STATE_CHANGE_TYPE {
     ProcessStateChangeResume = 1,
     ProcessStateChangeMax = 2,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateProcessStateChange(
         ProcessStateChangeHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -3233,7 +3246,8 @@ extern "C" {
         Reserved: u64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtChangeProcessState(
         ProcessStateChangeHandle: HANDLE,
         ProcessHandle: HANDLE,
@@ -3250,7 +3264,8 @@ pub enum THREAD_STATE_CHANGE_TYPE {
     ThreadStateChangeResume = 1,
     ThreadStateChangeMax = 2,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateThreadStateChange(
         ThreadStateChangeHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -3259,7 +3274,8 @@ extern "C" {
         Reserved: u64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtChangeThreadState(
         ThreadStateChangeHandle: HANDLE,
         ThreadHandle: HANDLE,
@@ -3269,7 +3285,8 @@ extern "C" {
         Reserved: u64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateThread(
         ThreadHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -3281,7 +3298,8 @@ extern "C" {
         CreateSuspended: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenThread(
         ThreadHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -3289,28 +3307,36 @@ extern "C" {
         ClientId: *mut CLIENT_ID,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtTerminateThread(ThreadHandle: HANDLE, ExitStatus: NTSTATUS) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSuspendThread(ThreadHandle: HANDLE, PreviousSuspendCount: *mut u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtResumeThread(ThreadHandle: HANDLE, PreviousSuspendCount: *mut u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtGetCurrentProcessorNumber() -> u32;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtGetCurrentProcessorNumberEx(ProcessorNumber: *mut PROCESSOR_NUMBER) -> u32;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtGetContextThread(ThreadHandle: HANDLE, ThreadContext: *mut CONTEXT) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetContextThread(ThreadHandle: HANDLE, ThreadContext: *mut CONTEXT) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInformationThread(
         ThreadHandle: HANDLE,
         ThreadInformationClass: THREADINFOCLASS,
@@ -3319,7 +3345,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationThread(
         ThreadHandle: HANDLE,
         ThreadInformationClass: THREADINFOCLASS,
@@ -3327,26 +3354,32 @@ extern "C" {
         ThreadInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAlertThread(ThreadHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAlertResumeThread(ThreadHandle: HANDLE, PreviousSuspendCount: *mut u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtTestAlert() -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtImpersonateThread(
         ServerThreadHandle: HANDLE,
         ClientThreadHandle: HANDLE,
         SecurityQos: *mut SECURITY_QUALITY_OF_SERVICE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRegisterThreadTerminatePort(PortHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetLdtEntries(
         Selector0: u32,
         Entry0Low: u32,
@@ -3363,7 +3396,8 @@ pub type PPS_APC_ROUTINE = std::option::Option<
         ApcArgument3: *mut std::ffi::c_void,
     ),
 >;
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueueApcThread(
         ThreadHandle: HANDLE,
         ApcRoutine: PPS_APC_ROUTINE,
@@ -3372,7 +3406,8 @@ extern "C" {
         ApcArgument3: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueueApcThreadEx(
         ThreadHandle: HANDLE,
         ReserveHandle: HANDLE,
@@ -3382,7 +3417,8 @@ extern "C" {
         ApcArgument3: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueueApcThreadEx2(
         ThreadHandle: HANDLE,
         ReserveHandle: HANDLE,
@@ -3393,10 +3429,12 @@ extern "C" {
         ApcArgument3: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAlertThreadByThreadId(ThreadId: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWaitForAlertByThreadId(Address: *mut std::ffi::c_void, Timeout: *mut i64) -> NTSTATUS;
 }
 #[repr(C)]
@@ -4370,7 +4408,8 @@ impl std::fmt::Debug for PS_CREATE_INFO {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateUserProcess(
         ProcessHandle: *mut HANDLE,
         ThreadHandle: *mut HANDLE,
@@ -4388,7 +4427,8 @@ extern "C" {
 pub type PUSER_THREAD_START_ROUTINE = std::option::Option<
     unsafe extern "system" fn(ThreadParameter: *mut std::ffi::c_void) -> NTSTATUS,
 >;
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateThreadEx(
         ThreadHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -4814,30 +4854,36 @@ impl std::fmt::Debug for JOBOBJECT_PAGE_PRIORITY_LIMIT {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateJobObject(
         JobHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenJobObject(
         JobHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAssignProcessToJobObject(JobHandle: HANDLE, ProcessHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtTerminateJobObject(JobHandle: HANDLE, ExitStatus: NTSTATUS) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtIsProcessInJob(ProcessHandle: HANDLE, JobHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInformationJobObject(
         JobHandle: HANDLE,
         JobObjectInformationClass: JOBOBJECTINFOCLASS,
@@ -4846,7 +4892,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationJobObject(
         JobHandle: HANDLE,
         JobObjectInformationClass: JOBOBJECTINFOCLASS,
@@ -4854,10 +4901,12 @@ extern "C" {
         JobObjectInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateJobSet(NumJob: u32, UserJobSet: *mut JOB_SET_ARRAY, Flags: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRevertContainerImpersonation() -> NTSTATUS;
 }
 #[repr(i32)]
@@ -4867,14 +4916,16 @@ pub enum MEMORY_RESERVE_TYPE {
     MemoryReserveIoCompletion = 1,
     MemoryReserveTypeMax = 2,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAllocateReserveObject(
         MemoryReserveHandle: *mut HANDLE,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         Type: MEMORY_RESERVE_TYPE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn PssNtCaptureSnapshot(
         SnapshotHandle: *mut HANDLE,
         ProcessHandle: HANDLE,
@@ -4898,7 +4949,8 @@ impl std::fmt::Debug for NTPSS_MEMORY_BULK_INFORMATION {
         write!(f, "NTPSS_MEMORY_BULK_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtPssCaptureVaSpaceBulk(
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,

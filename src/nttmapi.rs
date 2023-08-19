@@ -12,7 +12,8 @@ use windows::{
     },
 };
 
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateTransactionManager(
         TmHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -22,7 +23,8 @@ extern "C" {
         CommitStrength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenTransactionManager(
         TmHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -32,22 +34,26 @@ extern "C" {
         OpenOptions: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRenameTransactionManager(
         LogFileName: *mut UNICODE_STRING,
         ExistingTransactionManagerGuid: *mut GUID,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRollforwardTransactionManager(
         TransactionManagerHandle: HANDLE,
         TmVirtualClock: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRecoverTransactionManager(TransactionManagerHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInformationTransactionManager(
         TransactionManagerHandle: HANDLE,
         TransactionManagerInformationClass: TRANSACTIONMANAGER_INFORMATION_CLASS,
@@ -56,7 +62,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationTransactionManager(
         TmHandle: HANDLE,
         TransactionManagerInformationClass: TRANSACTIONMANAGER_INFORMATION_CLASS,
@@ -64,7 +71,8 @@ extern "C" {
         TransactionManagerInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtEnumerateTransactionObject(
         RootObjectHandle: HANDLE,
         QueryType: KTMOBJECT_TYPE,
@@ -73,7 +81,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateTransaction(
         TransactionHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -87,7 +96,8 @@ extern "C" {
         Description: *mut UNICODE_STRING,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenTransaction(
         TransactionHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -96,7 +106,8 @@ extern "C" {
         TmHandle: HANDLE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInformationTransaction(
         TransactionHandle: HANDLE,
         TransactionInformationClass: TRANSACTION_INFORMATION_CLASS,
@@ -105,7 +116,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationTransaction(
         TransactionHandle: HANDLE,
         TransactionInformationClass: TRANSACTION_INFORMATION_CLASS,
@@ -113,13 +125,16 @@ extern "C" {
         TransactionInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCommitTransaction(TransactionHandle: HANDLE, Wait: BOOLEAN) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRollbackTransaction(TransactionHandle: HANDLE, Wait: BOOLEAN) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateEnlistment(
         EnlistmentHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -131,7 +146,8 @@ extern "C" {
         EnlistmentKey: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenEnlistment(
         EnlistmentHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -140,7 +156,8 @@ extern "C" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInformationEnlistment(
         EnlistmentHandle: HANDLE,
         EnlistmentInformationClass: ENLISTMENT_INFORMATION_CLASS,
@@ -149,7 +166,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationEnlistment(
         EnlistmentHandle: HANDLE,
         EnlistmentInformationClass: ENLISTMENT_INFORMATION_CLASS,
@@ -157,43 +175,55 @@ extern "C" {
         EnlistmentInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRecoverEnlistment(
         EnlistmentHandle: HANDLE,
         EnlistmentKey: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtPrePrepareEnlistment(EnlistmentHandle: HANDLE, TmVirtualClock: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtPrepareEnlistment(EnlistmentHandle: HANDLE, TmVirtualClock: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCommitEnlistment(EnlistmentHandle: HANDLE, TmVirtualClock: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRollbackEnlistment(EnlistmentHandle: HANDLE, TmVirtualClock: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtPrePrepareComplete(EnlistmentHandle: HANDLE, TmVirtualClock: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtPrepareComplete(EnlistmentHandle: HANDLE, TmVirtualClock: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCommitComplete(EnlistmentHandle: HANDLE, TmVirtualClock: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReadOnlyEnlistment(EnlistmentHandle: HANDLE, TmVirtualClock: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRollbackComplete(EnlistmentHandle: HANDLE, TmVirtualClock: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSinglePhaseReject(EnlistmentHandle: HANDLE, TmVirtualClock: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateResourceManager(
         ResourceManagerHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -204,7 +234,8 @@ extern "C" {
         Description: *mut UNICODE_STRING,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenResourceManager(
         ResourceManagerHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -213,10 +244,12 @@ extern "C" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRecoverResourceManager(ResourceManagerHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtGetNotificationResourceManager(
         ResourceManagerHandle: HANDLE,
         TransactionNotification: *mut TRANSACTION_NOTIFICATION,
@@ -227,7 +260,8 @@ extern "C" {
         AsynchronousContext: usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInformationResourceManager(
         ResourceManagerHandle: HANDLE,
         ResourceManagerInformationClass: RESOURCEMANAGER_INFORMATION_CLASS,
@@ -236,7 +270,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationResourceManager(
         ResourceManagerHandle: HANDLE,
         ResourceManagerInformationClass: RESOURCEMANAGER_INFORMATION_CLASS,
@@ -244,7 +279,8 @@ extern "C" {
         ResourceManagerInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRegisterProtocolAddressInformation(
         ResourceManager: HANDLE,
         ProtocolId: *mut GUID,
@@ -253,7 +289,8 @@ extern "C" {
         CreateOptions: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtPropagationComplete(
         ResourceManagerHandle: HANDLE,
         RequestCookie: u32,
@@ -261,16 +298,19 @@ extern "C" {
         Buffer: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtPropagationFailed(
         ResourceManagerHandle: HANDLE,
         RequestCookie: u32,
         PropStatus: NTSTATUS,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFreezeTransactions(FreezeTimeout: *mut i64, ThawTimeout: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtThawTransactions() -> NTSTATUS;
 }

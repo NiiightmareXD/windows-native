@@ -2023,56 +2023,67 @@ impl std::fmt::Debug for TS_COUNTER {
         write!(f, "TS_COUNTER {{ CounterHead: {:?} }}", self.CounterHead)
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationFreeMemory(Buffer: *mut std::ffi::c_void) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationOpenServerW(ServerName: PWSTR) -> HANDLE;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationCloseServer(ServerHandle: HANDLE) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationServerPing(ServerHandle: HANDLE) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationGetTermSrvCountersValue(
         ServerHandle: HANDLE,
         Count: u32,
         Counters: *mut TS_COUNTER,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationShutdownSystem(ServerHandle: HANDLE, ShutdownFlags: u32) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationWaitSystemEvent(
         ServerHandle: HANDLE,
         EventMask: u32,
         EventFlags: *mut u32,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationRegisterConsoleNotification(
         ServerHandle: HANDLE,
         WindowHandle: HWND,
         Flags: u32,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationUnRegisterConsoleNotification(
         ServerHandle: HANDLE,
         WindowHandle: HWND,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationEnumerateW(
         ServerHandle: HANDLE,
         SessionIds: *mut *mut SESSIONIDW,
         Count: *mut u32,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationQueryInformationW(
         ServerHandle: HANDLE,
         SessionId: u32,
@@ -2082,7 +2093,8 @@ extern "C" {
         pReturnLength: *mut u32,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationSetInformationW(
         ServerHandle: HANDLE,
         SessionId: u32,
@@ -2091,21 +2103,24 @@ extern "C" {
         WinStationInformationLength: u32,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationNameFromLogonIdW(
         ServerHandle: HANDLE,
         SessionId: u32,
         pWinStationName: PWSTR,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn LogonIdFromWinStationNameW(
         ServerHandle: HANDLE,
         pWinStationName: PWSTR,
         SessionId: *mut u32,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationSendMessageW(
         ServerHandle: HANDLE,
         SessionId: u32,
@@ -2119,7 +2134,8 @@ extern "C" {
         DoNotWait: BOOLEAN,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationConnectW(
         ServerHandle: HANDLE,
         SessionId: u32,
@@ -2128,13 +2144,16 @@ extern "C" {
         bWait: BOOLEAN,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationDisconnect(ServerHandle: HANDLE, SessionId: u32, bWait: BOOLEAN) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationReset(ServerHandle: HANDLE, SessionId: u32, bWait: BOOLEAN) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationShadow(
         ServerHandle: HANDLE,
         TargetServerName: PWSTR,
@@ -2143,16 +2162,19 @@ extern "C" {
         HotkeyModifiers: u16,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationShadowStop(ServerHandle: HANDLE, SessionId: u32, bWait: BOOLEAN) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationEnumerateProcesses(
         ServerHandle: HANDLE,
         Processes: *mut *mut std::ffi::c_void,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationGetAllProcesses(
         ServerHandle: HANDLE,
         Level: u32,
@@ -2160,21 +2182,24 @@ extern "C" {
         Processes: *mut *mut TS_ALL_PROCESSES_INFO,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationFreeGAPMemory(
         Level: u32,
         Processes: *mut TS_ALL_PROCESSES_INFO,
         NumberOfProcesses: u32,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationTerminateProcess(
         ServerHandle: HANDLE,
         ProcessId: u32,
         ExitCode: u32,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationGetProcessSid(
         ServerHandle: HANDLE,
         ProcessId: u32,
@@ -2183,12 +2208,15 @@ extern "C" {
         dwSidSize: *mut u32,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationSwitchToServicesSession() -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn WinStationRevertFromServicesSession() -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn _WinStationWaitForConnect() -> BOOLEAN;
 }

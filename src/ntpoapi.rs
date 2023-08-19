@@ -1591,7 +1591,8 @@ impl std::fmt::Debug for POWER_INTERNAL_BOOTAPP_DIAGNOSTIC {
         write!(f, "POWER_INTERNAL_BOOTAPP_DIAGNOSTIC {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtPowerInformation(
         InformationLevel: POWER_INFORMATION_LEVEL,
         InputBuffer: *mut std::ffi::c_void,
@@ -1600,13 +1601,15 @@ extern "C" {
         OutputBufferLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetThreadExecutionState(
         NewFlags: EXECUTION_STATE,
         PreviousFlags: *mut EXECUTION_STATE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtInitiatePowerAction(
         SystemAction: POWER_ACTION,
         LightestSystemState: SYSTEM_POWER_STATE,
@@ -1614,16 +1617,19 @@ extern "C" {
         Asynchronous: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetSystemPowerState(
         SystemAction: POWER_ACTION,
         LightestSystemState: SYSTEM_POWER_STATE,
         Flags: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtGetDevicePowerState(Device: HANDLE, State: *mut DEVICE_POWER_STATE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtIsSystemResumeAutomatic() -> BOOLEAN;
 }

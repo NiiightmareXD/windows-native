@@ -181,7 +181,8 @@ impl std::fmt::Debug for TAG_INFO_NAME_TAG_MAPPING {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn I_QueryTagInformation(
         MachineName: PCWSTR,
         InfoLevel: TAG_INFO_LEVEL,

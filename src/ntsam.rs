@@ -257,27 +257,32 @@ impl std::fmt::Debug for SAM_BYTE_ARRAY_32K {
     }
 }
 pub type SAM_SHELL_OBJECT_PROPERTIES = SAM_BYTE_ARRAY_32K;
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamFreeMemory(Buffer: *mut std::ffi::c_void) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamCloseHandle(SamHandle: *mut std::ffi::c_void) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamSetSecurityObject(
         ObjectHandle: *mut std::ffi::c_void,
         SecurityInformation: u32,
         SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamQuerySecurityObject(
         ObjectHandle: *mut std::ffi::c_void,
         SecurityInformation: u32,
         SecurityDescriptor: *mut *mut SECURITY_DESCRIPTOR,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamRidToSid(ObjectHandle: *mut std::ffi::c_void, Rid: u32, Sid: *mut PSID) -> NTSTATUS;
 }
 #[repr(C)]
@@ -285,7 +290,8 @@ extern "C" {
 pub struct RPC_AUTH_IDENTITY_HANDLE {
     _unused: [u8; 0],
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamConnect(
         ServerName: *mut UNICODE_STRING,
         ServerHandle: *mut *mut std::ffi::c_void,
@@ -293,7 +299,8 @@ extern "C" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamConnectWithCreds(
         ServerName: *mut UNICODE_STRING,
         ServerHandle: *mut *mut std::ffi::c_void,
@@ -304,7 +311,8 @@ extern "C" {
         pfDstIsW2K: *mut BOOL,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamShutdownSamServer(ServerHandle: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[repr(i32)]
@@ -693,14 +701,16 @@ impl std::fmt::Debug for DOMAIN_LOCALIZABLE_INFO_BUFFER {
         write!(f, "DOMAIN_LOCALIZABLE_INFO_BUFFER {{ union }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamLookupDomainInSamServer(
         ServerHandle: *mut std::ffi::c_void,
         Name: *mut UNICODE_STRING,
         DomainId: *mut PSID,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamEnumerateDomainsInSamServer(
         ServerHandle: *mut std::ffi::c_void,
         EnumerationContext: PSAM_ENUMERATE_HANDLE,
@@ -709,7 +719,8 @@ extern "C" {
         CountReturned: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamOpenDomain(
         ServerHandle: *mut std::ffi::c_void,
         DesiredAccess: u32,
@@ -717,21 +728,24 @@ extern "C" {
         DomainHandle: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamQueryInformationDomain(
         DomainHandle: *mut std::ffi::c_void,
         DomainInformationClass: DOMAIN_INFORMATION_CLASS,
         Buffer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamSetInformationDomain(
         DomainHandle: *mut std::ffi::c_void,
         DomainInformationClass: DOMAIN_INFORMATION_CLASS,
         DomainInformation: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamLookupNamesInDomain(
         DomainHandle: *mut std::ffi::c_void,
         Count: u32,
@@ -740,7 +754,8 @@ extern "C" {
         Use: *mut *mut SID_NAME_USE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamLookupNamesInDomain2(
         DomainHandle: *mut std::ffi::c_void,
         Count: u32,
@@ -749,7 +764,8 @@ extern "C" {
         Use: *mut *mut SID_NAME_USE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamLookupIdsInDomain(
         DomainHandle: *mut std::ffi::c_void,
         Count: u32,
@@ -758,13 +774,15 @@ extern "C" {
         Use: *mut *mut SID_NAME_USE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamRemoveMemberFromForeignDomain(
         DomainHandle: *mut std::ffi::c_void,
         MemberId: PSID,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamQueryLocalizableAccountsInDomain(
         Domain: *mut std::ffi::c_void,
         Flags: u32,
@@ -856,7 +874,8 @@ impl std::fmt::Debug for GROUP_ADM_COMMENT_INFORMATION {
         write!(f, "GROUP_ADM_COMMENT_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamEnumerateGroupsInDomain(
         DomainHandle: *mut std::ffi::c_void,
         EnumerationContext: PSAM_ENUMERATE_HANDLE,
@@ -865,7 +884,8 @@ extern "C" {
         CountReturned: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamCreateGroupInDomain(
         DomainHandle: *mut std::ffi::c_void,
         AccountName: *mut UNICODE_STRING,
@@ -874,7 +894,8 @@ extern "C" {
         RelativeId: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamOpenGroup(
         DomainHandle: *mut std::ffi::c_void,
         DesiredAccess: u32,
@@ -882,34 +903,40 @@ extern "C" {
         GroupHandle: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamDeleteGroup(GroupHandle: *mut std::ffi::c_void) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamQueryInformationGroup(
         GroupHandle: *mut std::ffi::c_void,
         GroupInformationClass: GROUP_INFORMATION_CLASS,
         Buffer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamSetInformationGroup(
         GroupHandle: *mut std::ffi::c_void,
         GroupInformationClass: GROUP_INFORMATION_CLASS,
         Buffer: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamAddMemberToGroup(
         GroupHandle: *mut std::ffi::c_void,
         MemberId: u32,
         Attributes: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamRemoveMemberFromGroup(GroupHandle: *mut std::ffi::c_void, MemberId: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamGetMembersInGroup(
         GroupHandle: *mut std::ffi::c_void,
         MemberIds: *mut *mut u32,
@@ -917,7 +944,8 @@ extern "C" {
         MemberCount: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamSetMemberAttributesOfGroup(
         GroupHandle: *mut std::ffi::c_void,
         MemberId: u32,
@@ -996,7 +1024,8 @@ impl std::fmt::Debug for ALIAS_EXTENDED_INFORMATION {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamEnumerateAliasesInDomain(
         DomainHandle: *mut std::ffi::c_void,
         EnumerationContext: PSAM_ENUMERATE_HANDLE,
@@ -1005,7 +1034,8 @@ extern "C" {
         CountReturned: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamCreateAliasInDomain(
         DomainHandle: *mut std::ffi::c_void,
         AccountName: *mut UNICODE_STRING,
@@ -1014,7 +1044,8 @@ extern "C" {
         RelativeId: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamOpenAlias(
         DomainHandle: *mut std::ffi::c_void,
         DesiredAccess: u32,
@@ -1022,52 +1053,61 @@ extern "C" {
         AliasHandle: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamDeleteAlias(AliasHandle: *mut std::ffi::c_void) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamQueryInformationAlias(
         AliasHandle: *mut std::ffi::c_void,
         AliasInformationClass: ALIAS_INFORMATION_CLASS,
         Buffer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamSetInformationAlias(
         AliasHandle: *mut std::ffi::c_void,
         AliasInformationClass: ALIAS_INFORMATION_CLASS,
         Buffer: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamAddMemberToAlias(AliasHandle: *mut std::ffi::c_void, MemberId: PSID) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamAddMultipleMembersToAlias(
         AliasHandle: *mut std::ffi::c_void,
         MemberIds: *mut PSID,
         MemberCount: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamRemoveMemberFromAlias(AliasHandle: *mut std::ffi::c_void, MemberId: PSID)
     -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamRemoveMultipleMembersFromAlias(
         AliasHandle: *mut std::ffi::c_void,
         MemberIds: *mut PSID,
         MemberCount: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamGetMembersInAlias(
         AliasHandle: *mut std::ffi::c_void,
         MemberIds: *mut *mut PSID,
         MemberCount: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamGetAliasMembership(
         DomainHandle: *mut std::ffi::c_void,
         PassedCount: u32,
@@ -1850,7 +1890,8 @@ impl std::fmt::Debug for USER_PWD_CHANGE_FAILURE_INFORMATION {
         write!(f, "USER_PWD_CHANGE_FAILURE_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamEnumerateUsersInDomain(
         DomainHandle: *mut std::ffi::c_void,
         EnumerationContext: PSAM_ENUMERATE_HANDLE,
@@ -1860,7 +1901,8 @@ extern "C" {
         CountReturned: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamCreateUserInDomain(
         DomainHandle: *mut std::ffi::c_void,
         AccountName: *mut UNICODE_STRING,
@@ -1869,7 +1911,8 @@ extern "C" {
         RelativeId: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamCreateUser2InDomain(
         DomainHandle: *mut std::ffi::c_void,
         AccountName: *mut UNICODE_STRING,
@@ -1880,7 +1923,8 @@ extern "C" {
         RelativeId: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamOpenUser(
         DomainHandle: *mut std::ffi::c_void,
         DesiredAccess: u32,
@@ -1888,38 +1932,44 @@ extern "C" {
         UserHandle: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamDeleteUser(UserHandle: *mut std::ffi::c_void) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamQueryInformationUser(
         UserHandle: *mut std::ffi::c_void,
         UserInformationClass: USER_INFORMATION_CLASS,
         Buffer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamSetInformationUser(
         UserHandle: *mut std::ffi::c_void,
         UserInformationClass: USER_INFORMATION_CLASS,
         Buffer: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamGetGroupsForUser(
         UserHandle: *mut std::ffi::c_void,
         Groups: *mut *mut GROUP_MEMBERSHIP,
         MembershipCount: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamChangePasswordUser(
         UserHandle: *mut std::ffi::c_void,
         OldPassword: *mut UNICODE_STRING,
         NewPassword: *mut UNICODE_STRING,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamChangePasswordUser2(
         ServerName: *mut UNICODE_STRING,
         UserName: *mut UNICODE_STRING,
@@ -1927,7 +1977,8 @@ extern "C" {
         NewPassword: *mut UNICODE_STRING,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamChangePasswordUser3(
         ServerName: *mut UNICODE_STRING,
         UserName: *mut UNICODE_STRING,
@@ -1937,7 +1988,8 @@ extern "C" {
         PasswordChangeFailureInfo: *mut *mut USER_PWD_CHANGE_FAILURE_INFORMATION,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamQueryDisplayInformation(
         DomainHandle: *mut std::ffi::c_void,
         DisplayInformation: DOMAIN_DISPLAY_INFORMATION,
@@ -1950,7 +2002,8 @@ extern "C" {
         SortedBuffer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamGetDisplayEnumerationIndex(
         DomainHandle: *mut std::ffi::c_void,
         DisplayInformation: DOMAIN_DISPLAY_INFORMATION,
@@ -2045,19 +2098,22 @@ pub type PSAM_DELTA_NOTIFICATION_ROUTINE = std::option::Option<
         DeltaData: *mut SAM_DELTA_DATA,
     ) -> NTSTATUS,
 >;
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamRegisterObjectChangeNotification(
         ObjectType: SECURITY_DB_OBJECT_TYPE,
         NotificationEventHandle: HANDLE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamUnregisterObjectChangeNotification(
         ObjectType: SECURITY_DB_OBJECT_TYPE,
         NotificationEventHandle: HANDLE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamGetCompatibilityMode(ObjectHandle: *mut std::ffi::c_void, Mode: *mut u32)
     -> NTSTATUS;
 }
@@ -2239,7 +2295,8 @@ impl std::fmt::Debug for SAM_VALIDATE_OUTPUT_ARG {
         write!(f, "SAM_VALIDATE_OUTPUT_ARG {{ union }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamValidatePassword(
         ServerName: *mut UNICODE_STRING,
         ValidationType: PASSWORD_POLICY_VALIDATION_TYPE,
@@ -2317,7 +2374,8 @@ impl std::fmt::Debug for SAM_GENERIC_OPERATION_OUTPUT {
         write!(f, "SAM_GENERIC_OPERATION_OUTPUT {{ union }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn SamPerformGenericOperation(
         ServerName: PWSTR,
         OperationType: SAM_GENERIC_OPERATION_TYPE,

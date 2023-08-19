@@ -8,19 +8,23 @@ use windows::{
 
 pub const KCONTINUE_FLAG_TEST_ALERT: u32 = 1;
 pub const KCONTINUE_FLAG_DELIVER_APC: u32 = 2;
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn RtlDispatchException(
         ExceptionRecord: *mut EXCEPTION_RECORD,
         ContextRecord: *mut CONTEXT,
     ) -> BOOLEAN;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn RtlRaiseStatus(Status: NTSTATUS) -> !;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn RtlRaiseException(ExceptionRecord: *mut EXCEPTION_RECORD);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtContinue(ContextRecord: *mut CONTEXT, TestAlert: BOOLEAN) -> NTSTATUS;
 }
 #[repr(i32)]
@@ -52,20 +56,23 @@ impl std::fmt::Debug for KCONTINUE_ARGUMENT {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtContinueEx(
         ContextRecord: *mut CONTEXT,
         ContinueArgument: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRaiseException(
         ExceptionRecord: *mut EXCEPTION_RECORD,
         ContextRecord: *mut CONTEXT,
         FirstChance: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn RtlAssert(
         VoidFailedAssertion: *mut std::ffi::c_void,
         VoidFileName: *mut std::ffi::c_void,

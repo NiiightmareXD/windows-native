@@ -2507,7 +2507,8 @@ impl std::fmt::Debug for FILE_FS_FULL_SIZE_INFORMATION_EX {
         write!(f, "FILE_FS_FULL_SIZE_INFORMATION_EX {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateFile(
         FileHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -2522,7 +2523,8 @@ extern "C" {
         EaLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateNamedPipeFile(
         FileHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -2540,7 +2542,8 @@ extern "C" {
         DefaultTimeout: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateMailslotFile(
         FileHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -2552,7 +2555,8 @@ extern "C" {
         ReadTimeout: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenFile(
         FileHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -2562,13 +2566,16 @@ extern "C" {
         OpenOptions: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDeleteFile(ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFlushBuffersFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFlushBuffersFileEx(
         FileHandle: HANDLE,
         Flags: u32,
@@ -2577,7 +2584,8 @@ extern "C" {
         IoStatusBlock: *mut IO_STATUS_BLOCK,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInformationFile(
         FileHandle: HANDLE,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
@@ -2586,7 +2594,8 @@ extern "C" {
         FileInformationClass: FILE_INFORMATION_CLASS,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInformationByName(
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
@@ -2595,7 +2604,8 @@ extern "C" {
         FileInformationClass: FILE_INFORMATION_CLASS,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationFile(
         FileHandle: HANDLE,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
@@ -2604,7 +2614,8 @@ extern "C" {
         FileInformationClass: FILE_INFORMATION_CLASS,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryDirectoryFile(
         FileHandle: HANDLE,
         Event: HANDLE,
@@ -2619,7 +2630,8 @@ extern "C" {
         RestartScan: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryDirectoryFileEx(
         FileHandle: HANDLE,
         Event: HANDLE,
@@ -2633,7 +2645,8 @@ extern "C" {
         FileName: *mut UNICODE_STRING,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryEaFile(
         FileHandle: HANDLE,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
@@ -2646,7 +2659,8 @@ extern "C" {
         RestartScan: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetEaFile(
         FileHandle: HANDLE,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
@@ -2654,7 +2668,8 @@ extern "C" {
         Length: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryQuotaInformationFile(
         FileHandle: HANDLE,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
@@ -2667,7 +2682,8 @@ extern "C" {
         RestartScan: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetQuotaInformationFile(
         FileHandle: HANDLE,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
@@ -2675,7 +2691,8 @@ extern "C" {
         Length: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryVolumeInformationFile(
         FileHandle: HANDLE,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
@@ -2684,7 +2701,8 @@ extern "C" {
         FsInformationClass: FSINFOCLASS,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetVolumeInformationFile(
         FileHandle: HANDLE,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
@@ -2693,24 +2711,28 @@ extern "C" {
         FsInformationClass: FSINFOCLASS,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCancelIoFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCancelIoFileEx(
         FileHandle: HANDLE,
         IoRequestToCancel: *mut IO_STATUS_BLOCK,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCancelSynchronousIoFile(
         ThreadHandle: HANDLE,
         IoRequestToCancel: *mut IO_STATUS_BLOCK,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDeviceIoControlFile(
         FileHandle: HANDLE,
         Event: HANDLE,
@@ -2724,7 +2746,8 @@ extern "C" {
         OutputBufferLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFsControlFile(
         FileHandle: HANDLE,
         Event: HANDLE,
@@ -2738,7 +2761,8 @@ extern "C" {
         OutputBufferLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReadFile(
         FileHandle: HANDLE,
         Event: HANDLE,
@@ -2751,7 +2775,8 @@ extern "C" {
         Key: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWriteFile(
         FileHandle: HANDLE,
         Event: HANDLE,
@@ -2764,7 +2789,8 @@ extern "C" {
         Key: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReadFileScatter(
         FileHandle: HANDLE,
         Event: HANDLE,
@@ -2777,7 +2803,8 @@ extern "C" {
         Key: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWriteFileGather(
         FileHandle: HANDLE,
         Event: HANDLE,
@@ -2790,7 +2817,8 @@ extern "C" {
         Key: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtLockFile(
         FileHandle: HANDLE,
         Event: HANDLE,
@@ -2804,7 +2832,8 @@ extern "C" {
         ExclusiveLock: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtUnlockFile(
         FileHandle: HANDLE,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
@@ -2813,19 +2842,22 @@ extern "C" {
         Key: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryAttributesFile(
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         FileInformation: *mut FILE_BASIC_INFORMATION,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryFullAttributesFile(
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         FileInformation: *mut FILE_NETWORK_OPEN_INFORMATION,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtNotifyChangeDirectoryFile(
         FileHandle: HANDLE,
         Event: HANDLE,
@@ -2846,7 +2878,8 @@ pub enum DIRECTORY_NOTIFY_INFORMATION_CLASS {
     DirectoryNotifyFullInformation = 3,
     DirectoryNotifyMaximumInformation = 4,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtNotifyChangeDirectoryFileEx(
         FileHandle: HANDLE,
         Event: HANDLE,
@@ -2860,10 +2893,12 @@ extern "C" {
         DirectoryNotifyInformationClass: DIRECTORY_NOTIFY_INFORMATION_CLASS,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtLoadDriver(DriverServiceName: *mut UNICODE_STRING) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtUnloadDriver(DriverServiceName: *mut UNICODE_STRING) -> NTSTATUS;
 }
 #[repr(i32)]
@@ -2885,7 +2920,8 @@ impl std::fmt::Debug for IO_COMPLETION_BASIC_INFORMATION {
         write!(f, "IO_COMPLETION_BASIC_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateIoCompletion(
         IoCompletionHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -2893,14 +2929,16 @@ extern "C" {
         Count: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenIoCompletion(
         IoCompletionHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryIoCompletion(
         IoCompletionHandle: HANDLE,
         IoCompletionInformationClass: IO_COMPLETION_INFORMATION_CLASS,
@@ -2909,7 +2947,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetIoCompletion(
         IoCompletionHandle: HANDLE,
         KeyContext: *mut std::ffi::c_void,
@@ -2918,7 +2957,8 @@ extern "C" {
         IoStatusInformation: usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetIoCompletionEx(
         IoCompletionHandle: HANDLE,
         IoCompletionPacketHandle: HANDLE,
@@ -2928,7 +2968,8 @@ extern "C" {
         IoStatusInformation: usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRemoveIoCompletion(
         IoCompletionHandle: HANDLE,
         KeyContext: *mut *mut std::ffi::c_void,
@@ -2937,7 +2978,8 @@ extern "C" {
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRemoveIoCompletionEx(
         IoCompletionHandle: HANDLE,
         IoCompletionInformation: *mut FILE_IO_COMPLETION_INFORMATION,
@@ -2947,14 +2989,16 @@ extern "C" {
         Alertable: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateWaitCompletionPacket(
         WaitCompletionPacketHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAssociateWaitCompletionPacket(
         WaitCompletionPacketHandle: HANDLE,
         IoCompletionHandle: HANDLE,
@@ -2966,7 +3010,8 @@ extern "C" {
         AlreadySignaled: *mut BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCancelWaitCompletionPacket(
         WaitCompletionPacketHandle: HANDLE,
         RemoveSignaledPacket: BOOLEAN,
@@ -2997,14 +3042,16 @@ pub enum IO_SESSION_STATE {
     IoSessionStateTerminated = 8,
     IoSessionStateMax = 9,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenSession(
         SessionHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtNotifyChangeSession(
         SessionHandle: HANDLE,
         ChangeSequenceNumber: u32,

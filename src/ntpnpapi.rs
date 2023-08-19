@@ -253,23 +253,28 @@ pub enum PLUGPLAY_CONTROL_CLASS {
     PlugPlayControlGetDeviceInterfaceEnabled = 23,
     MaxPlugPlayControl = 24,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtPlugPlayControl(
         PnPControlClass: PLUGPLAY_CONTROL_CLASS,
         PnPControlData: *mut std::ffi::c_void,
         PnPControlDataLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSerializeBoot() -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtEnableLastKnownGood() -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDisableLastKnownGood() -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReplacePartitionUnit(
         TargetInstancePath: *mut UNICODE_STRING,
         SpareInstancePath: *mut UNICODE_STRING,

@@ -2173,7 +2173,8 @@ pub enum SECTION_INHERIT {
     ViewShare = 1,
     ViewUnmap = 2,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAllocateVirtualMemory(
         ProcessHandle: HANDLE,
         BaseAddress: *mut *mut std::ffi::c_void,
@@ -2183,7 +2184,8 @@ extern "C" {
         Protect: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAllocateVirtualMemoryEx(
         ProcessHandle: HANDLE,
         BaseAddress: *mut *mut std::ffi::c_void,
@@ -2194,7 +2196,8 @@ extern "C" {
         ExtendedParameterCount: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFreeVirtualMemory(
         ProcessHandle: HANDLE,
         BaseAddress: *mut *mut std::ffi::c_void,
@@ -2202,7 +2205,8 @@ extern "C" {
         FreeType: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReadVirtualMemory(
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,
@@ -2211,7 +2215,8 @@ extern "C" {
         NumberOfBytesRead: *mut usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReadVirtualMemoryEx(
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,
@@ -2221,7 +2226,8 @@ extern "C" {
         Flags: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWriteVirtualMemory(
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,
@@ -2230,7 +2236,8 @@ extern "C" {
         NumberOfBytesWritten: *mut usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtProtectVirtualMemory(
         ProcessHandle: HANDLE,
         BaseAddress: *mut *mut std::ffi::c_void,
@@ -2239,7 +2246,8 @@ extern "C" {
         OldProtect: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryVirtualMemory(
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,
@@ -2249,7 +2257,8 @@ extern "C" {
         ReturnLength: *mut usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFlushVirtualMemory(
         ProcessHandle: HANDLE,
         BaseAddress: *mut *mut std::ffi::c_void,
@@ -2304,7 +2313,8 @@ impl std::fmt::Debug for CFG_CALL_TARGET_LIST_INFORMATION {
         write!(f, "CFG_CALL_TARGET_LIST_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationVirtualMemory(
         ProcessHandle: HANDLE,
         VmInformationClass: VIRTUAL_MEMORY_INFORMATION_CLASS,
@@ -2314,7 +2324,8 @@ extern "C" {
         VmInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtLockVirtualMemory(
         ProcessHandle: HANDLE,
         BaseAddress: *mut *mut std::ffi::c_void,
@@ -2322,7 +2333,8 @@ extern "C" {
         MapType: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtUnlockVirtualMemory(
         ProcessHandle: HANDLE,
         BaseAddress: *mut *mut std::ffi::c_void,
@@ -2330,7 +2342,8 @@ extern "C" {
         MapType: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateSection(
         SectionHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -2341,7 +2354,8 @@ extern "C" {
         FileHandle: HANDLE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateSectionEx(
         SectionHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -2354,14 +2368,16 @@ extern "C" {
         ExtendedParameterCount: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenSection(
         SectionHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtMapViewOfSection(
         SectionHandle: HANDLE,
         ProcessHandle: HANDLE,
@@ -2375,7 +2391,8 @@ extern "C" {
         Win32Protect: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtMapViewOfSectionEx(
         SectionHandle: HANDLE,
         ProcessHandle: HANDLE,
@@ -2388,23 +2405,27 @@ extern "C" {
         ExtendedParameterCount: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtUnmapViewOfSection(
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtUnmapViewOfSectionEx(
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,
         Flags: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtExtendSection(SectionHandle: HANDLE, NewSectionSize: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQuerySection(
         SectionHandle: HANDLE,
         SectionInformationClass: SECTION_INFORMATION_CLASS,
@@ -2413,7 +2434,8 @@ extern "C" {
         ReturnLength: *mut usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAreMappedFilesTheSame(
         File1MappedAsAnImage: *mut std::ffi::c_void,
         File2MappedAsFile: *mut std::ffi::c_void,
@@ -2646,7 +2668,8 @@ impl std::fmt::Debug for MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreatePartition(
         ParentPartitionHandle: HANDLE,
         PartitionHandle: *mut HANDLE,
@@ -2655,14 +2678,16 @@ extern "C" {
         PreferredNode: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenPartition(
         PartitionHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtManagePartition(
         TargetHandle: HANDLE,
         SourceHandle: HANDLE,
@@ -2671,28 +2696,32 @@ extern "C" {
         PartitionInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtMapUserPhysicalPages(
         VirtualAddress: *mut std::ffi::c_void,
         NumberOfPages: usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtMapUserPhysicalPagesScatter(
         VirtualAddresses: *mut *mut std::ffi::c_void,
         NumberOfPages: usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAllocateUserPhysicalPages(
         ProcessHandle: HANDLE,
         NumberOfPages: *mut usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAllocateUserPhysicalPagesEx(
         ProcessHandle: HANDLE,
         NumberOfPages: *mut usize,
@@ -2701,14 +2730,16 @@ extern "C" {
         ExtendedParameterCount: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFreeUserPhysicalPages(
         ProcessHandle: HANDLE,
         NumberOfPages: *mut usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtGetWriteWatch(
         ProcessHandle: HANDLE,
         Flags: u32,
@@ -2719,14 +2750,16 @@ extern "C" {
         Granularity: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtResetWriteWatch(
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,
         RegionSize: usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreatePagingFile(
         PageFileName: *mut UNICODE_STRING,
         MinimumSize: *mut i64,
@@ -2734,17 +2767,20 @@ extern "C" {
         Priority: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFlushInstructionCache(
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,
         Length: usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFlushWriteBuffer() -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateEnclave(
         ProcessHandle: HANDLE,
         BaseAddress: *mut *mut std::ffi::c_void,
@@ -2757,7 +2793,8 @@ extern "C" {
         EnclaveError: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtLoadEnclaveData(
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,
@@ -2770,7 +2807,8 @@ extern "C" {
         EnclaveError: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtInitializeEnclave(
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,
@@ -2779,13 +2817,15 @@ extern "C" {
         EnclaveError: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtTerminateEnclave(
         BaseAddress: *mut std::ffi::c_void,
         WaitForThread: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCallEnclave(
         Routine: PENCLAVE_ROUTINE,
         Parameter: *mut std::ffi::c_void,

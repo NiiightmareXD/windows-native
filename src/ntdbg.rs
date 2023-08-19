@@ -25,22 +25,20 @@ pub const DEBUG_SET_INFORMATION: u32 = 4;
 pub const DEBUG_QUERY_INFORMATION: u32 = 8;
 pub const DEBUG_ALL_ACCESS: u32 = 2031631;
 pub const DEBUG_KILL_ON_CLOSE: u32 = 1;
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUserBreakPoint();
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgBreakPoint();
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgBreakPointWithStatus(Status: u32);
 }
-extern "C" {
-    pub fn DbgPrint(Format: *mut i8, ...) -> u32;
-}
-extern "C" {
-    pub fn DbgPrintEx(ComponentId: u32, Level: u32, Format: *mut i8, ...) -> u32;
-}
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn vDbgPrintEx(
         ComponentId: u32,
         Level: u32,
@@ -48,7 +46,8 @@ extern "C" {
         arglist: std::ffi::VaList,
     ) -> u32;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn vDbgPrintExWithPrefix(
         Prefix: *const i8,
         ComponentId: u32,
@@ -57,13 +56,16 @@ extern "C" {
         arglist: std::ffi::VaList,
     ) -> u32;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgQueryDebugFilterState(ComponentId: u32, Level: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgSetDebugFilterState(ComponentId: u32, Level: u32, State: BOOLEAN) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgPrompt(Prompt: *const i8, Response: *mut i8, Length: u32) -> u32;
 }
 #[repr(C)]
@@ -281,7 +283,8 @@ pub enum DEBUGOBJECTINFOCLASS {
     DebugObjectKillProcessOnExitInformation = 1,
     MaxDebugObjectInfoClass = 2,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateDebugObject(
         DebugObjectHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -289,20 +292,24 @@ extern "C" {
         Flags: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDebugActiveProcess(ProcessHandle: HANDLE, DebugObjectHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDebugContinue(
         DebugObjectHandle: HANDLE,
         ClientId: *mut CLIENT_ID,
         ContinueStatus: NTSTATUS,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRemoveProcessDebug(ProcessHandle: HANDLE, DebugObjectHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationDebugObject(
         DebugObjectHandle: HANDLE,
         DebugObjectInformationClass: DEBUGOBJECTINFOCLASS,
@@ -311,7 +318,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWaitForDebugEvent(
         DebugObjectHandle: HANDLE,
         Alertable: BOOLEAN,
@@ -319,43 +327,54 @@ extern "C" {
         WaitStateChange: *mut DBGUI_WAIT_STATE_CHANGE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUiConnectToDbg() -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUiGetThreadDebugObject() -> HANDLE;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUiSetThreadDebugObject(DebugObject: HANDLE);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUiWaitStateChange(
         StateChange: *mut DBGUI_WAIT_STATE_CHANGE,
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUiContinue(AppClientId: *mut CLIENT_ID, ContinueStatus: NTSTATUS) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUiStopDebugging(Process: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUiDebugActiveProcess(Process: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUiRemoteBreakin(Context: *mut std::ffi::c_void);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUiIssueRemoteBreakin(Process: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUiConvertStateChangeStructure(
         StateChange: *mut DBGUI_WAIT_STATE_CHANGE,
         DebugEvent: *mut DEBUG_EVENT,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn DbgUiConvertStateChangeStructureEx(
         StateChange: *mut DBGUI_WAIT_STATE_CHANGE,
         DebugEvent: *mut DEBUG_EVENT,
@@ -377,7 +396,8 @@ pub type PENABLECALLBACK = std::option::Option<
         CallbackContext: *mut std::ffi::c_void,
     ),
 >;
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn EtwEventRegister(
         ProviderId: *const GUID,
         EnableCallback: PENABLECALLBACK,

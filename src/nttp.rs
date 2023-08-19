@@ -30,85 +30,104 @@ pub type PTP_ALPC_CALLBACK_EX = std::option::Option<
         ApcContext: *mut std::ffi::c_void,
     ),
 >;
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpAllocPool(PoolReturn: *mut PTP_POOL, Reserved: *mut std::ffi::c_void) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpReleasePool(Pool: PTP_POOL);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpSetPoolMaxThreads(Pool: PTP_POOL, MaxThreads: u32);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpSetPoolMinThreads(Pool: PTP_POOL, MinThreads: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpQueryPoolStackInformation(
         Pool: PTP_POOL,
         PoolStackInformation: *mut TP_POOL_STACK_INFORMATION,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpSetPoolStackInformation(
         Pool: PTP_POOL,
         PoolStackInformation: *mut TP_POOL_STACK_INFORMATION,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpSetPoolThreadBasePriority(Pool: PTP_POOL, BasePriority: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpAllocCleanupGroup(CleanupGroupReturn: *mut PTP_CLEANUP_GROUP) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpReleaseCleanupGroup(CleanupGroup: PTP_CLEANUP_GROUP);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpReleaseCleanupGroupMembers(
         CleanupGroup: PTP_CLEANUP_GROUP,
         CancelPendingCallbacks: u32,
         CleanupParameter: *mut std::ffi::c_void,
     );
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpCallbackSetEventOnCompletion(Instance: PTP_CALLBACK_INSTANCE, Event: HANDLE);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpCallbackReleaseSemaphoreOnCompletion(
         Instance: PTP_CALLBACK_INSTANCE,
         Semaphore: HANDLE,
         ReleaseCount: u32,
     );
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpCallbackReleaseMutexOnCompletion(Instance: PTP_CALLBACK_INSTANCE, Mutex: HANDLE);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpCallbackLeaveCriticalSectionOnCompletion(
         Instance: PTP_CALLBACK_INSTANCE,
         CriticalSection: *mut CRITICAL_SECTION,
     );
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpCallbackUnloadDllOnCompletion(
         Instance: PTP_CALLBACK_INSTANCE,
         DllHandle: *mut std::ffi::c_void,
     );
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpCallbackMayRunLong(Instance: PTP_CALLBACK_INSTANCE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpDisassociateCallback(Instance: PTP_CALLBACK_INSTANCE);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpSimpleTryPost(
         Callback: PTP_SIMPLE_CALLBACK,
         Context: *mut std::ffi::c_void,
         CallbackEnviron: *mut TP_CALLBACK_ENVIRON_V3,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpAllocWork(
         WorkReturn: *mut PTP_WORK,
         Callback: PTP_WORK_CALLBACK,
@@ -116,16 +135,20 @@ extern "C" {
         CallbackEnviron: *mut TP_CALLBACK_ENVIRON_V3,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpReleaseWork(Work: PTP_WORK);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpPostWork(Work: PTP_WORK);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpWaitForWork(Work: PTP_WORK, CancelPendingCallbacks: u32);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpAllocTimer(
         Timer: *mut PTP_TIMER,
         Callback: PTP_TIMER_CALLBACK,
@@ -133,13 +156,16 @@ extern "C" {
         CallbackEnviron: *mut TP_CALLBACK_ENVIRON_V3,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpReleaseTimer(Timer: PTP_TIMER);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpSetTimer(Timer: PTP_TIMER, DueTime: *mut i64, Period: u32, WindowLength: u32);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpSetTimerEx(
         Timer: PTP_TIMER,
         DueTime: *mut i64,
@@ -147,13 +173,16 @@ extern "C" {
         WindowLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpIsTimerSet(Timer: PTP_TIMER) -> u32;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpWaitForTimer(Timer: PTP_TIMER, CancelPendingCallbacks: u32);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpAllocWait(
         WaitReturn: *mut PTP_WAIT,
         Callback: PTP_WAIT_CALLBACK,
@@ -161,13 +190,16 @@ extern "C" {
         CallbackEnviron: *mut TP_CALLBACK_ENVIRON_V3,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpReleaseWait(Wait: PTP_WAIT);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpSetWait(Wait: PTP_WAIT, Handle: HANDLE, Timeout: *mut i64);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpSetWaitEx(
         Wait: PTP_WAIT,
         Handle: HANDLE,
@@ -175,7 +207,8 @@ extern "C" {
         Reserved: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpWaitForWait(Wait: PTP_WAIT, CancelPendingCallbacks: u32);
 }
 pub type PTP_IO_CALLBACK = std::option::Option<
@@ -187,7 +220,8 @@ pub type PTP_IO_CALLBACK = std::option::Option<
         Io: PTP_IO,
     ),
 >;
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpAllocIoCompletion(
         IoReturn: *mut PTP_IO,
         File: HANDLE,
@@ -196,19 +230,24 @@ extern "C" {
         CallbackEnviron: *mut TP_CALLBACK_ENVIRON_V3,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpReleaseIoCompletion(Io: PTP_IO);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpStartAsyncIoOperation(Io: PTP_IO);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpCancelAsyncIoOperation(Io: PTP_IO);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpWaitForIoCompletion(Io: PTP_IO, CancelPendingCallbacks: u32);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpAllocAlpcCompletion(
         AlpcReturn: *mut *mut TP_ALPC,
         AlpcPort: HANDLE,
@@ -217,7 +256,8 @@ extern "C" {
         CallbackEnviron: *mut TP_CALLBACK_ENVIRON_V3,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpAllocAlpcCompletionEx(
         AlpcReturn: *mut *mut TP_ALPC,
         AlpcPort: HANDLE,
@@ -226,10 +266,12 @@ extern "C" {
         CallbackEnviron: *mut TP_CALLBACK_ENVIRON_V3,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpReleaseAlpcCompletion(Alpc: *mut TP_ALPC);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpWaitForAlpcCompletion(Alpc: *mut TP_ALPC);
 }
 #[repr(i32)]
@@ -239,9 +281,11 @@ pub enum TP_TRACE_TYPE {
     TpTraceThreadAffinity = 2,
     MaxTpTraceType = 3,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpCaptureCaller(Type: TP_TRACE_TYPE);
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn TpCheckTerminateWorker(Thread: HANDLE);
 }

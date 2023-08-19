@@ -971,10 +971,12 @@ pub const SYSDBG_LIVEDUMP_CONTROL_SIZE: u32 = offset_of!(SYSDBG_LIVEDUMP_CONTROL
     + size_of::<SYSDBG_LIVEDUMP_CONTROL_ADDPAGES>() as u32;
 pub const USER_SHARED_DATA: *const KUSER_SHARED_DATA = 0x7ffe0000 as *const KUSER_SHARED_DATA;
 pub const FLG_USERMODE_VALID_BITS: u32 = 2989595123;
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDelayExecution(Alertable: BOOLEAN, DelayInterval: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQuerySystemEnvironmentValue(
         VariableName: *mut UNICODE_STRING,
         VariableValue: PWSTR,
@@ -982,13 +984,15 @@ extern "C" {
         ReturnLength: *mut u16,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetSystemEnvironmentValue(
         VariableName: *mut UNICODE_STRING,
         VariableValue: *mut UNICODE_STRING,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQuerySystemEnvironmentValueEx(
         VariableName: *mut UNICODE_STRING,
         VendorGuid: *const GUID,
@@ -997,7 +1001,8 @@ extern "C" {
         Attributes: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetSystemEnvironmentValueEx(
         VariableName: *mut UNICODE_STRING,
         VendorGuid: *const GUID,
@@ -1048,7 +1053,8 @@ impl std::fmt::Debug for VARIABLE_NAME_AND_VALUE {
         write!(f, "VARIABLE_NAME_AND_VALUE {{ Name: {:?} }}", self.Name)
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtEnumerateSystemEnvironmentValuesEx(
         InformationClass: u32,
         Buffer: *mut std::ffi::c_void,
@@ -1168,37 +1174,46 @@ impl std::fmt::Debug for EFI_DRIVER_ENTRY_LIST {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAddBootEntry(BootEntry: *mut BOOT_ENTRY, Id: *mut u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDeleteBootEntry(Id: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtModifyBootEntry(BootEntry: *mut BOOT_ENTRY) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtEnumerateBootEntries(
         Buffer: *mut std::ffi::c_void,
         BufferLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryBootEntryOrder(Ids: *mut u32, Count: *mut u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetBootEntryOrder(Ids: *mut u32, Count: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryBootOptions(
         BootOptions: *mut BOOT_OPTIONS,
         BootOptionsLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetBootOptions(BootOptions: *mut BOOT_OPTIONS, FieldsToChange: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtTranslateFilePath(
         InputFilePath: *mut FILE_PATH,
         OutputType: u32,
@@ -1206,25 +1221,31 @@ extern "C" {
         OutputFilePathLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAddDriverEntry(DriverEntry: *mut EFI_DRIVER_ENTRY, Id: *mut u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDeleteDriverEntry(Id: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtModifyDriverEntry(DriverEntry: *mut EFI_DRIVER_ENTRY) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtEnumerateDriverEntries(
         Buffer: *mut std::ffi::c_void,
         BufferLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryDriverEntryOrder(Ids: *mut u32, Count: *mut u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetDriverEntryOrder(Ids: *mut u32, Count: u32) -> NTSTATUS;
 }
 #[repr(i32)]
@@ -1235,7 +1256,8 @@ pub enum FILTER_BOOT_OPTION_OPERATION {
     FilterBootOptionOperationDeleteElement = 2,
     FilterBootOptionOperationMax = 3,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFilterBootOption(
         FilterOperation: FILTER_BOOT_OPTION_OPERATION,
         ObjectType: u32,
@@ -1264,7 +1286,8 @@ impl std::fmt::Debug for EVENT_BASIC_INFORMATION {
         write!(f, "EVENT_BASIC_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateEvent(
         EventHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -1273,29 +1296,36 @@ extern "C" {
         InitialState: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenEvent(
         EventHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetEvent(EventHandle: HANDLE, PreviousState: *mut i32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetEventBoostPriority(EventHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtClearEvent(EventHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtResetEvent(EventHandle: HANDLE, PreviousState: *mut i32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtPulseEvent(EventHandle: HANDLE, PreviousState: *mut i32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryEvent(
         EventHandle: HANDLE,
         EventInformationClass: EVENT_INFORMATION_CLASS,
@@ -1304,36 +1334,44 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateEventPair(
         EventPairHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenEventPair(
         EventPairHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetLowEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetHighEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWaitLowEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWaitHighEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetLowWaitHighEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetHighWaitLowEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
 }
 #[repr(i32)]
@@ -1372,7 +1410,8 @@ impl std::fmt::Debug for MUTANT_OWNER_INFORMATION {
         write!(f, "MUTANT_OWNER_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateMutant(
         MutantHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -1380,17 +1419,20 @@ extern "C" {
         InitialOwner: BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenMutant(
         MutantHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReleaseMutant(MutantHandle: HANDLE, PreviousCount: *mut i32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryMutant(
         MutantHandle: HANDLE,
         MutantInformationClass: MUTANT_INFORMATION_CLASS,
@@ -1419,7 +1461,8 @@ impl std::fmt::Debug for SEMAPHORE_BASIC_INFORMATION {
         write!(f, "SEMAPHORE_BASIC_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateSemaphore(
         SemaphoreHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -1428,21 +1471,24 @@ extern "C" {
         MaximumCount: i32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenSemaphore(
         SemaphoreHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReleaseSemaphore(
         SemaphoreHandle: HANDLE,
         ReleaseCount: i32,
         PreviousCount: *mut i32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQuerySemaphore(
         SemaphoreHandle: HANDLE,
         SemaphoreInformationClass: SEMAPHORE_INFORMATION_CLASS,
@@ -1508,7 +1554,8 @@ impl std::fmt::Debug for TIMER_SET_COALESCABLE_TIMER_INFO {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateTimer(
         TimerHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -1516,14 +1563,16 @@ extern "C" {
         TimerType: TIMER_TYPE,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenTimer(
         TimerHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetTimer(
         TimerHandle: HANDLE,
         DueTime: *mut i64,
@@ -1534,7 +1583,8 @@ extern "C" {
         PreviousState: *mut BOOLEAN,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetTimerEx(
         TimerHandle: HANDLE,
         TimerSetInformationClass: TIMER_SET_INFORMATION_CLASS,
@@ -1542,10 +1592,12 @@ extern "C" {
         TimerSetInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCancelTimer(TimerHandle: HANDLE, CurrentState: *mut BOOLEAN) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryTimer(
         TimerHandle: HANDLE,
         TimerInformationClass: TIMER_INFORMATION_CLASS,
@@ -1554,10 +1606,12 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateIRTimer(TimerHandle: *mut HANDLE, DesiredAccess: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetIRTimer(TimerHandle: HANDLE, DueTime: *mut i64) -> NTSTATUS;
 }
 #[repr(C)]
@@ -1576,7 +1630,8 @@ impl std::fmt::Debug for T2_SET_PARAMETERS {
         write!(f, "T2_SET_PARAMETERS {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateTimer2(
         TimerHandle: *mut HANDLE,
         Reserved1: *mut std::ffi::c_void,
@@ -1585,7 +1640,8 @@ extern "C" {
         DesiredAccess: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetTimer2(
         TimerHandle: HANDLE,
         DueTime: *mut i64,
@@ -1593,10 +1649,12 @@ extern "C" {
         Parameters: *mut T2_SET_PARAMETERS,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCancelTimer2(TimerHandle: HANDLE, Parameters: *mut std::ffi::c_void) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateProfile(
         ProfileHandle: *mut HANDLE,
         Process: HANDLE,
@@ -1609,7 +1667,8 @@ extern "C" {
         Affinity: usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateProfileEx(
         ProfileHandle: *mut HANDLE,
         Process: HANDLE,
@@ -1623,19 +1682,24 @@ extern "C" {
         GroupAffinity: *mut GROUP_AFFINITY,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtStartProfile(ProfileHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtStopProfile(ProfileHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryIntervalProfile(ProfileSource: KPROFILE_SOURCE, Interval: *mut u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetIntervalProfile(Interval: u32, Source: KPROFILE_SOURCE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateKeyedEvent(
         KeyedEventHandle: *mut HANDLE,
         DesiredAccess: u32,
@@ -1643,14 +1707,16 @@ extern "C" {
         Flags: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtOpenKeyedEvent(
         KeyedEventHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReleaseKeyedEvent(
         KeyedEventHandle: HANDLE,
         KeyValue: *mut std::ffi::c_void,
@@ -1658,7 +1724,8 @@ extern "C" {
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWaitForKeyedEvent(
         KeyedEventHandle: HANDLE,
         KeyValue: *mut std::ffi::c_void,
@@ -1666,7 +1733,8 @@ extern "C" {
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtUmsThreadYield(SchedulerParam: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[repr(i32)]
@@ -1732,7 +1800,8 @@ impl std::fmt::Debug for WNF_DELIVERY_DESCRIPTOR {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateWnfStateName(
         StateName: *mut WNF_STATE_NAME,
         NameLifetime: WNF_STATE_NAME_LIFETIME,
@@ -1743,10 +1812,12 @@ extern "C" {
         SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDeleteWnfStateName(StateName: *const WNF_STATE_NAME) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtUpdateWnfStateData(
         StateName: *const WNF_STATE_NAME,
         Buffer: *const std::os::raw::c_void,
@@ -1757,13 +1828,15 @@ extern "C" {
         CheckStamp: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDeleteWnfStateData(
         StateName: *const WNF_STATE_NAME,
         ExplicitScope: *const std::os::raw::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryWnfStateData(
         StateName: *const WNF_STATE_NAME,
         TypeId: *const WNF_TYPE_ID,
@@ -1773,7 +1846,8 @@ extern "C" {
         BufferSize: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryWnfStateNameInformation(
         StateName: *const WNF_STATE_NAME,
         NameInfoClass: WNF_STATE_NAME_INFORMATION,
@@ -1782,7 +1856,8 @@ extern "C" {
         InfoBufferSize: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSubscribeWnfStateChange(
         StateName: *const WNF_STATE_NAME,
         ChangeStamp: u32,
@@ -1790,10 +1865,12 @@ extern "C" {
         SubscriptionId: *mut u64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtUnsubscribeWnfStateChange(StateName: *const WNF_STATE_NAME) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtGetCompleteWnfStateSubscription(
         OldDescriptorStateName: *mut WNF_STATE_NAME,
         OldSubscriptionId: *mut u64,
@@ -1803,7 +1880,8 @@ extern "C" {
         DescriptorSize: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetWnfProcessNotificationEvent(NotificationEvent: HANDLE) -> NTSTATUS;
 }
 #[repr(i32)]
@@ -1864,7 +1942,8 @@ impl std::fmt::Debug for WORKER_FACTORY_BASIC_INFORMATION {
         write!(f, "WORKER_FACTORY_BASIC_INFORMATION {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtCreateWorkerFactory(
         WorkerFactoryHandleReturn: *mut HANDLE,
         DesiredAccess: u32,
@@ -1878,7 +1957,8 @@ extern "C" {
         StackCommit: usize,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInformationWorkerFactory(
         WorkerFactoryHandle: HANDLE,
         WorkerFactoryInformationClass: WORKERFACTORYINFOCLASS,
@@ -1887,7 +1967,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetInformationWorkerFactory(
         WorkerFactoryHandle: HANDLE,
         WorkerFactoryInformationClass: WORKERFACTORYINFOCLASS,
@@ -1895,16 +1976,19 @@ extern "C" {
         WorkerFactoryInformationLength: u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtShutdownWorkerFactory(
         WorkerFactoryHandle: HANDLE,
         PendingWorkerCount: *mut i32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReleaseWorkerFactoryWorker(WorkerFactoryHandle: HANDLE) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWorkerFactoryWorkerReady(WorkerFactoryHandle: HANDLE) -> NTSTATUS;
 }
 #[repr(C)]
@@ -1928,7 +2012,8 @@ impl std::fmt::Debug for WORKER_FACTORY_DEFERRED_WORK {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtWaitForWorkViaWorkerFactory(
         WorkerFactoryHandle: HANDLE,
         MiniPackets: *mut FILE_IO_COMPLETION_INFORMATION,
@@ -1937,36 +2022,43 @@ extern "C" {
         DeferredWork: *mut WORKER_FACTORY_DEFERRED_WORK,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQuerySystemTime(SystemTime: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetSystemTime(SystemTime: *mut i64, PreviousTime: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryTimerResolution(
         MaximumTime: *mut u32,
         MinimumTime: *mut u32,
         CurrentTime: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetTimerResolution(
         DesiredTime: u32,
         SetResolution: BOOLEAN,
         ActualTime: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryPerformanceCounter(
         PerformanceCounter: *mut i64,
         PerformanceFrequency: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryAuxiliaryCounterFrequency(AuxiliaryCounterFrequency: *mut i64) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtConvertBetweenAuxiliaryCounterAndPerformanceCounter(
         AuxiliaryCounterValue: *mut i64,
         PerformanceCounterValue: *mut i64,
@@ -1974,13 +2066,16 @@ extern "C" {
         ConversionError: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAllocateLocallyUniqueId(Luid: *mut LUID) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetUuidSeed(Seed: *mut i8) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAllocateUuids(
         Time: *mut u64,
         Range: *mut u32,
@@ -10843,7 +10938,8 @@ impl std::fmt::Debug for SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_OUTPUT {
         write!(f, "SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_OUTPUT {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQuerySystemInformation(
         SystemInformationClass: SYSTEM_INFORMATION_CLASS,
         SystemInformation: *mut std::ffi::c_void,
@@ -10851,7 +10947,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQuerySystemInformationEx(
         SystemInformationClass: SYSTEM_INFORMATION_CLASS,
         InputBuffer: *mut std::ffi::c_void,
@@ -10861,7 +10958,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetSystemInformation(
         SystemInformationClass: SYSTEM_INFORMATION_CLASS,
         SystemInformation: *mut std::ffi::c_void,
@@ -11349,7 +11447,8 @@ impl std::fmt::Debug for SYSDBG_KD_PULL_REMOTE_FILE {
         write!(f, "SYSDBG_KD_PULL_REMOTE_FILE {{  }}")
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSystemDebugControl(
         Command: SYSDBG_COMMAND,
         InputBuffer: *mut std::ffi::c_void,
@@ -11387,7 +11486,8 @@ pub enum HARDERROR_RESPONSE {
     ResponseTryAgain = 9,
     ResponseContinue = 10,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtRaiseHardError(
         ErrorStatus: NTSTATUS,
         NumberOfParameters: u32,
@@ -11858,38 +11958,48 @@ impl std::fmt::Debug for KUSER_SHARED_DATA {
         )
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryDefaultLocale(UserProfile: BOOLEAN, DefaultLocaleId: *mut u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetDefaultLocale(UserProfile: BOOLEAN, DefaultLocaleId: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInstallUILanguage(InstallUILanguageId: *mut u16) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFlushInstallUILanguage(InstallUILanguage: u16, SetComittedFlag: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryDefaultUILanguage(DefaultUILanguageId: *mut u16) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetDefaultUILanguage(DefaultUILanguageId: u16) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtIsUILanguageComitted() -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtInitializeNlsFiles(
         BaseAddress: *mut *mut std::ffi::c_void,
         DefaultLocaleId: *mut u32,
         DefaultCasingTableSize: *mut i64,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtReleaseCMFViewOwnership() -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtMapCMFModule(
         What: u32,
         Index: u32,
@@ -11899,23 +12009,28 @@ extern "C" {
         BaseAddress: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtGetMUIRegistryInfo(
         Flags: u32,
         DataSize: *mut u32,
         Data: *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAddAtom(AtomName: PWSTR, Length: u32, Atom: *mut u16) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtAddAtomEx(AtomName: PWSTR, Length: u32, Atom: *mut u16, Flags: u32) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtFindAtom(AtomName: PWSTR, Length: u32, Atom: *mut u16) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDeleteAtom(Atom: u16) -> NTSTATUS;
 }
 #[repr(i32)]
@@ -11956,7 +12071,8 @@ impl std::fmt::Debug for ATOM_TABLE_INFORMATION {
         write!(f, "ATOM_TABLE_INFORMATION {{ Atoms: {:?} }}", self.Atoms)
     }
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryInformationAtom(
         Atom: u16,
         AtomInformationClass: ATOM_INFORMATION_CLASS,
@@ -11965,7 +12081,8 @@ extern "C" {
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtQueryLicenseValue(
         ValueName: *mut UNICODE_STRING,
         Type: *mut u32,
@@ -11974,7 +12091,8 @@ extern "C" {
         ResultDataSize: *mut u32,
     ) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtSetDefaultHardErrorPort(DefaultHardErrorPort: HANDLE) -> NTSTATUS;
 }
 #[repr(i32)]
@@ -11985,12 +12103,15 @@ pub enum SHUTDOWN_ACTION {
     ShutdownPowerOff = 2,
     ShutdownRebootForRecovery = 3,
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtShutdownSystem(Action: SHUTDOWN_ACTION) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDisplayString(String: *mut UNICODE_STRING) -> NTSTATUS;
 }
-extern "C" {
+#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+extern "system" {
     pub fn NtDrawText(Text: *mut UNICODE_STRING) -> NTSTATUS;
 }
