@@ -22,7 +22,7 @@
 //! ```
 //! or run this command
 //!
-//! ```
+//! ```text
 //! cargo add windows-native
 //! ```
 //!
