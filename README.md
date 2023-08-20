@@ -28,34 +28,22 @@ or run this command
 cargo add windows-native
 ```
 
+and then install [windows-rs](https://github.com/microsoft/windows-rs)
+
 ## Usage
 
 ```rust
-use windows_native::ntapi::ntdll::NtQuerySystemInformation;
-use windows_native::ntapi::ntdef::SYSTEM_INFORMATION_CLASS;
-use windows_native::ntapi::ntdef::SYSTEM_PROCESS_INFORMATION;
-use windows_native::ntapi::ntstatus::NTSTATUS;
+use std::{thread, time::Duration};
 
-fn main() {
-    // Call an undocumented API
-    let mut buffer: [u8; 1024] = [0; 1024];
-    let mut return_length: u32 = 0;
-    let status = unsafe {
-        NtQuerySystemInformation(
-            SYSTEM_INFORMATION_CLASS::SystemProcessInformation,
-            buffer.as_mut_ptr() as *mut _,
-            buffer.len() as u32,
-            &mut return_length,
-        )
-    };
+use windows_native::ntpsapi::{NtResumeProcess, NtSuspendProcess};
+use windows::Win32::System::Threading::{OpenProcess, PROCESS_ALL_ACCESS};
 
-    if status == NTSTATUS(0) {
-        let process_info = buffer.as_ptr() as *const SYSTEM_PROCESS_INFORMATION;
-        // Process the information...
-    } else {
-        println!("NtQuerySystemInformation failed with status: {:?}", status);
-    }
-}
+let handle = unsafe { OpenProcess(PROCESS_ALL_ACCESS, false, 69420).unwrap() };
+let result = unsafe { NtSuspendProcess(handle) };
+println!("Result {:?}", result);
+thread::sleep(Duration::from_secs(3));
+let result = unsafe { NtResumeProcess(handle) };
+println!("Result {:?}", result);
 ```
 
 ## Documentation
