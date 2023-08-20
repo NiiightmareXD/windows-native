@@ -1,6 +1,5 @@
 use windows::Win32::Foundation::BOOLEAN;
 
-pub const MAXIMUM_LEADBYTES: u32 = 12;
 #[repr(C)]
 pub struct CPTABLEINFO {
     pub CodePage: u16,
@@ -40,11 +39,7 @@ impl Default for NLSTABLEINFO {
 }
 impl std::fmt::Debug for NLSTABLEINFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "NLSTABLEINFO {{ OemTableInfo: {:?}, AnsiTableInfo: {:?} }}",
-            self.OemTableInfo, self.AnsiTableInfo
-        )
+        write!(f, "NLSTABLEINFO {{ OemTableInfo: {:?}, AnsiTableInfo: {:?} }}", self.OemTableInfo, self.AnsiTableInfo)
     }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]

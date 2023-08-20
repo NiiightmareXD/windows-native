@@ -3,7 +3,7 @@ use windows::{
     Wdk::Foundation::OBJECT_ATTRIBUTES,
     Win32::{
         Foundation::{BOOL, BOOLEAN, HANDLE, NTSTATUS, PSID, UNICODE_STRING},
-        Security::{SECURITY_DESCRIPTOR, SID_NAME_USE},
+        Security::{Authentication::Identity::USER_ALL_INFORMATION, SECURITY_DESCRIPTOR, SID_NAME_USE},
         System::Kernel::STRING,
     },
 };
@@ -39,13 +39,6 @@ pub const DOMAIN_ALL_ACCESS: u32 = 985087;
 pub const DOMAIN_READ: u32 = 131204;
 pub const DOMAIN_WRITE: u32 = 132218;
 pub const DOMAIN_EXECUTE: u32 = 131841;
-pub const DOMAIN_PASSWORD_COMPLEX: u32 = 1;
-pub const DOMAIN_PASSWORD_NO_ANON_CHANGE: u32 = 2;
-pub const DOMAIN_PASSWORD_NO_CLEAR_CHANGE: u32 = 4;
-pub const DOMAIN_LOCKOUT_ADMINS: u32 = 8;
-pub const DOMAIN_PASSWORD_STORE_CLEARTEXT: u32 = 16;
-pub const DOMAIN_REFUSE_PASSWORD_CHANGE: u32 = 32;
-pub const DOMAIN_NO_LM_OWF_CHANGE: u32 = 64;
 pub const GROUP_READ_INFORMATION: u32 = 1;
 pub const GROUP_WRITE_ACCOUNT: u32 = 2;
 pub const GROUP_ADD_MEMBER: u32 = 4;
@@ -91,36 +84,12 @@ pub const USER_ALL_ACCESS: u32 = 985087;
 pub const USER_READ: u32 = 131866;
 pub const USER_WRITE: u32 = 131140;
 pub const USER_EXECUTE: u32 = 131137;
-pub const USER_ACCOUNT_DISABLED: u32 = 1;
-pub const USER_HOME_DIRECTORY_REQUIRED: u32 = 2;
-pub const USER_PASSWORD_NOT_REQUIRED: u32 = 4;
-pub const USER_TEMP_DUPLICATE_ACCOUNT: u32 = 8;
-pub const USER_NORMAL_ACCOUNT: u32 = 16;
-pub const USER_MNS_LOGON_ACCOUNT: u32 = 32;
-pub const USER_INTERDOMAIN_TRUST_ACCOUNT: u32 = 64;
-pub const USER_WORKSTATION_TRUST_ACCOUNT: u32 = 128;
-pub const USER_SERVER_TRUST_ACCOUNT: u32 = 256;
-pub const USER_DONT_EXPIRE_PASSWORD: u32 = 512;
-pub const USER_ACCOUNT_AUTO_LOCKED: u32 = 1024;
-pub const USER_ENCRYPTED_TEXT_PASSWORD_ALLOWED: u32 = 2048;
-pub const USER_SMARTCARD_REQUIRED: u32 = 4096;
-pub const USER_TRUSTED_FOR_DELEGATION: u32 = 8192;
-pub const USER_NOT_DELEGATED: u32 = 16384;
-pub const USER_USE_DES_KEY_ONLY: u32 = 32768;
-pub const USER_DONT_REQUIRE_PREAUTH: u32 = 65536;
-pub const USER_PASSWORD_EXPIRED: u32 = 131072;
-pub const USER_TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION: u32 = 262144;
-pub const USER_NO_AUTH_DATA_REQUIRED: u32 = 524288;
-pub const USER_PARTIAL_SECRETS_ACCOUNT: u32 = 1048576;
-pub const USER_USE_AES_KEYS: u32 = 2097152;
 pub const NEXT_FREE_ACCOUNT_CONTROL_BIT: u32 = 4194304;
 pub const USER_MACHINE_ACCOUNT_MASK: u32 = 448;
 pub const USER_ACCOUNT_TYPE_MASK: u32 = 472;
 pub const USER_COMPUTED_ACCOUNT_CONTROL_BITS: u32 = 132096;
-pub const SAM_DAYS_PER_WEEK: u32 = 7;
 pub const SAM_HOURS_PER_WEEK: u32 = 168;
 pub const SAM_MINUTES_PER_WEEK: u32 = 10080;
-pub const CYPHER_BLOCK_LENGTH: u32 = 8;
 pub const USER_ALL_USERNAME: u32 = 1;
 pub const USER_ALL_FULLNAME: u32 = 2;
 pub const USER_ALL_USERID: u32 = 4;
@@ -142,7 +111,6 @@ pub const USER_ALL_PASSWORDMUSTCHANGE: u32 = 131072;
 pub const USER_ALL_PASSWORDLASTSET: u32 = 262144;
 pub const USER_ALL_ACCOUNTEXPIRES: u32 = 524288;
 pub const USER_ALL_USERACCOUNTCONTROL: u32 = 1048576;
-pub const USER_ALL_PARAMETERS: u32 = 2097152;
 pub const USER_ALL_COUNTRYCODE: u32 = 4194304;
 pub const USER_ALL_CODEPAGE: u32 = 8388608;
 pub const USER_ALL_NTPASSWORDPRESENT: u32 = 16777216;
@@ -267,19 +235,11 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamSetSecurityObject(
-        ObjectHandle: *mut std::ffi::c_void,
-        SecurityInformation: u32,
-        SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
-    ) -> NTSTATUS;
+    pub fn SamSetSecurityObject(ObjectHandle: *mut std::ffi::c_void, SecurityInformation: u32, SecurityDescriptor: *mut SECURITY_DESCRIPTOR) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamQuerySecurityObject(
-        ObjectHandle: *mut std::ffi::c_void,
-        SecurityInformation: u32,
-        SecurityDescriptor: *mut *mut SECURITY_DESCRIPTOR,
-    ) -> NTSTATUS;
+    pub fn SamQuerySecurityObject(ObjectHandle: *mut std::ffi::c_void, SecurityInformation: u32, SecurityDescriptor: *mut *mut SECURITY_DESCRIPTOR) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -292,24 +252,11 @@ pub struct RPC_AUTH_IDENTITY_HANDLE {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamConnect(
-        ServerName: *mut UNICODE_STRING,
-        ServerHandle: *mut *mut std::ffi::c_void,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-    ) -> NTSTATUS;
+    pub fn SamConnect(ServerName: *mut UNICODE_STRING, ServerHandle: *mut *mut std::ffi::c_void, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamConnectWithCreds(
-        ServerName: *mut UNICODE_STRING,
-        ServerHandle: *mut *mut std::ffi::c_void,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        Creds: *mut RPC_AUTH_IDENTITY_HANDLE,
-        Spn: PWSTR,
-        pfDstIsW2K: *mut BOOL,
-    ) -> NTSTATUS;
+    pub fn SamConnectWithCreds(ServerName: *mut UNICODE_STRING, ServerHandle: *mut *mut std::ffi::c_void, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, Creds: *mut RPC_AUTH_IDENTITY_HANDLE, Spn: PWSTR, pfDstIsW2K: *mut BOOL) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -365,11 +312,7 @@ impl Default for DOMAIN_GENERAL_INFORMATION {
 }
 impl std::fmt::Debug for DOMAIN_GENERAL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "DOMAIN_GENERAL_INFORMATION {{ DomainServerState: {:?}, DomainServerRole: {:?} }}",
-            self.DomainServerState, self.DomainServerRole
-        )
+        write!(f, "DOMAIN_GENERAL_INFORMATION {{ DomainServerState: {:?}, DomainServerRole: {:?} }}", self.DomainServerState, self.DomainServerRole)
     }
 }
 #[repr(C, packed(4))]
@@ -679,11 +622,7 @@ impl Default for DOMAIN_LOCALIZABLE_ACCOUNTS {
 }
 impl std::fmt::Debug for DOMAIN_LOCALIZABLE_ACCOUNTS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "DOMAIN_LOCALIZABLE_ACCOUNTS {{ Entries: {:?} }}",
-            self.Entries
-        )
+        write!(f, "DOMAIN_LOCALIZABLE_ACCOUNTS {{ Entries: {:?} }}", self.Entries)
     }
 }
 #[repr(C)]
@@ -703,93 +642,43 @@ impl std::fmt::Debug for DOMAIN_LOCALIZABLE_INFO_BUFFER {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamLookupDomainInSamServer(
-        ServerHandle: *mut std::ffi::c_void,
-        Name: *mut UNICODE_STRING,
-        DomainId: *mut PSID,
-    ) -> NTSTATUS;
+    pub fn SamLookupDomainInSamServer(ServerHandle: *mut std::ffi::c_void, Name: *mut UNICODE_STRING, DomainId: *mut PSID) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamEnumerateDomainsInSamServer(
-        ServerHandle: *mut std::ffi::c_void,
-        EnumerationContext: PSAM_ENUMERATE_HANDLE,
-        Buffer: *mut *mut std::ffi::c_void,
-        PreferedMaximumLength: u32,
-        CountReturned: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamEnumerateDomainsInSamServer(ServerHandle: *mut std::ffi::c_void, EnumerationContext: PSAM_ENUMERATE_HANDLE, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamOpenDomain(
-        ServerHandle: *mut std::ffi::c_void,
-        DesiredAccess: u32,
-        DomainId: PSID,
-        DomainHandle: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamOpenDomain(ServerHandle: *mut std::ffi::c_void, DesiredAccess: u32, DomainId: PSID, DomainHandle: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamQueryInformationDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        DomainInformationClass: DOMAIN_INFORMATION_CLASS,
-        Buffer: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamQueryInformationDomain(DomainHandle: *mut std::ffi::c_void, DomainInformationClass: DOMAIN_INFORMATION_CLASS, Buffer: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamSetInformationDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        DomainInformationClass: DOMAIN_INFORMATION_CLASS,
-        DomainInformation: *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamSetInformationDomain(DomainHandle: *mut std::ffi::c_void, DomainInformationClass: DOMAIN_INFORMATION_CLASS, DomainInformation: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamLookupNamesInDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        Count: u32,
-        Names: *mut UNICODE_STRING,
-        RelativeIds: *mut *mut u32,
-        Use: *mut *mut SID_NAME_USE,
-    ) -> NTSTATUS;
+    pub fn SamLookupNamesInDomain(DomainHandle: *mut std::ffi::c_void, Count: u32, Names: *mut UNICODE_STRING, RelativeIds: *mut *mut u32, Use: *mut *mut SID_NAME_USE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamLookupNamesInDomain2(
-        DomainHandle: *mut std::ffi::c_void,
-        Count: u32,
-        Names: *mut UNICODE_STRING,
-        Sids: *mut PSID,
-        Use: *mut *mut SID_NAME_USE,
-    ) -> NTSTATUS;
+    pub fn SamLookupNamesInDomain2(DomainHandle: *mut std::ffi::c_void, Count: u32, Names: *mut UNICODE_STRING, Sids: *mut PSID, Use: *mut *mut SID_NAME_USE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamLookupIdsInDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        Count: u32,
-        RelativeIds: *mut u32,
-        Names: *mut *mut UNICODE_STRING,
-        Use: *mut *mut SID_NAME_USE,
-    ) -> NTSTATUS;
+    pub fn SamLookupIdsInDomain(DomainHandle: *mut std::ffi::c_void, Count: u32, RelativeIds: *mut u32, Names: *mut *mut UNICODE_STRING, Use: *mut *mut SID_NAME_USE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamRemoveMemberFromForeignDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        MemberId: PSID,
-    ) -> NTSTATUS;
+    pub fn SamRemoveMemberFromForeignDomain(DomainHandle: *mut std::ffi::c_void, MemberId: PSID) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamQueryLocalizableAccountsInDomain(
-        Domain: *mut std::ffi::c_void,
-        Flags: u32,
-        LanguageId: u32,
-        Class: DOMAIN_LOCALIZABLE_ACCOUNTS_INFORMATION,
-        Buffer: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamQueryLocalizableAccountsInDomain(Domain: *mut std::ffi::c_void, Flags: u32, LanguageId: u32, Class: DOMAIN_LOCALIZABLE_ACCOUNTS_INFORMATION, Buffer: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[repr(C)]
 pub struct GROUP_MEMBERSHIP {
@@ -876,32 +765,15 @@ impl std::fmt::Debug for GROUP_ADM_COMMENT_INFORMATION {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamEnumerateGroupsInDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        EnumerationContext: PSAM_ENUMERATE_HANDLE,
-        Buffer: *mut *mut std::ffi::c_void,
-        PreferedMaximumLength: u32,
-        CountReturned: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamEnumerateGroupsInDomain(DomainHandle: *mut std::ffi::c_void, EnumerationContext: PSAM_ENUMERATE_HANDLE, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamCreateGroupInDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        AccountName: *mut UNICODE_STRING,
-        DesiredAccess: u32,
-        GroupHandle: *mut *mut std::ffi::c_void,
-        RelativeId: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamCreateGroupInDomain(DomainHandle: *mut std::ffi::c_void, AccountName: *mut UNICODE_STRING, DesiredAccess: u32, GroupHandle: *mut *mut std::ffi::c_void, RelativeId: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamOpenGroup(
-        DomainHandle: *mut std::ffi::c_void,
-        DesiredAccess: u32,
-        GroupId: u32,
-        GroupHandle: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamOpenGroup(DomainHandle: *mut std::ffi::c_void, DesiredAccess: u32, GroupId: u32, GroupHandle: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -909,27 +781,15 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamQueryInformationGroup(
-        GroupHandle: *mut std::ffi::c_void,
-        GroupInformationClass: GROUP_INFORMATION_CLASS,
-        Buffer: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamQueryInformationGroup(GroupHandle: *mut std::ffi::c_void, GroupInformationClass: GROUP_INFORMATION_CLASS, Buffer: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamSetInformationGroup(
-        GroupHandle: *mut std::ffi::c_void,
-        GroupInformationClass: GROUP_INFORMATION_CLASS,
-        Buffer: *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamSetInformationGroup(GroupHandle: *mut std::ffi::c_void, GroupInformationClass: GROUP_INFORMATION_CLASS, Buffer: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamAddMemberToGroup(
-        GroupHandle: *mut std::ffi::c_void,
-        MemberId: u32,
-        Attributes: u32,
-    ) -> NTSTATUS;
+    pub fn SamAddMemberToGroup(GroupHandle: *mut std::ffi::c_void, MemberId: u32, Attributes: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -937,20 +797,11 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamGetMembersInGroup(
-        GroupHandle: *mut std::ffi::c_void,
-        MemberIds: *mut *mut u32,
-        Attributes: *mut *mut u32,
-        MemberCount: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamGetMembersInGroup(GroupHandle: *mut std::ffi::c_void, MemberIds: *mut *mut u32, Attributes: *mut *mut u32, MemberCount: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamSetMemberAttributesOfGroup(
-        GroupHandle: *mut std::ffi::c_void,
-        MemberId: u32,
-        Attributes: u32,
-    ) -> NTSTATUS;
+    pub fn SamSetMemberAttributesOfGroup(GroupHandle: *mut std::ffi::c_void, MemberId: u32, Attributes: u32) -> NTSTATUS;
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -1017,41 +868,20 @@ impl Default for ALIAS_EXTENDED_INFORMATION {
 }
 impl std::fmt::Debug for ALIAS_EXTENDED_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ALIAS_EXTENDED_INFORMATION {{ ShellAdminObjectProperties: {:?} }}",
-            self.ShellAdminObjectProperties
-        )
+        write!(f, "ALIAS_EXTENDED_INFORMATION {{ ShellAdminObjectProperties: {:?} }}", self.ShellAdminObjectProperties)
     }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamEnumerateAliasesInDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        EnumerationContext: PSAM_ENUMERATE_HANDLE,
-        Buffer: *mut *mut std::ffi::c_void,
-        PreferedMaximumLength: u32,
-        CountReturned: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamEnumerateAliasesInDomain(DomainHandle: *mut std::ffi::c_void, EnumerationContext: PSAM_ENUMERATE_HANDLE, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamCreateAliasInDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        AccountName: *mut UNICODE_STRING,
-        DesiredAccess: u32,
-        AliasHandle: *mut *mut std::ffi::c_void,
-        RelativeId: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamCreateAliasInDomain(DomainHandle: *mut std::ffi::c_void, AccountName: *mut UNICODE_STRING, DesiredAccess: u32, AliasHandle: *mut *mut std::ffi::c_void, RelativeId: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamOpenAlias(
-        DomainHandle: *mut std::ffi::c_void,
-        DesiredAccess: u32,
-        AliasId: u32,
-        AliasHandle: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamOpenAlias(DomainHandle: *mut std::ffi::c_void, DesiredAccess: u32, AliasId: u32, AliasHandle: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1059,19 +889,11 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamQueryInformationAlias(
-        AliasHandle: *mut std::ffi::c_void,
-        AliasInformationClass: ALIAS_INFORMATION_CLASS,
-        Buffer: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamQueryInformationAlias(AliasHandle: *mut std::ffi::c_void, AliasInformationClass: ALIAS_INFORMATION_CLASS, Buffer: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamSetInformationAlias(
-        AliasHandle: *mut std::ffi::c_void,
-        AliasInformationClass: ALIAS_INFORMATION_CLASS,
-        Buffer: *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamSetInformationAlias(AliasHandle: *mut std::ffi::c_void, AliasInformationClass: ALIAS_INFORMATION_CLASS, Buffer: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1079,42 +901,23 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamAddMultipleMembersToAlias(
-        AliasHandle: *mut std::ffi::c_void,
-        MemberIds: *mut PSID,
-        MemberCount: u32,
-    ) -> NTSTATUS;
+    pub fn SamAddMultipleMembersToAlias(AliasHandle: *mut std::ffi::c_void, MemberIds: *mut PSID, MemberCount: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamRemoveMemberFromAlias(AliasHandle: *mut std::ffi::c_void, MemberId: PSID)
-    -> NTSTATUS;
+    pub fn SamRemoveMemberFromAlias(AliasHandle: *mut std::ffi::c_void, MemberId: PSID) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamRemoveMultipleMembersFromAlias(
-        AliasHandle: *mut std::ffi::c_void,
-        MemberIds: *mut PSID,
-        MemberCount: u32,
-    ) -> NTSTATUS;
+    pub fn SamRemoveMultipleMembersFromAlias(AliasHandle: *mut std::ffi::c_void, MemberIds: *mut PSID, MemberCount: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamGetMembersInAlias(
-        AliasHandle: *mut std::ffi::c_void,
-        MemberIds: *mut *mut PSID,
-        MemberCount: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamGetMembersInAlias(AliasHandle: *mut std::ffi::c_void, MemberIds: *mut *mut PSID, MemberCount: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamGetAliasMembership(
-        DomainHandle: *mut std::ffi::c_void,
-        PassedCount: u32,
-        Sids: *mut PSID,
-        MembershipCount: *mut u32,
-        Aliases: *mut *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamGetAliasMembership(DomainHandle: *mut std::ffi::c_void, PassedCount: u32, Sids: *mut PSID, MembershipCount: *mut u32, Aliases: *mut *mut u32) -> NTSTATUS;
 }
 #[repr(C)]
 pub struct LOGON_HOURS {
@@ -1259,11 +1062,7 @@ impl Default for USER_LOGON_HOURS_INFORMATION {
 }
 impl std::fmt::Debug for USER_LOGON_HOURS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "USER_LOGON_HOURS_INFORMATION {{ LogonHours: {:?} }}",
-            self.LogonHours
-        )
+        write!(f, "USER_LOGON_HOURS_INFORMATION {{ LogonHours: {:?} }}", self.LogonHours)
     }
 }
 #[repr(C, packed(4))]
@@ -1525,11 +1324,7 @@ impl Default for USER_INTERNAL1_INFORMATION {
 }
 impl std::fmt::Debug for USER_INTERNAL1_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "USER_INTERNAL1_INFORMATION {{ EncryptedNtOwfPassword: {:?}, EncryptedLmOwfPassword: {:?} }}",
-            self.EncryptedNtOwfPassword, self.EncryptedLmOwfPassword
-        )
+        write!(f, "USER_INTERNAL1_INFORMATION {{ EncryptedNtOwfPassword: {:?}, EncryptedLmOwfPassword: {:?} }}", self.EncryptedNtOwfPassword, self.EncryptedLmOwfPassword)
     }
 }
 #[repr(C)]
@@ -1565,52 +1360,6 @@ impl std::fmt::Debug for USER_PARAMETERS_INFORMATION {
     }
 }
 #[repr(C, packed(4))]
-pub struct USER_ALL_INFORMATION {
-    pub LastLogon: i64,
-    pub LastLogoff: i64,
-    pub PasswordLastSet: i64,
-    pub AccountExpires: i64,
-    pub PasswordCanChange: i64,
-    pub PasswordMustChange: i64,
-    pub UserName: UNICODE_STRING,
-    pub FullName: UNICODE_STRING,
-    pub HomeDirectory: UNICODE_STRING,
-    pub HomeDirectoryDrive: UNICODE_STRING,
-    pub ScriptPath: UNICODE_STRING,
-    pub ProfilePath: UNICODE_STRING,
-    pub AdminComment: UNICODE_STRING,
-    pub WorkStations: UNICODE_STRING,
-    pub UserComment: UNICODE_STRING,
-    pub Parameters: UNICODE_STRING,
-    pub LmPassword: UNICODE_STRING,
-    pub NtPassword: UNICODE_STRING,
-    pub PrivateData: UNICODE_STRING,
-    pub SecurityDescriptor: SR_SECURITY_DESCRIPTOR,
-    pub UserId: u32,
-    pub PrimaryGroupId: u32,
-    pub UserAccountControl: u32,
-    pub WhichFields: u32,
-    pub LogonHours: LOGON_HOURS,
-    pub BadPasswordCount: u16,
-    pub LogonCount: u16,
-    pub CountryCode: u16,
-    pub CodePage: u16,
-    pub LmPasswordPresent: BOOLEAN,
-    pub NtPasswordPresent: BOOLEAN,
-    pub PasswordExpired: BOOLEAN,
-    pub PrivateDataSensitive: BOOLEAN,
-}
-impl Default for USER_ALL_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for USER_ALL_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "USER_ALL_INFORMATION {{ }}")
-    }
-}
-#[repr(C, packed(4))]
 pub struct USER_INTERNAL3_INFORMATION {
     pub I1: USER_ALL_INFORMATION,
     pub LastBadPasswordTime: i64,
@@ -1622,7 +1371,7 @@ impl Default for USER_INTERNAL3_INFORMATION {
 }
 impl std::fmt::Debug for USER_INTERNAL3_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "USER_INTERNAL3_INFORMATION {{ I1: {:?} }}", self.I1)
+        write!(f, "USER_INTERNAL3_INFORMATION {{ }}")
     }
 }
 #[repr(C)]
@@ -1651,11 +1400,7 @@ impl Default for USER_INTERNAL4_INFORMATION {
 }
 impl std::fmt::Debug for USER_INTERNAL4_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "USER_INTERNAL4_INFORMATION {{ I1: {:?}, UserPassword: {:?} }}",
-            self.I1, self.UserPassword
-        )
+        write!(f, "USER_INTERNAL4_INFORMATION {{ I1: UserPassword: {:?} }}", self.UserPassword)
     }
 }
 #[repr(C)]
@@ -1670,11 +1415,7 @@ impl Default for USER_INTERNAL5_INFORMATION {
 }
 impl std::fmt::Debug for USER_INTERNAL5_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "USER_INTERNAL5_INFORMATION {{ UserPassword: {:?} }}",
-            self.UserPassword
-        )
+        write!(f, "USER_INTERNAL5_INFORMATION {{ UserPassword: {:?} }}", self.UserPassword)
     }
 }
 #[repr(C)]
@@ -1688,11 +1429,7 @@ impl Default for ENCRYPTED_USER_PASSWORD_NEW {
 }
 impl std::fmt::Debug for ENCRYPTED_USER_PASSWORD_NEW {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ENCRYPTED_USER_PASSWORD_NEW {{ Buffer: {:?} }}",
-            self.Buffer
-        )
+        write!(f, "ENCRYPTED_USER_PASSWORD_NEW {{ Buffer: {:?} }}", self.Buffer)
     }
 }
 #[repr(C)]
@@ -1707,11 +1444,7 @@ impl Default for USER_INTERNAL4_INFORMATION_NEW {
 }
 impl std::fmt::Debug for USER_INTERNAL4_INFORMATION_NEW {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "USER_INTERNAL4_INFORMATION_NEW {{ I1: {:?}, UserPassword: {:?} }}",
-            self.I1, self.UserPassword
-        )
+        write!(f, "USER_INTERNAL4_INFORMATION_NEW {{ UserPassword: {:?} }}", self.UserPassword)
     }
 }
 #[repr(C)]
@@ -1726,11 +1459,7 @@ impl Default for USER_INTERNAL5_INFORMATION_NEW {
 }
 impl std::fmt::Debug for USER_INTERNAL5_INFORMATION_NEW {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "USER_INTERNAL5_INFORMATION_NEW {{ UserPassword: {:?} }}",
-            self.UserPassword
-        )
+        write!(f, "USER_INTERNAL5_INFORMATION_NEW {{ UserPassword: {:?} }}", self.UserPassword)
     }
 }
 #[repr(C)]
@@ -1746,11 +1475,7 @@ impl Default for USER_ALLOWED_TO_DELEGATE_TO_LIST {
 }
 impl std::fmt::Debug for USER_ALLOWED_TO_DELEGATE_TO_LIST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "USER_ALLOWED_TO_DELEGATE_TO_LIST {{ SPNList: {:?} }}",
-            self.SPNList
-        )
+        write!(f, "USER_ALLOWED_TO_DELEGATE_TO_LIST {{ SPNList: {:?} }}", self.SPNList)
     }
 }
 #[repr(C)]
@@ -1769,11 +1494,7 @@ impl Default for USER_INTERNAL6_INFORMATION {
 }
 impl std::fmt::Debug for USER_INTERNAL6_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "USER_INTERNAL6_INFORMATION {{ I1: {:?}, A2D2List: {:?} }}",
-            self.I1, self.A2D2List
-        )
+        write!(f, "USER_INTERNAL6_INFORMATION {{ A2D2List: {:?} }}", self.A2D2List)
     }
 }
 pub type SAM_USER_TILE = SAM_BYTE_ARRAY_32K;
@@ -1793,11 +1514,7 @@ impl Default for USER_EXTENDED_INFORMATION {
 }
 impl std::fmt::Debug for USER_EXTENDED_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "USER_EXTENDED_INFORMATION {{ UserTile: {:?}, ShellAdminObjectProperties: {:?} }}",
-            self.UserTile, self.ShellAdminObjectProperties
-        )
+        write!(f, "USER_EXTENDED_INFORMATION {{ UserTile: {:?}, ShellAdminObjectProperties: {:?} }}", self.UserTile, self.ShellAdminObjectProperties)
     }
 }
 #[repr(C)]
@@ -1830,11 +1547,7 @@ impl Default for ENCRYPTED_PASSWORD_AES {
 }
 impl std::fmt::Debug for ENCRYPTED_PASSWORD_AES {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ENCRYPTED_PASSWORD_AES {{ AuthData: {:?}, Salt: {:?} }}",
-            self.AuthData, self.Salt
-        )
+        write!(f, "ENCRYPTED_PASSWORD_AES {{ AuthData: {:?}, Salt: {:?} }}", self.AuthData, self.Salt)
     }
 }
 #[repr(C)]
@@ -1849,11 +1562,7 @@ impl Default for USER_INTERNAL7_INFORMATION {
 }
 impl std::fmt::Debug for USER_INTERNAL7_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "USER_INTERNAL7_INFORMATION {{ UserPassword: {:?} }}",
-            self.UserPassword
-        )
+        write!(f, "USER_INTERNAL7_INFORMATION {{ UserPassword: {:?} }}", self.UserPassword)
     }
 }
 #[repr(C)]
@@ -1868,11 +1577,7 @@ impl Default for USER_INTERNAL8_INFORMATION {
 }
 impl std::fmt::Debug for USER_INTERNAL8_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "USER_INTERNAL8_INFORMATION {{ I1: {:?}, UserPassword: {:?} }}",
-            self.I1, self.UserPassword
-        )
+        write!(f, "USER_INTERNAL8_INFORMATION {{ UserPassword: {:?} }}", self.UserPassword)
     }
 }
 #[repr(C)]
@@ -1892,45 +1597,19 @@ impl std::fmt::Debug for USER_PWD_CHANGE_FAILURE_INFORMATION {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamEnumerateUsersInDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        EnumerationContext: PSAM_ENUMERATE_HANDLE,
-        UserAccountControl: u32,
-        Buffer: *mut *mut std::ffi::c_void,
-        PreferedMaximumLength: u32,
-        CountReturned: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamEnumerateUsersInDomain(DomainHandle: *mut std::ffi::c_void, EnumerationContext: PSAM_ENUMERATE_HANDLE, UserAccountControl: u32, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamCreateUserInDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        AccountName: *mut UNICODE_STRING,
-        DesiredAccess: u32,
-        UserHandle: *mut *mut std::ffi::c_void,
-        RelativeId: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamCreateUserInDomain(DomainHandle: *mut std::ffi::c_void, AccountName: *mut UNICODE_STRING, DesiredAccess: u32, UserHandle: *mut *mut std::ffi::c_void, RelativeId: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamCreateUser2InDomain(
-        DomainHandle: *mut std::ffi::c_void,
-        AccountName: *mut UNICODE_STRING,
-        AccountType: u32,
-        DesiredAccess: u32,
-        UserHandle: *mut *mut std::ffi::c_void,
-        GrantedAccess: *mut u32,
-        RelativeId: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamCreateUser2InDomain(DomainHandle: *mut std::ffi::c_void, AccountName: *mut UNICODE_STRING, AccountType: u32, DesiredAccess: u32, UserHandle: *mut *mut std::ffi::c_void, GrantedAccess: *mut u32, RelativeId: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamOpenUser(
-        DomainHandle: *mut std::ffi::c_void,
-        DesiredAccess: u32,
-        UserId: u32,
-        UserHandle: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamOpenUser(DomainHandle: *mut std::ffi::c_void, DesiredAccess: u32, UserId: u32, UserHandle: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1938,78 +1617,35 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamQueryInformationUser(
-        UserHandle: *mut std::ffi::c_void,
-        UserInformationClass: USER_INFORMATION_CLASS,
-        Buffer: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamQueryInformationUser(UserHandle: *mut std::ffi::c_void, UserInformationClass: USER_INFORMATION_CLASS, Buffer: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamSetInformationUser(
-        UserHandle: *mut std::ffi::c_void,
-        UserInformationClass: USER_INFORMATION_CLASS,
-        Buffer: *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamSetInformationUser(UserHandle: *mut std::ffi::c_void, UserInformationClass: USER_INFORMATION_CLASS, Buffer: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamGetGroupsForUser(
-        UserHandle: *mut std::ffi::c_void,
-        Groups: *mut *mut GROUP_MEMBERSHIP,
-        MembershipCount: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamGetGroupsForUser(UserHandle: *mut std::ffi::c_void, Groups: *mut *mut GROUP_MEMBERSHIP, MembershipCount: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamChangePasswordUser(
-        UserHandle: *mut std::ffi::c_void,
-        OldPassword: *mut UNICODE_STRING,
-        NewPassword: *mut UNICODE_STRING,
-    ) -> NTSTATUS;
+    pub fn SamChangePasswordUser(UserHandle: *mut std::ffi::c_void, OldPassword: *mut UNICODE_STRING, NewPassword: *mut UNICODE_STRING) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamChangePasswordUser2(
-        ServerName: *mut UNICODE_STRING,
-        UserName: *mut UNICODE_STRING,
-        OldPassword: *mut UNICODE_STRING,
-        NewPassword: *mut UNICODE_STRING,
-    ) -> NTSTATUS;
+    pub fn SamChangePasswordUser2(ServerName: *mut UNICODE_STRING, UserName: *mut UNICODE_STRING, OldPassword: *mut UNICODE_STRING, NewPassword: *mut UNICODE_STRING) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamChangePasswordUser3(
-        ServerName: *mut UNICODE_STRING,
-        UserName: *mut UNICODE_STRING,
-        OldPassword: *mut UNICODE_STRING,
-        NewPassword: *mut UNICODE_STRING,
-        EffectivePasswordPolicy: *mut *mut DOMAIN_PASSWORD_INFORMATION,
-        PasswordChangeFailureInfo: *mut *mut USER_PWD_CHANGE_FAILURE_INFORMATION,
-    ) -> NTSTATUS;
+    pub fn SamChangePasswordUser3(ServerName: *mut UNICODE_STRING, UserName: *mut UNICODE_STRING, OldPassword: *mut UNICODE_STRING, NewPassword: *mut UNICODE_STRING, EffectivePasswordPolicy: *mut *mut DOMAIN_PASSWORD_INFORMATION, PasswordChangeFailureInfo: *mut *mut USER_PWD_CHANGE_FAILURE_INFORMATION) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamQueryDisplayInformation(
-        DomainHandle: *mut std::ffi::c_void,
-        DisplayInformation: DOMAIN_DISPLAY_INFORMATION,
-        Index: u32,
-        EntryCount: u32,
-        PreferredMaximumLength: u32,
-        TotalAvailable: *mut u32,
-        TotalReturned: *mut u32,
-        ReturnedEntryCount: *mut u32,
-        SortedBuffer: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn SamQueryDisplayInformation(DomainHandle: *mut std::ffi::c_void, DisplayInformation: DOMAIN_DISPLAY_INFORMATION, Index: u32, EntryCount: u32, PreferredMaximumLength: u32, TotalAvailable: *mut u32, TotalReturned: *mut u32, ReturnedEntryCount: *mut u32, SortedBuffer: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamGetDisplayEnumerationIndex(
-        DomainHandle: *mut std::ffi::c_void,
-        DisplayInformation: DOMAIN_DISPLAY_INFORMATION,
-        Prefix: *mut UNICODE_STRING,
-        Index: *mut u32,
-    ) -> NTSTATUS;
+    pub fn SamGetDisplayEnumerationIndex(DomainHandle: *mut std::ffi::c_void, DisplayInformation: DOMAIN_DISPLAY_INFORMATION, Prefix: *mut UNICODE_STRING, Index: *mut u32) -> NTSTATUS;
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -2087,35 +1723,18 @@ impl std::fmt::Debug for SAM_DELTA_DATA {
         write!(f, "SAM_DELTA_DATA {{ union }}")
     }
 }
-pub type PSAM_DELTA_NOTIFICATION_ROUTINE = std::option::Option<
-    unsafe extern "system" fn(
-        DomainSid: PSID,
-        DeltaType: SECURITY_DB_DELTA_TYPE,
-        ObjectType: SECURITY_DB_OBJECT_TYPE,
-        ObjectRid: u32,
-        ObjectName: *mut UNICODE_STRING,
-        ModifiedCount: *mut i64,
-        DeltaData: *mut SAM_DELTA_DATA,
-    ) -> NTSTATUS,
->;
+pub type PSAM_DELTA_NOTIFICATION_ROUTINE = std::option::Option<unsafe extern "system" fn(DomainSid: PSID, DeltaType: SECURITY_DB_DELTA_TYPE, ObjectType: SECURITY_DB_OBJECT_TYPE, ObjectRid: u32, ObjectName: *mut UNICODE_STRING, ModifiedCount: *mut i64, DeltaData: *mut SAM_DELTA_DATA) -> NTSTATUS>;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamRegisterObjectChangeNotification(
-        ObjectType: SECURITY_DB_OBJECT_TYPE,
-        NotificationEventHandle: HANDLE,
-    ) -> NTSTATUS;
+    pub fn SamRegisterObjectChangeNotification(ObjectType: SECURITY_DB_OBJECT_TYPE, NotificationEventHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamUnregisterObjectChangeNotification(
-        ObjectType: SECURITY_DB_OBJECT_TYPE,
-        NotificationEventHandle: HANDLE,
-    ) -> NTSTATUS;
+    pub fn SamUnregisterObjectChangeNotification(ObjectType: SECURITY_DB_OBJECT_TYPE, NotificationEventHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamGetCompatibilityMode(ObjectHandle: *mut std::ffi::c_void, Mode: *mut u32)
-    -> NTSTATUS;
+    pub fn SamGetCompatibilityMode(ObjectHandle: *mut std::ffi::c_void, Mode: *mut u32) -> NTSTATUS;
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -2156,11 +1775,7 @@ impl Default for SAM_VALIDATE_PERSISTED_FIELDS {
 }
 impl std::fmt::Debug for SAM_VALIDATE_PERSISTED_FIELDS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SAM_VALIDATE_PERSISTED_FIELDS {{ PasswordHistory: {:?} }}",
-            self.PasswordHistory
-        )
+        write!(f, "SAM_VALIDATE_PERSISTED_FIELDS {{ PasswordHistory: {:?} }}", self.PasswordHistory)
     }
 }
 #[repr(i32)]
@@ -2190,11 +1805,7 @@ impl Default for SAM_VALIDATE_STANDARD_OUTPUT_ARG {
 }
 impl std::fmt::Debug for SAM_VALIDATE_STANDARD_OUTPUT_ARG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SAM_VALIDATE_STANDARD_OUTPUT_ARG {{ ChangedPersistedFields: {:?}, ValidationStatus: {:?} }}",
-            self.ChangedPersistedFields, self.ValidationStatus
-        )
+        write!(f, "SAM_VALIDATE_STANDARD_OUTPUT_ARG {{ ChangedPersistedFields: {:?}, ValidationStatus: {:?} }}", self.ChangedPersistedFields, self.ValidationStatus)
     }
 }
 #[repr(C)]
@@ -2209,11 +1820,7 @@ impl Default for SAM_VALIDATE_AUTHENTICATION_INPUT_ARG {
 }
 impl std::fmt::Debug for SAM_VALIDATE_AUTHENTICATION_INPUT_ARG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SAM_VALIDATE_AUTHENTICATION_INPUT_ARG {{ InputPersistedFields: {:?} }}",
-            self.InputPersistedFields
-        )
+        write!(f, "SAM_VALIDATE_AUTHENTICATION_INPUT_ARG {{ InputPersistedFields: {:?} }}", self.InputPersistedFields)
     }
 }
 #[repr(C)]
@@ -2231,11 +1838,7 @@ impl Default for SAM_VALIDATE_PASSWORD_CHANGE_INPUT_ARG {
 }
 impl std::fmt::Debug for SAM_VALIDATE_PASSWORD_CHANGE_INPUT_ARG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SAM_VALIDATE_PASSWORD_CHANGE_INPUT_ARG {{ InputPersistedFields: {:?}, HashedPassword: {:?} }}",
-            self.InputPersistedFields, self.HashedPassword
-        )
+        write!(f, "SAM_VALIDATE_PASSWORD_CHANGE_INPUT_ARG {{ InputPersistedFields: {:?}, HashedPassword: {:?} }}", self.InputPersistedFields, self.HashedPassword)
     }
 }
 #[repr(C)]
@@ -2254,11 +1857,7 @@ impl Default for SAM_VALIDATE_PASSWORD_RESET_INPUT_ARG {
 }
 impl std::fmt::Debug for SAM_VALIDATE_PASSWORD_RESET_INPUT_ARG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SAM_VALIDATE_PASSWORD_RESET_INPUT_ARG {{ InputPersistedFields: {:?}, HashedPassword: {:?} }}",
-            self.InputPersistedFields, self.HashedPassword
-        )
+        write!(f, "SAM_VALIDATE_PASSWORD_RESET_INPUT_ARG {{ InputPersistedFields: {:?}, HashedPassword: {:?} }}", self.InputPersistedFields, self.HashedPassword)
     }
 }
 #[repr(C)]
@@ -2297,12 +1896,7 @@ impl std::fmt::Debug for SAM_VALIDATE_OUTPUT_ARG {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamValidatePassword(
-        ServerName: *mut UNICODE_STRING,
-        ValidationType: PASSWORD_POLICY_VALIDATION_TYPE,
-        InputArg: *mut SAM_VALIDATE_INPUT_ARG,
-        OutputArg: *mut *mut SAM_VALIDATE_OUTPUT_ARG,
-    ) -> NTSTATUS;
+    pub fn SamValidatePassword(ServerName: *mut UNICODE_STRING, ValidationType: PASSWORD_POLICY_VALIDATION_TYPE, InputArg: *mut SAM_VALIDATE_INPUT_ARG, OutputArg: *mut *mut SAM_VALIDATE_OUTPUT_ARG) -> NTSTATUS;
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -2323,11 +1917,7 @@ impl Default for SAM_OPERATION_OBJCHG_INPUT {
 }
 impl std::fmt::Debug for SAM_OPERATION_OBJCHG_INPUT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SAM_OPERATION_OBJCHG_INPUT {{ ObjectType: {:?} }}",
-            self.ObjectType
-        )
+        write!(f, "SAM_OPERATION_OBJCHG_INPUT {{ ObjectType: {:?} }}", self.ObjectType)
     }
 }
 #[repr(C)]
@@ -2376,10 +1966,5 @@ impl std::fmt::Debug for SAM_GENERIC_OPERATION_OUTPUT {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamPerformGenericOperation(
-        ServerName: PWSTR,
-        OperationType: SAM_GENERIC_OPERATION_TYPE,
-        OperationIn: *mut SAM_GENERIC_OPERATION_INPUT,
-        OperationOut: *mut *mut SAM_GENERIC_OPERATION_OUTPUT,
-    ) -> NTSTATUS;
+    pub fn SamPerformGenericOperation(ServerName: PWSTR, OperationType: SAM_GENERIC_OPERATION_TYPE, OperationIn: *mut SAM_GENERIC_OPERATION_INPUT, OperationOut: *mut *mut SAM_GENERIC_OPERATION_OUTPUT) -> NTSTATUS;
 }

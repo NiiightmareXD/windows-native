@@ -35,8 +35,6 @@ pub const STACK_ADDRESS_LENGTH: u32 = 128;
 pub const MAX_BR_NAME: u32 = 65;
 pub const DIRECTORY_LENGTH: u32 = 256;
 pub const INITIALPROGRAM_LENGTH: u32 = 256;
-pub const USERNAME_LENGTH: u32 = 20;
-pub const DOMAIN_LENGTH: u32 = 17;
 pub const PASSWORD_LENGTH: u32 = 14;
 pub const NASISPECIFICNAME_LENGTH: u32 = 14;
 pub const NASIUSERNAME_LENGTH: u32 = 47;
@@ -44,14 +42,11 @@ pub const NASIPASSWORD_LENGTH: u32 = 24;
 pub const NASISESSIONNAME_LENGTH: u32 = 16;
 pub const NASIFILESERVER_LENGTH: u32 = 47;
 pub const CLIENTDATANAME_LENGTH: u32 = 7;
-pub const CLIENTNAME_LENGTH: u32 = 20;
-pub const CLIENTADDRESS_LENGTH: u32 = 30;
 pub const IMEFILENAME_LENGTH: u32 = 32;
 pub const CLIENTLICENSE_LENGTH: u32 = 32;
 pub const CLIENTMODEM_LENGTH: u32 = 40;
 pub const CLIENT_PRODUCT_ID_LENGTH: u32 = 32;
 pub const MAX_COUNTER_EXTENSIONS: u32 = 2;
-pub const WINSTATIONNAME_LENGTH: u32 = 32;
 pub const TERMSRV_TOTAL_SESSIONS: u32 = 1;
 pub const TERMSRV_DISC_SESSIONS: u32 = 2;
 pub const TERMSRV_RECON_SESSIONS: u32 = 3;
@@ -87,9 +82,6 @@ pub const WEVENT_STATECHANGE: u32 = 128;
 pub const WEVENT_LICENSE: u32 = 256;
 pub const WEVENT_ALL: u32 = 2147483647;
 pub const WEVENT_FLUSH: u32 = 2147483648;
-pub const KBDSHIFT: u32 = 1;
-pub const KBDCTRL: u32 = 2;
-pub const KBDALT: u32 = 4;
 pub const WNOTIFY_ALL_SESSIONS: u32 = 1;
 pub const LOGONID_CURRENT: i32 = -1;
 pub const WINSTATION_CURRENT_SERVER: HANDLE = HANDLE(0);
@@ -156,11 +148,7 @@ impl Default for SESSIONIDW {
 }
 impl std::fmt::Debug for SESSIONIDW {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SESSIONIDW {{ Anonymous1: {:?}, WinStationName: {:?}, State: {:?} }}",
-            self.Anonymous1, self.WinStationName, self.State
-        )
+        write!(f, "SESSIONIDW {{ Anonymous1: {:?}, WinStationName: {:?}, State: {:?} }}", self.Anonymous1, self.WinStationName, self.State)
     }
 }
 #[repr(i32)]
@@ -222,11 +210,7 @@ impl Default for WINSTATIONCREATE {
 }
 impl std::fmt::Debug for WINSTATIONCREATE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTATIONCREATE {{ fEnableWinStation : {:?} }}",
-            self.fEnableWinStation()
-        )
+        write!(f, "WINSTATIONCREATE {{ fEnableWinStation : {:?} }}", self.fEnableWinStation())
     }
 }
 impl WINSTATIONCREATE {
@@ -259,11 +243,7 @@ impl Default for WINSTACONFIGWIRE {
 }
 impl std::fmt::Debug for WINSTACONFIGWIRE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTACONFIGWIRE {{ Comment: {:?}, OEMId: {:?}, UserConfig: {:?}, NewFields: {:?} }}",
-            self.Comment, self.OEMId, self.UserConfig, self.NewFields
-        )
+        write!(f, "WINSTACONFIGWIRE {{ Comment: {:?}, OEMId: {:?}, UserConfig: {:?}, NewFields: {:?} }}", self.Comment, self.OEMId, self.UserConfig, self.NewFields)
     }
 }
 #[repr(i32)]
@@ -888,17 +868,7 @@ impl Default for FLOWCONTROLCONFIG {
 }
 impl std::fmt::Debug for FLOWCONTROLCONFIG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "FLOWCONTROLCONFIG {{ fEnableSoftwareTx : {:?}, fEnableSoftwareRx : {:?}, fEnableDTR : {:?}, fEnableRTS : {:?}, Type: {:?}, HardwareReceive: {:?}, HardwareTransmit: {:?} }}",
-            self.fEnableSoftwareTx(),
-            self.fEnableSoftwareRx(),
-            self.fEnableDTR(),
-            self.fEnableRTS(),
-            self.Type,
-            self.HardwareReceive,
-            self.HardwareTransmit
-        )
+        write!(f, "FLOWCONTROLCONFIG {{ fEnableSoftwareTx : {:?}, fEnableSoftwareRx : {:?}, fEnableDTR : {:?}, fEnableRTS : {:?}, Type: {:?}, HardwareReceive: {:?}, HardwareTransmit: {:?} }}", self.fEnableSoftwareTx(), self.fEnableSoftwareRx(), self.fEnableDTR(), self.fEnableRTS(), self.Type, self.HardwareReceive, self.HardwareTransmit)
     }
 }
 impl FLOWCONTROLCONFIG {
@@ -935,12 +905,7 @@ impl FLOWCONTROLCONFIG {
         self._bitfield_1.set(3usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        fEnableSoftwareTx: u32,
-        fEnableSoftwareRx: u32,
-        fEnableDTR: u32,
-        fEnableRTS: u32,
-    ) -> BitfieldUnit<[u8; 1usize]> {
+    pub fn new_bitfield_1(fEnableSoftwareTx: u32, fEnableSoftwareRx: u32, fEnableDTR: u32, fEnableRTS: u32) -> BitfieldUnit<[u8; 1usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, fEnableSoftwareTx as u64);
         bitfield_unit.set(1usize, 1u8, fEnableSoftwareRx as u64);
@@ -963,12 +928,7 @@ impl Default for CONNECTCONFIG {
 }
 impl std::fmt::Debug for CONNECTCONFIG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "CONNECTCONFIG {{ Type: {:?}, fEnableBreakDisconnect : {:?} }}",
-            self.Type,
-            self.fEnableBreakDisconnect()
-        )
+        write!(f, "CONNECTCONFIG {{ Type: {:?}, fEnableBreakDisconnect : {:?} }}", self.Type, self.fEnableBreakDisconnect())
     }
 }
 impl CONNECTCONFIG {
@@ -1007,16 +967,7 @@ impl Default for ASYNCCONFIG {
 }
 impl std::fmt::Debug for ASYNCCONFIG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ASYNCCONFIG {{ DeviceName: {:?}, ModemName: {:?}, fEnableDsrSensitivity : {:?}, fConnectionDriver : {:?}, FlowControl: {:?}, Connect: {:?} }}",
-            self.DeviceName,
-            self.ModemName,
-            self.fEnableDsrSensitivity(),
-            self.fConnectionDriver(),
-            self.FlowControl,
-            self.Connect
-        )
+        write!(f, "ASYNCCONFIG {{ DeviceName: {:?}, ModemName: {:?}, fEnableDsrSensitivity : {:?}, fConnectionDriver : {:?}, FlowControl: {:?}, Connect: {:?} }}", self.DeviceName, self.ModemName, self.fEnableDsrSensitivity(), self.fConnectionDriver(), self.FlowControl, self.Connect)
     }
 }
 impl ASYNCCONFIG {
@@ -1037,10 +988,7 @@ impl ASYNCCONFIG {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        fEnableDsrSensitivity: u32,
-        fConnectionDriver: u32,
-    ) -> BitfieldUnit<[u8; 1usize]> {
+    pub fn new_bitfield_1(fEnableDsrSensitivity: u32, fConnectionDriver: u32) -> BitfieldUnit<[u8; 1usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, fEnableDsrSensitivity as u64);
         bitfield_unit.set(1usize, 1u8, fConnectionDriver as u64);
@@ -1063,11 +1011,7 @@ impl Default for NASICONFIG {
 }
 impl std::fmt::Debug for NASICONFIG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "NASICONFIG {{ SpecificName: {:?}, UserName: {:?}, PassWord: {:?}, SessionName: {:?}, FileServer: {:?} }}",
-            self.SpecificName, self.UserName, self.PassWord, self.SessionName, self.FileServer
-        )
+        write!(f, "NASICONFIG {{ SpecificName: {:?}, UserName: {:?}, PassWord: {:?}, SessionName: {:?}, FileServer: {:?} }}", self.SpecificName, self.UserName, self.PassWord, self.SessionName, self.FileServer)
     }
 }
 #[repr(C)]
@@ -1116,11 +1060,7 @@ impl Default for PDPARAMS {
 }
 impl std::fmt::Debug for PDPARAMS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PDPARAMS {{ SdClass: {:?}, Anonymous1: {:?} }}",
-            self.SdClass, self.Anonymous1
-        )
+        write!(f, "PDPARAMS {{ SdClass: {:?}, Anonymous1: {:?} }}", self.SdClass, self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -1140,11 +1080,7 @@ impl Default for WDCONFIG {
 }
 impl std::fmt::Debug for WDCONFIG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WDCONFIG {{ WdName: {:?}, WdDLL: {:?}, WsxDLL: {:?}, CfgDLL: {:?}, WdPrefix: {:?} }}",
-            self.WdName, self.WdDLL, self.WsxDLL, self.CfgDLL, self.WdPrefix
-        )
+        write!(f, "WDCONFIG {{ WdName: {:?}, WdDLL: {:?}, WsxDLL: {:?}, CfgDLL: {:?}, WdPrefix: {:?} }}", self.WdName, self.WdDLL, self.WsxDLL, self.CfgDLL, self.WdPrefix)
     }
 }
 #[repr(C)]
@@ -1167,11 +1103,7 @@ impl Default for PDCONFIG2 {
 }
 impl std::fmt::Debug for PDCONFIG2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PDCONFIG2 {{ PdName: {:?}, SdClass: {:?}, PdDLL: {:?} }}",
-            self.PdName, self.SdClass, self.PdDLL
-        )
+        write!(f, "PDCONFIG2 {{ PdName: {:?}, SdClass: {:?}, PdDLL: {:?} }}", self.PdName, self.SdClass, self.PdDLL)
     }
 }
 #[repr(C)]
@@ -1350,20 +1282,7 @@ impl WINSTATIONCLIENT {
         self._bitfield_1.set(11usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        fTextOnly: u32,
-        fDisableCtrlAltDel: u32,
-        fMouse: u32,
-        fDoubleClickDetect: u32,
-        fINetClient: u32,
-        fPromptForPassword: u32,
-        fMaximizeShell: u32,
-        fEnableWindowsKey: u32,
-        fRemoteConsoleAudio: u32,
-        fPasswordIsScPin: u32,
-        fNoAudioPlayback: u32,
-        fUsingSavedCreds: u32,
-    ) -> BitfieldUnit<[u8; 2usize]> {
+    pub fn new_bitfield_1(fTextOnly: u32, fDisableCtrlAltDel: u32, fMouse: u32, fDoubleClickDetect: u32, fINetClient: u32, fPromptForPassword: u32, fMaximizeShell: u32, fEnableWindowsKey: u32, fRemoteConsoleAudio: u32, fPasswordIsScPin: u32, fNoAudioPlayback: u32, fUsingSavedCreds: u32) -> BitfieldUnit<[u8; 2usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, fTextOnly as u64);
         bitfield_unit.set(1usize, 1u8, fDisableCtrlAltDel as u64);
@@ -1466,11 +1385,7 @@ impl Default for RESERVED_CACHE {
 }
 impl std::fmt::Debug for RESERVED_CACHE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "RESERVED_CACHE {{ ThinWireCache: {:?} }}",
-            self.ThinWireCache
-        )
+        write!(f, "RESERVED_CACHE {{ ThinWireCache: {:?} }}", self.ThinWireCache)
     }
 }
 #[repr(C)]
@@ -1536,11 +1451,7 @@ impl Default for PROTOCOLSTATUS {
 }
 impl std::fmt::Debug for PROTOCOLSTATUS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PROTOCOLSTATUS {{ Output: {:?}, Input: {:?}, Cache: {:?} }}",
-            self.Output, self.Input, self.Cache
-        )
+        write!(f, "PROTOCOLSTATUS {{ Output: {:?}, Input: {:?}, Cache: {:?} }}", self.Output, self.Input, self.Cache)
     }
 }
 #[repr(C)]
@@ -1564,11 +1475,7 @@ impl Default for WINSTATIONINFORMATION {
 }
 impl std::fmt::Debug for WINSTATIONINFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTATIONINFORMATION {{ ConnectState: {:?}, WinStationName: {:?}, Status: {:?}, Domain: {:?}, UserName: {:?} }}",
-            self.ConnectState, self.WinStationName, self.Status, self.Domain, self.UserName
-        )
+        write!(f, "WINSTATIONINFORMATION {{ ConnectState: {:?}, WinStationName: {:?}, Status: {:?}, Domain: {:?}, UserName: {:?} }}", self.ConnectState, self.WinStationName, self.Status, self.Domain, self.UserName)
     }
 }
 #[repr(C)]
@@ -1624,11 +1531,7 @@ impl Default for CDCONFIG {
 }
 impl std::fmt::Debug for CDCONFIG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "CDCONFIG {{ CdClass: {:?}, CdName: {:?}, CdDLL: {:?} }}",
-            self.CdClass, self.CdName, self.CdDLL
-        )
+        write!(f, "CDCONFIG {{ CdClass: {:?}, CdName: {:?}, CdDLL: {:?} }}", self.CdClass, self.CdName, self.CdDLL)
     }
 }
 pub type CLIENTDATANAME = [i8; 8usize];
@@ -1645,11 +1548,7 @@ impl Default for WINSTATIONCLIENTDATA {
 }
 impl std::fmt::Debug for WINSTATIONCLIENTDATA {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTATIONCLIENTDATA {{ DataName: {:?} }}",
-            self.DataName
-        )
+        write!(f, "WINSTATIONCLIENTDATA {{ DataName: {:?} }}", self.DataName)
     }
 }
 #[repr(i32)]
@@ -1680,11 +1579,7 @@ impl Default for WINSTATIONLOADINDICATORDATA {
 }
 impl std::fmt::Debug for WINSTATIONLOADINDICATORDATA {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTATIONLOADINDICATORDATA {{ LoadFactor: {:?}, reserved: {:?} }}",
-            self.LoadFactor, self.reserved
-        )
+        write!(f, "WINSTATIONLOADINDICATORDATA {{ LoadFactor: {:?}, reserved: {:?} }}", self.LoadFactor, self.reserved)
     }
 }
 #[repr(i32)]
@@ -1708,11 +1603,7 @@ impl Default for WINSTATIONSHADOW {
 }
 impl std::fmt::Debug for WINSTATIONSHADOW {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTATIONSHADOW {{ ShadowState: {:?}, ShadowClass: {:?} }}",
-            self.ShadowState, self.ShadowClass
-        )
+        write!(f, "WINSTATIONSHADOW {{ ShadowState: {:?}, ShadowClass: {:?} }}", self.ShadowState, self.ShadowClass)
     }
 }
 #[repr(C)]
@@ -1731,11 +1622,7 @@ impl Default for WINSTATIONPRODID {
 }
 impl std::fmt::Debug for WINSTATIONPRODID {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTATIONPRODID {{ DigProductId: {:?}, ClientDigProductId: {:?}, OuterMostDigProductId: {:?} }}",
-            self.DigProductId, self.ClientDigProductId, self.OuterMostDigProductId
-        )
+        write!(f, "WINSTATIONPRODID {{ DigProductId: {:?}, ClientDigProductId: {:?}, OuterMostDigProductId: {:?} }}", self.DigProductId, self.ClientDigProductId, self.OuterMostDigProductId)
     }
 }
 #[repr(C)]
@@ -1762,11 +1649,7 @@ impl Default for WINSTATIONREMOTEADDRESS_1_1 {
 }
 impl std::fmt::Debug for WINSTATIONREMOTEADDRESS_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTATIONREMOTEADDRESS_1_1 {{ sin_zero: {:?} }}",
-            self.sin_zero
-        )
+        write!(f, "WINSTATIONREMOTEADDRESS_1_1 {{ sin_zero: {:?} }}", self.sin_zero)
     }
 }
 #[repr(C)]
@@ -1783,11 +1666,7 @@ impl Default for WINSTATIONREMOTEADDRESS_1_2 {
 }
 impl std::fmt::Debug for WINSTATIONREMOTEADDRESS_1_2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTATIONREMOTEADDRESS_1_2 {{ sin6_addr: {:?} }}",
-            self.sin6_addr
-        )
+        write!(f, "WINSTATIONREMOTEADDRESS_1_2 {{ sin6_addr: {:?} }}", self.sin6_addr)
     }
 }
 impl Default for WINSTATIONREMOTEADDRESS_1 {
@@ -1807,11 +1686,7 @@ impl Default for WINSTATIONREMOTEADDRESS {
 }
 impl std::fmt::Debug for WINSTATIONREMOTEADDRESS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTATIONREMOTEADDRESS {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "WINSTATIONREMOTEADDRESS {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -1836,15 +1711,7 @@ impl Default for WINSTATIONINFORMATIONEX_LEVEL1 {
 }
 impl std::fmt::Debug for WINSTATIONINFORMATIONEX_LEVEL1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTATIONINFORMATIONEX_LEVEL1 {{ SessionState: {:?}, WinStationName: {:?}, UserName: {:?}, DomainName: {:?}, ProtocolStatus: {:?} }}",
-            self.SessionState,
-            self.WinStationName,
-            self.UserName,
-            self.DomainName,
-            self.ProtocolStatus
-        )
+        write!(f, "WINSTATIONINFORMATIONEX_LEVEL1 {{ SessionState: {:?}, WinStationName: {:?}, UserName: {:?}, DomainName: {:?}, ProtocolStatus: {:?} }}", self.SessionState, self.WinStationName, self.UserName, self.DomainName, self.ProtocolStatus)
     }
 }
 #[repr(C)]
@@ -1871,17 +1738,7 @@ impl Default for WINSTATIONINFORMATIONEX_LEVEL2 {
 }
 impl std::fmt::Debug for WINSTATIONINFORMATIONEX_LEVEL2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WINSTATIONINFORMATIONEX_LEVEL2 {{ SessionState: {:?}, WinStationName: {:?}, SamCompatibleUserName: {:?}, SamCompatibleDomainName: {:?}, ProtocolStatus: {:?}, UserName: {:?}, DomainName: {:?} }}",
-            self.SessionState,
-            self.WinStationName,
-            self.SamCompatibleUserName,
-            self.SamCompatibleDomainName,
-            self.ProtocolStatus,
-            self.UserName,
-            self.DomainName
-        )
+        write!(f, "WINSTATIONINFORMATIONEX_LEVEL2 {{ SessionState: {:?}, WinStationName: {:?}, SamCompatibleUserName: {:?}, SamCompatibleDomainName: {:?}, ProtocolStatus: {:?}, UserName: {:?}, DomainName: {:?} }}", self.SessionState, self.WinStationName, self.SamCompatibleUserName, self.SamCompatibleDomainName, self.ProtocolStatus, self.UserName, self.DomainName)
     }
 }
 #[repr(C)]
@@ -1985,11 +1842,7 @@ impl Default for TS_ALL_PROCESSES_INFO {
 }
 impl std::fmt::Debug for TS_ALL_PROCESSES_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "TS_ALL_PROCESSES_INFO {{ pTsProcessInfo: {:?} }}",
-            self.pTsProcessInfo
-        )
+        write!(f, "TS_ALL_PROCESSES_INFO {{ pTsProcessInfo: {:?} }}", self.pTsProcessInfo)
     }
 }
 #[repr(C)]
@@ -2041,11 +1894,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationGetTermSrvCountersValue(
-        ServerHandle: HANDLE,
-        Count: u32,
-        Counters: *mut TS_COUNTER,
-    ) -> BOOLEAN;
+    pub fn WinStationGetTermSrvCountersValue(ServerHandle: HANDLE, Count: u32, Counters: *mut TS_COUNTER) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -2053,96 +1902,43 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationWaitSystemEvent(
-        ServerHandle: HANDLE,
-        EventMask: u32,
-        EventFlags: *mut u32,
-    ) -> BOOLEAN;
+    pub fn WinStationWaitSystemEvent(ServerHandle: HANDLE, EventMask: u32, EventFlags: *mut u32) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationRegisterConsoleNotification(
-        ServerHandle: HANDLE,
-        WindowHandle: HWND,
-        Flags: u32,
-    ) -> BOOLEAN;
+    pub fn WinStationRegisterConsoleNotification(ServerHandle: HANDLE, WindowHandle: HWND, Flags: u32) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationUnRegisterConsoleNotification(
-        ServerHandle: HANDLE,
-        WindowHandle: HWND,
-    ) -> BOOLEAN;
+    pub fn WinStationUnRegisterConsoleNotification(ServerHandle: HANDLE, WindowHandle: HWND) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationEnumerateW(
-        ServerHandle: HANDLE,
-        SessionIds: *mut *mut SESSIONIDW,
-        Count: *mut u32,
-    ) -> BOOLEAN;
+    pub fn WinStationEnumerateW(ServerHandle: HANDLE, SessionIds: *mut *mut SESSIONIDW, Count: *mut u32) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationQueryInformationW(
-        ServerHandle: HANDLE,
-        SessionId: u32,
-        WinStationInformationClass: WINSTATIONINFOCLASS,
-        pWinStationInformation: *mut std::ffi::c_void,
-        WinStationInformationLength: u32,
-        pReturnLength: *mut u32,
-    ) -> BOOLEAN;
+    pub fn WinStationQueryInformationW(ServerHandle: HANDLE, SessionId: u32, WinStationInformationClass: WINSTATIONINFOCLASS, pWinStationInformation: *mut std::ffi::c_void, WinStationInformationLength: u32, pReturnLength: *mut u32) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationSetInformationW(
-        ServerHandle: HANDLE,
-        SessionId: u32,
-        WinStationInformationClass: WINSTATIONINFOCLASS,
-        pWinStationInformation: *mut std::ffi::c_void,
-        WinStationInformationLength: u32,
-    ) -> BOOLEAN;
+    pub fn WinStationSetInformationW(ServerHandle: HANDLE, SessionId: u32, WinStationInformationClass: WINSTATIONINFOCLASS, pWinStationInformation: *mut std::ffi::c_void, WinStationInformationLength: u32) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationNameFromLogonIdW(
-        ServerHandle: HANDLE,
-        SessionId: u32,
-        pWinStationName: PWSTR,
-    ) -> BOOLEAN;
+    pub fn WinStationNameFromLogonIdW(ServerHandle: HANDLE, SessionId: u32, pWinStationName: PWSTR) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LogonIdFromWinStationNameW(
-        ServerHandle: HANDLE,
-        pWinStationName: PWSTR,
-        SessionId: *mut u32,
-    ) -> BOOLEAN;
+    pub fn LogonIdFromWinStationNameW(ServerHandle: HANDLE, pWinStationName: PWSTR, SessionId: *mut u32) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationSendMessageW(
-        ServerHandle: HANDLE,
-        SessionId: u32,
-        Title: PWSTR,
-        TitleLength: u32,
-        Message: PWSTR,
-        MessageLength: u32,
-        Style: u32,
-        Timeout: u32,
-        Response: *mut u32,
-        DoNotWait: BOOLEAN,
-    ) -> BOOLEAN;
+    pub fn WinStationSendMessageW(ServerHandle: HANDLE, SessionId: u32, Title: PWSTR, TitleLength: u32, Message: PWSTR, MessageLength: u32, Style: u32, Timeout: u32, Response: *mut u32, DoNotWait: BOOLEAN) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationConnectW(
-        ServerHandle: HANDLE,
-        SessionId: u32,
-        TargetSessionId: u32,
-        pPassword: PWSTR,
-        bWait: BOOLEAN,
-    ) -> BOOLEAN;
+    pub fn WinStationConnectW(ServerHandle: HANDLE, SessionId: u32, TargetSessionId: u32, pPassword: PWSTR, bWait: BOOLEAN) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -2154,13 +1950,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationShadow(
-        ServerHandle: HANDLE,
-        TargetServerName: PWSTR,
-        TargetSessionId: u32,
-        HotKeyVk: u8,
-        HotkeyModifiers: u16,
-    ) -> BOOLEAN;
+    pub fn WinStationShadow(ServerHandle: HANDLE, TargetServerName: PWSTR, TargetSessionId: u32, HotKeyVk: u8, HotkeyModifiers: u16) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -2168,45 +1958,23 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationEnumerateProcesses(
-        ServerHandle: HANDLE,
-        Processes: *mut *mut std::ffi::c_void,
-    ) -> BOOLEAN;
+    pub fn WinStationEnumerateProcesses(ServerHandle: HANDLE, Processes: *mut *mut std::ffi::c_void) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationGetAllProcesses(
-        ServerHandle: HANDLE,
-        Level: u32,
-        NumberOfProcesses: *mut u32,
-        Processes: *mut *mut TS_ALL_PROCESSES_INFO,
-    ) -> BOOLEAN;
+    pub fn WinStationGetAllProcesses(ServerHandle: HANDLE, Level: u32, NumberOfProcesses: *mut u32, Processes: *mut *mut TS_ALL_PROCESSES_INFO) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationFreeGAPMemory(
-        Level: u32,
-        Processes: *mut TS_ALL_PROCESSES_INFO,
-        NumberOfProcesses: u32,
-    ) -> BOOLEAN;
+    pub fn WinStationFreeGAPMemory(Level: u32, Processes: *mut TS_ALL_PROCESSES_INFO, NumberOfProcesses: u32) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationTerminateProcess(
-        ServerHandle: HANDLE,
-        ProcessId: u32,
-        ExitCode: u32,
-    ) -> BOOLEAN;
+    pub fn WinStationTerminateProcess(ServerHandle: HANDLE, ProcessId: u32, ExitCode: u32) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationGetProcessSid(
-        ServerHandle: HANDLE,
-        ProcessId: u32,
-        ProcessStartTime: FILETIME,
-        pProcessUserSid: *mut std::ffi::c_void,
-        dwSidSize: *mut u32,
-    ) -> BOOLEAN;
+    pub fn WinStationGetProcessSid(ServerHandle: HANDLE, ProcessId: u32, ProcessStartTime: FILETIME, pProcessUserSid: *mut std::ffi::c_void, dwSidSize: *mut u32) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

@@ -2,114 +2,12 @@ use windows::Win32::{
     Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
     System::{
         Kernel::PROCESSOR_NUMBER,
-        Power::{
-            DEVICE_POWER_STATE, EXECUTION_STATE, POWER_ACTION, POWER_INFORMATION_LEVEL,
-            POWER_MONITOR_REQUEST_REASON, SYSTEM_POWER_STATE,
-        },
+        Power::{DEVICE_POWER_STATE, EXECUTION_STATE, POWER_ACTION, POWER_INFORMATION_LEVEL, POWER_MONITOR_REQUEST_REASON, SYSTEM_POWER_STATE},
     },
 };
 
 use crate::bitfield::{BitfieldUnit, UnionField};
 
-pub const SystemPowerPolicyAc: u32 = 0;
-pub const SystemPowerPolicyDc: u32 = 1;
-pub const VerifySystemPolicyAc: u32 = 2;
-pub const VerifySystemPolicyDc: u32 = 3;
-pub const SystemPowerCapabilities: u32 = 4;
-pub const SystemBatteryState: u32 = 5;
-pub const SystemPowerStateHandler: u32 = 6;
-pub const ProcessorStateHandler: u32 = 7;
-pub const SystemPowerPolicyCurrent: u32 = 8;
-pub const AdministratorPowerPolicy: u32 = 9;
-pub const SystemReserveHiberFile: u32 = 10;
-pub const ProcessorInformation: u32 = 11;
-pub const SystemPowerInformation: u32 = 12;
-pub const ProcessorStateHandler2: u32 = 13;
-pub const LastWakeTime: u32 = 14;
-pub const LastSleepTime: u32 = 15;
-pub const SystemExecutionState: u32 = 16;
-pub const SystemPowerStateNotifyHandler: u32 = 17;
-pub const ProcessorPowerPolicyAc: u32 = 18;
-pub const ProcessorPowerPolicyDc: u32 = 19;
-pub const VerifyProcessorPowerPolicyAc: u32 = 20;
-pub const VerifyProcessorPowerPolicyDc: u32 = 21;
-pub const ProcessorPowerPolicyCurrent: u32 = 22;
-pub const SystemPowerStateLogging: u32 = 23;
-pub const SystemPowerLoggingEntry: u32 = 24;
-pub const SetPowerSettingValue: u32 = 25;
-pub const NotifyUserPowerSetting: u32 = 26;
-pub const PowerInformationLevelUnused0: u32 = 27;
-pub const SystemMonitorHiberBootPowerOff: u32 = 28;
-pub const SystemVideoState: u32 = 29;
-pub const TraceApplicationPowerMessage: u32 = 30;
-pub const TraceApplicationPowerMessageEnd: u32 = 31;
-pub const ProcessorPerfStates: u32 = 32;
-pub const ProcessorIdleStates: u32 = 33;
-pub const ProcessorCap: u32 = 34;
-pub const SystemWakeSource: u32 = 35;
-pub const SystemHiberFileInformation: u32 = 36;
-pub const TraceServicePowerMessage: u32 = 37;
-pub const ProcessorLoad: u32 = 38;
-pub const PowerShutdownNotification: u32 = 39;
-pub const MonitorCapabilities: u32 = 40;
-pub const SessionPowerInit: u32 = 41;
-pub const SessionDisplayState: u32 = 42;
-pub const PowerRequestCreate: u32 = 43;
-pub const PowerRequestAction: u32 = 44;
-pub const GetPowerRequestList: u32 = 45;
-pub const ProcessorInformationEx: u32 = 46;
-pub const NotifyUserModeLegacyPowerEvent: u32 = 47;
-pub const GroupPark: u32 = 48;
-pub const ProcessorIdleDomains: u32 = 49;
-pub const WakeTimerList: u32 = 50;
-pub const SystemHiberFileSize: u32 = 51;
-pub const ProcessorIdleStatesHv: u32 = 52;
-pub const ProcessorPerfStatesHv: u32 = 53;
-pub const ProcessorPerfCapHv: u32 = 54;
-pub const ProcessorSetIdle: u32 = 55;
-pub const LogicalProcessorIdling: u32 = 56;
-pub const UserPresence: u32 = 57;
-pub const PowerSettingNotificationName: u32 = 58;
-pub const GetPowerSettingValue: u32 = 59;
-pub const IdleResiliency: u32 = 60;
-pub const SessionRITState: u32 = 61;
-pub const SessionConnectNotification: u32 = 62;
-pub const SessionPowerCleanup: u32 = 63;
-pub const SessionLockState: u32 = 64;
-pub const SystemHiberbootState: u32 = 65;
-pub const PlatformInformation: u32 = 66;
-pub const PdcInvocation: u32 = 67;
-pub const MonitorInvocation: u32 = 68;
-pub const FirmwareTableInformationRegistered: u32 = 69;
-pub const SetShutdownSelectedTime: u32 = 70;
-pub const SuspendResumeInvocation: u32 = 71;
-pub const PlmPowerRequestCreate: u32 = 72;
-pub const ScreenOff: u32 = 73;
-pub const CsDeviceNotification: u32 = 74;
-pub const PlatformRole: u32 = 75;
-pub const LastResumePerformance: u32 = 76;
-pub const DisplayBurst: u32 = 77;
-pub const ExitLatencySamplingPercentage: u32 = 78;
-pub const RegisterSpmPowerSettings: u32 = 79;
-pub const PlatformIdleStates: u32 = 80;
-pub const ProcessorIdleVeto: u32 = 81;
-pub const PlatformIdleVeto: u32 = 82;
-pub const SystemBatteryStatePrecise: u32 = 83;
-pub const ThermalEvent: u32 = 84;
-pub const PowerRequestActionInternal: u32 = 85;
-pub const BatteryDeviceState: u32 = 86;
-pub const PowerInformationInternal: u32 = 87;
-pub const ThermalStandby: u32 = 88;
-pub const SystemHiberFileType: u32 = 89;
-pub const PhysicalPowerButtonPress: u32 = 90;
-pub const QueryPotentialDripsConstraint: u32 = 91;
-pub const EnergyTrackerCreate: u32 = 92;
-pub const EnergyTrackerQuery: u32 = 93;
-pub const UpdateBlackBoxRecorder: u32 = 94;
-pub const SessionAllowExternalDmaDevices: u32 = 95;
-pub const SendSuspendResumeNotification: u32 = 96;
-pub const BlackBoxRecorderDirectAccessBuffer: u32 = 97;
-pub const PowerInformationLevelMaximum: u32 = 98;
 pub const POWER_REQUEST_CONTEXT_NOT_SPECIFIED: u32 = 2147483648;
 pub const PROCESSOR_STATE_TYPE_PERFORMANCE: u32 = 1;
 pub const PROCESSOR_STATE_TYPE_THROTTLE: u32 = 2;
@@ -218,11 +116,7 @@ impl Default for COUNTED_REASON_CONTEXT {
 }
 impl std::fmt::Debug for COUNTED_REASON_CONTEXT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "COUNTED_REASON_CONTEXT {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "COUNTED_REASON_CONTEXT {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(i32)]
@@ -252,11 +146,7 @@ impl Default for POWER_REQUEST_ACTION {
 }
 impl std::fmt::Debug for POWER_REQUEST_ACTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_REQUEST_ACTION {{ RequestType: {:?} }}",
-            self.RequestType
-        )
+        write!(f, "POWER_REQUEST_ACTION {{ RequestType: {:?} }}", self.RequestType)
     }
 }
 #[repr(C)]
@@ -304,17 +194,7 @@ impl Default for SYSTEM_POWER_STATE_CONTEXT_1_1 {
 }
 impl std::fmt::Debug for SYSTEM_POWER_STATE_CONTEXT_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SYSTEM_POWER_STATE_CONTEXT_1_1 {{ Reserved1 : {:?}, TargetSystemState : {:?}, EffectiveSystemState : {:?}, CurrentSystemState : {:?}, IgnoreHibernationPath : {:?}, PseudoTransition : {:?}, Reserved2 : {:?} }}",
-            self.Reserved1(),
-            self.TargetSystemState(),
-            self.EffectiveSystemState(),
-            self.CurrentSystemState(),
-            self.IgnoreHibernationPath(),
-            self.PseudoTransition(),
-            self.Reserved2()
-        )
+        write!(f, "SYSTEM_POWER_STATE_CONTEXT_1_1 {{ Reserved1 : {:?}, TargetSystemState : {:?}, EffectiveSystemState : {:?}, CurrentSystemState : {:?}, IgnoreHibernationPath : {:?}, PseudoTransition : {:?}, Reserved2 : {:?} }}", self.Reserved1(), self.TargetSystemState(), self.EffectiveSystemState(), self.CurrentSystemState(), self.IgnoreHibernationPath(), self.PseudoTransition(), self.Reserved2())
     }
 }
 impl SYSTEM_POWER_STATE_CONTEXT_1_1 {
@@ -375,15 +255,7 @@ impl SYSTEM_POWER_STATE_CONTEXT_1_1 {
         self._bitfield_1.set(22usize, 10u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        Reserved1: u32,
-        TargetSystemState: u32,
-        EffectiveSystemState: u32,
-        CurrentSystemState: u32,
-        IgnoreHibernationPath: u32,
-        PseudoTransition: u32,
-        Reserved2: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(Reserved1: u32, TargetSystemState: u32, EffectiveSystemState: u32, CurrentSystemState: u32, IgnoreHibernationPath: u32, PseudoTransition: u32, Reserved2: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Reserved1 as u64);
         bitfield_unit.set(8usize, 4u8, TargetSystemState as u64);
@@ -412,11 +284,7 @@ impl Default for SYSTEM_POWER_STATE_CONTEXT {
 }
 impl std::fmt::Debug for SYSTEM_POWER_STATE_CONTEXT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SYSTEM_POWER_STATE_CONTEXT {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "SYSTEM_POWER_STATE_CONTEXT {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(i32)]
@@ -470,11 +338,7 @@ impl Default for COUNTED_REASON_CONTEXT_RELATIVE {
 }
 impl std::fmt::Debug for COUNTED_REASON_CONTEXT_RELATIVE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "COUNTED_REASON_CONTEXT_RELATIVE {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "COUNTED_REASON_CONTEXT_RELATIVE {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -538,11 +402,7 @@ impl Default for DIAGNOSTIC_BUFFER {
 }
 impl std::fmt::Debug for DIAGNOSTIC_BUFFER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "DIAGNOSTIC_BUFFER {{ CallerType: {:?}, Anonymous1: {:?} }}",
-            self.CallerType, self.Anonymous1
-        )
+        write!(f, "DIAGNOSTIC_BUFFER {{ CallerType: {:?}, Anonymous1: {:?} }}", self.CallerType, self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -559,11 +419,7 @@ impl Default for WAKE_TIMER_INFO {
 }
 impl std::fmt::Debug for WAKE_TIMER_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WAKE_TIMER_INFO {{ ReasonContext: {:?} }}",
-            self.ReasonContext
-        )
+        write!(f, "WAKE_TIMER_INFO {{ ReasonContext: {:?} }}", self.ReasonContext)
     }
 }
 #[repr(C)]
@@ -597,16 +453,10 @@ impl Default for PROCESSOR_IDLE_TIMES {
 }
 impl std::fmt::Debug for PROCESSOR_IDLE_TIMES {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PROCESSOR_IDLE_TIMES {{ Reserved: {:?} }}",
-            self.Reserved
-        )
+        write!(f, "PROCESSOR_IDLE_TIMES {{ Reserved: {:?} }}", self.Reserved)
     }
 }
-pub type PROCESSOR_IDLE_HANDLER = std::option::Option<
-    unsafe extern "system" fn(Context: usize, IdleTimes: *mut PROCESSOR_IDLE_TIMES) -> NTSTATUS,
->;
+pub type PROCESSOR_IDLE_HANDLER = std::option::Option<unsafe extern "system" fn(Context: usize, IdleTimes: *mut PROCESSOR_IDLE_TIMES) -> NTSTATUS>;
 pub type PPROCESSOR_IDLE_HANDLER = PROCESSOR_IDLE_HANDLER;
 #[repr(C)]
 pub struct PROCESSOR_IDLE_STATE {
@@ -708,11 +558,7 @@ impl Default for PO_WAKE_SOURCE_HISTORY {
 }
 impl std::fmt::Debug for PO_WAKE_SOURCE_HISTORY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PO_WAKE_SOURCE_HISTORY {{ Offsets: {:?} }}",
-            self.Offsets
-        )
+        write!(f, "PO_WAKE_SOURCE_HISTORY {{ Offsets: {:?} }}", self.Offsets)
     }
 }
 #[repr(i32)]
@@ -765,11 +611,7 @@ impl Default for PO_WAKE_SOURCE_DEVICE {
 }
 impl std::fmt::Debug for PO_WAKE_SOURCE_DEVICE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PO_WAKE_SOURCE_DEVICE {{ Header: {:?}, InstancePath: {:?} }}",
-            self.Header, self.InstancePath
-        )
+        write!(f, "PO_WAKE_SOURCE_DEVICE {{ Header: {:?}, InstancePath: {:?} }}", self.Header, self.InstancePath)
     }
 }
 #[repr(C)]
@@ -784,11 +626,7 @@ impl Default for PO_WAKE_SOURCE_FIXED {
 }
 impl std::fmt::Debug for PO_WAKE_SOURCE_FIXED {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PO_WAKE_SOURCE_FIXED {{ Header: {:?}, FixedWakeSourceType: {:?} }}",
-            self.Header, self.FixedWakeSourceType
-        )
+        write!(f, "PO_WAKE_SOURCE_FIXED {{ Header: {:?}, FixedWakeSourceType: {:?} }}", self.Header, self.FixedWakeSourceType)
     }
 }
 #[repr(C)]
@@ -803,11 +641,7 @@ impl Default for PO_WAKE_SOURCE_INTERNAL {
 }
 impl std::fmt::Debug for PO_WAKE_SOURCE_INTERNAL {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PO_WAKE_SOURCE_INTERNAL {{ Header: {:?}, InternalWakeSourceType: {:?} }}",
-            self.Header, self.InternalWakeSourceType
-        )
+        write!(f, "PO_WAKE_SOURCE_INTERNAL {{ Header: {:?}, InternalWakeSourceType: {:?} }}", self.Header, self.InternalWakeSourceType)
     }
 }
 #[repr(C)]
@@ -822,11 +656,7 @@ impl Default for PO_WAKE_SOURCE_TIMER {
 }
 impl std::fmt::Debug for PO_WAKE_SOURCE_TIMER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PO_WAKE_SOURCE_TIMER {{ Header: {:?}, Reason: {:?} }}",
-            self.Header, self.Reason
-        )
+        write!(f, "PO_WAKE_SOURCE_TIMER {{ Header: {:?}, Reason: {:?} }}", self.Header, self.Reason)
     }
 }
 #[repr(C)]
@@ -854,11 +684,7 @@ impl Default for POWER_REQUEST_1_1 {
 }
 impl std::fmt::Debug for POWER_REQUEST_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_REQUEST_1_1 {{ PowerRequestCount: {:?}, DiagnosticBuffer: {:?} }}",
-            self.PowerRequestCount, self.DiagnosticBuffer
-        )
+        write!(f, "POWER_REQUEST_1_1 {{ PowerRequestCount: {:?}, DiagnosticBuffer: {:?} }}", self.PowerRequestCount, self.DiagnosticBuffer)
     }
 }
 #[repr(C)]
@@ -874,11 +700,7 @@ impl Default for POWER_REQUEST_1_2 {
 }
 impl std::fmt::Debug for POWER_REQUEST_1_2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_REQUEST_1_2 {{ PowerRequestCount: {:?}, DiagnosticBuffer: {:?} }}",
-            self.PowerRequestCount, self.DiagnosticBuffer
-        )
+        write!(f, "POWER_REQUEST_1_2 {{ PowerRequestCount: {:?}, DiagnosticBuffer: {:?} }}", self.PowerRequestCount, self.DiagnosticBuffer)
     }
 }
 #[repr(C)]
@@ -894,11 +716,7 @@ impl Default for POWER_REQUEST_1_3 {
 }
 impl std::fmt::Debug for POWER_REQUEST_1_3 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_REQUEST_1_3 {{ PowerRequestCount: {:?}, DiagnosticBuffer: {:?} }}",
-            self.PowerRequestCount, self.DiagnosticBuffer
-        )
+        write!(f, "POWER_REQUEST_1_3 {{ PowerRequestCount: {:?}, DiagnosticBuffer: {:?} }}", self.PowerRequestCount, self.DiagnosticBuffer)
     }
 }
 #[repr(C)]
@@ -914,11 +732,7 @@ impl Default for POWER_REQUEST_1_4 {
 }
 impl std::fmt::Debug for POWER_REQUEST_1_4 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_REQUEST_1_4 {{ PowerRequestCount: {:?}, DiagnosticBuffer: {:?} }}",
-            self.PowerRequestCount, self.DiagnosticBuffer
-        )
+        write!(f, "POWER_REQUEST_1_4 {{ PowerRequestCount: {:?}, DiagnosticBuffer: {:?} }}", self.PowerRequestCount, self.DiagnosticBuffer)
     }
 }
 impl Default for POWER_REQUEST_1 {
@@ -953,11 +767,7 @@ impl Default for POWER_REQUEST_LIST {
 }
 impl std::fmt::Debug for POWER_REQUEST_LIST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_REQUEST_LIST {{ PowerRequestOffsets: {:?} }}",
-            self.PowerRequestOffsets
-        )
+        write!(f, "POWER_REQUEST_LIST {{ PowerRequestOffsets: {:?} }}", self.PowerRequestOffsets)
     }
 }
 #[repr(i32)]
@@ -972,18 +782,8 @@ pub enum POWER_STATE_HANDLER_TYPE {
     PowerStateSleeping4Firmware = 6,
     PowerStateMaximum = 7,
 }
-pub type PENTER_STATE_SYSTEM_HANDLER = std::option::Option<
-    unsafe extern "system" fn(SystemContext: *mut std::ffi::c_void) -> NTSTATUS,
->;
-pub type PENTER_STATE_HANDLER = std::option::Option<
-    unsafe extern "system" fn(
-        Context: *mut std::ffi::c_void,
-        SystemHandler: PENTER_STATE_SYSTEM_HANDLER,
-        SystemContext: *mut std::ffi::c_void,
-        NumberProcessors: i32,
-        Number: *mut i32,
-    ) -> NTSTATUS,
->;
+pub type PENTER_STATE_SYSTEM_HANDLER = std::option::Option<unsafe extern "system" fn(SystemContext: *mut std::ffi::c_void) -> NTSTATUS>;
+pub type PENTER_STATE_HANDLER = std::option::Option<unsafe extern "system" fn(Context: *mut std::ffi::c_void, SystemHandler: PENTER_STATE_SYSTEM_HANDLER, SystemContext: *mut std::ffi::c_void, NumberProcessors: i32, Number: *mut i32) -> NTSTATUS>;
 #[repr(C)]
 pub struct POWER_STATE_HANDLER {
     pub Type: POWER_STATE_HANDLER_TYPE,
@@ -999,20 +799,10 @@ impl Default for POWER_STATE_HANDLER {
 }
 impl std::fmt::Debug for POWER_STATE_HANDLER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_STATE_HANDLER {{ Type: {:?}, Spare: {:?}, Handler: {:?} }}",
-            self.Type, self.Spare, self.Handler
-        )
+        write!(f, "POWER_STATE_HANDLER {{ Type: {:?}, Spare: {:?}, Handler: {:?} }}", self.Type, self.Spare, self.Handler)
     }
 }
-pub type PENTER_STATE_NOTIFY_HANDLER = std::option::Option<
-    unsafe extern "system" fn(
-        State: POWER_STATE_HANDLER_TYPE,
-        Context: *mut std::ffi::c_void,
-        Entering: BOOLEAN,
-    ) -> NTSTATUS,
->;
+pub type PENTER_STATE_NOTIFY_HANDLER = std::option::Option<unsafe extern "system" fn(State: POWER_STATE_HANDLER_TYPE, Context: *mut std::ffi::c_void, Entering: BOOLEAN) -> NTSTATUS>;
 #[repr(C)]
 pub struct POWER_STATE_NOTIFY_HANDLER {
     pub Handler: PENTER_STATE_NOTIFY_HANDLER,
@@ -1025,11 +815,7 @@ impl Default for POWER_STATE_NOTIFY_HANDLER {
 }
 impl std::fmt::Debug for POWER_STATE_NOTIFY_HANDLER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_STATE_NOTIFY_HANDLER {{ Handler: {:?} }}",
-            self.Handler
-        )
+        write!(f, "POWER_STATE_NOTIFY_HANDLER {{ Handler: {:?} }}", self.Handler)
     }
 }
 #[repr(C)]
@@ -1045,11 +831,7 @@ impl Default for POWER_REQUEST_ACTION_INTERNAL {
 }
 impl std::fmt::Debug for POWER_REQUEST_ACTION_INTERNAL {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_REQUEST_ACTION_INTERNAL {{ RequestType: {:?} }}",
-            self.RequestType
-        )
+        write!(f, "POWER_REQUEST_ACTION_INTERNAL {{ RequestType: {:?} }}", self.RequestType)
     }
 }
 #[repr(i32)]
@@ -1237,13 +1019,7 @@ impl POWER_S0_LOW_POWER_IDLE_INFO_1 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(
-        Storage: BOOLEAN,
-        WiFi: BOOLEAN,
-        Mbn: BOOLEAN,
-        Ethernet: BOOLEAN,
-        Reserved: BOOLEAN,
-    ) -> BitfieldUnit<[u8; 1usize]> {
+    pub fn new_bitfield_1(Storage: BOOLEAN, WiFi: BOOLEAN, Mbn: BOOLEAN, Ethernet: BOOLEAN, Reserved: BOOLEAN) -> BitfieldUnit<[u8; 1usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let Storage: u8 = unsafe { std::mem::transmute(Storage) };
@@ -1320,11 +1096,7 @@ impl POWER_S0_LOW_POWER_IDLE_INFO_2 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(
-        DisconnectInStandby: BOOLEAN,
-        EnforceDs: BOOLEAN,
-        Reserved: BOOLEAN,
-    ) -> BitfieldUnit<[u8; 1usize]> {
+    pub fn new_bitfield_1(DisconnectInStandby: BOOLEAN, EnforceDs: BOOLEAN, Reserved: BOOLEAN) -> BitfieldUnit<[u8; 1usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let DisconnectInStandby: u8 = unsafe { std::mem::transmute(DisconnectInStandby) };
@@ -1348,11 +1120,7 @@ impl Default for POWER_S0_LOW_POWER_IDLE_INFO {
 }
 impl std::fmt::Debug for POWER_S0_LOW_POWER_IDLE_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_S0_LOW_POWER_IDLE_INFO {{ DisconnectedReason: {:?}, CsDeviceCompliance: {:?}, Policy: {:?} }}",
-            self.DisconnectedReason, self.CsDeviceCompliance, self.Policy
-        )
+        write!(f, "POWER_S0_LOW_POWER_IDLE_INFO {{ DisconnectedReason: {:?}, CsDeviceCompliance: {:?}, Policy: {:?} }}", self.DisconnectedReason, self.CsDeviceCompliance, self.Policy)
     }
 }
 #[repr(C)]
@@ -1367,11 +1135,7 @@ impl Default for POWER_INFORMATION_INTERNAL_HEADER {
 }
 impl std::fmt::Debug for POWER_INFORMATION_INTERNAL_HEADER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_INFORMATION_INTERNAL_HEADER {{ InternalType: {:?} }}",
-            self.InternalType
-        )
+        write!(f, "POWER_INFORMATION_INTERNAL_HEADER {{ InternalType: {:?} }}", self.InternalType)
     }
 }
 #[repr(C)]
@@ -1386,11 +1150,7 @@ impl Default for POWER_USER_ABSENCE_PREDICTION {
 }
 impl std::fmt::Debug for POWER_USER_ABSENCE_PREDICTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_USER_ABSENCE_PREDICTION {{ Header: {:?} }}",
-            self.Header
-        )
+        write!(f, "POWER_USER_ABSENCE_PREDICTION {{ Header: {:?} }}", self.Header)
     }
 }
 #[repr(C)]
@@ -1419,11 +1179,7 @@ impl Default for POWER_PROCESSOR_LATENCY_HINT {
 }
 impl std::fmt::Debug for POWER_PROCESSOR_LATENCY_HINT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_PROCESSOR_LATENCY_HINT {{ PowerInformationInternalHeader: {:?} }}",
-            self.PowerInformationInternalHeader
-        )
+        write!(f, "POWER_PROCESSOR_LATENCY_HINT {{ PowerInformationInternalHeader: {:?} }}", self.PowerInformationInternalHeader)
     }
 }
 #[repr(C)]
@@ -1438,11 +1194,7 @@ impl Default for POWER_STANDBY_NETWORK_REQUEST {
 }
 impl std::fmt::Debug for POWER_STANDBY_NETWORK_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_STANDBY_NETWORK_REQUEST {{ PowerInformationInternalHeader: {:?} }}",
-            self.PowerInformationInternalHeader
-        )
+        write!(f, "POWER_STANDBY_NETWORK_REQUEST {{ PowerInformationInternalHeader: {:?} }}", self.PowerInformationInternalHeader)
     }
 }
 #[repr(C)]
@@ -1457,11 +1209,7 @@ impl Default for POWER_SET_BACKGROUND_TASK_STATE {
 }
 impl std::fmt::Debug for POWER_SET_BACKGROUND_TASK_STATE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_SET_BACKGROUND_TASK_STATE {{ PowerInformationInternalHeader: {:?} }}",
-            self.PowerInformationInternalHeader
-        )
+        write!(f, "POWER_SET_BACKGROUND_TASK_STATE {{ PowerInformationInternalHeader: {:?} }}", self.PowerInformationInternalHeader)
     }
 }
 #[repr(C)]
@@ -1478,11 +1226,7 @@ impl Default for POWER_BOOT_SESSION_STANDBY_ACTIVATION_INFO {
 }
 impl std::fmt::Debug for POWER_BOOT_SESSION_STANDBY_ACTIVATION_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_BOOT_SESSION_STANDBY_ACTIVATION_INFO {{ PerActivatorClientTotalActiveTime: {:?} }}",
-            self.PerActivatorClientTotalActiveTime
-        )
+        write!(f, "POWER_BOOT_SESSION_STANDBY_ACTIVATION_INFO {{ PerActivatorClientTotalActiveTime: {:?} }}", self.PerActivatorClientTotalActiveTime)
     }
 }
 #[repr(C)]
@@ -1500,11 +1244,7 @@ impl Default for POWER_SESSION_POWER_STATE {
 }
 impl std::fmt::Debug for POWER_SESSION_POWER_STATE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_SESSION_POWER_STATE {{ Header: {:?} }}",
-            self.Header
-        )
+        write!(f, "POWER_SESSION_POWER_STATE {{ Header: {:?} }}", self.Header)
     }
 }
 #[repr(C)]
@@ -1535,11 +1275,7 @@ impl Default for POWER_INTERNAL_HOST_ENERGY_SAVER_STATE {
 }
 impl std::fmt::Debug for POWER_INTERNAL_HOST_ENERGY_SAVER_STATE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_INTERNAL_HOST_ENERGY_SAVER_STATE {{ Header: {:?} }}",
-            self.Header
-        )
+        write!(f, "POWER_INTERNAL_HOST_ENERGY_SAVER_STATE {{ Header: {:?} }}", self.Header)
     }
 }
 #[repr(C)]
@@ -1554,11 +1290,7 @@ impl Default for POWER_INTERNAL_PROCESSOR_BRANDED_FREQENCY_INPUT {
 }
 impl std::fmt::Debug for POWER_INTERNAL_PROCESSOR_BRANDED_FREQENCY_INPUT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "POWER_INTERNAL_PROCESSOR_BRANDED_FREQENCY_INPUT {{ InternalType: {:?} }}",
-            self.InternalType
-        )
+        write!(f, "POWER_INTERNAL_PROCESSOR_BRANDED_FREQENCY_INPUT {{ InternalType: {:?} }}", self.InternalType)
     }
 }
 #[repr(C)]
@@ -1593,37 +1325,19 @@ impl std::fmt::Debug for POWER_INTERNAL_BOOTAPP_DIAGNOSTIC {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtPowerInformation(
-        InformationLevel: POWER_INFORMATION_LEVEL,
-        InputBuffer: *mut std::ffi::c_void,
-        InputBufferLength: u32,
-        OutputBuffer: *mut std::ffi::c_void,
-        OutputBufferLength: u32,
-    ) -> NTSTATUS;
+    pub fn NtPowerInformation(InformationLevel: POWER_INFORMATION_LEVEL, InputBuffer: *mut std::ffi::c_void, InputBufferLength: u32, OutputBuffer: *mut std::ffi::c_void, OutputBufferLength: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetThreadExecutionState(
-        NewFlags: EXECUTION_STATE,
-        PreviousFlags: *mut EXECUTION_STATE,
-    ) -> NTSTATUS;
+    pub fn NtSetThreadExecutionState(NewFlags: EXECUTION_STATE, PreviousFlags: *mut EXECUTION_STATE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtInitiatePowerAction(
-        SystemAction: POWER_ACTION,
-        LightestSystemState: SYSTEM_POWER_STATE,
-        Flags: u32,
-        Asynchronous: BOOLEAN,
-    ) -> NTSTATUS;
+    pub fn NtInitiatePowerAction(SystemAction: POWER_ACTION, LightestSystemState: SYSTEM_POWER_STATE, Flags: u32, Asynchronous: BOOLEAN) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetSystemPowerState(
-        SystemAction: POWER_ACTION,
-        LightestSystemState: SYSTEM_POWER_STATE,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn NtSetSystemPowerState(SystemAction: POWER_ACTION, LightestSystemState: SYSTEM_POWER_STATE, Flags: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

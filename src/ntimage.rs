@@ -12,16 +12,6 @@ pub const IMAGE_DYNAMIC_RELOCATION_MM_SHARED_USER_DATA_VA: u32 = 2147352576;
 pub const IMAGE_DEBUG_POGO_SIGNATURE_LTCG: &[u8; 4] = b"LTCG";
 pub const IMAGE_DEBUG_POGO_SIGNATURE_PGU: &[u8; 4] = b"PGU\0";
 pub const IMAGE_DYNAMIC_RELOCATION_KI_USER_SHARED_DATA64: u64 = 18446734727860715520;
-pub const IMAGE_DYNAMIC_RELOCATION_GUARD_RF_PROLOGUE: u32 = 1;
-pub const IMAGE_DYNAMIC_RELOCATION_GUARD_RF_EPILOGUE: u32 = 2;
-pub const IMAGE_DYNAMIC_RELOCATION_GUARD_IMPORT_CONTROL_TRANSFER: u32 = 3;
-pub const IMAGE_DYNAMIC_RELOCATION_GUARD_INDIR_CONTROL_TRANSFER: u32 = 4;
-pub const IMAGE_DYNAMIC_RELOCATION_GUARD_SWITCHTABLE_BRANCH: u32 = 5;
-pub const IMAGE_DYNAMIC_RELOCATION_FUNCTION_OVERRIDE: u32 = 7;
-pub const IMAGE_FUNCTION_OVERRIDE_INVALID: u32 = 0;
-pub const IMAGE_FUNCTION_OVERRIDE_X64_REL32: u32 = 1;
-pub const IMAGE_FUNCTION_OVERRIDE_ARM64_BRANCH26: u32 = 2;
-pub const IMAGE_FUNCTION_OVERRIDE_ARM64_THUNK: u32 = 3;
 #[repr(C)]
 pub struct IMAGE_DEBUG_POGO_ENTRY {
     pub Rva: u32,
@@ -65,12 +55,7 @@ impl Default for IMAGE_RELOCATION_RECORD {
 }
 impl std::fmt::Debug for IMAGE_RELOCATION_RECORD {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "IMAGE_RELOCATION_RECORD {{ Offset : {:?}, Type : {:?} }}",
-            self.Offset(),
-            self.Type()
-        )
+        write!(f, "IMAGE_RELOCATION_RECORD {{ Offset : {:?}, Type : {:?} }}", self.Offset(), self.Type())
     }
 }
 impl IMAGE_RELOCATION_RECORD {
@@ -147,12 +132,7 @@ impl Default for IMAGE_CHPE_RANGE_ENTRY_1_1 {
 }
 impl std::fmt::Debug for IMAGE_CHPE_RANGE_ENTRY_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "IMAGE_CHPE_RANGE_ENTRY_1_1 {{ NativeCode : {:?}, AddressBits : {:?} }}",
-            self.NativeCode(),
-            self.AddressBits()
-        )
+        write!(f, "IMAGE_CHPE_RANGE_ENTRY_1_1 {{ NativeCode : {:?}, AddressBits : {:?} }}", self.NativeCode(), self.AddressBits())
     }
 }
 impl IMAGE_CHPE_RANGE_ENTRY_1_1 {
@@ -197,11 +177,7 @@ impl Default for IMAGE_CHPE_RANGE_ENTRY {
 }
 impl std::fmt::Debug for IMAGE_CHPE_RANGE_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "IMAGE_CHPE_RANGE_ENTRY {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "IMAGE_CHPE_RANGE_ENTRY {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -281,13 +257,7 @@ impl Default for IMAGE_DVRT_ARM64X_FIXUP_RECORD {
 }
 impl std::fmt::Debug for IMAGE_DVRT_ARM64X_FIXUP_RECORD {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "IMAGE_DVRT_ARM64X_FIXUP_RECORD {{ Offset : {:?}, Type : {:?}, Size : {:?} }}",
-            self.Offset(),
-            self.Type(),
-            self.Size()
-        )
+        write!(f, "IMAGE_DVRT_ARM64X_FIXUP_RECORD {{ Offset : {:?}, Type : {:?}, Size : {:?} }}", self.Offset(), self.Type(), self.Size())
     }
 }
 impl IMAGE_DVRT_ARM64X_FIXUP_RECORD {
@@ -337,14 +307,7 @@ impl Default for IMAGE_DVRT_ARM64X_DELTA_FIXUP_RECORD {
 }
 impl std::fmt::Debug for IMAGE_DVRT_ARM64X_DELTA_FIXUP_RECORD {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "IMAGE_DVRT_ARM64X_DELTA_FIXUP_RECORD {{ Offset : {:?}, Type : {:?}, Sign : {:?}, Scale : {:?} }}",
-            self.Offset(),
-            self.Type(),
-            self.Sign(),
-            self.Scale()
-        )
+        write!(f, "IMAGE_DVRT_ARM64X_DELTA_FIXUP_RECORD {{ Offset : {:?}, Type : {:?}, Sign : {:?}, Scale : {:?} }}", self.Offset(), self.Type(), self.Sign(), self.Scale())
     }
 }
 impl IMAGE_DVRT_ARM64X_DELTA_FIXUP_RECORD {
@@ -381,12 +344,7 @@ impl IMAGE_DVRT_ARM64X_DELTA_FIXUP_RECORD {
         self._bitfield_1.set(15usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        Offset: u16,
-        Type: u16,
-        Sign: u16,
-        Scale: u16,
-    ) -> BitfieldUnit<[u8; 2usize]> {
+    pub fn new_bitfield_1(Offset: u16, Type: u16, Sign: u16, Scale: u16) -> BitfieldUnit<[u8; 2usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
         bitfield_unit.set(0usize, 12u8, Offset as u64);
         bitfield_unit.set(12usize, 2u8, Type as u64);

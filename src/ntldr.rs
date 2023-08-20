@@ -5,10 +5,7 @@ use windows::{
         Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
         System::{
             Kernel::{LIST_ENTRY, RTL_BALANCED_NODE, SINGLE_LIST_ENTRY, STRING},
-            SystemServices::{
-                IMAGE_BASE_RELOCATION, IMAGE_RESOURCE_DATA_ENTRY, IMAGE_RESOURCE_DIRECTORY,
-                IMAGE_RESOURCE_DIRECTORY_STRING,
-            },
+            SystemServices::{IMAGE_BASE_RELOCATION, IMAGE_RESOURCE_DATA_ENTRY, IMAGE_RESOURCE_DIRECTORY, IMAGE_RESOURCE_DIRECTORY_STRING},
             WindowsProgramming::{IMAGE_DELAYLOAD_DESCRIPTOR, IMAGE_THUNK_DATA64},
         },
     },
@@ -65,13 +62,7 @@ pub const RESOURCE_TYPE_LEVEL: u32 = 0;
 pub const RESOURCE_NAME_LEVEL: u32 = 1;
 pub const RESOURCE_LANGUAGE_LEVEL: u32 = 2;
 pub const RESOURCE_DATA_LEVEL: u32 = 3;
-pub type PLDR_INIT_ROUTINE = std::option::Option<
-    unsafe extern "system" fn(
-        DllHandle: *mut std::ffi::c_void,
-        Reason: u32,
-        Context: *mut std::ffi::c_void,
-    ) -> BOOLEAN,
->;
+pub type PLDR_INIT_ROUTINE = std::option::Option<unsafe extern "system" fn(DllHandle: *mut std::ffi::c_void, Reason: u32, Context: *mut std::ffi::c_void) -> BOOLEAN>;
 #[repr(C)]
 pub struct LDR_SERVICE_TAG_RECORD {
     pub Next: *mut LDR_SERVICE_TAG_RECORD,
@@ -156,11 +147,7 @@ impl Default for LDR_DDAG_NODE {
 }
 impl std::fmt::Debug for LDR_DDAG_NODE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "LDR_DDAG_NODE {{ ServiceTagList: {:?}, Anonymous1: {:?}, IncomingDependencies: {:?}, State: {:?} }}",
-            self.ServiceTagList, self.Anonymous1, self.IncomingDependencies, self.State
-        )
+        write!(f, "LDR_DDAG_NODE {{ ServiceTagList: {:?}, Anonymous1: {:?}, IncomingDependencies: {:?}, State: {:?} }}", self.ServiceTagList, self.Anonymous1, self.IncomingDependencies, self.State)
     }
 }
 #[repr(C)]
@@ -177,11 +164,7 @@ impl Default for LDR_DEPENDENCY_RECORD {
 }
 impl std::fmt::Debug for LDR_DEPENDENCY_RECORD {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "LDR_DEPENDENCY_RECORD {{ DependencyNode: {:?}, IncomingDependencyNode: {:?} }}",
-            self.DependencyNode, self.IncomingDependencyNode
-        )
+        write!(f, "LDR_DEPENDENCY_RECORD {{ DependencyNode: {:?}, IncomingDependencyNode: {:?} }}", self.DependencyNode, self.IncomingDependencyNode)
     }
 }
 #[repr(i32)]
@@ -555,37 +538,7 @@ impl LDR_DATA_TABLE_ENTRY_2_1 {
         self._bitfield_1.set(31usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        PackagedBinary: u32,
-        MarkedForRemoval: u32,
-        ImageDll: u32,
-        LoadNotificationsSent: u32,
-        TelemetryEntryProcessed: u32,
-        ProcessStaticImport: u32,
-        InLegacyLists: u32,
-        InIndexes: u32,
-        ShimDll: u32,
-        InExceptionTable: u32,
-        ReservedFlags1: u32,
-        LoadInProgress: u32,
-        LoadConfigProcessed: u32,
-        EntryProcessed: u32,
-        ProtectDelayLoad: u32,
-        ReservedFlags3: u32,
-        DontCallForThreads: u32,
-        ProcessAttachCalled: u32,
-        ProcessAttachFailed: u32,
-        CorDeferredValidate: u32,
-        CorImage: u32,
-        DontRelocate: u32,
-        CorILOnly: u32,
-        ChpeImage: u32,
-        ChpeEmulatorImage: u32,
-        ReservedFlags5: u32,
-        Redirected: u32,
-        ReservedFlags6: u32,
-        CompatDatabaseProcessed: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(PackagedBinary: u32, MarkedForRemoval: u32, ImageDll: u32, LoadNotificationsSent: u32, TelemetryEntryProcessed: u32, ProcessStaticImport: u32, InLegacyLists: u32, InIndexes: u32, ShimDll: u32, InExceptionTable: u32, ReservedFlags1: u32, LoadInProgress: u32, LoadConfigProcessed: u32, EntryProcessed: u32, ProtectDelayLoad: u32, ReservedFlags3: u32, DontCallForThreads: u32, ProcessAttachCalled: u32, ProcessAttachFailed: u32, CorDeferredValidate: u32, CorImage: u32, DontRelocate: u32, CorILOnly: u32, ChpeImage: u32, ChpeEmulatorImage: u32, ReservedFlags5: u32, Redirected: u32, ReservedFlags6: u32, CompatDatabaseProcessed: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, PackagedBinary as u64);
         bitfield_unit.set(1usize, 1u8, MarkedForRemoval as u64);
@@ -636,28 +589,12 @@ impl Default for LDR_DATA_TABLE_ENTRY {
 }
 impl std::fmt::Debug for LDR_DATA_TABLE_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "LDR_DATA_TABLE_ENTRY {{ Anonymous1: {:?}, EntryPoint: {:?}, Anonymous2: {:?}, EntryPointActivationContext: {:?}, DdagNode: {:?}, LoadContext: {:?}, LoadReason: {:?}, HotPatchState: {:?} }}",
-            self.Anonymous1,
-            self.EntryPoint,
-            self.Anonymous2,
-            self.EntryPointActivationContext,
-            self.DdagNode,
-            self.LoadContext,
-            self.LoadReason,
-            self.HotPatchState
-        )
+        write!(f, "LDR_DATA_TABLE_ENTRY {{ Anonymous1: {:?}, EntryPoint: {:?}, Anonymous2: {:?}, EntryPointActivationContext: {:?}, DdagNode: {:?}, LoadContext: {:?}, LoadReason: {:?}, HotPatchState: {:?} }}", self.Anonymous1, self.EntryPoint, self.Anonymous2, self.EntryPointActivationContext, self.DdagNode, self.LoadContext, self.LoadReason, self.HotPatchState)
     }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrLoadDll(
-        DllPath: PWSTR,
-        DllCharacteristics: *mut u32,
-        DllName: *mut UNICODE_STRING,
-        DllHandle: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrLoadDll(DllPath: PWSTR, DllCharacteristics: *mut u32, DllName: *mut UNICODE_STRING, DllHandle: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -665,53 +602,27 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrGetDllHandle(
-        DllPath: PWSTR,
-        DllCharacteristics: *mut u32,
-        DllName: *mut UNICODE_STRING,
-        DllHandle: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrGetDllHandle(DllPath: PWSTR, DllCharacteristics: *mut u32, DllName: *mut UNICODE_STRING, DllHandle: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrGetDllHandleEx(
-        Flags: u32,
-        DllPath: PWSTR,
-        DllCharacteristics: *mut u32,
-        DllName: *mut UNICODE_STRING,
-        DllHandle: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrGetDllHandleEx(Flags: u32, DllPath: PWSTR, DllCharacteristics: *mut u32, DllName: *mut UNICODE_STRING, DllHandle: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrGetDllHandleByMapping(
-        BaseAddress: *mut std::ffi::c_void,
-        DllHandle: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrGetDllHandleByMapping(BaseAddress: *mut std::ffi::c_void, DllHandle: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrGetDllHandleByName(
-        BaseDllName: *mut UNICODE_STRING,
-        FullDllName: *mut UNICODE_STRING,
-        DllHandle: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrGetDllHandleByName(BaseDllName: *mut UNICODE_STRING, FullDllName: *mut UNICODE_STRING, DllHandle: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrGetDllFullName(
-        DllHandle: *mut std::ffi::c_void,
-        FullDllName: *mut UNICODE_STRING,
-    ) -> NTSTATUS;
+    pub fn LdrGetDllFullName(DllHandle: *mut std::ffi::c_void, FullDllName: *mut UNICODE_STRING) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrGetDllPath(
-        DllName: PCWSTR,
-        Flags: u32,
-        DllPath: *mut PWSTR,
-        SearchPaths: *mut PWSTR,
-    ) -> NTSTATUS;
+    pub fn LdrGetDllPath(DllName: PCWSTR, Flags: u32, DllPath: *mut PWSTR, SearchPaths: *mut PWSTR) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -727,49 +638,23 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrGetProcedureAddress(
-        DllHandle: *mut std::ffi::c_void,
-        ProcedureName: *mut STRING,
-        ProcedureNumber: u32,
-        ProcedureAddress: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrGetProcedureAddress(DllHandle: *mut std::ffi::c_void, ProcedureName: *mut STRING, ProcedureNumber: u32, ProcedureAddress: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrGetProcedureAddressEx(
-        DllHandle: *mut std::ffi::c_void,
-        ProcedureName: *mut STRING,
-        ProcedureNumber: u32,
-        ProcedureAddress: *mut *mut std::ffi::c_void,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn LdrGetProcedureAddressEx(DllHandle: *mut std::ffi::c_void, ProcedureName: *mut STRING, ProcedureNumber: u32, ProcedureAddress: *mut *mut std::ffi::c_void, Flags: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrGetKnownDllSectionHandle(
-        DllName: PCWSTR,
-        KnownDlls32: BOOLEAN,
-        Section: *mut HANDLE,
-    ) -> NTSTATUS;
+    pub fn LdrGetKnownDllSectionHandle(DllName: PCWSTR, KnownDlls32: BOOLEAN, Section: *mut HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrGetProcedureAddressForCaller(
-        DllHandle: *mut std::ffi::c_void,
-        ProcedureName: *mut STRING,
-        ProcedureNumber: u32,
-        ProcedureAddress: *mut *mut std::ffi::c_void,
-        Flags: u32,
-        Callback: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrGetProcedureAddressForCaller(DllHandle: *mut std::ffi::c_void, ProcedureName: *mut STRING, ProcedureNumber: u32, ProcedureAddress: *mut *mut std::ffi::c_void, Flags: u32, Callback: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrLockLoaderLock(
-        Flags: u32,
-        Disposition: *mut u32,
-        Cookie: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrLockLoaderLock(Flags: u32, Disposition: *mut u32, Cookie: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -777,63 +662,28 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrRelocateImage(
-        NewBase: *mut std::ffi::c_void,
-        LoaderName: PSTR,
-        Success: NTSTATUS,
-        Conflict: NTSTATUS,
-        Invalid: NTSTATUS,
-    ) -> NTSTATUS;
+    pub fn LdrRelocateImage(NewBase: *mut std::ffi::c_void, LoaderName: PSTR, Success: NTSTATUS, Conflict: NTSTATUS, Invalid: NTSTATUS) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrRelocateImageWithBias(
-        NewBase: *mut std::ffi::c_void,
-        Bias: i64,
-        LoaderName: PSTR,
-        Success: NTSTATUS,
-        Conflict: NTSTATUS,
-        Invalid: NTSTATUS,
-    ) -> NTSTATUS;
+    pub fn LdrRelocateImageWithBias(NewBase: *mut std::ffi::c_void, Bias: i64, LoaderName: PSTR, Success: NTSTATUS, Conflict: NTSTATUS, Invalid: NTSTATUS) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrProcessRelocationBlock(
-        VA: usize,
-        SizeOfBlock: u32,
-        NextOffset: *mut u16,
-        Diff: isize,
-    ) -> *mut IMAGE_BASE_RELOCATION;
+    pub fn LdrProcessRelocationBlock(VA: usize, SizeOfBlock: u32, NextOffset: *mut u16, Diff: isize) -> *mut IMAGE_BASE_RELOCATION;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrProcessRelocationBlockEx(
-        Machine: u32,
-        VA: usize,
-        SizeOfBlock: u32,
-        NextOffset: *mut u16,
-        Diff: isize,
-    ) -> *mut IMAGE_BASE_RELOCATION;
+    pub fn LdrProcessRelocationBlockEx(Machine: u32, VA: usize, SizeOfBlock: u32, NextOffset: *mut u16, Diff: isize) -> *mut IMAGE_BASE_RELOCATION;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrVerifyMappedImageMatchesChecksum(
-        BaseAddress: *mut std::ffi::c_void,
-        NumberOfBytes: usize,
-        FileLength: u32,
-    ) -> BOOLEAN;
+    pub fn LdrVerifyMappedImageMatchesChecksum(BaseAddress: *mut std::ffi::c_void, NumberOfBytes: usize, FileLength: u32) -> BOOLEAN;
 }
-pub type PLDR_IMPORT_MODULE_CALLBACK = std::option::Option<
-    unsafe extern "system" fn(Parameter: *mut std::ffi::c_void, ModuleName: PSTR),
->;
+pub type PLDR_IMPORT_MODULE_CALLBACK = std::option::Option<unsafe extern "system" fn(Parameter: *mut std::ffi::c_void, ModuleName: PSTR)>;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrVerifyImageMatchesChecksum(
-        ImageFileHandle: HANDLE,
-        ImportCallbackRoutine: PLDR_IMPORT_MODULE_CALLBACK,
-        ImportCallbackParameter: *mut std::ffi::c_void,
-        ImageCharacteristics: *mut u16,
-    ) -> NTSTATUS;
+    pub fn LdrVerifyImageMatchesChecksum(ImageFileHandle: HANDLE, ImportCallbackRoutine: PLDR_IMPORT_MODULE_CALLBACK, ImportCallbackParameter: *mut std::ffi::c_void, ImageCharacteristics: *mut u16) -> NTSTATUS;
 }
 #[repr(C)]
 pub struct LDR_IMPORT_CALLBACK_INFO {
@@ -847,11 +697,7 @@ impl Default for LDR_IMPORT_CALLBACK_INFO {
 }
 impl std::fmt::Debug for LDR_IMPORT_CALLBACK_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "LDR_IMPORT_CALLBACK_INFO {{ ImportCallbackRoutine: {:?} }}",
-            self.ImportCallbackRoutine
-        )
+        write!(f, "LDR_IMPORT_CALLBACK_INFO {{ ImportCallbackRoutine: {:?} }}", self.ImportCallbackRoutine)
     }
 }
 #[repr(C)]
@@ -887,27 +733,16 @@ impl Default for LDR_VERIFY_IMAGE_INFO {
 }
 impl std::fmt::Debug for LDR_VERIFY_IMAGE_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "LDR_VERIFY_IMAGE_INFO {{ CallbackInfo: {:?}, SectionInfo: {:?} }}",
-            self.CallbackInfo, self.SectionInfo
-        )
+        write!(f, "LDR_VERIFY_IMAGE_INFO {{ CallbackInfo: {:?}, SectionInfo: {:?} }}", self.CallbackInfo, self.SectionInfo)
     }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrVerifyImageMatchesChecksumEx(
-        ImageFileHandle: HANDLE,
-        VerifyInfo: *mut LDR_VERIFY_IMAGE_INFO,
-    ) -> NTSTATUS;
+    pub fn LdrVerifyImageMatchesChecksumEx(ImageFileHandle: HANDLE, VerifyInfo: *mut LDR_VERIFY_IMAGE_INFO) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrQueryModuleServiceTags(
-        DllHandle: *mut std::ffi::c_void,
-        ServiceTagBuffer: *mut u32,
-        BufferSize: *mut u32,
-    ) -> NTSTATUS;
+    pub fn LdrQueryModuleServiceTags(DllHandle: *mut std::ffi::c_void, ServiceTagBuffer: *mut u32, BufferSize: *mut u32) -> NTSTATUS;
 }
 #[repr(C)]
 pub struct LDR_DLL_LOADED_NOTIFICATION_DATA {
@@ -961,21 +796,10 @@ impl std::fmt::Debug for LDR_DLL_NOTIFICATION_DATA {
         write!(f, "LDR_DLL_NOTIFICATION_DATA {{ union }}")
     }
 }
-pub type PLDR_DLL_NOTIFICATION_FUNCTION = std::option::Option<
-    unsafe extern "system" fn(
-        NotificationReason: u32,
-        NotificationData: *mut LDR_DLL_NOTIFICATION_DATA,
-        Context: *mut std::ffi::c_void,
-    ),
->;
+pub type PLDR_DLL_NOTIFICATION_FUNCTION = std::option::Option<unsafe extern "system" fn(NotificationReason: u32, NotificationData: *mut LDR_DLL_NOTIFICATION_DATA, Context: *mut std::ffi::c_void)>;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrRegisterDllNotification(
-        Flags: u32,
-        NotificationFunction: PLDR_DLL_NOTIFICATION_FUNCTION,
-        Context: *mut std::ffi::c_void,
-        Cookie: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrRegisterDllNotification(Flags: u32, NotificationFunction: PLDR_DLL_NOTIFICATION_FUNCTION, Context: *mut std::ffi::c_void, Cookie: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -998,11 +822,7 @@ impl Default for LDR_FAILURE_DATA {
 }
 impl std::fmt::Debug for LDR_FAILURE_DATA {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "LDR_FAILURE_DATA {{ DllName: {:?}, AdditionalInfo: {:?} }}",
-            self.DllName, self.AdditionalInfo
-        )
+        write!(f, "LDR_FAILURE_DATA {{ DllName: {:?}, AdditionalInfo: {:?} }}", self.DllName, self.AdditionalInfo)
     }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1034,11 +854,7 @@ impl Default for PS_MITIGATION_AUDIT_OPTIONS_MAP {
 }
 impl std::fmt::Debug for PS_MITIGATION_AUDIT_OPTIONS_MAP {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PS_MITIGATION_AUDIT_OPTIONS_MAP {{ Map: {:?} }}",
-            self.Map
-        )
+        write!(f, "PS_MITIGATION_AUDIT_OPTIONS_MAP {{ Map: {:?} }}", self.Map)
     }
 }
 #[repr(C)]
@@ -1075,12 +891,7 @@ impl Default for PS_SYSTEM_DLL_INIT_BLOCK_1_1 {
 }
 impl std::fmt::Debug for PS_SYSTEM_DLL_INIT_BLOCK_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PS_SYSTEM_DLL_INIT_BLOCK_1_1 {{ CfgOverride : {:?}, Reserved : {:?} }}",
-            self.CfgOverride(),
-            self.Reserved()
-        )
+        write!(f, "PS_SYSTEM_DLL_INIT_BLOCK_1_1 {{ CfgOverride : {:?}, Reserved : {:?} }}", self.CfgOverride(), self.Reserved())
     }
 }
 impl PS_SYSTEM_DLL_INIT_BLOCK_1_1 {
@@ -1125,14 +936,7 @@ impl Default for PS_SYSTEM_DLL_INIT_BLOCK {
 }
 impl std::fmt::Debug for PS_SYSTEM_DLL_INIT_BLOCK {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PS_SYSTEM_DLL_INIT_BLOCK {{ Wow64SharedInformation: {:?}, Anonymous1: {:?}, MitigationOptionsMap: {:?}, MitigationAuditOptionsMap: {:?} }}",
-            self.Wow64SharedInformation,
-            self.Anonymous1,
-            self.MitigationOptionsMap,
-            self.MitigationAuditOptionsMap
-        )
+        write!(f, "PS_SYSTEM_DLL_INIT_BLOCK {{ Wow64SharedInformation: {:?}, Anonymous1: {:?}, MitigationOptionsMap: {:?}, MitigationAuditOptionsMap: {:?} }}", self.Wow64SharedInformation, self.Anonymous1, self.MitigationOptionsMap, self.MitigationAuditOptionsMap)
     }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1141,29 +945,15 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrAddLoadAsDataTable(
-        Module: *mut std::ffi::c_void,
-        FilePath: PWSTR,
-        Size: usize,
-        Handle: HANDLE,
-        ActCtx: *mut ACTIVATION_CONTEXT,
-    ) -> NTSTATUS;
+    pub fn LdrAddLoadAsDataTable(Module: *mut std::ffi::c_void, FilePath: PWSTR, Size: usize, Handle: HANDLE, ActCtx: *mut ACTIVATION_CONTEXT) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrRemoveLoadAsDataTable(
-        InitModule: *mut std::ffi::c_void,
-        BaseModule: *mut *mut std::ffi::c_void,
-        Size: *mut usize,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn LdrRemoveLoadAsDataTable(InitModule: *mut std::ffi::c_void, BaseModule: *mut *mut std::ffi::c_void, Size: *mut usize, Flags: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrGetFileNameFromLoadAsDataTable(
-        Module: *mut std::ffi::c_void,
-        pFileNamePrt: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrGetFileNameFromLoadAsDataTable(Module: *mut std::ffi::c_void, pFileNamePrt: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1171,12 +961,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrAccessResource(
-        DllHandle: *mut std::ffi::c_void,
-        ResourceDataEntry: *mut IMAGE_RESOURCE_DATA_ENTRY,
-        ResourceBuffer: *mut *mut std::ffi::c_void,
-        ResourceLength: *mut u32,
-    ) -> NTSTATUS;
+    pub fn LdrAccessResource(DllHandle: *mut std::ffi::c_void, ResourceDataEntry: *mut IMAGE_RESOURCE_DATA_ENTRY, ResourceBuffer: *mut *mut std::ffi::c_void, ResourceLength: *mut u32) -> NTSTATUS;
 }
 #[repr(C)]
 pub struct LDR_RESOURCE_INFO {
@@ -1196,31 +981,15 @@ impl std::fmt::Debug for LDR_RESOURCE_INFO {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrFindResource_U(
-        DllHandle: *mut std::ffi::c_void,
-        ResourceInfo: *mut LDR_RESOURCE_INFO,
-        Level: u32,
-        ResourceDataEntry: *mut *mut IMAGE_RESOURCE_DATA_ENTRY,
-    ) -> NTSTATUS;
+    pub fn LdrFindResource_U(DllHandle: *mut std::ffi::c_void, ResourceInfo: *mut LDR_RESOURCE_INFO, Level: u32, ResourceDataEntry: *mut *mut IMAGE_RESOURCE_DATA_ENTRY) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrFindResourceEx_U(
-        Flags: u32,
-        DllHandle: *mut std::ffi::c_void,
-        ResourceInfo: *mut LDR_RESOURCE_INFO,
-        Level: u32,
-        ResourceDataEntry: *mut *mut IMAGE_RESOURCE_DATA_ENTRY,
-    ) -> NTSTATUS;
+    pub fn LdrFindResourceEx_U(Flags: u32, DllHandle: *mut std::ffi::c_void, ResourceInfo: *mut LDR_RESOURCE_INFO, Level: u32, ResourceDataEntry: *mut *mut IMAGE_RESOURCE_DATA_ENTRY) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrFindResourceDirectory_U(
-        DllHandle: *mut std::ffi::c_void,
-        ResourceInfo: *mut LDR_RESOURCE_INFO,
-        Level: u32,
-        ResourceDirectory: *mut *mut IMAGE_RESOURCE_DIRECTORY,
-    ) -> NTSTATUS;
+    pub fn LdrFindResourceDirectory_U(DllHandle: *mut std::ffi::c_void, ResourceInfo: *mut LDR_RESOURCE_INFO, Level: u32, ResourceDirectory: *mut *mut IMAGE_RESOURCE_DIRECTORY) -> NTSTATUS;
 }
 #[repr(C)]
 pub struct LDR_ENUM_RESOURCE_ENTRY {
@@ -1273,39 +1042,19 @@ impl std::fmt::Debug for LDR_ENUM_RESOURCE_ENTRY {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrEnumResources(
-        DllHandle: *mut std::ffi::c_void,
-        ResourceInfo: *mut LDR_RESOURCE_INFO,
-        Level: u32,
-        ResourceCount: *mut u32,
-        Resources: *mut LDR_ENUM_RESOURCE_ENTRY,
-    ) -> NTSTATUS;
+    pub fn LdrEnumResources(DllHandle: *mut std::ffi::c_void, ResourceInfo: *mut LDR_RESOURCE_INFO, Level: u32, ResourceCount: *mut u32, Resources: *mut LDR_ENUM_RESOURCE_ENTRY) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrFindEntryForAddress(
-        DllHandle: *mut std::ffi::c_void,
-        Entry: *mut *mut LDR_DATA_TABLE_ENTRY,
-    ) -> NTSTATUS;
+    pub fn LdrFindEntryForAddress(DllHandle: *mut std::ffi::c_void, Entry: *mut *mut LDR_DATA_TABLE_ENTRY) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrLoadAlternateResourceModule(
-        DllHandle: *mut std::ffi::c_void,
-        ResourceDllBase: *mut *mut std::ffi::c_void,
-        ResourceOffset: *mut usize,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn LdrLoadAlternateResourceModule(DllHandle: *mut std::ffi::c_void, ResourceDllBase: *mut *mut std::ffi::c_void, ResourceOffset: *mut usize, Flags: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrLoadAlternateResourceModuleEx(
-        DllHandle: *mut std::ffi::c_void,
-        LanguageId: u16,
-        ResourceDllBase: *mut *mut std::ffi::c_void,
-        ResourceOffset: *mut usize,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn LdrLoadAlternateResourceModuleEx(DllHandle: *mut std::ffi::c_void, LanguageId: u16, ResourceDllBase: *mut *mut std::ffi::c_void, ResourceOffset: *mut usize, Flags: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1313,10 +1062,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrUnloadAlternateResourceModuleEx(
-        DllHandle: *mut std::ffi::c_void,
-        Flags: u32,
-    ) -> BOOLEAN;
+    pub fn LdrUnloadAlternateResourceModuleEx(DllHandle: *mut std::ffi::c_void, Flags: u32) -> BOOLEAN;
 }
 #[repr(C)]
 pub struct RTL_PROCESS_MODULE_INFORMATION {
@@ -1338,11 +1084,7 @@ impl Default for RTL_PROCESS_MODULE_INFORMATION {
 }
 impl std::fmt::Debug for RTL_PROCESS_MODULE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "RTL_PROCESS_MODULE_INFORMATION {{ FullPathName: {:?} }}",
-            self.FullPathName
-        )
+        write!(f, "RTL_PROCESS_MODULE_INFORMATION {{ FullPathName: {:?} }}", self.FullPathName)
     }
 }
 #[repr(C)]
@@ -1375,77 +1117,33 @@ impl Default for RTL_PROCESS_MODULE_INFORMATION_EX {
 }
 impl std::fmt::Debug for RTL_PROCESS_MODULE_INFORMATION_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "RTL_PROCESS_MODULE_INFORMATION_EX {{ BaseInfo: {:?} }}",
-            self.BaseInfo
-        )
+        write!(f, "RTL_PROCESS_MODULE_INFORMATION_EX {{ BaseInfo: {:?} }}", self.BaseInfo)
     }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrQueryProcessModuleInformation(
-        ModuleInformation: *mut RTL_PROCESS_MODULES,
-        Size: u32,
-        ReturnedSize: *mut u32,
-    ) -> NTSTATUS;
+    pub fn LdrQueryProcessModuleInformation(ModuleInformation: *mut RTL_PROCESS_MODULES, Size: u32, ReturnedSize: *mut u32) -> NTSTATUS;
 }
-pub type PLDR_ENUM_CALLBACK = std::option::Option<
-    unsafe extern "system" fn(
-        ModuleInformation: *mut LDR_DATA_TABLE_ENTRY,
-        Parameter: *mut std::ffi::c_void,
-        Stop: *mut BOOLEAN,
-    ),
->;
+pub type PLDR_ENUM_CALLBACK = std::option::Option<unsafe extern "system" fn(ModuleInformation: *mut LDR_DATA_TABLE_ENTRY, Parameter: *mut std::ffi::c_void, Stop: *mut BOOLEAN)>;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrEnumerateLoadedModules(
-        ReservedFlag: BOOLEAN,
-        EnumProc: PLDR_ENUM_CALLBACK,
-        Context: *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrEnumerateLoadedModules(ReservedFlag: BOOLEAN, EnumProc: PLDR_ENUM_CALLBACK, Context: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrOpenImageFileOptionsKey(
-        SubKey: *mut UNICODE_STRING,
-        Wow64: BOOLEAN,
-        NewKeyHandle: *mut HANDLE,
-    ) -> NTSTATUS;
+    pub fn LdrOpenImageFileOptionsKey(SubKey: *mut UNICODE_STRING, Wow64: BOOLEAN, NewKeyHandle: *mut HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrQueryImageFileKeyOption(
-        KeyHandle: HANDLE,
-        ValueName: PCWSTR,
-        Type: u32,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: u32,
-        ReturnedLength: *mut u32,
-    ) -> NTSTATUS;
+    pub fn LdrQueryImageFileKeyOption(KeyHandle: HANDLE, ValueName: PCWSTR, Type: u32, Buffer: *mut std::ffi::c_void, BufferSize: u32, ReturnedLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrQueryImageFileExecutionOptions(
-        SubKey: *mut UNICODE_STRING,
-        ValueName: PCWSTR,
-        ValueSize: u32,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: u32,
-        ReturnedLength: *mut u32,
-    ) -> NTSTATUS;
+    pub fn LdrQueryImageFileExecutionOptions(SubKey: *mut UNICODE_STRING, ValueName: PCWSTR, ValueSize: u32, Buffer: *mut std::ffi::c_void, BufferSize: u32, ReturnedLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrQueryImageFileExecutionOptionsEx(
-        SubKey: *mut UNICODE_STRING,
-        ValueName: PCWSTR,
-        Type: u32,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: u32,
-        ReturnedLength: *mut u32,
-        Wow64: BOOLEAN,
-    ) -> NTSTATUS;
+    pub fn LdrQueryImageFileExecutionOptionsEx(SubKey: *mut UNICODE_STRING, ValueName: PCWSTR, Type: u32, Buffer: *mut std::ffi::c_void, BufferSize: u32, ReturnedLength: *mut u32, Wow64: BOOLEAN) -> NTSTATUS;
 }
 #[repr(C)]
 pub struct DELAYLOAD_PROC_DESCRIPTOR {
@@ -1475,11 +1173,7 @@ impl Default for DELAYLOAD_PROC_DESCRIPTOR {
 }
 impl std::fmt::Debug for DELAYLOAD_PROC_DESCRIPTOR {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "DELAYLOAD_PROC_DESCRIPTOR {{ Description: {:?} }}",
-            self.Description
-        )
+        write!(f, "DELAYLOAD_PROC_DESCRIPTOR {{ Description: {:?} }}", self.Description)
     }
 }
 #[repr(C)]
@@ -1500,49 +1194,22 @@ impl Default for DELAYLOAD_INFO {
 }
 impl std::fmt::Debug for DELAYLOAD_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "DELAYLOAD_INFO {{ TargetApiDescriptor: {:?} }}",
-            self.TargetApiDescriptor
-        )
+        write!(f, "DELAYLOAD_INFO {{ TargetApiDescriptor: {:?} }}", self.TargetApiDescriptor)
     }
 }
-pub type PDELAYLOAD_FAILURE_DLL_CALLBACK = std::option::Option<
-    unsafe extern "system" fn(
-        NotificationReason: u32,
-        DelayloadInfo: *mut DELAYLOAD_INFO,
-    ) -> *mut std::ffi::c_void,
->;
-pub type PDELAYLOAD_FAILURE_SYSTEM_ROUTINE = std::option::Option<
-    unsafe extern "system" fn(DllName: *mut i8, ProcedureName: *mut i8) -> *mut std::ffi::c_void,
->;
+pub type PDELAYLOAD_FAILURE_DLL_CALLBACK = std::option::Option<unsafe extern "system" fn(NotificationReason: u32, DelayloadInfo: *mut DELAYLOAD_INFO) -> *mut std::ffi::c_void>;
+pub type PDELAYLOAD_FAILURE_SYSTEM_ROUTINE = std::option::Option<unsafe extern "system" fn(DllName: *mut i8, ProcedureName: *mut i8) -> *mut std::ffi::c_void>;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrQueryOptionalDelayLoadedAPI(
-        ParentModuleBase: *mut std::ffi::c_void,
-        DllName: *mut i8,
-        ProcedureName: *mut i8,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn LdrQueryOptionalDelayLoadedAPI(ParentModuleBase: *mut std::ffi::c_void, DllName: *mut i8, ProcedureName: *mut i8, Flags: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrResolveDelayLoadedAPI(
-        ParentModuleBase: *mut std::ffi::c_void,
-        DelayloadDescriptor: *const IMAGE_DELAYLOAD_DESCRIPTOR,
-        FailureDllHook: PDELAYLOAD_FAILURE_DLL_CALLBACK,
-        FailureSystemHook: PDELAYLOAD_FAILURE_SYSTEM_ROUTINE,
-        ThunkAddress: *mut IMAGE_THUNK_DATA64,
-        Flags: u32,
-    ) -> *mut std::ffi::c_void;
+    pub fn LdrResolveDelayLoadedAPI(ParentModuleBase: *mut std::ffi::c_void, DelayloadDescriptor: *const IMAGE_DELAYLOAD_DESCRIPTOR, FailureDllHook: PDELAYLOAD_FAILURE_DLL_CALLBACK, FailureSystemHook: PDELAYLOAD_FAILURE_SYSTEM_ROUTINE, ThunkAddress: *mut IMAGE_THUNK_DATA64, Flags: u32) -> *mut std::ffi::c_void;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrResolveDelayLoadsFromDll(
-        ParentModuleBase: *mut std::ffi::c_void,
-        TargetDllName: *mut i8,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn LdrResolveDelayLoadsFromDll(ParentModuleBase: *mut std::ffi::c_void, TargetDllName: *mut i8, Flags: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1550,10 +1217,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrAddDllDirectory(
-        NewDirectory: *mut UNICODE_STRING,
-        Cookie: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn LdrAddDllDirectory(NewDirectory: *mut UNICODE_STRING, Cookie: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

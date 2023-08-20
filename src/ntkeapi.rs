@@ -1,9 +1,5 @@
 use windows::Win32::Foundation::{BOOLEAN, NTSTATUS};
 
-pub const LOW_PRIORITY: u32 = 0;
-pub const LOW_REALTIME_PRIORITY: u32 = 16;
-pub const HIGH_PRIORITY: u32 = 31;
-pub const MAXIMUM_PRIORITY: u32 = 32;
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum KTHREAD_STATE {
@@ -112,11 +108,7 @@ pub enum KPROFILE_SOURCE {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCallbackReturn(
-        OutputBuffer: *mut std::ffi::c_void,
-        OutputLength: u32,
-        Status: NTSTATUS,
-    ) -> NTSTATUS;
+    pub fn NtCallbackReturn(OutputBuffer: *mut std::ffi::c_void, OutputLength: u32, Status: NTSTATUS) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

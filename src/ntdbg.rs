@@ -4,7 +4,10 @@ use windows::{
     Win32::{
         Foundation::{BOOLEAN, HANDLE, NTSTATUS},
         System::{
-            Diagnostics::Debug::{DEBUG_EVENT, EXCEPTION_RECORD},
+            Diagnostics::{
+                Debug::{DEBUG_EVENT, EXCEPTION_RECORD},
+                Etw::EVENT_FILTER_DESCRIPTOR,
+            },
             WindowsProgramming::CLIENT_ID,
         },
     },
@@ -12,13 +15,6 @@ use windows::{
 
 use crate::{bitfield::UnionField, phnt_ntdef::PREGHANDLE};
 
-pub const DBG_STATUS_CONTROL_C: u32 = 1;
-pub const DBG_STATUS_SYSRQ: u32 = 2;
-pub const DBG_STATUS_BUGCHECK_FIRST: u32 = 3;
-pub const DBG_STATUS_BUGCHECK_SECOND: u32 = 4;
-pub const DBG_STATUS_FATAL: u32 = 5;
-pub const DBG_STATUS_DEBUG_CONTROL: u32 = 6;
-pub const DBG_STATUS_WORKER: u32 = 7;
 pub const DEBUG_READ_EVENT: u32 = 1;
 pub const DEBUG_PROCESS_ASSIGN: u32 = 2;
 pub const DEBUG_SET_INFORMATION: u32 = 4;
@@ -39,22 +35,11 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn vDbgPrintEx(
-        ComponentId: u32,
-        Level: u32,
-        Format: *const i8,
-        arglist: *mut std::ffi::c_void,
-    ) -> u32;
+    pub fn vDbgPrintEx(ComponentId: u32, Level: u32, Format: *const i8, arglist: *mut std::ffi::c_void) -> u32;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn vDbgPrintExWithPrefix(
-        Prefix: *const i8,
-        ComponentId: u32,
-        Level: u32,
-        Format: *const i8,
-        arglist: *mut std::ffi::c_void,
-    ) -> u32;
+    pub fn vDbgPrintExWithPrefix(Prefix: *const i8, ComponentId: u32, Level: u32, Format: *const i8, arglist: *mut std::ffi::c_void) -> u32;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -114,11 +99,7 @@ impl Default for DBGKM_CREATE_PROCESS {
 }
 impl std::fmt::Debug for DBGKM_CREATE_PROCESS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "DBGKM_CREATE_PROCESS {{ InitialThread: {:?} }}",
-            self.InitialThread
-        )
+        write!(f, "DBGKM_CREATE_PROCESS {{ InitialThread: {:?} }}", self.InitialThread)
     }
 }
 #[repr(C)]
@@ -208,11 +189,7 @@ impl Default for DBGUI_CREATE_THREAD {
 }
 impl std::fmt::Debug for DBGUI_CREATE_THREAD {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "DBGUI_CREATE_THREAD {{ NewThread: {:?} }}",
-            self.NewThread
-        )
+        write!(f, "DBGUI_CREATE_THREAD {{ NewThread: {:?} }}", self.NewThread)
     }
 }
 #[repr(C)]
@@ -228,11 +205,7 @@ impl Default for DBGUI_CREATE_PROCESS {
 }
 impl std::fmt::Debug for DBGUI_CREATE_PROCESS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "DBGUI_CREATE_PROCESS {{ NewProcess: {:?} }}",
-            self.NewProcess
-        )
+        write!(f, "DBGUI_CREATE_PROCESS {{ NewProcess: {:?} }}", self.NewProcess)
     }
 }
 #[repr(C)]
@@ -269,11 +242,7 @@ impl Default for DBGUI_WAIT_STATE_CHANGE {
 }
 impl std::fmt::Debug for DBGUI_WAIT_STATE_CHANGE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "DBGUI_WAIT_STATE_CHANGE {{ NewState: {:?}, StateInfo: {:?} }}",
-            self.NewState, self.StateInfo
-        )
+        write!(f, "DBGUI_WAIT_STATE_CHANGE {{ NewState: {:?}, StateInfo: {:?} }}", self.NewState, self.StateInfo)
     }
 }
 #[repr(i32)]
@@ -285,12 +254,7 @@ pub enum DEBUGOBJECTINFOCLASS {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateDebugObject(
-        DebugObjectHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn NtCreateDebugObject(DebugObjectHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, Flags: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -298,11 +262,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtDebugContinue(
-        DebugObjectHandle: HANDLE,
-        ClientId: *mut CLIENT_ID,
-        ContinueStatus: NTSTATUS,
-    ) -> NTSTATUS;
+    pub fn NtDebugContinue(DebugObjectHandle: HANDLE, ClientId: *mut CLIENT_ID, ContinueStatus: NTSTATUS) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -310,22 +270,11 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetInformationDebugObject(
-        DebugObjectHandle: HANDLE,
-        DebugObjectInformationClass: DEBUGOBJECTINFOCLASS,
-        DebugInformation: *mut std::ffi::c_void,
-        DebugInformationLength: u32,
-        ReturnLength: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtSetInformationDebugObject(DebugObjectHandle: HANDLE, DebugObjectInformationClass: DEBUGOBJECTINFOCLASS, DebugInformation: *mut std::ffi::c_void, DebugInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtWaitForDebugEvent(
-        DebugObjectHandle: HANDLE,
-        Alertable: BOOLEAN,
-        Timeout: *mut i64,
-        WaitStateChange: *mut DBGUI_WAIT_STATE_CHANGE,
-    ) -> NTSTATUS;
+    pub fn NtWaitForDebugEvent(DebugObjectHandle: HANDLE, Alertable: BOOLEAN, Timeout: *mut i64, WaitStateChange: *mut DBGUI_WAIT_STATE_CHANGE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -341,10 +290,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn DbgUiWaitStateChange(
-        StateChange: *mut DBGUI_WAIT_STATE_CHANGE,
-        Timeout: *mut i64,
-    ) -> NTSTATUS;
+    pub fn DbgUiWaitStateChange(StateChange: *mut DBGUI_WAIT_STATE_CHANGE, Timeout: *mut i64) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -368,40 +314,14 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn DbgUiConvertStateChangeStructure(
-        StateChange: *mut DBGUI_WAIT_STATE_CHANGE,
-        DebugEvent: *mut DEBUG_EVENT,
-    ) -> NTSTATUS;
+    pub fn DbgUiConvertStateChangeStructure(StateChange: *mut DBGUI_WAIT_STATE_CHANGE, DebugEvent: *mut DEBUG_EVENT) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn DbgUiConvertStateChangeStructureEx(
-        StateChange: *mut DBGUI_WAIT_STATE_CHANGE,
-        DebugEvent: *mut DEBUG_EVENT,
-    ) -> NTSTATUS;
+    pub fn DbgUiConvertStateChangeStructureEx(StateChange: *mut DBGUI_WAIT_STATE_CHANGE, DebugEvent: *mut DEBUG_EVENT) -> NTSTATUS;
 }
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct EVENT_FILTER_DESCRIPTOR {
-    _unused: [u8; 0],
-}
-pub type PENABLECALLBACK = std::option::Option<
-    unsafe extern "system" fn(
-        SourceId: *const GUID,
-        IsEnabled: u32,
-        Level: u8,
-        MatchAnyKeyword: u64,
-        MatchAllKeyword: u64,
-        FilterData: *mut EVENT_FILTER_DESCRIPTOR,
-        CallbackContext: *mut std::ffi::c_void,
-    ),
->;
+pub type PENABLECALLBACK = std::option::Option<unsafe extern "system" fn(SourceId: *const GUID, IsEnabled: u32, Level: u8, MatchAnyKeyword: u64, MatchAllKeyword: u64, FilterData: *mut EVENT_FILTER_DESCRIPTOR, CallbackContext: *mut std::ffi::c_void)>;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn EtwEventRegister(
-        ProviderId: *const GUID,
-        EnableCallback: PENABLECALLBACK,
-        CallbackContext: *mut std::ffi::c_void,
-        RegHandle: PREGHANDLE,
-    ) -> NTSTATUS;
+    pub fn EtwEventRegister(ProviderId: *const GUID, EnableCallback: PENABLECALLBACK, CallbackContext: *mut std::ffi::c_void, RegHandle: PREGHANDLE) -> NTSTATUS;
 }
