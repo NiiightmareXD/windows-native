@@ -1,7 +1,5 @@
-# Windows Native &emsp; [![Build Status]][actions] [![Latest Version]][crates.io]
+# Windows Native &emsp; ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/NiiightmareXD/windows-native/rust.yml) [![Latest Version]][crates.io]
 
-[Build Status]: https://img.shields.io/github/actions/workflow/status/NiiightmareXD/windows-native/rust.yml?branch=master
-[actions]: https://github.com/NiiightmareXD/windows-native/actions?query=branch%3Amaster
 [Latest Version]: https://img.shields.io/crates/v/windows-native.svg
 [crates.io]: https://crates.io/crates/windows-native
 
