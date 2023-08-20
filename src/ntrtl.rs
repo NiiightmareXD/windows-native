@@ -4625,28 +4625,28 @@ extern "system" {
         IgnoreInserts: BOOLEAN,
         ArgumentsAreAnsi: BOOLEAN,
         ArgumentsAreAnArray: BOOLEAN,
-        Arguments: *mut std::ffi::VaList,
+        Arguments: *mut *mut std::ffi::c_void,
         Buffer: PWSTR,
         Length: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
 }
 #[repr(C)]
-pub struct PARSE_MESSAGE_CONTEXT<'a> {
+pub struct PARSE_MESSAGE_CONTEXT {
     pub fFlags: u32,
     pub cwSavColumn: u32,
     pub iwSrc: usize,
     pub iwDst: usize,
     pub iwDstSpace: usize,
-    pub lpvArgStart: std::ffi::VaList<'a, 'a>,
+    pub lpvArgStart: *mut std::ffi::c_void,
 }
-impl Default for PARSE_MESSAGE_CONTEXT<'_> {
+impl Default for PARSE_MESSAGE_CONTEXT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
-impl std::fmt::Debug for PARSE_MESSAGE_CONTEXT<'_> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl std::fmt::Debug for PARSE_MESSAGE_CONTEXT {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(f, "PARSE_MESSAGE_CONTEXT {{  }}")
     }
 }
@@ -4658,7 +4658,7 @@ extern "system" {
         IgnoreInserts: BOOLEAN,
         ArgumentsAreAnsi: BOOLEAN,
         ArgumentsAreAnArray: BOOLEAN,
-        Arguments: *mut std::ffi::VaList,
+        Arguments: *mut *mut std::ffi::c_void,
         Buffer: PWSTR,
         Length: u32,
         ReturnLength: *mut u32,

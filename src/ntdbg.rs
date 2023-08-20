@@ -43,7 +43,7 @@ extern "system" {
         ComponentId: u32,
         Level: u32,
         Format: *const i8,
-        arglist: std::ffi::VaList,
+        arglist: *mut std::ffi::c_void,
     ) -> u32;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -53,7 +53,7 @@ extern "system" {
         ComponentId: u32,
         Level: u32,
         Format: *const i8,
-        arglist: std::ffi::VaList,
+        arglist: *mut std::ffi::c_void,
     ) -> u32;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
