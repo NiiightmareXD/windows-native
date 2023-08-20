@@ -1,5 +1,3 @@
-use std::mem::{offset_of, size_of};
-
 use windows::{
     core::{PCWSTR, PSTR, PWSTR},
     Wdk::Foundation::OBJECT_ATTRIBUTES,
@@ -46,14 +44,11 @@ pub const LDRP_CHPE_IMAGE: u32 = 33554432;
 pub const LDRP_CHPE_EMULATOR_IMAGE: u32 = 67108864;
 pub const LDRP_REDIRECTED: u32 = 268435456;
 pub const LDRP_COMPAT_DATABASE_PROCESSED: u32 = 2147483648;
-pub const LDR_DATA_TABLE_ENTRY_SIZE_WINXP: u32 = offset_of!(LDR_DATA_TABLE_ENTRY, DdagNode) as u32;
-pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN7: u32 =
-    offset_of!(LDR_DATA_TABLE_ENTRY, BaseNameHashValue) as u32;
-pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN8: u32 =
-    offset_of!(LDR_DATA_TABLE_ENTRY, ImplicitPathOptions) as u32;
-pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN10: u32 =
-    offset_of!(LDR_DATA_TABLE_ENTRY, SigningLevel) as u32;
-pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN11: u32 = size_of::<LDR_DATA_TABLE_ENTRY>() as u32;
+pub const LDR_DATA_TABLE_ENTRY_SIZE_WINXP: u32 = 152;
+pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN7: u32 = 264;
+pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN8: u32 = 272;
+pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN10: u32 = 284;
+pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN11: u32 = 312;
 pub const LDR_GET_DLL_HANDLE_EX_UNCHANGED_REFCOUNT: u32 = 1;
 pub const LDR_GET_DLL_HANDLE_EX_PIN: u32 = 2;
 pub const LDR_ADDREF_DLL_PIN: u32 = 1;

@@ -1,5 +1,3 @@
-use std::mem::offset_of;
-
 use windows::{
     core::GUID,
     Wdk::Foundation::OBJECT_ATTRIBUTES,
@@ -334,8 +332,7 @@ pub const FILE_CS_FLAG_CASE_SENSITIVE_DIR: u32 = 0x00000001;
 pub const FLUSH_FLAGS_FILE_DATA_ONLY: u32 = 0x00000001;
 pub const FLUSH_FLAGS_NO_SYNC: u32 = 0x00000002;
 pub const FLUSH_FLAGS_FILE_DATA_SYNC_ONLY: u32 = 0x00000004;
-pub const REPARSE_DATA_BUFFER_HEADER_SIZE: u32 =
-    offset_of!(REPARSE_DATA_BUFFER, Anonymous1.GenericReparseBuffer) as u32;
+pub const REPARSE_DATA_BUFFER_HEADER_SIZE: u32 = 8;
 #[repr(C)]
 pub struct EXTENDED_CREATE_INFORMATION {
     pub ExtendedCreateFlags: i64,

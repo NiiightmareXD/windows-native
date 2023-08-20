@@ -13,8 +13,7 @@ use windows::{
             Kernel::{LIST_ENTRY, NT_PRODUCT_TYPE, PROCESSOR_NUMBER, SINGLE_LIST_ENTRY},
             Performance::HardwareCounterProfiling::HARDWARE_COUNTER_TYPE,
             SystemServices::{
-                IMAGE_DOS_HEADER, PROCESS_MITIGATION_ASLR_POLICY,
-                PROCESS_MITIGATION_BINARY_SIGNATURE_POLICY,
+                PROCESS_MITIGATION_ASLR_POLICY, PROCESS_MITIGATION_BINARY_SIGNATURE_POLICY,
                 PROCESS_MITIGATION_CHILD_PROCESS_POLICY,
                 PROCESS_MITIGATION_CONTROL_FLOW_GUARD_POLICY,
                 PROCESS_MITIGATION_DYNAMIC_CODE_POLICY,
@@ -3185,10 +3184,6 @@ extern "system" {
 extern "system" {
     pub fn NtResumeProcess(ProcessHandle: HANDLE) -> NTSTATUS;
 }
-// #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-// extern "system" {
-//     pub static mut __ImageBase: IMAGE_DOS_HEADER;
-// }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryInformationProcess(

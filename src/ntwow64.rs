@@ -1,5 +1,3 @@
-use std::mem::{offset_of, size_of};
-
 use windows::{
     core::GUID,
     Win32::{
@@ -24,15 +22,11 @@ pub const WOW64_X86_TAG_U: &[u8; 7usize] = b" (x86)\0";
 pub const WOW64_CPUFLAGS_MSFT64: u32 = 1;
 pub const WOW64_CPUFLAGS_SOFTWARE: u32 = 2;
 pub const WOW64_CPUFLAGS_IA64: u32 = 4;
-pub const LDR_DATA_TABLE_ENTRY_SIZE_WINXP_32: u32 =
-    offset_of!(LDR_DATA_TABLE_ENTRY32, DdagNode) as u32;
-pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN7_32: u32 =
-    offset_of!(LDR_DATA_TABLE_ENTRY32, BaseNameHashValue) as u32;
-pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN8_32: u32 =
-    offset_of!(LDR_DATA_TABLE_ENTRY32, ImplicitPathOptions) as u32;
-pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN10_32: u32 =
-    offset_of!(LDR_DATA_TABLE_ENTRY32, SigningLevel) as u32;
-pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN11_32: u32 = size_of::<LDR_DATA_TABLE_ENTRY32>() as u32;
+pub const LDR_DATA_TABLE_ENTRY_SIZE_WINXP_32: u32 = 80;
+pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN7_32: u32 = 144;
+pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN8_32: u32 = 152;
+pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN10_32: u32 = 164;
+pub const LDR_DATA_TABLE_ENTRY_SIZE_WIN11_32: u32 = 184;
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum WOW64_SHARED_INFORMATION {
