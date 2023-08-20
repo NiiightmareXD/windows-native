@@ -3185,10 +3185,10 @@ extern "system" {
 extern "system" {
     pub fn NtResumeProcess(ProcessHandle: HANDLE) -> NTSTATUS;
 }
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub static mut __ImageBase: IMAGE_DOS_HEADER;
-}
+// #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
+// extern "system" {
+//     pub static mut __ImageBase: IMAGE_DOS_HEADER;
+// }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryInformationProcess(

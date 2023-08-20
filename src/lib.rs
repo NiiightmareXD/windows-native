@@ -3,7 +3,6 @@
 #![allow(non_upper_case_globals)]
 #![allow(clippy::too_many_arguments)]
 #![feature(c_variadic)]
-#![feature(offset_of)]
 
 pub mod bitfield;
 pub mod ntbcd;
