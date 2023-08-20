@@ -1,7 +1,4 @@
-# Windows Native &emsp; ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/NiiightmareXD/windows-native/rust.yml) [![Latest Version]][crates.io]
-
-[Latest Version]: https://img.shields.io/crates/v/windows-native.svg
-[crates.io]: https://crates.io/crates/windows-native
+# Windows Native &emsp; ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/NiiightmareXD/windows-native/rust.yml) ![Crates.io](https://img.shields.io/crates/v/windows-native)
 
 The **Windows-Native** Rust library provides a convenient and safe way to access the native Windows undocumented APIs using the Rust programming language. These APIs are mostly exported from the Process Hacker native API headers (phnt), enabling you to interact with Windows internals in a reliable and efficient manner.
 
