@@ -14,11 +14,6 @@ use crate::{
     phnt_ntdef::PENCLAVE_ROUTINE,
 };
 
-pub const PAGE_ENCLAVE_MASK: u32 = 268435456;
-pub const PAGE_ENCLAVE_DECOMMIT: u32 = 268435456;
-pub const PAGE_ENCLAVE_SS_FIRST: u32 = 268435457;
-pub const PAGE_ENCLAVE_SS_REST: u32 = 268435458;
-pub const PAGE_ENCLAVE_NO_CHANGE: u32 = 536870912;
 pub const MEM_DOS_LIM: u32 = 1073741824;
 pub const SEC_BASED: u32 = 2097152;
 pub const SEC_NO_CHANGE: u32 = 4194304;
@@ -50,58 +45,9 @@ pub const MEM_EXECUTE_OPTION_PERMANENT: u32 = 8;
 pub const MEM_EXECUTE_OPTION_EXECUTE_DISPATCH_ENABLE: u32 = 16;
 pub const MEM_EXECUTE_OPTION_IMAGE_DISPATCH_ENABLE: u32 = 32;
 pub const MEM_EXECUTE_OPTION_VALID_FLAGS: u32 = 63;
-pub const MEMORY_PARTITION_QUERY_ACCESS: u32 = 1;
-pub const MEMORY_PARTITION_MODIFY_ACCESS: u32 = 2;
 pub const MEMORY_PARTITION_ALL_ACCESS: u32 = 2031619;
 pub const MAP_PROCESS: u32 = 1;
 pub const MAP_SYSTEM: u32 = 2;
-pub const PAGE_NOACCESS: u32 = 1;
-pub const PAGE_READONLY: u32 = 2;
-pub const PAGE_READWRITE: u32 = 4;
-pub const PAGE_WRITECOPY: u32 = 8;
-pub const PAGE_EXECUTE: u32 = 16;
-pub const PAGE_EXECUTE_READ: u32 = 32;
-pub const PAGE_EXECUTE_READWRITE: u32 = 64;
-pub const PAGE_EXECUTE_WRITECOPY: u32 = 128;
-pub const PAGE_GUARD: u32 = 256;
-pub const PAGE_NOCACHE: u32 = 512;
-pub const PAGE_WRITECOMBINE: u32 = 1024;
-pub const MEM_COMMIT: u32 = 4096;
-pub const MEM_RESERVE: u32 = 8192;
-pub const MEM_DECOMMIT: u32 = 16384;
-pub const MEM_RELEASE: u32 = 32768;
-pub const MEM_FREE: u32 = 65536;
-pub const MEM_PRIVATE: u32 = 131072;
-pub const MEM_MAPPED: u32 = 262144;
-pub const MEM_RESET: u32 = 524288;
-pub const MEM_TOP_DOWN: u32 = 1048576;
-pub const MEM_WRITE_WATCH: u32 = 2097152;
-pub const MEM_PHYSICAL: u32 = 4194304;
-pub const MEM_ROTATE: u32 = 8388608;
-pub const MEM_DIFFERENT_IMAGE_BASE_OK: u32 = 8388608;
-pub const MEM_RESET_UNDO: u32 = 0x01000000;
-pub const MEM_LARGE_PAGES: u32 = 536870912;
-pub const MEM_4MB_PAGES: u32 = 2147483648;
-pub const MEM_64K_PAGES: u32 = 541065216;
-pub const MEM_UNMAP_WITH_TRANSIENT_BOOST: u32 = 1;
-pub const MEM_COALESCE_PLACEHOLDERS: u32 = 1;
-pub const MEM_PRESERVE_PLACEHOLDER: u32 = 2;
-pub const MEM_REPLACE_PLACEHOLDER: u32 = 16384;
-pub const MEM_RESERVE_PLACEHOLDER: u32 = 262144;
-pub const SEC_HUGE_PAGES: u32 = 131072;
-pub const SEC_PARTITION_OWNER_HANDLE: u32 = 262144;
-pub const SEC_64K_PAGES: u32 = 524288;
-pub const SEC_FILE: u32 = 8388608;
-pub const SEC_IMAGE: u32 = 16777216;
-pub const SEC_PROTECTED_IMAGE: u32 = 33554432;
-pub const SEC_RESERVE: u32 = 67108864;
-pub const SEC_COMMIT: u32 = 134217728;
-pub const SEC_NOCACHE: u32 = 268435456;
-pub const SEC_WRITECOMBINE: u32 = 1073741824;
-pub const SEC_LARGE_PAGES: u32 = 2147483648;
-pub const SEC_IMAGE_NO_EXECUTE: u32 = 285212672;
-pub const MEM_IMAGE: u32 = 16777216;
-pub const MemoryBasicInformation: u32 = 0;
 pub const MemoryWorkingSetInformation: u32 = 1;
 pub const MemoryMappedFilenameInformation: u32 = 2;
 pub const MemoryRegionInformation: u32 = 3;
@@ -115,7 +61,6 @@ pub const MemoryBasicInformationCapped: u32 = 10;
 pub const MemoryPhysicalContiguityInformation: u32 = 11;
 pub const MemoryBadInformation: u32 = 12;
 pub const MemoryBadInformationAllProcesses: u32 = 13;
-pub const SystemMemoryPartitionInformation: u32 = 0;
 pub const SystemMemoryPartitionMoveMemory: u32 = 1;
 pub const SystemMemoryPartitionAddPagefile: u32 = 2;
 pub const SystemMemoryPartitionCombineMemory: u32 = 3;
@@ -124,17 +69,10 @@ pub const SystemMemoryPartitionGetMemoryEvents: u32 = 5;
 pub const SystemMemoryPartitionSetAttributes: u32 = 6;
 pub const SystemMemoryPartitionNodeInformation: u32 = 7;
 pub const SystemMemoryPartitionCreateLargePages: u32 = 8;
-pub const SystemMemoryPartitionDedicatedMemoryInformation: u32 = 9;
-pub const SystemMemoryPartitionOpenDedicatedMemory: u32 = 10;
 pub const SystemMemoryPartitionMemoryChargeAttributes: u32 = 11;
 pub const SystemMemoryPartitionClearAttributes: u32 = 12;
 pub const SystemMemoryPartitionSetMemoryThresholds: u32 = 13;
 pub const SystemMemoryPartitionMax: u32 = 14;
-pub const PAGE_REVERT_TO_FILE_MAP: u32 = 2147483648;
-pub const PAGE_ENCLAVE_THREAD_CONTROL: u32 = 2147483648;
-pub const PAGE_TARGETS_NO_UPDATE: u32 = 1073741824;
-pub const PAGE_TARGETS_INVALID: u32 = 1073741824;
-pub const PAGE_ENCLAVE_UNVALIDATED: u32 = 536870912;
 pub const PROC_THREAD_ATTRIBUTE_EXTENDED_FLAGS: u32 = 393217;
 pub const PROC_THREAD_ATTRIBUTE_PACKAGE_FULL_NAME: u32 = 131080;
 pub const PROC_THREAD_ATTRIBUTE_CONSOLE_REFERENCE: u32 = 131082;
@@ -175,15 +113,7 @@ impl Default for MEMORY_WORKING_SET_BLOCK {
 }
 impl std::fmt::Debug for MEMORY_WORKING_SET_BLOCK {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_WORKING_SET_BLOCK {{ Protection : {:?}, ShareCount : {:?}, Shared : {:?}, Node : {:?}, VirtualPage : {:?} }}",
-            self.Protection(),
-            self.ShareCount(),
-            self.Shared(),
-            self.Node(),
-            self.VirtualPage()
-        )
+        write!(f, "MEMORY_WORKING_SET_BLOCK {{ Protection : {:?}, ShareCount : {:?}, Shared : {:?}, Node : {:?}, VirtualPage : {:?} }}", self.Protection(), self.ShareCount(), self.Shared(), self.Node(), self.VirtualPage())
     }
 }
 impl MEMORY_WORKING_SET_BLOCK {
@@ -243,13 +173,7 @@ impl MEMORY_WORKING_SET_BLOCK {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(
-        Protection: usize,
-        ShareCount: usize,
-        Shared: usize,
-        Node: usize,
-        VirtualPage: usize,
-    ) -> BitfieldUnit<[u8; 8usize]> {
+    pub fn new_bitfield_1(Protection: usize, ShareCount: usize, Shared: usize, Node: usize, VirtualPage: usize) -> BitfieldUnit<[u8; 8usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
         bitfield_unit.set(0usize, 5u8, {
             let Protection: u64 = unsafe { std::mem::transmute(Protection) };
@@ -286,11 +210,7 @@ impl Default for MEMORY_WORKING_SET_INFORMATION {
 }
 impl std::fmt::Debug for MEMORY_WORKING_SET_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_WORKING_SET_INFORMATION {{ WorkingSetInfo: {:?} }}",
-            self.WorkingSetInfo
-        )
+        write!(f, "MEMORY_WORKING_SET_INFORMATION {{ WorkingSetInfo: {:?} }}", self.WorkingSetInfo)
     }
 }
 #[repr(C)]
@@ -456,22 +376,7 @@ impl MEMORY_REGION_INFORMATION_1_1 {
         self._bitfield_1.set(13usize, 19u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        Private: u32,
-        MappedDataFile: u32,
-        MappedImage: u32,
-        MappedPageFile: u32,
-        MappedPhysical: u32,
-        DirectMapped: u32,
-        SoftwareEnclave: u32,
-        PageSize64K: u32,
-        PlaceholderReservation: u32,
-        MappedAwe: u32,
-        MappedWriteWatch: u32,
-        PageSizeLarge: u32,
-        PageSizeHuge: u32,
-        Reserved: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(Private: u32, MappedDataFile: u32, MappedImage: u32, MappedPageFile: u32, MappedPhysical: u32, DirectMapped: u32, SoftwareEnclave: u32, PageSize64K: u32, PlaceholderReservation: u32, MappedAwe: u32, MappedWriteWatch: u32, PageSizeLarge: u32, PageSizeHuge: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, Private as u64);
         bitfield_unit.set(1usize, 1u8, MappedDataFile as u64);
@@ -507,11 +412,7 @@ impl Default for MEMORY_REGION_INFORMATION {
 }
 impl std::fmt::Debug for MEMORY_REGION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_REGION_INFORMATION {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "MEMORY_REGION_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(i32)]
@@ -709,21 +610,7 @@ impl MEMORY_WORKING_SET_EX_BLOCK_1_1 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(
-        Valid: usize,
-        ShareCount: usize,
-        Win32Protection: usize,
-        Shared: usize,
-        Node: usize,
-        Locked: usize,
-        LargePage: usize,
-        Priority: usize,
-        Reserved: usize,
-        SharedOriginal: usize,
-        Bad: usize,
-        Win32GraphicsProtection: usize,
-        ReservedUlong: usize,
-    ) -> BitfieldUnit<[u8; 8usize]> {
+    pub fn new_bitfield_1(Valid: usize, ShareCount: usize, Win32Protection: usize, Shared: usize, Node: usize, Locked: usize, LargePage: usize, Priority: usize, Reserved: usize, SharedOriginal: usize, Bad: usize, Win32GraphicsProtection: usize, ReservedUlong: usize) -> BitfieldUnit<[u8; 8usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let Valid: u64 = unsafe { std::mem::transmute(Valid) };
@@ -770,8 +657,7 @@ impl MEMORY_WORKING_SET_EX_BLOCK_1_1 {
             Bad as u64
         });
         bitfield_unit.set(32usize, 4u8, {
-            let Win32GraphicsProtection: u64 =
-                unsafe { std::mem::transmute(Win32GraphicsProtection) };
+            let Win32GraphicsProtection: u64 = unsafe { std::mem::transmute(Win32GraphicsProtection) };
             Win32GraphicsProtection as u64
         });
         bitfield_unit.set(36usize, 28u8, {
@@ -794,22 +680,7 @@ impl Default for MEMORY_WORKING_SET_EX_BLOCK_1_2 {
 }
 impl std::fmt::Debug for MEMORY_WORKING_SET_EX_BLOCK_1_2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_WORKING_SET_EX_BLOCK_1_2 {{ Valid : {:?}, Reserved0 : {:?}, Shared : {:?}, Reserved1 : {:?}, PageTable : {:?}, Location : {:?}, Priority : {:?}, ModifiedList : {:?}, Reserved2 : {:?}, SharedOriginal : {:?}, Bad : {:?}, ReservedUlong : {:?} }}",
-            self.Valid(),
-            self.Reserved0(),
-            self.Shared(),
-            self.Reserved1(),
-            self.PageTable(),
-            self.Location(),
-            self.Priority(),
-            self.ModifiedList(),
-            self.Reserved2(),
-            self.SharedOriginal(),
-            self.Bad(),
-            self.ReservedUlong()
-        )
+        write!(f, "MEMORY_WORKING_SET_EX_BLOCK_1_2 {{ Valid : {:?}, Reserved0 : {:?}, Shared : {:?}, Reserved1 : {:?}, PageTable : {:?}, Location : {:?}, Priority : {:?}, ModifiedList : {:?}, Reserved2 : {:?}, SharedOriginal : {:?}, Bad : {:?}, ReservedUlong : {:?} }}", self.Valid(), self.Reserved0(), self.Shared(), self.Reserved1(), self.PageTable(), self.Location(), self.Priority(), self.ModifiedList(), self.Reserved2(), self.SharedOriginal(), self.Bad(), self.ReservedUlong())
     }
 }
 impl MEMORY_WORKING_SET_EX_BLOCK_1_2 {
@@ -946,20 +817,7 @@ impl MEMORY_WORKING_SET_EX_BLOCK_1_2 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(
-        Valid: usize,
-        Reserved0: usize,
-        Shared: usize,
-        Reserved1: usize,
-        PageTable: usize,
-        Location: usize,
-        Priority: usize,
-        ModifiedList: usize,
-        Reserved2: usize,
-        SharedOriginal: usize,
-        Bad: usize,
-        ReservedUlong: usize,
-    ) -> BitfieldUnit<[u8; 8usize]> {
+    pub fn new_bitfield_1(Valid: usize, Reserved0: usize, Shared: usize, Reserved1: usize, PageTable: usize, Location: usize, Priority: usize, ModifiedList: usize, Reserved2: usize, SharedOriginal: usize, Bad: usize, ReservedUlong: usize) -> BitfieldUnit<[u8; 8usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let Valid: u64 = unsafe { std::mem::transmute(Valid) };
@@ -1029,11 +887,7 @@ impl Default for MEMORY_WORKING_SET_EX_BLOCK {
 }
 impl std::fmt::Debug for MEMORY_WORKING_SET_EX_BLOCK {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_WORKING_SET_EX_BLOCK {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "MEMORY_WORKING_SET_EX_BLOCK {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -1064,11 +918,7 @@ impl Default for MEMORY_WORKING_SET_EX_INFORMATION {
 }
 impl std::fmt::Debug for MEMORY_WORKING_SET_EX_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_WORKING_SET_EX_INFORMATION {{ u1: {:?} }}",
-            self.u1
-        )
+        write!(f, "MEMORY_WORKING_SET_EX_INFORMATION {{ u1: {:?} }}", self.u1)
     }
 }
 #[repr(C)]
@@ -1110,14 +960,7 @@ impl Default for MEMORY_IMAGE_INFORMATION_1_1 {
 }
 impl std::fmt::Debug for MEMORY_IMAGE_INFORMATION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_IMAGE_INFORMATION_1_1 {{ ImagePartialMap : {:?}, ImageNotExecutable : {:?}, ImageSigningLevel : {:?}, Reserved : {:?} }}",
-            self.ImagePartialMap(),
-            self.ImageNotExecutable(),
-            self.ImageSigningLevel(),
-            self.Reserved()
-        )
+        write!(f, "MEMORY_IMAGE_INFORMATION_1_1 {{ ImagePartialMap : {:?}, ImageNotExecutable : {:?}, ImageSigningLevel : {:?}, Reserved : {:?} }}", self.ImagePartialMap(), self.ImageNotExecutable(), self.ImageSigningLevel(), self.Reserved())
     }
 }
 impl MEMORY_IMAGE_INFORMATION_1_1 {
@@ -1154,12 +997,7 @@ impl MEMORY_IMAGE_INFORMATION_1_1 {
         self._bitfield_1.set(6usize, 26u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        ImagePartialMap: u32,
-        ImageNotExecutable: u32,
-        ImageSigningLevel: u32,
-        Reserved: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(ImagePartialMap: u32, ImageNotExecutable: u32, ImageSigningLevel: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ImagePartialMap as u64);
         bitfield_unit.set(1usize, 1u8, ImageNotExecutable as u64);
@@ -1185,11 +1023,7 @@ impl Default for MEMORY_IMAGE_INFORMATION {
 }
 impl std::fmt::Debug for MEMORY_IMAGE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_IMAGE_INFORMATION {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "MEMORY_IMAGE_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -1205,11 +1039,7 @@ impl Default for MEMORY_ENCLAVE_IMAGE_INFORMATION {
 }
 impl std::fmt::Debug for MEMORY_ENCLAVE_IMAGE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_ENCLAVE_IMAGE_INFORMATION {{ ImageInfo: {:?}, UniqueID: {:?}, AuthorID: {:?} }}",
-            self.ImageInfo, self.UniqueID, self.AuthorID
-        )
+        write!(f, "MEMORY_ENCLAVE_IMAGE_INFORMATION {{ ImageInfo: {:?}, UniqueID: {:?}, AuthorID: {:?} }}", self.ImageInfo, self.UniqueID, self.AuthorID)
     }
 }
 #[repr(i32)]
@@ -1244,12 +1074,7 @@ impl Default for MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1_1 {
 }
 impl std::fmt::Debug for MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1_1 {{ State : {:?}, Reserved : {:?} }}",
-            self.State(),
-            self.Reserved()
-        )
+        write!(f, "MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1_1 {{ State : {:?}, Reserved : {:?} }}", self.State(), self.Reserved())
     }
 }
 impl MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1_1 {
@@ -1284,10 +1109,7 @@ impl Default for MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1 {
 }
 impl std::fmt::Debug for MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1 {{ union }}"
-        )
+        write!(f, "MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1 {{ union }}")
     }
 }
 impl Default for MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION {
@@ -1297,11 +1119,7 @@ impl Default for MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION {
 }
 impl std::fmt::Debug for MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -1319,11 +1137,7 @@ impl Default for MEMORY_PHYSICAL_CONTIGUITY_INFORMATION {
 }
 impl std::fmt::Debug for MEMORY_PHYSICAL_CONTIGUITY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_PHYSICAL_CONTIGUITY_INFORMATION {{ ContiguityUnitInformation: {:?} }}",
-            self.ContiguityUnitInformation
-        )
+        write!(f, "MEMORY_PHYSICAL_CONTIGUITY_INFORMATION {{ ContiguityUnitInformation: {:?} }}", self.ContiguityUnitInformation)
     }
 }
 #[repr(C)]
@@ -1339,18 +1153,7 @@ impl Default for MEMORY_FRAME_INFORMATION {
 }
 impl std::fmt::Debug for MEMORY_FRAME_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_FRAME_INFORMATION {{ UseDescription : {:?}, ListDescription : {:?}, Cold : {:?}, Pinned : {:?}, DontUse : {:?}, Priority : {:?}, NonTradeable : {:?}, Reserved : {:?} }}",
-            self.UseDescription(),
-            self.ListDescription(),
-            self.Cold(),
-            self.Pinned(),
-            self.DontUse(),
-            self.Priority(),
-            self.NonTradeable(),
-            self.Reserved()
-        )
+        write!(f, "MEMORY_FRAME_INFORMATION {{ UseDescription : {:?}, ListDescription : {:?}, Cold : {:?}, Pinned : {:?}, DontUse : {:?}, Priority : {:?}, NonTradeable : {:?}, Reserved : {:?} }}", self.UseDescription(), self.ListDescription(), self.Cold(), self.Pinned(), self.DontUse(), self.Priority(), self.NonTradeable(), self.Reserved())
     }
 }
 impl MEMORY_FRAME_INFORMATION {
@@ -1419,16 +1222,7 @@ impl MEMORY_FRAME_INFORMATION {
         self._bitfield_1.set(61usize, 3u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        UseDescription: u64,
-        ListDescription: u64,
-        Cold: u64,
-        Pinned: u64,
-        DontUse: u64,
-        Priority: u64,
-        NonTradeable: u64,
-        Reserved: u64,
-    ) -> BitfieldUnit<[u8; 8usize]> {
+    pub fn new_bitfield_1(UseDescription: u64, ListDescription: u64, Cold: u64, Pinned: u64, DontUse: u64, Priority: u64, NonTradeable: u64, Reserved: u64) -> BitfieldUnit<[u8; 8usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
         bitfield_unit.set(0usize, 4u8, UseDescription);
         bitfield_unit.set(4usize, 3u8, ListDescription);
@@ -1454,13 +1248,7 @@ impl Default for FILEOFFSET_INFORMATION {
 }
 impl std::fmt::Debug for FILEOFFSET_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "FILEOFFSET_INFORMATION {{ DontUse : {:?}, Offset : {:?}, Reserved : {:?} }}",
-            self.DontUse(),
-            self.Offset(),
-            self.Reserved()
-        )
+        write!(f, "FILEOFFSET_INFORMATION {{ DontUse : {:?}, Offset : {:?}, Reserved : {:?} }}", self.DontUse(), self.Offset(), self.Reserved())
     }
 }
 impl FILEOFFSET_INFORMATION {
@@ -1510,13 +1298,7 @@ impl Default for PAGEDIR_INFORMATION {
 }
 impl std::fmt::Debug for PAGEDIR_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PAGEDIR_INFORMATION {{ DontUse : {:?}, PageDirectoryBase : {:?}, Reserved : {:?} }}",
-            self.DontUse(),
-            self.PageDirectoryBase(),
-            self.Reserved()
-        )
+        write!(f, "PAGEDIR_INFORMATION {{ DontUse : {:?}, PageDirectoryBase : {:?}, Reserved : {:?} }}", self.DontUse(), self.PageDirectoryBase(), self.Reserved())
     }
 }
 impl PAGEDIR_INFORMATION {
@@ -1545,11 +1327,7 @@ impl PAGEDIR_INFORMATION {
         self._bitfield_1.set(57usize, 7u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        DontUse: u64,
-        PageDirectoryBase: u64,
-        Reserved: u64,
-    ) -> BitfieldUnit<[u8; 8usize]> {
+    pub fn new_bitfield_1(DontUse: u64, PageDirectoryBase: u64, Reserved: u64) -> BitfieldUnit<[u8; 8usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
         bitfield_unit.set(0usize, 9u8, DontUse);
         bitfield_unit.set(9usize, 48u8, PageDirectoryBase);
@@ -1570,13 +1348,7 @@ impl Default for UNIQUE_PROCESS_INFORMATION {
 }
 impl std::fmt::Debug for UNIQUE_PROCESS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "UNIQUE_PROCESS_INFORMATION {{ DontUse : {:?}, UniqueProcessKey : {:?}, Reserved : {:?} }}",
-            self.DontUse(),
-            self.UniqueProcessKey(),
-            self.Reserved()
-        )
+        write!(f, "UNIQUE_PROCESS_INFORMATION {{ DontUse : {:?}, UniqueProcessKey : {:?}, Reserved : {:?} }}", self.DontUse(), self.UniqueProcessKey(), self.Reserved())
     }
 }
 impl UNIQUE_PROCESS_INFORMATION {
@@ -1605,11 +1377,7 @@ impl UNIQUE_PROCESS_INFORMATION {
         self._bitfield_1.set(57usize, 7u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        DontUse: u64,
-        UniqueProcessKey: u64,
-        Reserved: u64,
-    ) -> BitfieldUnit<[u8; 8usize]> {
+    pub fn new_bitfield_1(DontUse: u64, UniqueProcessKey: u64, Reserved: u64) -> BitfieldUnit<[u8; 8usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
         bitfield_unit.set(0usize, 9u8, DontUse);
         bitfield_unit.set(9usize, 48u8, UniqueProcessKey);
@@ -1665,12 +1433,7 @@ impl Default for MMPFN_IDENTITY_2_1 {
 }
 impl std::fmt::Debug for MMPFN_IDENTITY_2_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MMPFN_IDENTITY_2_1 {{ Image : {:?}, Mismatch : {:?} }}",
-            self.Image(),
-            self.Mismatch()
-        )
+        write!(f, "MMPFN_IDENTITY_2_1 {{ Image : {:?}, Mismatch : {:?} }}", self.Image(), self.Mismatch())
     }
 }
 impl MMPFN_IDENTITY_2_1 {
@@ -1741,11 +1504,7 @@ impl Default for MMPFN_IDENTITY {
 }
 impl std::fmt::Debug for MMPFN_IDENTITY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MMPFN_IDENTITY {{ u1: {:?}, u2: {:?} }}",
-            self.u1, self.u2
-        )
+        write!(f, "MMPFN_IDENTITY {{ u1: {:?}, u2: {:?} }}", self.u1, self.u2)
     }
 }
 #[repr(C)]
@@ -1887,17 +1646,7 @@ impl Default for SECTION_IMAGE_INFORMATION_3_1 {
 }
 impl std::fmt::Debug for SECTION_IMAGE_INFORMATION_3_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SECTION_IMAGE_INFORMATION_3_1 {{ ComPlusNativeReady : {:?}, ComPlusILOnly : {:?}, ImageDynamicallyRelocated : {:?}, ImageMappedFlat : {:?}, BaseBelow4gb : {:?}, ComPlusPrefer32bit : {:?}, Reserved : {:?} }}",
-            self.ComPlusNativeReady(),
-            self.ComPlusILOnly(),
-            self.ImageDynamicallyRelocated(),
-            self.ImageMappedFlat(),
-            self.BaseBelow4gb(),
-            self.ComPlusPrefer32bit(),
-            self.Reserved()
-        )
+        write!(f, "SECTION_IMAGE_INFORMATION_3_1 {{ ComPlusNativeReady : {:?}, ComPlusILOnly : {:?}, ImageDynamicallyRelocated : {:?}, ImageMappedFlat : {:?}, BaseBelow4gb : {:?}, ComPlusPrefer32bit : {:?}, Reserved : {:?} }}", self.ComPlusNativeReady(), self.ComPlusILOnly(), self.ImageDynamicallyRelocated(), self.ImageMappedFlat(), self.BaseBelow4gb(), self.ComPlusPrefer32bit(), self.Reserved())
     }
 }
 impl SECTION_IMAGE_INFORMATION_3_1 {
@@ -1958,15 +1707,7 @@ impl SECTION_IMAGE_INFORMATION_3_1 {
         self._bitfield_1.set(6usize, 2u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        ComPlusNativeReady: u8,
-        ComPlusILOnly: u8,
-        ImageDynamicallyRelocated: u8,
-        ImageMappedFlat: u8,
-        BaseBelow4gb: u8,
-        ComPlusPrefer32bit: u8,
-        Reserved: u8,
-    ) -> BitfieldUnit<[u8; 1usize]> {
+    pub fn new_bitfield_1(ComPlusNativeReady: u8, ComPlusILOnly: u8, ImageDynamicallyRelocated: u8, ImageMappedFlat: u8, BaseBelow4gb: u8, ComPlusPrefer32bit: u8, Reserved: u8) -> BitfieldUnit<[u8; 1usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ComPlusNativeReady as u64);
         bitfield_unit.set(1usize, 1u8, ComPlusILOnly as u64);
@@ -1995,11 +1736,7 @@ impl Default for SECTION_IMAGE_INFORMATION {
 }
 impl std::fmt::Debug for SECTION_IMAGE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SECTION_IMAGE_INFORMATION {{ Anonymous1: {:?}, Anonymous2: {:?}, Anonymous3: {:?} }}",
-            self.Anonymous1, self.Anonymous2, self.Anonymous3
-        )
+        write!(f, "SECTION_IMAGE_INFORMATION {{ Anonymous1: {:?}, Anonymous2: {:?}, Anonymous3: {:?} }}", self.Anonymous1, self.Anonymous2, self.Anonymous3)
     }
 }
 #[repr(C)]
@@ -2115,27 +1852,13 @@ impl SECTION_INTERNAL_IMAGE_INFORMATION_1_1 {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        ImageExportSuppressionEnabled: u32,
-        ImageCetShadowStacksReady: u32,
-        ImageXfgEnabled: u32,
-        ImageCetShadowStacksStrictMode: u32,
-        ImageCetSetContextIpValidationRelaxedMode: u32,
-        ImageCetDynamicApisAllowInProc: u32,
-        ImageCetDowngradeReserved1: u32,
-        ImageCetDowngradeReserved2: u32,
-        Reserved: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(ImageExportSuppressionEnabled: u32, ImageCetShadowStacksReady: u32, ImageXfgEnabled: u32, ImageCetShadowStacksStrictMode: u32, ImageCetSetContextIpValidationRelaxedMode: u32, ImageCetDynamicApisAllowInProc: u32, ImageCetDowngradeReserved1: u32, ImageCetDowngradeReserved2: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ImageExportSuppressionEnabled as u64);
         bitfield_unit.set(1usize, 1u8, ImageCetShadowStacksReady as u64);
         bitfield_unit.set(2usize, 1u8, ImageXfgEnabled as u64);
         bitfield_unit.set(3usize, 1u8, ImageCetShadowStacksStrictMode as u64);
-        bitfield_unit.set(
-            4usize,
-            1u8,
-            ImageCetSetContextIpValidationRelaxedMode as u64,
-        );
+        bitfield_unit.set(4usize, 1u8, ImageCetSetContextIpValidationRelaxedMode as u64);
         bitfield_unit.set(5usize, 1u8, ImageCetDynamicApisAllowInProc as u64);
         bitfield_unit.set(6usize, 1u8, ImageCetDowngradeReserved1 as u64);
         bitfield_unit.set(7usize, 1u8, ImageCetDowngradeReserved2 as u64);
@@ -2160,11 +1883,7 @@ impl Default for SECTION_INTERNAL_IMAGE_INFORMATION {
 }
 impl std::fmt::Debug for SECTION_INTERNAL_IMAGE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SECTION_INTERNAL_IMAGE_INFORMATION {{ SectionInformation: {:?}, Anonymous1: {:?} }}",
-            self.SectionInformation, self.Anonymous1
-        )
+        write!(f, "SECTION_INTERNAL_IMAGE_INFORMATION {{ SectionInformation: {:?}, Anonymous1: {:?} }}", self.SectionInformation, self.Anonymous1)
     }
 }
 #[repr(i32)]
@@ -2175,96 +1894,39 @@ pub enum SECTION_INHERIT {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAllocateVirtualMemory(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut *mut std::ffi::c_void,
-        ZeroBits: usize,
-        RegionSize: *mut usize,
-        AllocationType: u32,
-        Protect: u32,
-    ) -> NTSTATUS;
+    pub fn NtAllocateVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, ZeroBits: usize, RegionSize: *mut usize, AllocationType: u32, Protect: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAllocateVirtualMemoryEx(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut *mut std::ffi::c_void,
-        RegionSize: *mut usize,
-        AllocationType: u32,
-        PageProtection: u32,
-        ExtendedParameters: *mut MEM_EXTENDED_PARAMETER,
-        ExtendedParameterCount: u32,
-    ) -> NTSTATUS;
+    pub fn NtAllocateVirtualMemoryEx(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, AllocationType: u32, PageProtection: u32, ExtendedParameters: *mut MEM_EXTENDED_PARAMETER, ExtendedParameterCount: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtFreeVirtualMemory(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut *mut std::ffi::c_void,
-        RegionSize: *mut usize,
-        FreeType: u32,
-    ) -> NTSTATUS;
+    pub fn NtFreeVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, FreeType: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtReadVirtualMemory(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut std::ffi::c_void,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: usize,
-        NumberOfBytesRead: *mut usize,
-    ) -> NTSTATUS;
+    pub fn NtReadVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void, Buffer: *mut std::ffi::c_void, BufferSize: usize, NumberOfBytesRead: *mut usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtReadVirtualMemoryEx(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut std::ffi::c_void,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: usize,
-        NumberOfBytesRead: *mut usize,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn NtReadVirtualMemoryEx(ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void, Buffer: *mut std::ffi::c_void, BufferSize: usize, NumberOfBytesRead: *mut usize, Flags: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtWriteVirtualMemory(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut std::ffi::c_void,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: usize,
-        NumberOfBytesWritten: *mut usize,
-    ) -> NTSTATUS;
+    pub fn NtWriteVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void, Buffer: *mut std::ffi::c_void, BufferSize: usize, NumberOfBytesWritten: *mut usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtProtectVirtualMemory(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut *mut std::ffi::c_void,
-        RegionSize: *mut usize,
-        NewProtect: u32,
-        OldProtect: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtProtectVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, NewProtect: u32, OldProtect: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryVirtualMemory(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut std::ffi::c_void,
-        MemoryInformationClass: MEMORY_INFORMATION_CLASS,
-        MemoryInformation: *mut std::ffi::c_void,
-        MemoryInformationLength: usize,
-        ReturnLength: *mut usize,
-    ) -> NTSTATUS;
+    pub fn NtQueryVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void, MemoryInformationClass: MEMORY_INFORMATION_CLASS, MemoryInformation: *mut std::ffi::c_void, MemoryInformationLength: usize, ReturnLength: *mut usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtFlushVirtualMemory(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut *mut std::ffi::c_void,
-        RegionSize: *mut usize,
-        IoStatus: *mut IO_STATUS_BLOCK,
-    ) -> NTSTATUS;
+    pub fn NtFlushVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, IoStatus: *mut IO_STATUS_BLOCK) -> NTSTATUS;
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -2315,110 +1977,43 @@ impl std::fmt::Debug for CFG_CALL_TARGET_LIST_INFORMATION {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetInformationVirtualMemory(
-        ProcessHandle: HANDLE,
-        VmInformationClass: VIRTUAL_MEMORY_INFORMATION_CLASS,
-        NumberOfEntries: usize,
-        VirtualAddresses: *mut MEMORY_RANGE_ENTRY,
-        VmInformation: *mut std::ffi::c_void,
-        VmInformationLength: u32,
-    ) -> NTSTATUS;
+    pub fn NtSetInformationVirtualMemory(ProcessHandle: HANDLE, VmInformationClass: VIRTUAL_MEMORY_INFORMATION_CLASS, NumberOfEntries: usize, VirtualAddresses: *mut MEMORY_RANGE_ENTRY, VmInformation: *mut std::ffi::c_void, VmInformationLength: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtLockVirtualMemory(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut *mut std::ffi::c_void,
-        RegionSize: *mut usize,
-        MapType: u32,
-    ) -> NTSTATUS;
+    pub fn NtLockVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, MapType: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtUnlockVirtualMemory(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut *mut std::ffi::c_void,
-        RegionSize: *mut usize,
-        MapType: u32,
-    ) -> NTSTATUS;
+    pub fn NtUnlockVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, MapType: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateSection(
-        SectionHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        MaximumSize: *mut i64,
-        SectionPageProtection: u32,
-        AllocationAttributes: u32,
-        FileHandle: HANDLE,
-    ) -> NTSTATUS;
+    pub fn NtCreateSection(SectionHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, MaximumSize: *mut i64, SectionPageProtection: u32, AllocationAttributes: u32, FileHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateSectionEx(
-        SectionHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        MaximumSize: *mut i64,
-        SectionPageProtection: u32,
-        AllocationAttributes: u32,
-        FileHandle: HANDLE,
-        ExtendedParameters: *mut MEM_EXTENDED_PARAMETER,
-        ExtendedParameterCount: u32,
-    ) -> NTSTATUS;
+    pub fn NtCreateSectionEx(SectionHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, MaximumSize: *mut i64, SectionPageProtection: u32, AllocationAttributes: u32, FileHandle: HANDLE, ExtendedParameters: *mut MEM_EXTENDED_PARAMETER, ExtendedParameterCount: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenSection(
-        SectionHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-    ) -> NTSTATUS;
+    pub fn NtOpenSection(SectionHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtMapViewOfSection(
-        SectionHandle: HANDLE,
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut *mut std::ffi::c_void,
-        ZeroBits: usize,
-        CommitSize: usize,
-        SectionOffset: *mut i64,
-        ViewSize: *mut usize,
-        InheritDisposition: SECTION_INHERIT,
-        AllocationType: u32,
-        Win32Protect: u32,
-    ) -> NTSTATUS;
+    pub fn NtMapViewOfSection(SectionHandle: HANDLE, ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, ZeroBits: usize, CommitSize: usize, SectionOffset: *mut i64, ViewSize: *mut usize, InheritDisposition: SECTION_INHERIT, AllocationType: u32, Win32Protect: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtMapViewOfSectionEx(
-        SectionHandle: HANDLE,
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut *mut std::ffi::c_void,
-        SectionOffset: *mut i64,
-        ViewSize: *mut usize,
-        AllocationType: u32,
-        Win32Protect: u32,
-        ExtendedParameters: *mut MEM_EXTENDED_PARAMETER,
-        ExtendedParameterCount: u32,
-    ) -> NTSTATUS;
+    pub fn NtMapViewOfSectionEx(SectionHandle: HANDLE, ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, SectionOffset: *mut i64, ViewSize: *mut usize, AllocationType: u32, Win32Protect: u32, ExtendedParameters: *mut MEM_EXTENDED_PARAMETER, ExtendedParameterCount: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtUnmapViewOfSection(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn NtUnmapViewOfSection(ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtUnmapViewOfSectionEx(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut std::ffi::c_void,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn NtUnmapViewOfSectionEx(ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void, Flags: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -2426,20 +2021,11 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQuerySection(
-        SectionHandle: HANDLE,
-        SectionInformationClass: SECTION_INFORMATION_CLASS,
-        SectionInformation: *mut std::ffi::c_void,
-        SectionInformationLength: usize,
-        ReturnLength: *mut usize,
-    ) -> NTSTATUS;
+    pub fn NtQuerySection(SectionHandle: HANDLE, SectionInformationClass: SECTION_INFORMATION_CLASS, SectionInformation: *mut std::ffi::c_void, SectionInformationLength: usize, ReturnLength: *mut usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAreMappedFilesTheSame(
-        File1MappedAsAnImage: *mut std::ffi::c_void,
-        File2MappedAsFile: *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn NtAreMappedFilesTheSame(File1MappedAsAnImage: *mut std::ffi::c_void, File2MappedAsFile: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -2488,11 +2074,7 @@ impl Default for MEMORY_PARTITION_CONFIGURATION_INFORMATION {
 }
 impl std::fmt::Debug for MEMORY_PARTITION_CONFIGURATION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_PARTITION_CONFIGURATION_INFORMATION {{ StandbyPageCountByPriority: {:?}, RepurposedPagesByPriority: {:?} }}",
-            self.StandbyPageCountByPriority, self.RepurposedPagesByPriority
-        )
+        write!(f, "MEMORY_PARTITION_CONFIGURATION_INFORMATION {{ StandbyPageCountByPriority: {:?}, RepurposedPagesByPriority: {:?} }}", self.StandbyPageCountByPriority, self.RepurposedPagesByPriority)
     }
 }
 #[repr(C)]
@@ -2573,11 +2155,7 @@ impl Default for MEMORY_PARTITION_INITIAL_ADD_INFORMATION {
 }
 impl std::fmt::Debug for MEMORY_PARTITION_INITIAL_ADD_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_PARTITION_INITIAL_ADD_INFORMATION {{ PartitionRanges: {:?} }}",
-            self.PartitionRanges
-        )
+        write!(f, "MEMORY_PARTITION_INITIAL_ADD_INFORMATION {{ PartitionRanges: {:?} }}", self.PartitionRanges)
     }
 }
 #[repr(C)]
@@ -2608,12 +2186,7 @@ impl Default for MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1_1 {
 }
 impl std::fmt::Debug for MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1_1 {{ CommitEvents : {:?}, Spare : {:?} }}",
-            self.CommitEvents(),
-            self.Spare()
-        )
+        write!(f, "MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1_1 {{ CommitEvents : {:?}, Spare : {:?} }}", self.CommitEvents(), self.Spare())
     }
 }
 impl MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1_1 {
@@ -2648,10 +2221,7 @@ impl Default for MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1 {
 }
 impl std::fmt::Debug for MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1 {{ union }}"
-        )
+        write!(f, "MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1 {{ union }}")
     }
 }
 impl Default for MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION {
@@ -2661,119 +2231,56 @@ impl Default for MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION {
 }
 impl std::fmt::Debug for MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION {{ Flags: {:?} }}",
-            self.Flags
-        )
+        write!(f, "MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION {{ Flags: {:?} }}", self.Flags)
     }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreatePartition(
-        ParentPartitionHandle: HANDLE,
-        PartitionHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        PreferredNode: u32,
-    ) -> NTSTATUS;
+    pub fn NtCreatePartition(ParentPartitionHandle: HANDLE, PartitionHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, PreferredNode: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenPartition(
-        PartitionHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-    ) -> NTSTATUS;
+    pub fn NtOpenPartition(PartitionHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtManagePartition(
-        TargetHandle: HANDLE,
-        SourceHandle: HANDLE,
-        PartitionInformationClass: PARTITION_INFORMATION_CLASS,
-        PartitionInformation: *mut std::ffi::c_void,
-        PartitionInformationLength: u32,
-    ) -> NTSTATUS;
+    pub fn NtManagePartition(TargetHandle: HANDLE, SourceHandle: HANDLE, PartitionInformationClass: PARTITION_INFORMATION_CLASS, PartitionInformation: *mut std::ffi::c_void, PartitionInformationLength: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtMapUserPhysicalPages(
-        VirtualAddress: *mut std::ffi::c_void,
-        NumberOfPages: usize,
-        UserPfnArray: *mut usize,
-    ) -> NTSTATUS;
+    pub fn NtMapUserPhysicalPages(VirtualAddress: *mut std::ffi::c_void, NumberOfPages: usize, UserPfnArray: *mut usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtMapUserPhysicalPagesScatter(
-        VirtualAddresses: *mut *mut std::ffi::c_void,
-        NumberOfPages: usize,
-        UserPfnArray: *mut usize,
-    ) -> NTSTATUS;
+    pub fn NtMapUserPhysicalPagesScatter(VirtualAddresses: *mut *mut std::ffi::c_void, NumberOfPages: usize, UserPfnArray: *mut usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAllocateUserPhysicalPages(
-        ProcessHandle: HANDLE,
-        NumberOfPages: *mut usize,
-        UserPfnArray: *mut usize,
-    ) -> NTSTATUS;
+    pub fn NtAllocateUserPhysicalPages(ProcessHandle: HANDLE, NumberOfPages: *mut usize, UserPfnArray: *mut usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAllocateUserPhysicalPagesEx(
-        ProcessHandle: HANDLE,
-        NumberOfPages: *mut usize,
-        UserPfnArray: *mut usize,
-        ExtendedParameters: *mut MEM_EXTENDED_PARAMETER,
-        ExtendedParameterCount: u32,
-    ) -> NTSTATUS;
+    pub fn NtAllocateUserPhysicalPagesEx(ProcessHandle: HANDLE, NumberOfPages: *mut usize, UserPfnArray: *mut usize, ExtendedParameters: *mut MEM_EXTENDED_PARAMETER, ExtendedParameterCount: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtFreeUserPhysicalPages(
-        ProcessHandle: HANDLE,
-        NumberOfPages: *mut usize,
-        UserPfnArray: *mut usize,
-    ) -> NTSTATUS;
+    pub fn NtFreeUserPhysicalPages(ProcessHandle: HANDLE, NumberOfPages: *mut usize, UserPfnArray: *mut usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtGetWriteWatch(
-        ProcessHandle: HANDLE,
-        Flags: u32,
-        BaseAddress: *mut std::ffi::c_void,
-        RegionSize: usize,
-        UserAddressArray: *mut *mut std::ffi::c_void,
-        EntriesInUserAddressArray: *mut usize,
-        Granularity: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtGetWriteWatch(ProcessHandle: HANDLE, Flags: u32, BaseAddress: *mut std::ffi::c_void, RegionSize: usize, UserAddressArray: *mut *mut std::ffi::c_void, EntriesInUserAddressArray: *mut usize, Granularity: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtResetWriteWatch(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut std::ffi::c_void,
-        RegionSize: usize,
-    ) -> NTSTATUS;
+    pub fn NtResetWriteWatch(ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void, RegionSize: usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreatePagingFile(
-        PageFileName: *mut UNICODE_STRING,
-        MinimumSize: *mut i64,
-        MaximumSize: *mut i64,
-        Priority: u32,
-    ) -> NTSTATUS;
+    pub fn NtCreatePagingFile(PageFileName: *mut UNICODE_STRING, MinimumSize: *mut i64, MaximumSize: *mut i64, Priority: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtFlushInstructionCache(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut std::ffi::c_void,
-        Length: usize,
-    ) -> NTSTATUS;
+    pub fn NtFlushInstructionCache(ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void, Length: usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -2781,55 +2288,21 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateEnclave(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut *mut std::ffi::c_void,
-        ZeroBits: usize,
-        Size: usize,
-        InitialCommitment: usize,
-        EnclaveType: u32,
-        EnclaveInformation: *mut std::ffi::c_void,
-        EnclaveInformationLength: u32,
-        EnclaveError: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtCreateEnclave(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, ZeroBits: usize, Size: usize, InitialCommitment: usize, EnclaveType: u32, EnclaveInformation: *mut std::ffi::c_void, EnclaveInformationLength: u32, EnclaveError: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtLoadEnclaveData(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut std::ffi::c_void,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: usize,
-        Protect: u32,
-        PageInformation: *mut std::ffi::c_void,
-        PageInformationLength: u32,
-        NumberOfBytesWritten: *mut usize,
-        EnclaveError: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtLoadEnclaveData(ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void, Buffer: *mut std::ffi::c_void, BufferSize: usize, Protect: u32, PageInformation: *mut std::ffi::c_void, PageInformationLength: u32, NumberOfBytesWritten: *mut usize, EnclaveError: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtInitializeEnclave(
-        ProcessHandle: HANDLE,
-        BaseAddress: *mut std::ffi::c_void,
-        EnclaveInformation: *mut std::ffi::c_void,
-        EnclaveInformationLength: u32,
-        EnclaveError: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtInitializeEnclave(ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void, EnclaveInformation: *mut std::ffi::c_void, EnclaveInformationLength: u32, EnclaveError: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtTerminateEnclave(
-        BaseAddress: *mut std::ffi::c_void,
-        WaitForThread: BOOLEAN,
-    ) -> NTSTATUS;
+    pub fn NtTerminateEnclave(BaseAddress: *mut std::ffi::c_void, WaitForThread: BOOLEAN) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCallEnclave(
-        Routine: PENCLAVE_ROUTINE,
-        Parameter: *mut std::ffi::c_void,
-        WaitForThread: BOOLEAN,
-        ReturnValue: *mut *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn NtCallEnclave(Routine: PENCLAVE_ROUTINE, Parameter: *mut std::ffi::c_void, WaitForThread: BOOLEAN, ReturnValue: *mut *mut std::ffi::c_void) -> NTSTATUS;
 }
