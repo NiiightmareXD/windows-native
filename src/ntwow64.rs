@@ -15,10 +15,10 @@ use crate::{
     ntldr::{LDR_DDAG_STATE, LDR_DLL_LOAD_REASON, LDR_HOT_PATCH_STATE},
 };
 
-pub const WOW64_SYSTEM_DIRECTORY: &[u8; 9usize] = b"SysWOW64\0";
-pub const WOW64_SYSTEM_DIRECTORY_U: &[u8; 9usize] = b"SysWOW64\0";
-pub const WOW64_X86_TAG: &[u8; 7usize] = b" (x86)\0";
-pub const WOW64_X86_TAG_U: &[u8; 7usize] = b" (x86)\0";
+pub const WOW64_SYSTEM_DIRECTORY: &[u8; 8] = b"SysWOW64";
+pub const WOW64_SYSTEM_DIRECTORY_U: &[u8; 9] = b"SysWOW64\0";
+pub const WOW64_X86_TAG: &[u8; 6] = b" (x86)";
+pub const WOW64_X86_TAG_U: &[u8; 7] = b" (x86)\0";
 pub const WOW64_CPUFLAGS_MSFT64: u32 = 1;
 pub const WOW64_CPUFLAGS_SOFTWARE: u32 = 2;
 pub const WOW64_CPUFLAGS_IA64: u32 = 4;
@@ -128,11 +128,7 @@ impl Default for RTL_BALANCED_NODE32 {
 }
 impl std::fmt::Debug for RTL_BALANCED_NODE32 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "RTL_BALANCED_NODE32 {{ Anonymous1: {:?}, Anonymous2: {:?} }}",
-            self.Anonymous1, self.Anonymous2
-        )
+        write!(f, "RTL_BALANCED_NODE32 {{ Anonymous1: {:?}, Anonymous2: {:?} }}", self.Anonymous1, self.Anonymous2)
     }
 }
 #[repr(C)]
@@ -237,11 +233,7 @@ impl Default for LDR_DDAG_NODE32 {
 }
 impl std::fmt::Debug for LDR_DDAG_NODE32 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "LDR_DDAG_NODE32 {{ Anonymous1: {:?}, IncomingDependencies: {:?} }}",
-            self.Anonymous1, self.IncomingDependencies
-        )
+        write!(f, "LDR_DDAG_NODE32 {{ Anonymous1: {:?}, IncomingDependencies: {:?} }}", self.Anonymous1, self.IncomingDependencies)
     }
 }
 #[repr(C)]
@@ -576,36 +568,7 @@ impl LDR_DATA_TABLE_ENTRY32_2_1 {
         self._bitfield_1.set(31usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        PackagedBinary: u32,
-        MarkedForRemoval: u32,
-        ImageDll: u32,
-        LoadNotificationsSent: u32,
-        TelemetryEntryProcessed: u32,
-        ProcessStaticImport: u32,
-        InLegacyLists: u32,
-        InIndexes: u32,
-        ShimDll: u32,
-        InExceptionTable: u32,
-        ReservedFlags1: u32,
-        LoadInProgress: u32,
-        LoadConfigProcessed: u32,
-        EntryProcessed: u32,
-        ProtectDelayLoad: u32,
-        ReservedFlags3: u32,
-        DontCallForThreads: u32,
-        ProcessAttachCalled: u32,
-        ProcessAttachFailed: u32,
-        CorDeferredValidate: u32,
-        CorImage: u32,
-        DontRelocate: u32,
-        CorILOnly: u32,
-        ChpeImage: u32,
-        ReservedFlags5: u32,
-        Redirected: u32,
-        ReservedFlags6: u32,
-        CompatDatabaseProcessed: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(PackagedBinary: u32, MarkedForRemoval: u32, ImageDll: u32, LoadNotificationsSent: u32, TelemetryEntryProcessed: u32, ProcessStaticImport: u32, InLegacyLists: u32, InIndexes: u32, ShimDll: u32, InExceptionTable: u32, ReservedFlags1: u32, LoadInProgress: u32, LoadConfigProcessed: u32, EntryProcessed: u32, ProtectDelayLoad: u32, ReservedFlags3: u32, DontCallForThreads: u32, ProcessAttachCalled: u32, ProcessAttachFailed: u32, CorDeferredValidate: u32, CorImage: u32, DontRelocate: u32, CorILOnly: u32, ChpeImage: u32, ReservedFlags5: u32, Redirected: u32, ReservedFlags6: u32, CompatDatabaseProcessed: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, PackagedBinary as u64);
         bitfield_unit.set(1usize, 1u8, MarkedForRemoval as u64);
@@ -655,11 +618,7 @@ impl Default for LDR_DATA_TABLE_ENTRY32 {
 }
 impl std::fmt::Debug for LDR_DATA_TABLE_ENTRY32 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "LDR_DATA_TABLE_ENTRY32 {{ Anonymous1: {:?}, Anonymous2: {:?}, BaseAddressIndexNode: {:?}, MappingInfoIndexNode: {:?} }}",
-            self.Anonymous1, self.Anonymous2, self.BaseAddressIndexNode, self.MappingInfoIndexNode
-        )
+        write!(f, "LDR_DATA_TABLE_ENTRY32 {{ Anonymous1: {:?}, Anonymous2: {:?}, BaseAddressIndexNode: {:?}, MappingInfoIndexNode: {:?} }}", self.Anonymous1, self.Anonymous2, self.BaseAddressIndexNode, self.MappingInfoIndexNode)
     }
 }
 #[repr(C)]
@@ -742,11 +701,7 @@ impl Default for RTL_USER_PROCESS_PARAMETERS32 {
 }
 impl std::fmt::Debug for RTL_USER_PROCESS_PARAMETERS32 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "RTL_USER_PROCESS_PARAMETERS32 {{ CurrentDirectory: {:?}, CurrentDirectories: {:?} }}",
-            self.CurrentDirectory, self.CurrentDirectories
-        )
+        write!(f, "RTL_USER_PROCESS_PARAMETERS32 {{ CurrentDirectory: {:?}, CurrentDirectories: {:?} }}", self.CurrentDirectory, self.CurrentDirectories)
     }
 }
 #[repr(C)]
@@ -966,16 +921,7 @@ impl PEB32_1_1 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(
-        ImageUsesLargePages: BOOLEAN,
-        IsProtectedProcess: BOOLEAN,
-        IsImageDynamicallyRelocated: BOOLEAN,
-        SkipPatchingUser32Forwarders: BOOLEAN,
-        IsPackagedProcess: BOOLEAN,
-        IsAppContainer: BOOLEAN,
-        IsProtectedProcessLight: BOOLEAN,
-        IsLongPathAwareProcess: BOOLEAN,
-    ) -> BitfieldUnit<[u8; 1usize]> {
+    pub fn new_bitfield_1(ImageUsesLargePages: BOOLEAN, IsProtectedProcess: BOOLEAN, IsImageDynamicallyRelocated: BOOLEAN, SkipPatchingUser32Forwarders: BOOLEAN, IsPackagedProcess: BOOLEAN, IsAppContainer: BOOLEAN, IsProtectedProcessLight: BOOLEAN, IsLongPathAwareProcess: BOOLEAN) -> BitfieldUnit<[u8; 1usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let ImageUsesLargePages: u8 = unsafe { std::mem::transmute(ImageUsesLargePages) };
@@ -986,13 +932,11 @@ impl PEB32_1_1 {
             IsProtectedProcess as u64
         });
         bitfield_unit.set(2usize, 1u8, {
-            let IsImageDynamicallyRelocated: u8 =
-                unsafe { std::mem::transmute(IsImageDynamicallyRelocated) };
+            let IsImageDynamicallyRelocated: u8 = unsafe { std::mem::transmute(IsImageDynamicallyRelocated) };
             IsImageDynamicallyRelocated as u64
         });
         bitfield_unit.set(3usize, 1u8, {
-            let SkipPatchingUser32Forwarders: u8 =
-                unsafe { std::mem::transmute(SkipPatchingUser32Forwarders) };
+            let SkipPatchingUser32Forwarders: u8 = unsafe { std::mem::transmute(SkipPatchingUser32Forwarders) };
             SkipPatchingUser32Forwarders as u64
         });
         bitfield_unit.set(4usize, 1u8, {
@@ -1004,8 +948,7 @@ impl PEB32_1_1 {
             IsAppContainer as u64
         });
         bitfield_unit.set(6usize, 1u8, {
-            let IsProtectedProcessLight: u8 =
-                unsafe { std::mem::transmute(IsProtectedProcessLight) };
+            let IsProtectedProcessLight: u8 = unsafe { std::mem::transmute(IsProtectedProcessLight) };
             IsProtectedProcessLight as u64
         });
         bitfield_unit.set(7usize, 1u8, {
@@ -1044,16 +987,7 @@ impl Default for PEB32_2_1 {
 }
 impl std::fmt::Debug for PEB32_2_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PEB32_2_1 {{ ProcessInJob : {:?}, ProcessInitializing : {:?}, ProcessUsingVEH : {:?}, ProcessUsingVCH : {:?}, ProcessUsingFTH : {:?}, ReservedBits0 : {:?} }}",
-            self.ProcessInJob(),
-            self.ProcessInitializing(),
-            self.ProcessUsingVEH(),
-            self.ProcessUsingVCH(),
-            self.ProcessUsingFTH(),
-            self.ReservedBits0()
-        )
+        write!(f, "PEB32_2_1 {{ ProcessInJob : {:?}, ProcessInitializing : {:?}, ProcessUsingVEH : {:?}, ProcessUsingVCH : {:?}, ProcessUsingFTH : {:?}, ReservedBits0 : {:?} }}", self.ProcessInJob(), self.ProcessInitializing(), self.ProcessUsingVEH(), self.ProcessUsingVCH(), self.ProcessUsingFTH(), self.ReservedBits0())
     }
 }
 impl PEB32_2_1 {
@@ -1106,14 +1040,7 @@ impl PEB32_2_1 {
         self._bitfield_1.set(5usize, 27u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        ProcessInJob: u32,
-        ProcessInitializing: u32,
-        ProcessUsingVEH: u32,
-        ProcessUsingVCH: u32,
-        ProcessUsingFTH: u32,
-        ReservedBits0: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(ProcessInJob: u32, ProcessInitializing: u32, ProcessUsingVEH: u32, ProcessUsingVCH: u32, ProcessUsingFTH: u32, ReservedBits0: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ProcessInJob as u64);
         bitfield_unit.set(1usize, 1u8, ProcessInitializing as u64);
@@ -1186,14 +1113,7 @@ impl Default for PEB32_5_1 {
 }
 impl std::fmt::Debug for PEB32_5_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PEB32_5_1 {{ HeapTracingEnabled : {:?}, CritSecTracingEnabled : {:?}, LibLoaderTracingEnabled : {:?}, SpareTracingBits : {:?} }}",
-            self.HeapTracingEnabled(),
-            self.CritSecTracingEnabled(),
-            self.LibLoaderTracingEnabled(),
-            self.SpareTracingBits()
-        )
+        write!(f, "PEB32_5_1 {{ HeapTracingEnabled : {:?}, CritSecTracingEnabled : {:?}, LibLoaderTracingEnabled : {:?}, SpareTracingBits : {:?} }}", self.HeapTracingEnabled(), self.CritSecTracingEnabled(), self.LibLoaderTracingEnabled(), self.SpareTracingBits())
     }
 }
 impl PEB32_5_1 {
@@ -1230,12 +1150,7 @@ impl PEB32_5_1 {
         self._bitfield_1.set(3usize, 29u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        HeapTracingEnabled: u32,
-        CritSecTracingEnabled: u32,
-        LibLoaderTracingEnabled: u32,
-        SpareTracingBits: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(HeapTracingEnabled: u32, CritSecTracingEnabled: u32, LibLoaderTracingEnabled: u32, SpareTracingBits: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, HeapTracingEnabled as u64);
         bitfield_unit.set(1usize, 1u8, CritSecTracingEnabled as u64);
@@ -1273,12 +1188,7 @@ impl Default for PEB32_6_1 {
 }
 impl std::fmt::Debug for PEB32_6_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PEB32_6_1 {{ SixtySecondEnabled : {:?}, Reserved : {:?} }}",
-            self.SixtySecondEnabled(),
-            self.Reserved()
-        )
+        write!(f, "PEB32_6_1 {{ SixtySecondEnabled : {:?}, Reserved : {:?} }}", self.SixtySecondEnabled(), self.Reserved())
     }
 }
 impl PEB32_6_1 {
@@ -1326,18 +1236,7 @@ impl std::fmt::Debug for PEB32 {
         write!(
             f,
             "PEB32 {{ Anonymous1: {:?}, Anonymous2: {:?}, Anonymous3: {:?}, TlsBitmapBits: {:?}, TlsExpansionBitmapBits: {:?}, SparePointers: {:?}, SpareUlongs: {:?}, Anonymous4: {:?}, Anonymous5: {:?}, WaitOnAddressHashTable: {:?}, PlaceholderCompatibilityModeReserved: {:?}, Anonymous6: {:?} }}",
-            self.Anonymous1,
-            self.Anonymous2,
-            self.Anonymous3,
-            self.TlsBitmapBits,
-            self.TlsExpansionBitmapBits,
-            self.SparePointers,
-            self.SpareUlongs,
-            self.Anonymous4,
-            self.Anonymous5,
-            self.WaitOnAddressHashTable,
-            self.PlaceholderCompatibilityModeReserved,
-            self.Anonymous6
+            self.Anonymous1, self.Anonymous2, self.Anonymous3, self.TlsBitmapBits, self.TlsExpansionBitmapBits, self.SparePointers, self.SpareUlongs, self.Anonymous4, self.Anonymous5, self.WaitOnAddressHashTable, self.PlaceholderCompatibilityModeReserved, self.Anonymous6
         )
     }
 }
@@ -1680,23 +1579,7 @@ impl TEB32_3_1 {
         self._bitfield_1.set(14usize, 2u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        SafeThunkCall: u16,
-        InDebugPrint: u16,
-        HasFiberData: u16,
-        SkipThreadAttach: u16,
-        WerInShipAssertCode: u16,
-        RanProcessInit: u16,
-        ClonedThread: u16,
-        SuppressDebugMsg: u16,
-        DisableUserStackWalk: u16,
-        RtlExceptionAttached: u16,
-        InitialThread: u16,
-        SessionAware: u16,
-        LoadOwner: u16,
-        LoaderWorker: u16,
-        SpareSameTebBits: u16,
-    ) -> BitfieldUnit<[u8; 2usize]> {
+    pub fn new_bitfield_1(SafeThunkCall: u16, InDebugPrint: u16, HasFiberData: u16, SkipThreadAttach: u16, WerInShipAssertCode: u16, RanProcessInit: u16, ClonedThread: u16, SuppressDebugMsg: u16, DisableUserStackWalk: u16, RtlExceptionAttached: u16, InitialThread: u16, SessionAware: u16, LoadOwner: u16, LoaderWorker: u16, SpareSameTebBits: u16) -> BitfieldUnit<[u8; 2usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, SafeThunkCall as u64);
         bitfield_unit.set(1usize, 1u8, InDebugPrint as u64);
@@ -1736,23 +1619,7 @@ impl std::fmt::Debug for TEB32 {
         write!(
             f,
             "TEB32 {{ User32Reserved: {:?}, UserReserved: {:?}, ReservedForDebuggerInstrumentation: {:?}, SystemReserved1: {:?}, WorkingOnBehalfTicket: {:?}, SpareBytes: {:?}, GdiTebBatch: {:?}, Win32ClientInfo: {:?}, glDispatchTable: {:?}, glReserved1: {:?}, StaticUnicodeBuffer: {:?}, TlsSlots: {:?}, DbgSsReserved: {:?}, Instrumentation: {:?}, Anonymous1: {:?}, Anonymous2: {:?}, Anonymous3: {:?} }}",
-            self.User32Reserved,
-            self.UserReserved,
-            self.ReservedForDebuggerInstrumentation,
-            self.SystemReserved1,
-            self.WorkingOnBehalfTicket,
-            self.SpareBytes,
-            self.GdiTebBatch,
-            self.Win32ClientInfo,
-            self.glDispatchTable,
-            self.glReserved1,
-            self.StaticUnicodeBuffer,
-            self.TlsSlots,
-            self.DbgSsReserved,
-            self.Instrumentation,
-            self.Anonymous1,
-            self.Anonymous2,
-            self.Anonymous3
+            self.User32Reserved, self.UserReserved, self.ReservedForDebuggerInstrumentation, self.SystemReserved1, self.WorkingOnBehalfTicket, self.SpareBytes, self.GdiTebBatch, self.Win32ClientInfo, self.glDispatchTable, self.glReserved1, self.StaticUnicodeBuffer, self.TlsSlots, self.DbgSsReserved, self.Instrumentation, self.Anonymous1, self.Anonymous2, self.Anonymous3
         )
     }
 }
@@ -1775,20 +1642,7 @@ impl Default for WOW64_EXECUTE_OPTIONS_1 {
 }
 impl std::fmt::Debug for WOW64_EXECUTE_OPTIONS_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WOW64_EXECUTE_OPTIONS_1 {{ StackReserveSize : {:?}, StackCommitSize : {:?}, Deprecated0 : {:?}, DisableWowAssert : {:?}, DisableTurboDispatch : {:?}, Unused : {:?}, Reserved0 : {:?}, Reserved1 : {:?}, Reserved2 : {:?}, Reserved3 : {:?} }}",
-            self.StackReserveSize(),
-            self.StackCommitSize(),
-            self.Deprecated0(),
-            self.DisableWowAssert(),
-            self.DisableTurboDispatch(),
-            self.Unused(),
-            self.Reserved0(),
-            self.Reserved1(),
-            self.Reserved2(),
-            self.Reserved3()
-        )
+        write!(f, "WOW64_EXECUTE_OPTIONS_1 {{ StackReserveSize : {:?}, StackCommitSize : {:?}, Deprecated0 : {:?}, DisableWowAssert : {:?}, DisableTurboDispatch : {:?}, Unused : {:?}, Reserved0 : {:?}, Reserved1 : {:?}, Reserved2 : {:?}, Reserved3 : {:?} }}", self.StackReserveSize(), self.StackCommitSize(), self.Deprecated0(), self.DisableWowAssert(), self.DisableTurboDispatch(), self.Unused(), self.Reserved0(), self.Reserved1(), self.Reserved2(), self.Reserved3())
     }
 }
 impl WOW64_EXECUTE_OPTIONS_1 {
@@ -1873,18 +1727,7 @@ impl WOW64_EXECUTE_OPTIONS_1 {
         self._bitfield_1.set(31usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        StackReserveSize: u32,
-        StackCommitSize: u32,
-        Deprecated0: u32,
-        DisableWowAssert: u32,
-        DisableTurboDispatch: u32,
-        Unused: u32,
-        Reserved0: u32,
-        Reserved1: u32,
-        Reserved2: u32,
-        Reserved3: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(StackReserveSize: u32, StackCommitSize: u32, Deprecated0: u32, DisableWowAssert: u32, DisableTurboDispatch: u32, Unused: u32, Reserved0: u32, Reserved1: u32, Reserved2: u32, Reserved3: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 8u8, StackReserveSize as u64);
         bitfield_unit.set(8usize, 4u8, StackCommitSize as u64);
@@ -1923,11 +1766,7 @@ impl Default for WOW64INFO {
 }
 impl std::fmt::Debug for WOW64INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "WOW64INFO {{ Wow64ExecuteFlags: {:?} }}",
-            self.Wow64ExecuteFlags
-        )
+        write!(f, "WOW64INFO {{ Wow64ExecuteFlags: {:?} }}", self.Wow64ExecuteFlags)
     }
 }
 #[repr(C)]
@@ -1942,10 +1781,6 @@ impl Default for PEB32_WITH_WOW64INFO {
 }
 impl std::fmt::Debug for PEB32_WITH_WOW64INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PEB32_WITH_WOW64INFO {{ Peb32: {:?}, Wow64Info: {:?} }}",
-            self.Peb32, self.Wow64Info
-        )
+        write!(f, "PEB32_WITH_WOW64INFO {{ Peb32: {:?}, Wow64Info: {:?} }}", self.Peb32, self.Wow64Info)
     }
 }

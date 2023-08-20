@@ -3,9 +3,7 @@ use windows::{
     Win32::{
         Foundation::{BOOLEAN, HANDLE, UNICODE_STRING},
         System::{
-            ApplicationInstallationAndServicing::{
-                ACTCTX_COMPATIBILITY_ELEMENT_TYPE, ACTCTX_REQUESTED_RUN_LEVEL,
-            },
+            ApplicationInstallationAndServicing::{ACTCTX_COMPATIBILITY_ELEMENT_TYPE, ACTCTX_REQUESTED_RUN_LEVEL},
             Kernel::LIST_ENTRY,
         },
     },
@@ -35,8 +33,7 @@ pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_FORMAT_WHISTLER: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_INCLUDES_BASE_NAME: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_OMITS_ASSEMBLY_ROOT: u32 = 2;
 pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_EXPAND: u32 = 4;
-pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SYSTEM_DEFAULT_REDIRECTED_SYSTEM32_DLL: u32 =
-    8;
+pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SYSTEM_DEFAULT_REDIRECTED_SYSTEM32_DLL: u32 = 8;
 pub const ACTIVATION_CONTEXT_DATA_WINDOW_CLASS_REDIRECTION_FORMAT_WHISTLER: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_FORMAT_WHISTLER: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_THREADING_MODEL_INVALID: u32 = 0;
@@ -60,22 +57,14 @@ pub const ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION_FORMAT_WHISTLER: 
 pub const ACTIVATION_CONTEXT_DATA_COM_PROGID_REDIRECTION_FORMAT_WHISTLER: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_CLR_SURROGATE_FORMAT_WHISTLER: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_APPLICATION_SETTINGS_FORMAT_LONGHORN: u32 = 1;
-pub const SXS_WINDOWS_SETTINGS_NAMESPACE: &[u8; 54usize] =
-    b"http://schemas.microsoft.com/SMI/2005/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2011_NAMESPACE: &[u8; 54usize] =
-    b"http://schemas.microsoft.com/SMI/2011/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2013_NAMESPACE: &[u8; 54usize] =
-    b"http://schemas.microsoft.com/SMI/2013/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2014_NAMESPACE: &[u8; 54usize] =
-    b"http://schemas.microsoft.com/SMI/2014/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2016_NAMESPACE: &[u8; 54usize] =
-    b"http://schemas.microsoft.com/SMI/2016/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2017_NAMESPACE: &[u8; 54usize] =
-    b"http://schemas.microsoft.com/SMI/2017/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2019_NAMESPACE: &[u8; 54usize] =
-    b"http://schemas.microsoft.com/SMI/2019/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2020_NAMESPACE: &[u8; 54usize] =
-    b"http://schemas.microsoft.com/SMI/2020/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2005/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2011_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2011/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2013_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2013/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2014_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2014/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2016_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2016/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2017_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2017/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2019_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2019/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2020_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2020/WindowsSettings\0";
 pub const ASSEMBLY_STORAGE_MAP_ASSEMBLY_ARRAY_IS_HEAP_ALLOCATED: u32 = 1;
 pub const ACTIVATION_CONTEXT_NOTIFICATION_DESTROY: u32 = 1;
 pub const ACTIVATION_CONTEXT_NOTIFICATION_ZOMBIFY: u32 = 2;
@@ -413,10 +402,7 @@ impl Default for ACTIVATION_CONTEXT_DATA_ASSEMBLY_GLOBAL_INFORMATION {
 }
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_ASSEMBLY_GLOBAL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ACTIVATION_CONTEXT_DATA_ASSEMBLY_GLOBAL_INFORMATION {{  }}"
-        )
+        write!(f, "ACTIVATION_CONTEXT_DATA_ASSEMBLY_GLOBAL_INFORMATION {{  }}")
     }
 }
 #[repr(C)]
@@ -449,10 +435,7 @@ impl Default for ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SEGMENT {
 }
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SEGMENT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SEGMENT {{  }}"
-        )
+        write!(f, "ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SEGMENT {{  }}")
     }
 }
 #[repr(C)]
@@ -526,10 +509,7 @@ impl Default for ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_SHIM {
 }
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_SHIM {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_SHIM {{  }}"
-        )
+        write!(f, "ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_SHIM {{  }}")
     }
 }
 #[repr(C)]
@@ -550,10 +530,7 @@ impl Default for ACTIVATION_CONTEXT_DATA_COM_INTERFACE_REDIRECTION {
 }
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_COM_INTERFACE_REDIRECTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ACTIVATION_CONTEXT_DATA_COM_INTERFACE_REDIRECTION {{  }}"
-        )
+        write!(f, "ACTIVATION_CONTEXT_DATA_COM_INTERFACE_REDIRECTION {{  }}")
     }
 }
 #[repr(C)]
@@ -590,11 +567,7 @@ impl Default for ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION {
 }
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION {{ Version: {:?} }}",
-            self.Version
-        )
+        write!(f, "ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION {{ Version: {:?} }}", self.Version)
     }
 }
 #[repr(C)]
@@ -681,11 +654,7 @@ impl Default for ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION_LEGACY {
 }
 impl std::fmt::Debug for ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION_LEGACY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION_LEGACY {{ Elements: {:?} }}",
-            self.Elements
-        )
+        write!(f, "ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION_LEGACY {{ Elements: {:?} }}", self.Elements)
     }
 }
 #[repr(C)]
@@ -717,23 +686,10 @@ impl Default for ASSEMBLY_STORAGE_MAP {
 }
 impl std::fmt::Debug for ASSEMBLY_STORAGE_MAP {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ASSEMBLY_STORAGE_MAP {{ AssemblyArray: {:?} }}",
-            self.AssemblyArray
-        )
+        write!(f, "ASSEMBLY_STORAGE_MAP {{ AssemblyArray: {:?} }}", self.AssemblyArray)
     }
 }
-pub type PACTIVATION_CONTEXT_NOTIFY_ROUTINE = std::option::Option<
-    unsafe extern "system" fn(
-        NotificationType: u32,
-        ActivationContext: *mut ACTIVATION_CONTEXT,
-        ActivationContextData: *mut ACTIVATION_CONTEXT_DATA,
-        NotificationContext: *mut std::ffi::c_void,
-        NotificationData: *mut std::ffi::c_void,
-        DisableThisNotification: *mut BOOLEAN,
-    ),
->;
+pub type PACTIVATION_CONTEXT_NOTIFY_ROUTINE = std::option::Option<unsafe extern "system" fn(NotificationType: u32, ActivationContext: *mut ACTIVATION_CONTEXT, ActivationContextData: *mut ACTIVATION_CONTEXT_DATA, NotificationContext: *mut std::ffi::c_void, NotificationData: *mut std::ffi::c_void, DisableThisNotification: *mut BOOLEAN)>;
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT {
     pub RefCount: i32,
@@ -753,16 +709,7 @@ impl Default for ACTIVATION_CONTEXT {
 }
 impl std::fmt::Debug for ACTIVATION_CONTEXT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ACTIVATION_CONTEXT {{ ActivationContextData: {:?}, NotificationRoutine: {:?}, SentNotifications: {:?}, DisabledNotifications: {:?}, StorageMap: {:?}, InlineStorageMapEntries: {:?} }}",
-            self.ActivationContextData,
-            self.NotificationRoutine,
-            self.SentNotifications,
-            self.DisabledNotifications,
-            self.StorageMap,
-            self.InlineStorageMapEntries
-        )
+        write!(f, "ACTIVATION_CONTEXT {{ ActivationContextData: {:?}, NotificationRoutine: {:?}, SentNotifications: {:?}, DisabledNotifications: {:?}, StorageMap: {:?}, InlineStorageMapEntries: {:?} }}", self.ActivationContextData, self.NotificationRoutine, self.SentNotifications, self.DisabledNotifications, self.StorageMap, self.InlineStorageMapEntries)
     }
 }
 #[repr(C)]
@@ -778,11 +725,7 @@ impl Default for RTL_ACTIVATION_CONTEXT_STACK_FRAME {
 }
 impl std::fmt::Debug for RTL_ACTIVATION_CONTEXT_STACK_FRAME {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "RTL_ACTIVATION_CONTEXT_STACK_FRAME {{ Previous: {:?} }}",
-            self.Previous
-        )
+        write!(f, "RTL_ACTIVATION_CONTEXT_STACK_FRAME {{ Previous: {:?} }}", self.Previous)
     }
 }
 #[repr(C)]
@@ -800,10 +743,6 @@ impl Default for ACTIVATION_CONTEXT_STACK {
 }
 impl std::fmt::Debug for ACTIVATION_CONTEXT_STACK {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "ACTIVATION_CONTEXT_STACK {{ ActiveFrame: {:?} }}",
-            self.ActiveFrame
-        )
+        write!(f, "ACTIVATION_CONTEXT_STACK {{ ActiveFrame: {:?} }}", self.ActiveFrame)
     }
 }

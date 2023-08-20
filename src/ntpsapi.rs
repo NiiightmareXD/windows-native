@@ -159,6 +159,14 @@ pub const PS_ATTRIBUTE_MITIGATION_AUDIT_OPTIONS: u32 = 131099;
 pub const PS_ATTRIBUTE_MACHINE_TYPE: u32 = 393244;
 pub const PS_ATTRIBUTE_COMPONENT_FILTER: u32 = 131101;
 pub const PS_ATTRIBUTE_ENABLE_OPTIONAL_XSTATE_FEATURES: u32 = 196638;
+pub const POWER_THROTTLING_PROCESS_VALID_FLAGS: u32 = 7;
+pub const ProcThreadAttributeExtendedFlags: u32 = 1;
+pub const ProcThreadAttributePackageFullName: u32 = 8;
+pub const ProcThreadAttributeConsoleReference: u32 = 10;
+pub const ProcThreadAttributeOsMaxVersionTested: u32 = 12;
+pub const ProcThreadAttributeBnoIsolation: u32 = 19;
+pub const ProcThreadAttributeIsolationManifest: u32 = 23;
+pub const ProcThreadAttributeCreateStore: u32 = 28;
 #[repr(C)]
 pub struct PEB_LDR_DATA {
     pub Length: u32,

@@ -20,7 +20,7 @@ pub const REG_KEY_DONT_VIRTUALIZE: u32 = 2;
 pub const REG_KEY_DONT_SILENT_FAIL: u32 = 4;
 pub const REG_KEY_RECURSE_FLAG: u32 = 8;
 pub const CM_EXTENDED_PARAMETER_TYPE_BITS: u32 = 8;
-pub const VR_DEVICE_NAME: &[u8; 19usize] = b"\\Device\\VRegDriver\0";
+pub const VR_DEVICE_NAME: &[u8; 19] = b"\\Device\\VRegDriver\0";
 pub const VR_FLAG_INHERIT_TRUST_CLASS: u32 = 1;
 pub const VR_FLAG_WRITE_THROUGH_HIVE: u32 = 2;
 pub const VR_FLAG_LOCAL_MACHINE_TRUST_CLASS: u32 = 4;
@@ -177,16 +177,7 @@ impl Default for KEY_VIRTUALIZATION_INFORMATION {
 }
 impl std::fmt::Debug for KEY_VIRTUALIZATION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "KEY_VIRTUALIZATION_INFORMATION {{ VirtualizationCandidate : {:?}, VirtualizationEnabled : {:?}, VirtualTarget : {:?}, VirtualStore : {:?}, VirtualSource : {:?}, Reserved : {:?} }}",
-            self.VirtualizationCandidate(),
-            self.VirtualizationEnabled(),
-            self.VirtualTarget(),
-            self.VirtualStore(),
-            self.VirtualSource(),
-            self.Reserved()
-        )
+        write!(f, "KEY_VIRTUALIZATION_INFORMATION {{ VirtualizationCandidate : {:?}, VirtualizationEnabled : {:?}, VirtualTarget : {:?}, VirtualStore : {:?}, VirtualSource : {:?}, Reserved : {:?} }}", self.VirtualizationCandidate(), self.VirtualizationEnabled(), self.VirtualTarget(), self.VirtualStore(), self.VirtualSource(), self.Reserved())
     }
 }
 impl KEY_VIRTUALIZATION_INFORMATION {
@@ -239,14 +230,7 @@ impl KEY_VIRTUALIZATION_INFORMATION {
         self._bitfield_1.set(5usize, 27u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        VirtualizationCandidate: u32,
-        VirtualizationEnabled: u32,
-        VirtualTarget: u32,
-        VirtualStore: u32,
-        VirtualSource: u32,
-        Reserved: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(VirtualizationCandidate: u32, VirtualizationEnabled: u32, VirtualTarget: u32, VirtualStore: u32, VirtualSource: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, VirtualizationCandidate as u64);
         bitfield_unit.set(1usize, 1u8, VirtualizationEnabled as u64);
@@ -270,12 +254,7 @@ impl Default for KEY_TRUST_INFORMATION {
 }
 impl std::fmt::Debug for KEY_TRUST_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "KEY_TRUST_INFORMATION {{ TrustedKey : {:?}, Reserved : {:?} }}",
-            self.TrustedKey(),
-            self.Reserved()
-        )
+        write!(f, "KEY_TRUST_INFORMATION {{ TrustedKey : {:?}, Reserved : {:?} }}", self.TrustedKey(), self.Reserved())
     }
 }
 impl KEY_TRUST_INFORMATION {
@@ -316,15 +295,7 @@ impl Default for KEY_LAYER_INFORMATION {
 }
 impl std::fmt::Debug for KEY_LAYER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "KEY_LAYER_INFORMATION {{ IsTombstone : {:?}, IsSupersedeLocal : {:?}, IsSupersedeTree : {:?}, ClassIsInherited : {:?}, Reserved : {:?} }}",
-            self.IsTombstone(),
-            self.IsSupersedeLocal(),
-            self.IsSupersedeTree(),
-            self.ClassIsInherited(),
-            self.Reserved()
-        )
+        write!(f, "KEY_LAYER_INFORMATION {{ IsTombstone : {:?}, IsSupersedeLocal : {:?}, IsSupersedeTree : {:?}, ClassIsInherited : {:?}, Reserved : {:?} }}", self.IsTombstone(), self.IsSupersedeLocal(), self.IsSupersedeTree(), self.ClassIsInherited(), self.Reserved())
     }
 }
 impl KEY_LAYER_INFORMATION {
@@ -369,13 +340,7 @@ impl KEY_LAYER_INFORMATION {
         self._bitfield_1.set(4usize, 28u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        IsTombstone: u32,
-        IsSupersedeLocal: u32,
-        IsSupersedeTree: u32,
-        ClassIsInherited: u32,
-        Reserved: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(IsTombstone: u32, IsSupersedeLocal: u32, IsSupersedeTree: u32, ClassIsInherited: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, IsTombstone as u64);
         bitfield_unit.set(1usize, 1u8, IsSupersedeLocal as u64);
@@ -452,15 +417,7 @@ impl Default for KEY_SET_LAYER_INFORMATION {
 }
 impl std::fmt::Debug for KEY_SET_LAYER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "KEY_SET_LAYER_INFORMATION {{ IsTombstone : {:?}, IsSupersedeLocal : {:?}, IsSupersedeTree : {:?}, ClassIsInherited : {:?}, Reserved : {:?} }}",
-            self.IsTombstone(),
-            self.IsSupersedeLocal(),
-            self.IsSupersedeTree(),
-            self.ClassIsInherited(),
-            self.Reserved()
-        )
+        write!(f, "KEY_SET_LAYER_INFORMATION {{ IsTombstone : {:?}, IsSupersedeLocal : {:?}, IsSupersedeTree : {:?}, ClassIsInherited : {:?}, Reserved : {:?} }}", self.IsTombstone(), self.IsSupersedeLocal(), self.IsSupersedeTree(), self.ClassIsInherited(), self.Reserved())
     }
 }
 impl KEY_SET_LAYER_INFORMATION {
@@ -505,13 +462,7 @@ impl KEY_SET_LAYER_INFORMATION {
         self._bitfield_1.set(4usize, 28u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        IsTombstone: u32,
-        IsSupersedeLocal: u32,
-        IsSupersedeTree: u32,
-        ClassIsInherited: u32,
-        Reserved: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(IsTombstone: u32, IsSupersedeLocal: u32, IsSupersedeTree: u32, ClassIsInherited: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, IsTombstone as u64);
         bitfield_unit.set(1usize, 1u8, IsSupersedeLocal as u64);
@@ -548,14 +499,7 @@ impl Default for KEY_SET_VIRTUALIZATION_INFORMATION {
 }
 impl std::fmt::Debug for KEY_SET_VIRTUALIZATION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "KEY_SET_VIRTUALIZATION_INFORMATION {{ VirtualTarget : {:?}, VirtualStore : {:?}, VirtualSource : {:?}, Reserved : {:?} }}",
-            self.VirtualTarget(),
-            self.VirtualStore(),
-            self.VirtualSource(),
-            self.Reserved()
-        )
+        write!(f, "KEY_SET_VIRTUALIZATION_INFORMATION {{ VirtualTarget : {:?}, VirtualStore : {:?}, VirtualSource : {:?}, Reserved : {:?} }}", self.VirtualTarget(), self.VirtualStore(), self.VirtualSource(), self.Reserved())
     }
 }
 impl KEY_SET_VIRTUALIZATION_INFORMATION {
@@ -592,12 +536,7 @@ impl KEY_SET_VIRTUALIZATION_INFORMATION {
         self._bitfield_1.set(3usize, 29u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        VirtualTarget: u32,
-        VirtualStore: u32,
-        VirtualSource: u32,
-        Reserved: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
+    pub fn new_bitfield_1(VirtualTarget: u32, VirtualStore: u32, VirtualSource: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
         bitfield_unit.set(0usize, 1u8, VirtualTarget as u64);
         bitfield_unit.set(1usize, 1u8, VirtualStore as u64);
@@ -667,11 +606,7 @@ impl Default for KEY_VALUE_PARTIAL_INFORMATION {
 }
 impl std::fmt::Debug for KEY_VALUE_PARTIAL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "KEY_VALUE_PARTIAL_INFORMATION {{ Data: {:?} }}",
-            self.Data
-        )
+        write!(f, "KEY_VALUE_PARTIAL_INFORMATION {{ Data: {:?} }}", self.Data)
     }
 }
 #[repr(C)]
@@ -687,11 +622,7 @@ impl Default for KEY_VALUE_PARTIAL_INFORMATION_ALIGN64 {
 }
 impl std::fmt::Debug for KEY_VALUE_PARTIAL_INFORMATION_ALIGN64 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "KEY_VALUE_PARTIAL_INFORMATION_ALIGN64 {{ Data: {:?} }}",
-            self.Data
-        )
+        write!(f, "KEY_VALUE_PARTIAL_INFORMATION_ALIGN64 {{ Data: {:?} }}", self.Data)
     }
 }
 #[repr(C)]
@@ -707,12 +638,7 @@ impl Default for KEY_VALUE_LAYER_INFORMATION {
 }
 impl std::fmt::Debug for KEY_VALUE_LAYER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "KEY_VALUE_LAYER_INFORMATION {{ IsTombstone : {:?}, Reserved : {:?} }}",
-            self.IsTombstone(),
-            self.Reserved()
-        )
+        write!(f, "KEY_VALUE_LAYER_INFORMATION {{ IsTombstone : {:?}, Reserved : {:?} }}", self.IsTombstone(), self.Reserved())
     }
 }
 impl KEY_VALUE_LAYER_INFORMATION {
@@ -767,12 +693,7 @@ impl Default for CM_EXTENDED_PARAMETER_1 {
 }
 impl std::fmt::Debug for CM_EXTENDED_PARAMETER_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "CM_EXTENDED_PARAMETER_1 {{ Type : {:?}, Reserved : {:?} }}",
-            self.Type(),
-            self.Reserved()
-        )
+        write!(f, "CM_EXTENDED_PARAMETER_1 {{ Type : {:?}, Reserved : {:?} }}", self.Type(), self.Reserved())
     }
 }
 impl CM_EXTENDED_PARAMETER_1 {
@@ -827,11 +748,7 @@ impl Default for CM_EXTENDED_PARAMETER {
 }
 impl std::fmt::Debug for CM_EXTENDED_PARAMETER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "CM_EXTENDED_PARAMETER {{ Anonymous1: {:?}, Anonymous2: {:?} }}",
-            self.Anonymous1, self.Anonymous2
-        )
+        write!(f, "CM_EXTENDED_PARAMETER {{ Anonymous1: {:?}, Anonymous2: {:?} }}", self.Anonymous1, self.Anonymous2)
     }
 }
 #[repr(C)]
@@ -872,11 +789,7 @@ impl Default for REG_NOTIFY_INFORMATION {
 }
 impl std::fmt::Debug for REG_NOTIFY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "REG_NOTIFY_INFORMATION {{ Action: {:?}, Key: {:?} }}",
-            self.Action, self.Key
-        )
+        write!(f, "REG_NOTIFY_INFORMATION {{ Action: {:?}, Key: {:?} }}", self.Action, self.Key)
     }
 }
 #[repr(C)]
@@ -906,11 +819,7 @@ impl Default for KEY_OPEN_SUBKEYS_INFORMATION {
 }
 impl std::fmt::Debug for KEY_OPEN_SUBKEYS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "KEY_OPEN_SUBKEYS_INFORMATION {{ KeyArray: {:?} }}",
-            self.KeyArray
-        )
+        write!(f, "KEY_OPEN_SUBKEYS_INFORMATION {{ KeyArray: {:?} }}", self.KeyArray)
     }
 }
 #[repr(C)]
@@ -946,11 +855,7 @@ impl Default for VR_LOAD_DIFFERENCING_HIVE {
 }
 impl std::fmt::Debug for VR_LOAD_DIFFERENCING_HIVE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "VR_LOAD_DIFFERENCING_HIVE {{ Strings: {:?} }}",
-            self.Strings
-        )
+        write!(f, "VR_LOAD_DIFFERENCING_HIVE {{ Strings: {:?} }}", self.Strings)
     }
 }
 #[repr(C)]
@@ -969,11 +874,7 @@ impl Default for VR_CREATE_NAMESPACE_NODE {
 }
 impl std::fmt::Debug for VR_CREATE_NAMESPACE_NODE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "VR_CREATE_NAMESPACE_NODE {{ Strings: {:?} }}",
-            self.Strings
-        )
+        write!(f, "VR_CREATE_NAMESPACE_NODE {{ Strings: {:?} }}", self.Strings)
     }
 }
 #[repr(C)]
@@ -1023,11 +924,7 @@ impl Default for VR_CREATE_MULTIPLE_NAMESPACE_NODES {
 }
 impl std::fmt::Debug for VR_CREATE_MULTIPLE_NAMESPACE_NODES {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "VR_CREATE_MULTIPLE_NAMESPACE_NODES {{ Keys: {:?} }}",
-            self.Keys
-        )
+        write!(f, "VR_CREATE_MULTIPLE_NAMESPACE_NODES {{ Keys: {:?} }}", self.Keys)
     }
 }
 #[repr(C)]
@@ -1090,11 +987,7 @@ impl Default for VR_LOAD_DIFFERENCING_HIVE_FOR_HOST {
 }
 impl std::fmt::Debug for VR_LOAD_DIFFERENCING_HIVE_FOR_HOST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "VR_LOAD_DIFFERENCING_HIVE_FOR_HOST {{ Strings: {:?} }}",
-            self.Strings
-        )
+        write!(f, "VR_LOAD_DIFFERENCING_HIVE_FOR_HOST {{ Strings: {:?} }}", self.Strings)
     }
 }
 #[repr(C)]
@@ -1110,73 +1003,32 @@ impl Default for VR_UNLOAD_DIFFERENCING_HIVE_FOR_HOST {
 }
 impl std::fmt::Debug for VR_UNLOAD_DIFFERENCING_HIVE_FOR_HOST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "VR_UNLOAD_DIFFERENCING_HIVE_FOR_HOST {{ TargetKeyPath: {:?} }}",
-            self.TargetKeyPath
-        )
+        write!(f, "VR_UNLOAD_DIFFERENCING_HIVE_FOR_HOST {{ TargetKeyPath: {:?} }}", self.TargetKeyPath)
     }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateKey(
-        KeyHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        TitleIndex: u32,
-        Class: *mut UNICODE_STRING,
-        CreateOptions: u32,
-        Disposition: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtCreateKey(KeyHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, TitleIndex: u32, Class: *mut UNICODE_STRING, CreateOptions: u32, Disposition: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateKeyTransacted(
-        KeyHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        TitleIndex: u32,
-        Class: *mut UNICODE_STRING,
-        CreateOptions: u32,
-        TransactionHandle: HANDLE,
-        Disposition: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtCreateKeyTransacted(KeyHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, TitleIndex: u32, Class: *mut UNICODE_STRING, CreateOptions: u32, TransactionHandle: HANDLE, Disposition: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenKey(
-        KeyHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-    ) -> NTSTATUS;
+    pub fn NtOpenKey(KeyHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenKeyTransacted(
-        KeyHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        TransactionHandle: HANDLE,
-    ) -> NTSTATUS;
+    pub fn NtOpenKeyTransacted(KeyHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, TransactionHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenKeyEx(
-        KeyHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        OpenOptions: u32,
-    ) -> NTSTATUS;
+    pub fn NtOpenKeyEx(KeyHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, OpenOptions: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenKeyTransactedEx(
-        KeyHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        OpenOptions: u32,
-        TransactionHandle: HANDLE,
-    ) -> NTSTATUS;
+    pub fn NtOpenKeyTransactedEx(KeyHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, OpenOptions: u32, TransactionHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1192,77 +1044,31 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryKey(
-        KeyHandle: HANDLE,
-        KeyInformationClass: KEY_INFORMATION_CLASS,
-        KeyInformation: *mut std::ffi::c_void,
-        Length: u32,
-        ResultLength: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtQueryKey(KeyHandle: HANDLE, KeyInformationClass: KEY_INFORMATION_CLASS, KeyInformation: *mut std::ffi::c_void, Length: u32, ResultLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetInformationKey(
-        KeyHandle: HANDLE,
-        KeySetInformationClass: KEY_SET_INFORMATION_CLASS,
-        KeySetInformation: *mut std::ffi::c_void,
-        KeySetInformationLength: u32,
-    ) -> NTSTATUS;
+    pub fn NtSetInformationKey(KeyHandle: HANDLE, KeySetInformationClass: KEY_SET_INFORMATION_CLASS, KeySetInformation: *mut std::ffi::c_void, KeySetInformationLength: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryValueKey(
-        KeyHandle: HANDLE,
-        ValueName: *mut UNICODE_STRING,
-        KeyValueInformationClass: KEY_VALUE_INFORMATION_CLASS,
-        KeyValueInformation: *mut std::ffi::c_void,
-        Length: u32,
-        ResultLength: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtQueryValueKey(KeyHandle: HANDLE, ValueName: *mut UNICODE_STRING, KeyValueInformationClass: KEY_VALUE_INFORMATION_CLASS, KeyValueInformation: *mut std::ffi::c_void, Length: u32, ResultLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetValueKey(
-        KeyHandle: HANDLE,
-        ValueName: *mut UNICODE_STRING,
-        TitleIndex: u32,
-        Type: u32,
-        Data: *mut std::ffi::c_void,
-        DataSize: u32,
-    ) -> NTSTATUS;
+    pub fn NtSetValueKey(KeyHandle: HANDLE, ValueName: *mut UNICODE_STRING, TitleIndex: u32, Type: u32, Data: *mut std::ffi::c_void, DataSize: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryMultipleValueKey(
-        KeyHandle: HANDLE,
-        ValueEntries: *mut KEY_VALUE_ENTRY,
-        EntryCount: u32,
-        ValueBuffer: *mut std::ffi::c_void,
-        BufferLength: *mut u32,
-        RequiredBufferLength: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtQueryMultipleValueKey(KeyHandle: HANDLE, ValueEntries: *mut KEY_VALUE_ENTRY, EntryCount: u32, ValueBuffer: *mut std::ffi::c_void, BufferLength: *mut u32, RequiredBufferLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtEnumerateKey(
-        KeyHandle: HANDLE,
-        Index: u32,
-        KeyInformationClass: KEY_INFORMATION_CLASS,
-        KeyInformation: *mut std::ffi::c_void,
-        Length: u32,
-        ResultLength: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtEnumerateKey(KeyHandle: HANDLE, Index: u32, KeyInformationClass: KEY_INFORMATION_CLASS, KeyInformation: *mut std::ffi::c_void, Length: u32, ResultLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtEnumerateValueKey(
-        KeyHandle: HANDLE,
-        Index: u32,
-        KeyValueInformationClass: KEY_VALUE_INFORMATION_CLASS,
-        KeyValueInformation: *mut std::ffi::c_void,
-        Length: u32,
-        ResultLength: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtEnumerateValueKey(KeyHandle: HANDLE, Index: u32, KeyValueInformationClass: KEY_VALUE_INFORMATION_CLASS, KeyValueInformation: *mut std::ffi::c_void, Length: u32, ResultLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1278,52 +1084,23 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtLoadKey(
-        TargetKey: *mut OBJECT_ATTRIBUTES,
-        SourceFile: *mut OBJECT_ATTRIBUTES,
-    ) -> NTSTATUS;
+    pub fn NtLoadKey(TargetKey: *mut OBJECT_ATTRIBUTES, SourceFile: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtLoadKey2(
-        TargetKey: *mut OBJECT_ATTRIBUTES,
-        SourceFile: *mut OBJECT_ATTRIBUTES,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn NtLoadKey2(TargetKey: *mut OBJECT_ATTRIBUTES, SourceFile: *mut OBJECT_ATTRIBUTES, Flags: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtLoadKeyEx(
-        TargetKey: *mut OBJECT_ATTRIBUTES,
-        SourceFile: *mut OBJECT_ATTRIBUTES,
-        Flags: u32,
-        TrustClassKey: HANDLE,
-        Event: HANDLE,
-        DesiredAccess: u32,
-        RootHandle: *mut HANDLE,
-        Reserved: *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn NtLoadKeyEx(TargetKey: *mut OBJECT_ATTRIBUTES, SourceFile: *mut OBJECT_ATTRIBUTES, Flags: u32, TrustClassKey: HANDLE, Event: HANDLE, DesiredAccess: u32, RootHandle: *mut HANDLE, Reserved: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtLoadKey3(
-        TargetKey: *mut OBJECT_ATTRIBUTES,
-        SourceFile: *mut OBJECT_ATTRIBUTES,
-        Flags: u32,
-        ExtendedParameters: *mut CM_EXTENDED_PARAMETER,
-        ExtendedParameterCount: u32,
-        DesiredAccess: u32,
-        RootHandle: *mut HANDLE,
-        Reserved: *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn NtLoadKey3(TargetKey: *mut OBJECT_ATTRIBUTES, SourceFile: *mut OBJECT_ATTRIBUTES, Flags: u32, ExtendedParameters: *mut CM_EXTENDED_PARAMETER, ExtendedParameterCount: u32, DesiredAccess: u32, RootHandle: *mut HANDLE, Reserved: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtReplaceKey(
-        NewFile: *mut OBJECT_ATTRIBUTES,
-        TargetHandle: HANDLE,
-        OldFile: *mut OBJECT_ATTRIBUTES,
-    ) -> NTSTATUS;
+    pub fn NtReplaceKey(NewFile: *mut OBJECT_ATTRIBUTES, TargetHandle: HANDLE, OldFile: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1335,11 +1112,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSaveMergedKeys(
-        HighPrecedenceKeyHandle: HANDLE,
-        LowPrecedenceKeyHandle: HANDLE,
-        FileHandle: HANDLE,
-    ) -> NTSTATUS;
+    pub fn NtSaveMergedKeys(HighPrecedenceKeyHandle: HANDLE, LowPrecedenceKeyHandle: HANDLE, FileHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1359,49 +1132,19 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtNotifyChangeKey(
-        KeyHandle: HANDLE,
-        Event: HANDLE,
-        ApcRoutine: PIO_APC_ROUTINE,
-        ApcContext: *mut std::ffi::c_void,
-        IoStatusBlock: *mut IO_STATUS_BLOCK,
-        CompletionFilter: u32,
-        WatchTree: BOOLEAN,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: u32,
-        Asynchronous: BOOLEAN,
-    ) -> NTSTATUS;
+    pub fn NtNotifyChangeKey(KeyHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, CompletionFilter: u32, WatchTree: BOOLEAN, Buffer: *mut std::ffi::c_void, BufferSize: u32, Asynchronous: BOOLEAN) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtNotifyChangeMultipleKeys(
-        MasterKeyHandle: HANDLE,
-        Count: u32,
-        SubordinateObjects: *mut OBJECT_ATTRIBUTES,
-        Event: HANDLE,
-        ApcRoutine: PIO_APC_ROUTINE,
-        ApcContext: *mut std::ffi::c_void,
-        IoStatusBlock: *mut IO_STATUS_BLOCK,
-        CompletionFilter: u32,
-        WatchTree: BOOLEAN,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: u32,
-        Asynchronous: BOOLEAN,
-    ) -> NTSTATUS;
+    pub fn NtNotifyChangeMultipleKeys(MasterKeyHandle: HANDLE, Count: u32, SubordinateObjects: *mut OBJECT_ATTRIBUTES, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, CompletionFilter: u32, WatchTree: BOOLEAN, Buffer: *mut std::ffi::c_void, BufferSize: u32, Asynchronous: BOOLEAN) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryOpenSubKeys(TargetKey: *mut OBJECT_ATTRIBUTES, HandleCount: *mut u32)
-    -> NTSTATUS;
+    pub fn NtQueryOpenSubKeys(TargetKey: *mut OBJECT_ATTRIBUTES, HandleCount: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryOpenSubKeysEx(
-        TargetKey: *mut OBJECT_ATTRIBUTES,
-        BufferLength: u32,
-        Buffer: *mut std::ffi::c_void,
-        RequiredSize: *mut u32,
-    ) -> NTSTATUS;
+    pub fn NtQueryOpenSubKeysEx(TargetKey: *mut OBJECT_ATTRIBUTES, BufferLength: u32, Buffer: *mut std::ffi::c_void, RequiredSize: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1425,20 +1168,11 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateRegistryTransaction(
-        RegistryTransactionHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjAttributes: *mut OBJECT_ATTRIBUTES,
-        CreateOptions: u32,
-    ) -> NTSTATUS;
+    pub fn NtCreateRegistryTransaction(RegistryTransactionHandle: *mut HANDLE, DesiredAccess: u32, ObjAttributes: *mut OBJECT_ATTRIBUTES, CreateOptions: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenRegistryTransaction(
-        RegistryTransactionHandle: *mut HANDLE,
-        DesiredAccess: u32,
-        ObjAttributes: *mut OBJECT_ATTRIBUTES,
-    ) -> NTSTATUS;
+    pub fn NtOpenRegistryTransaction(RegistryTransactionHandle: *mut HANDLE, DesiredAccess: u32, ObjAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1446,6 +1180,5 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtRollbackRegistryTransaction(RegistryTransactionHandle: HANDLE, Flags: u32)
-    -> NTSTATUS;
+    pub fn NtRollbackRegistryTransaction(RegistryTransactionHandle: HANDLE, Flags: u32) -> NTSTATUS;
 }

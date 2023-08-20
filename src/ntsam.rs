@@ -150,7 +150,7 @@ pub const SAM_PWD_CHANGE_FAILURE_REASON_MAX: u32 = 8;
 pub const SAM_USER_ACCOUNT: u32 = 1;
 pub const SAM_GLOBAL_GROUP_ACCOUNT: u32 = 2;
 pub const SAM_LOCAL_GROUP_ACCOUNT: u32 = 4;
-pub const SAM_DELTA_NOTIFY_ROUTINE: &[u8; 12usize] = b"DeltaNotify\0";
+pub const SAM_DELTA_NOTIFY_ROUTINE: &[u8; 12] = b"DeltaNotify\0";
 pub const SAM_SID_COMPATIBILITY_ALL: u32 = 0;
 pub const SAM_SID_COMPATIBILITY_LAX: u32 = 1;
 pub const SAM_SID_COMPATIBILITY_STRICT: u32 = 2;
@@ -162,8 +162,6 @@ pub const SAM_VALIDATE_PASSWORD_HISTORY_LENGTH: u32 = 16;
 pub const SAM_VALIDATE_PASSWORD_HISTORY: u32 = 32;
 pub const DOMAIN_PROMOTION_INCREMENT: (u32, u32) = (0, 16);
 pub const DOMAIN_PROMOTION_MASK: (u32, u32) = (0, 4294967280);
-pub type SAM_ENUMERATE_HANDLE = u32;
-pub type PSAM_ENUMERATE_HANDLE = *mut u32;
 #[repr(C)]
 pub struct SAM_RID_ENUMERATION {
     pub RelativeId: u32,
@@ -646,7 +644,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamEnumerateDomainsInSamServer(ServerHandle: *mut std::ffi::c_void, EnumerationContext: PSAM_ENUMERATE_HANDLE, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
+    pub fn SamEnumerateDomainsInSamServer(ServerHandle: *mut std::ffi::c_void, EnumerationContext: *mut u32, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -765,7 +763,7 @@ impl std::fmt::Debug for GROUP_ADM_COMMENT_INFORMATION {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamEnumerateGroupsInDomain(DomainHandle: *mut std::ffi::c_void, EnumerationContext: PSAM_ENUMERATE_HANDLE, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
+    pub fn SamEnumerateGroupsInDomain(DomainHandle: *mut std::ffi::c_void, EnumerationContext: *mut u32, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -873,7 +871,7 @@ impl std::fmt::Debug for ALIAS_EXTENDED_INFORMATION {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamEnumerateAliasesInDomain(DomainHandle: *mut std::ffi::c_void, EnumerationContext: PSAM_ENUMERATE_HANDLE, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
+    pub fn SamEnumerateAliasesInDomain(DomainHandle: *mut std::ffi::c_void, EnumerationContext: *mut u32, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1597,7 +1595,7 @@ impl std::fmt::Debug for USER_PWD_CHANGE_FAILURE_INFORMATION {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn SamEnumerateUsersInDomain(DomainHandle: *mut std::ffi::c_void, EnumerationContext: PSAM_ENUMERATE_HANDLE, UserAccountControl: u32, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
+    pub fn SamEnumerateUsersInDomain(DomainHandle: *mut std::ffi::c_void, EnumerationContext: *mut u32, UserAccountControl: u32, Buffer: *mut *mut std::ffi::c_void, PreferedMaximumLength: u32, CountReturned: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
