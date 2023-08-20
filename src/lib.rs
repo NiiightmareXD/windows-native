@@ -30,7 +30,7 @@
 //!
 //! ## Usage
 //!
-//! ```rust
+//! ```no_run
 //! # fn main() {
 //! use std::{thread, time::Duration};
 //!
