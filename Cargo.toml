@@ -10,7 +10,6 @@ repository = "https://github.com/NiiightmareXD/windows-native"
 license = "MIT"
 keywords = ["native", "windows", "ffi", "win32", "com"]
 categories = ["os::windows-apis", "api-bindings", "external-ffi-bindings"]
-publish = ["windows-native"]
 
 [dependencies]
 windows = { version = "0.51.1", features = [
