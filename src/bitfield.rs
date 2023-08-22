@@ -115,11 +115,11 @@ impl<T> ArrayField<T> {
     #[inline]
 
     pub const fn new() -> Self {
-        ArrayField(std::marker::PhantomData, [])
+        Self(std::marker::PhantomData, [])
     }
 
     #[inline]
-    pub fn as_ptr(&self) -> *const T {
+    pub const fn as_ptr(&self) -> *const T {
         self as *const _ as *const T
     }
 
@@ -131,7 +131,7 @@ impl<T> ArrayField<T> {
     #[inline]
     #[allow(clippy::missing_safety_doc)]
 
-    pub unsafe fn as_slice(&self, len: usize) -> &[T] {
+    pub const unsafe fn as_slice(&self, len: usize) -> &[T] {
         std::slice::from_raw_parts(self.as_ptr(), len)
     }
 
@@ -156,7 +156,7 @@ impl<T> UnionField<T> {
     #[inline]
 
     pub const fn new() -> Self {
-        UnionField(std::marker::PhantomData)
+        Self(std::marker::PhantomData)
     }
 
     #[inline]
@@ -204,7 +204,7 @@ impl<T> std::hash::Hash for UnionField<T> {
 }
 
 impl<T> std::cmp::PartialEq for UnionField<T> {
-    fn eq(&self, _other: &UnionField<T>) -> bool {
+    fn eq(&self, _other: &Self) -> bool {
         true
     }
 }

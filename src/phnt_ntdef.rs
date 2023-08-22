@@ -39,7 +39,7 @@ impl std::fmt::Debug for QUAD_PTR {
 pub struct PREGHANDLE(pub u64);
 
 impl PREGHANDLE {
-    pub fn is_invalid(&self) -> bool {
+    pub const fn is_invalid(&self) -> bool {
         self.0 == 0
     }
 }
@@ -71,7 +71,7 @@ impl windows::core::TypeKind for PREGHANDLE {
 pub struct TRACEHANDLE(pub u64);
 
 impl TRACEHANDLE {
-    pub fn is_invalid(&self) -> bool {
+    pub const fn is_invalid(&self) -> bool {
         self.0 == 0
     }
 }

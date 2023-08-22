@@ -1,9 +1,16 @@
 [package]
 name = "windows-native"
-version = "0.51.1"
+version = "1.0.36"
+authors = ["NiiightmareXD"]
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "Windows Native Undocumented API for Rust Language 🔥"
+documentation = "https://docs.rs/windows-native"
+readme = "README.md"
+repository = "https://github.com/NiiightmareXD/windows-native"
+license = "MIT"
+keywords = ["native", "windows", "ffi", "win32", "com"]
+categories = ["os::windows-apis", "api-bindings", "external-ffi-bindings"]
+publish = ["windows-native"]
 
 [dependencies]
 windows = { version = "0.51.1", features = [
