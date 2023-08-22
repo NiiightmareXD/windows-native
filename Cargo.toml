@@ -1,9 +1,10 @@
 [package]
 name = "windows-native"
-version = "1.0.37"
+version = "1.0.38"
 authors = ["NiiightmareXD"]
 edition = "2021"
 description = "Windows Native Undocumented API for Rust Language 🔥"
+documentation = "https://docs.rs/windows-native"
 readme = "README.md"
 repository = "https://github.com/NiiightmareXD/windows-native"
 license = "MIT"
