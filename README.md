@@ -18,7 +18,7 @@ Add this library to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-windows-native = "1.0.36"
+windows-native = "1.0.39"
 ```
 or run this command
 
@@ -26,7 +26,7 @@ or run this command
 cargo add windows-native
 ```
 
-and then install [windows-rs](https://github.com/microsoft/windows-rs)
+this crate works with [windows-rs](https://github.com/microsoft/windows-rs) so you have to install that too.
 
 ## Usage
 
