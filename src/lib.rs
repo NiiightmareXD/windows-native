@@ -22,7 +22,7 @@
 //! ```
 //! or run this command
 //!
-//! ```
+//! ```text
 //! cargo add windows-native
 //! ```
 //!
@@ -30,7 +30,8 @@
 //!
 //! ## Usage
 //!
-//! ```rust
+//! ```no_run
+//! # fn main() {
 //! use std::{thread, time::Duration};
 //!
 //! use windows_native::ntpsapi::{NtResumeProcess, NtSuspendProcess};
@@ -42,6 +43,7 @@
 //! thread::sleep(Duration::from_secs(3));
 //! let result = unsafe { NtResumeProcess(handle) };
 //! println!("Result {:?}", result);
+//! # }
 //! ```
 //!
 //! ## Contributing
