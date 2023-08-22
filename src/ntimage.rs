@@ -353,29 +353,3 @@ impl IMAGE_DVRT_ARM64X_DELTA_FIXUP_RECORD {
         bitfield_unit
     }
 }
-#[repr(C, packed)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
-pub struct IMAGE_FUNCTION_OVERRIDE_HEADER {
-    pub FuncOverrideSize: u32,
-}
-#[repr(C, packed)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
-pub struct IMAGE_BDD_INFO {
-    pub Version: u32,
-    pub BDDSize: u32,
-}
-#[repr(C, packed)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
-pub struct IMAGE_FUNCTION_OVERRIDE_DYNAMIC_RELOCATION {
-    pub OriginalRva: u32,
-    pub BDDOffset: u32,
-    pub RvaSize: u32,
-    pub BaseRelocSize: u32,
-}
-#[repr(C, packed)]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
-pub struct IMAGE_BDD_DYNAMIC_RELOCATION {
-    pub Left: u16,
-    pub Right: u16,
-    pub Value: u32,
-}

@@ -1,27 +1,17 @@
-use windows::{
-    core::PSTR,
-    Win32::{
-        Foundation::{BOOLEAN, NTSTATUS},
-        System::Diagnostics::Debug::{CONTEXT, EXCEPTION_RECORD},
-    },
+use windows::Win32::{
+    Foundation::{BOOLEAN, NTSTATUS},
+    System::Diagnostics::Debug::{CONTEXT, EXCEPTION_RECORD},
 };
 
 pub const KCONTINUE_FLAG_TEST_ALERT: u32 = 1;
 pub const KCONTINUE_FLAG_DELIVER_APC: u32 = 2;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlDispatchException(
-        ExceptionRecord: *mut EXCEPTION_RECORD,
-        ContextRecord: *mut CONTEXT,
-    ) -> BOOLEAN;
+    pub fn RtlDispatchException(ExceptionRecord: *mut EXCEPTION_RECORD, ContextRecord: *mut CONTEXT) -> BOOLEAN;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRaiseStatus(Status: NTSTATUS) -> !;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn RtlRaiseException(ExceptionRecord: *mut EXCEPTION_RECORD);
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -49,34 +39,14 @@ impl Default for KCONTINUE_ARGUMENT {
 }
 impl std::fmt::Debug for KCONTINUE_ARGUMENT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "KCONTINUE_ARGUMENT {{ ContinueType: {:?}, Reserved: {:?} }}",
-            self.ContinueType, self.Reserved
-        )
+        write!(f, "KCONTINUE_ARGUMENT {{ ContinueType: {:?}, Reserved: {:?} }}", self.ContinueType, self.Reserved)
     }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtContinueEx(
-        ContextRecord: *mut CONTEXT,
-        ContinueArgument: *mut std::ffi::c_void,
-    ) -> NTSTATUS;
+    pub fn NtContinueEx(ContextRecord: *mut CONTEXT, ContinueArgument: *mut std::ffi::c_void) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtRaiseException(
-        ExceptionRecord: *mut EXCEPTION_RECORD,
-        ContextRecord: *mut CONTEXT,
-        FirstChance: BOOLEAN,
-    ) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn RtlAssert(
-        VoidFailedAssertion: *mut std::ffi::c_void,
-        VoidFileName: *mut std::ffi::c_void,
-        LineNumber: u32,
-        MutableMessage: PSTR,
-    ) -> !;
+    pub fn NtRaiseException(ExceptionRecord: *mut EXCEPTION_RECORD, ContextRecord: *mut CONTEXT, FirstChance: BOOLEAN) -> NTSTATUS;
 }

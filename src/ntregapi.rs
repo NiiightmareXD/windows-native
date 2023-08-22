@@ -1036,10 +1036,6 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtRenameKey(KeyHandle: HANDLE, NewName: *mut UNICODE_STRING) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtDeleteValueKey(KeyHandle: HANDLE, ValueName: *mut UNICODE_STRING) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1048,19 +1044,11 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetInformationKey(KeyHandle: HANDLE, KeySetInformationClass: KEY_SET_INFORMATION_CLASS, KeySetInformation: *mut std::ffi::c_void, KeySetInformationLength: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtQueryValueKey(KeyHandle: HANDLE, ValueName: *mut UNICODE_STRING, KeyValueInformationClass: KEY_VALUE_INFORMATION_CLASS, KeyValueInformation: *mut std::ffi::c_void, Length: u32, ResultLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetValueKey(KeyHandle: HANDLE, ValueName: *mut UNICODE_STRING, TitleIndex: u32, Type: u32, Data: *mut std::ffi::c_void, DataSize: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQueryMultipleValueKey(KeyHandle: HANDLE, ValueEntries: *mut KEY_VALUE_ENTRY, EntryCount: u32, ValueBuffer: *mut std::ffi::c_void, BufferLength: *mut u32, RequiredBufferLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1136,10 +1124,6 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtNotifyChangeMultipleKeys(MasterKeyHandle: HANDLE, Count: u32, SubordinateObjects: *mut OBJECT_ATTRIBUTES, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, CompletionFilter: u32, WatchTree: BOOLEAN, Buffer: *mut std::ffi::c_void, BufferSize: u32, Asynchronous: BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtQueryOpenSubKeys(TargetKey: *mut OBJECT_ATTRIBUTES, HandleCount: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1172,13 +1156,5 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenRegistryTransaction(RegistryTransactionHandle: *mut HANDLE, DesiredAccess: u32, ObjAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtCommitRegistryTransaction(RegistryTransactionHandle: HANDLE, Flags: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtRollbackRegistryTransaction(RegistryTransactionHandle: HANDLE, Flags: u32) -> NTSTATUS;
 }

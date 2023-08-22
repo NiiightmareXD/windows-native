@@ -506,8 +506,6 @@ pub enum PORT_INFORMATION_CLASS {
 extern "system" {
     pub fn NtQueryInformationPort(PortHandle: HANDLE, PortInformationClass: PORT_INFORMATION_CLASS, PortInformation: *mut std::ffi::c_void, Length: u32, ReturnLength: *mut u32) -> NTSTATUS;
 }
-pub type ALPC_HANDLE = HANDLE;
-pub type PALPC_HANDLE = *mut HANDLE;
 #[repr(C)]
 pub struct ALPC_PORT_ATTRIBUTES {
     pub Flags: u32,
@@ -735,7 +733,7 @@ impl std::fmt::Debug for ALPC_HANDLE_ATTR {
 pub struct ALPC_SECURITY_ATTR {
     pub Flags: u32,
     pub QoS: *mut SECURITY_QUALITY_OF_SERVICE,
-    pub ContextHandle: ALPC_HANDLE,
+    pub ContextHandle: HANDLE,
 }
 impl Default for ALPC_SECURITY_ATTR {
     fn default() -> Self {
@@ -750,7 +748,7 @@ impl std::fmt::Debug for ALPC_SECURITY_ATTR {
 #[repr(C)]
 pub struct ALPC_DATA_VIEW_ATTR {
     pub Flags: u32,
-    pub SectionHandle: ALPC_HANDLE,
+    pub SectionHandle: HANDLE,
     pub ViewBase: *mut std::ffi::c_void,
     pub ViewSize: usize,
 }
@@ -979,19 +977,19 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAlpcCreatePortSection(PortHandle: HANDLE, Flags: u32, SectionHandle: HANDLE, SectionSize: usize, AlpcSectionHandle: PALPC_HANDLE, ActualSectionSize: *mut usize) -> NTSTATUS;
+    pub fn NtAlpcCreatePortSection(PortHandle: HANDLE, Flags: u32, SectionHandle: HANDLE, SectionSize: usize, AlpcSectionHandle: *mut HANDLE, ActualSectionSize: *mut usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAlpcDeletePortSection(PortHandle: HANDLE, Flags: u32, SectionHandle: ALPC_HANDLE) -> NTSTATUS;
+    pub fn NtAlpcDeletePortSection(PortHandle: HANDLE, Flags: u32, SectionHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAlpcCreateResourceReserve(PortHandle: HANDLE, Flags: u32, MessageSize: usize, ResourceId: PALPC_HANDLE) -> NTSTATUS;
+    pub fn NtAlpcCreateResourceReserve(PortHandle: HANDLE, Flags: u32, MessageSize: usize, ResourceId: *mut HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAlpcDeleteResourceReserve(PortHandle: HANDLE, Flags: u32, ResourceId: ALPC_HANDLE) -> NTSTATUS;
+    pub fn NtAlpcDeleteResourceReserve(PortHandle: HANDLE, Flags: u32, ResourceId: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1007,11 +1005,11 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAlpcDeleteSecurityContext(PortHandle: HANDLE, Flags: u32, ContextHandle: ALPC_HANDLE) -> NTSTATUS;
+    pub fn NtAlpcDeleteSecurityContext(PortHandle: HANDLE, Flags: u32, ContextHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAlpcRevokeSecurityContext(PortHandle: HANDLE, Flags: u32, ContextHandle: ALPC_HANDLE) -> NTSTATUS;
+    pub fn NtAlpcRevokeSecurityContext(PortHandle: HANDLE, Flags: u32, ContextHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

@@ -45,7 +45,6 @@ pub const PS_PROTECTED_AUDIT_MASK: u32 = 8;
 pub const PS_PROTECTED_TYPE_MASK: u32 = 7;
 pub const WIN32K_SYSCALL_FILTER_STATE_ENABLE: u32 = 1;
 pub const WIN32K_SYSCALL_FILTER_STATE_AUDIT: u32 = 2;
-pub const POWER_THROTTLING_THREAD_VALID_FLAGS: u32 = 1;
 pub const PROCESS_READWRITEVM_LOGGING_ENABLE_READVM: u32 = 1;
 pub const PROCESS_READWRITEVM_LOGGING_ENABLE_WRITEVM: u32 = 2;
 pub const PROCESS_READWRITEVM_LOGGING_ENABLE_READVM_V: u32 = 1;
@@ -2808,10 +2807,6 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenProcess(ProcessHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, ClientId: *mut CLIENT_ID) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtTerminateProcess(ProcessHandle: HANDLE, ExitStatus: NTSTATUS) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2821,10 +2816,6 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtResumeProcess(ProcessHandle: HANDLE) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQueryInformationProcess(ProcessHandle: HANDLE, ProcessInformationClass: PROCESSINFOCLASS, ProcessInformation: *mut std::ffi::c_void, ProcessInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -2903,14 +2894,6 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetContextThread(ThreadHandle: HANDLE, ThreadContext: *mut CONTEXT) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQueryInformationThread(ThreadHandle: HANDLE, ThreadInformationClass: THREADINFOCLASS, ThreadInformation: *mut std::ffi::c_void, ThreadInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtSetInformationThread(ThreadHandle: HANDLE, ThreadInformationClass: THREADINFOCLASS, ThreadInformation: *mut std::ffi::c_void, ThreadInformationLength: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

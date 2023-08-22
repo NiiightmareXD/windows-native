@@ -2,10 +2,10 @@ use windows::{
     core::GUID,
     Wdk::{
         Foundation::OBJECT_ATTRIBUTES,
-        Storage::FileSystem::{FILE_BASIC_INFORMATION, FILE_STANDARD_INFORMATION},
+        Storage::FileSystem::{FILE_ACCESS_INFORMATION, FILE_BASIC_INFORMATION, FILE_EA_INFORMATION, FILE_STANDARD_INFORMATION},
     },
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, NTSTATUS, PSID, UNICODE_STRING},
+        Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
         Security::SID,
         Storage::FileSystem::{FILE_ID_128, FILE_SEGMENT_ELEMENT},
         System::{
@@ -87,22 +87,6 @@ pub const FILE_INVALID_FILE_ID: u64 = 18446744073709551615;
 pub const REPARSE_DATA_BUFFER_HEADER_SIZE: u32 = 8;
 pub const FILE_COPY_STRUCTURED_STORAGE: u32 = 65;
 pub const FILE_STRUCTURED_STORAGE: u32 = 1089;
-#[repr(C)]
-pub struct EXTENDED_CREATE_INFORMATION {
-    pub ExtendedCreateFlags: i64,
-    pub EaBuffer: *mut std::ffi::c_void,
-    pub EaLength: u32,
-}
-impl Default for EXTENDED_CREATE_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for EXTENDED_CREATE_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EXTENDED_CREATE_INFORMATION {{  }}")
-    }
-}
 #[repr(C)]
 pub struct FILE_IO_COMPLETION_INFORMATION {
     pub KeyContext: *mut std::ffi::c_void,
@@ -281,34 +265,6 @@ impl Default for FILE_INTERNAL_INFORMATION {
 impl std::fmt::Debug for FILE_INTERNAL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "FILE_INTERNAL_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
-    }
-}
-#[repr(C)]
-pub struct FILE_EA_INFORMATION {
-    pub EaSize: u32,
-}
-impl Default for FILE_EA_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for FILE_EA_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "FILE_EA_INFORMATION {{  }}")
-    }
-}
-#[repr(C)]
-pub struct FILE_ACCESS_INFORMATION {
-    pub AccessFlags: u32,
-}
-impl Default for FILE_ACCESS_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for FILE_ACCESS_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "FILE_ACCESS_INFORMATION {{  }}")
     }
 }
 #[repr(C)]
@@ -2014,19 +1970,11 @@ impl std::fmt::Debug for FILE_FS_FULL_SIZE_INFORMATION_EX {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateFile(FileHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, IoStatusBlock: *mut IO_STATUS_BLOCK, AllocationSize: *mut i64, FileAttributes: u32, ShareAccess: u32, CreateDisposition: u32, CreateOptions: u32, EaBuffer: *mut std::ffi::c_void, EaLength: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtCreateNamedPipeFile(FileHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, IoStatusBlock: *mut IO_STATUS_BLOCK, ShareAccess: u32, CreateDisposition: u32, CreateOptions: u32, NamedPipeType: u32, ReadMode: u32, CompletionMode: u32, MaximumInstances: u32, InboundQuota: u32, OutboundQuota: u32, DefaultTimeout: *mut i64) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCreateMailslotFile(FileHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, IoStatusBlock: *mut IO_STATUS_BLOCK, CreateOptions: u32, MailslotQuota: u32, MaximumMessageSize: u32, ReadTimeout: *mut i64) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtOpenFile(FileHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, IoStatusBlock: *mut IO_STATUS_BLOCK, ShareAccess: u32, OpenOptions: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -2038,30 +1986,6 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtFlushBuffersFileEx(FileHandle: HANDLE, Flags: u32, Parameters: *mut std::ffi::c_void, ParametersSize: u32, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQueryInformationFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK, FileInformation: *mut std::ffi::c_void, Length: u32, FileInformationClass: FILE_INFORMATION_CLASS) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQueryInformationByName(ObjectAttributes: *mut OBJECT_ATTRIBUTES, IoStatusBlock: *mut IO_STATUS_BLOCK, FileInformation: *mut std::ffi::c_void, Length: u32, FileInformationClass: FILE_INFORMATION_CLASS) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtSetInformationFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK, FileInformation: *mut std::ffi::c_void, Length: u32, FileInformationClass: FILE_INFORMATION_CLASS) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQueryDirectoryFile(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, FileInformation: *mut std::ffi::c_void, Length: u32, FileInformationClass: FILE_INFORMATION_CLASS, ReturnSingleEntry: BOOLEAN, FileName: *mut UNICODE_STRING, RestartScan: BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQueryDirectoryFileEx(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, FileInformation: *mut std::ffi::c_void, Length: u32, FileInformationClass: FILE_INFORMATION_CLASS, QueryFlags: u32, FileName: *mut UNICODE_STRING) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtQueryEaFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK, Buffer: *mut std::ffi::c_void, Length: u32, ReturnSingleEntry: BOOLEAN, EaList: *mut std::ffi::c_void, EaListLength: u32, EaIndex: *mut u32, RestartScan: BOOLEAN) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2070,47 +1994,11 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryQuotaInformationFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK, Buffer: *mut std::ffi::c_void, Length: u32, ReturnSingleEntry: BOOLEAN, SidList: *mut std::ffi::c_void, SidListLength: u32, StartSid: PSID, RestartScan: BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtSetQuotaInformationFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK, Buffer: *mut std::ffi::c_void, Length: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQueryVolumeInformationFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK, FsInformation: *mut std::ffi::c_void, Length: u32, FsInformationClass: FSINFOCLASS) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtSetVolumeInformationFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK, FsInformation: *mut std::ffi::c_void, Length: u32, FsInformationClass: FSINFOCLASS) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtCancelIoFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCancelIoFileEx(FileHandle: HANDLE, IoRequestToCancel: *mut IO_STATUS_BLOCK, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtCancelSynchronousIoFile(ThreadHandle: HANDLE, IoRequestToCancel: *mut IO_STATUS_BLOCK, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtDeviceIoControlFile(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, IoControlCode: u32, InputBuffer: *mut std::ffi::c_void, InputBufferLength: u32, OutputBuffer: *mut std::ffi::c_void, OutputBufferLength: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtFsControlFile(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, FsControlCode: u32, InputBuffer: *mut std::ffi::c_void, InputBufferLength: u32, OutputBuffer: *mut std::ffi::c_void, OutputBufferLength: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtReadFile(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, Buffer: *mut std::ffi::c_void, Length: u32, ByteOffset: *mut i64, Key: *mut u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtWriteFile(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, Buffer: *mut std::ffi::c_void, Length: u32, ByteOffset: *mut i64, Key: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -2119,14 +2007,6 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtWriteFileGather(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, SegmentArray: *mut FILE_SEGMENT_ELEMENT, Length: u32, ByteOffset: *mut i64, Key: *mut u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtLockFile(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, ByteOffset: *mut i64, Length: *mut i64, Key: u32, FailImmediately: BOOLEAN, ExclusiveLock: BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtUnlockFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK, ByteOffset: *mut i64, Length: *mut i64, Key: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

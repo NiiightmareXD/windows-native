@@ -2,7 +2,7 @@ use windows::Win32::{
     Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
     System::{
         Kernel::PROCESSOR_NUMBER,
-        Power::{DEVICE_POWER_STATE, EXECUTION_STATE, POWER_ACTION, POWER_INFORMATION_LEVEL, POWER_MONITOR_REQUEST_REASON, SYSTEM_POWER_STATE},
+        Power::{DEVICE_POWER_STATE, EXECUTION_STATE, POWER_ACTION, POWER_MONITOR_REQUEST_REASON, SYSTEM_POWER_STATE},
     },
 };
 
@@ -1322,10 +1322,6 @@ impl std::fmt::Debug for POWER_INTERNAL_BOOTAPP_DIAGNOSTIC {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "POWER_INTERNAL_BOOTAPP_DIAGNOSTIC {{  }}")
     }
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtPowerInformation(InformationLevel: POWER_INFORMATION_LEVEL, InputBuffer: *mut std::ffi::c_void, InputBufferLength: u32, OutputBuffer: *mut std::ffi::c_void, OutputBufferLength: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

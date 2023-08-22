@@ -1895,15 +1895,7 @@ pub enum SECTION_INHERIT {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAllocateVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, ZeroBits: usize, RegionSize: *mut usize, AllocationType: u32, Protect: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtAllocateVirtualMemoryEx(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, AllocationType: u32, PageProtection: u32, ExtendedParameters: *mut MEM_EXTENDED_PARAMETER, ExtendedParameterCount: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtFreeVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, FreeType: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1920,10 +1912,6 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtProtectVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, NewProtect: u32, OldProtect: *mut u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQueryVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void, MemoryInformationClass: MEMORY_INFORMATION_CLASS, MemoryInformation: *mut std::ffi::c_void, MemoryInformationLength: usize, ReturnLength: *mut usize) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1978,23 +1966,11 @@ impl std::fmt::Debug for CFG_CALL_TARGET_LIST_INFORMATION {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetInformationVirtualMemory(ProcessHandle: HANDLE, VmInformationClass: VIRTUAL_MEMORY_INFORMATION_CLASS, NumberOfEntries: usize, VirtualAddresses: *mut MEMORY_RANGE_ENTRY, VmInformation: *mut std::ffi::c_void, VmInformationLength: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtLockVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, MapType: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtUnlockVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, MapType: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtCreateSection(SectionHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, MaximumSize: *mut i64, SectionPageProtection: u32, AllocationAttributes: u32, FileHandle: HANDLE) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtCreateSectionEx(SectionHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, MaximumSize: *mut i64, SectionPageProtection: u32, AllocationAttributes: u32, FileHandle: HANDLE, ExtendedParameters: *mut MEM_EXTENDED_PARAMETER, ExtendedParameterCount: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -2242,10 +2218,6 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtOpenPartition(PartitionHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtManagePartition(TargetHandle: HANDLE, SourceHandle: HANDLE, PartitionInformationClass: PARTITION_INFORMATION_CLASS, PartitionInformation: *mut std::ffi::c_void, PartitionInformationLength: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

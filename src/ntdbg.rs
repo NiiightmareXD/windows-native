@@ -29,30 +29,6 @@ extern "system" {
 extern "system" {
     pub fn DbgBreakPoint();
 }
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn DbgBreakPointWithStatus(Status: u32);
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn vDbgPrintEx(ComponentId: u32, Level: u32, Format: *const i8, arglist: *mut std::ffi::c_void) -> u32;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn vDbgPrintExWithPrefix(Prefix: *const i8, ComponentId: u32, Level: u32, Format: *const i8, arglist: *mut std::ffi::c_void) -> u32;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn DbgQueryDebugFilterState(ComponentId: u32, Level: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn DbgSetDebugFilterState(ComponentId: u32, Level: u32, State: BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn DbgPrompt(Prompt: *const i8, Response: *mut i8, Length: u32) -> u32;
-}
 #[repr(C)]
 pub struct DBGKM_EXCEPTION {
     pub ExceptionRecord: EXCEPTION_RECORD,

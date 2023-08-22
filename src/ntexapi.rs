@@ -8,7 +8,7 @@ use windows::{
         Foundation::{BOOLEAN, HANDLE, LUID, NTSTATUS, UNICODE_STRING},
         Security::{GENERIC_MAPPING, SECURITY_DESCRIPTOR},
         System::{
-            Diagnostics::Etw::{EVENT_TRACE_TYPE_DC_END, EVENT_TRACE_TYPE_DC_START, EVENT_TRACE_TYPE_END, EVENT_TRACE_TYPE_START, PROFILE_SOURCE_INFO},
+            Diagnostics::Etw::PROFILE_SOURCE_INFO,
             Kernel::{EVENT_TYPE, TIMER_TYPE, WNF_STATE_NAME},
             SystemInformation::{FIRMWARE_TYPE, GROUP_AFFINITY},
             SystemServices::IMAGE_EXPORT_DIRECTORY,
@@ -357,10 +357,10 @@ pub const PERFINFO_LOG_TYPE_LDR_APISET_UNHOSTED: u32 = 5330;
 pub const PERFINFO_LOG_TYPE_LDR_APISET_UNRESOLVED: u32 = 5331;
 pub const PERFINFO_LOG_TYPE_LDR_SEARCH_SECURITY: u32 = 5332;
 pub const PERFINFO_LOG_TYPE_LDR_SEARCH_PATH_SECURITY: u32 = 5333;
-pub const WMI_LOG_TYPE_THREAD_CREATE: u32 = EVENT_TRACE_GROUP_THREAD | EVENT_TRACE_TYPE_START;
-pub const WMI_LOG_TYPE_THREAD_DELETE: u32 = EVENT_TRACE_GROUP_THREAD | EVENT_TRACE_TYPE_END;
-pub const WMI_LOG_TYPE_THREAD_DC_START: u32 = EVENT_TRACE_GROUP_THREAD | EVENT_TRACE_TYPE_DC_START;
-pub const WMI_LOG_TYPE_THREAD_DC_END: u32 = EVENT_TRACE_GROUP_THREAD | EVENT_TRACE_TYPE_DC_END;
+pub const WMI_LOG_TYPE_THREAD_CREATE: u32 = 1281;
+pub const WMI_LOG_TYPE_THREAD_DELETE: u32 = 1281;
+pub const WMI_LOG_TYPE_THREAD_DC_START: u32 = 1283;
+pub const WMI_LOG_TYPE_THREAD_DC_END: u32 = 1284;
 pub const PERFINFO_LOG_TYPE_CONTEXTSWAP: u32 = 1316;
 pub const PERFINFO_LOG_TYPE_CONTEXTSWAP_BATCH: u32 = 1317;
 pub const PERFINFO_LOG_TYPE_SPINLOCK: u32 = 1321;
@@ -1611,15 +1611,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQuerySystemTime(SystemTime: *mut i64) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtSetSystemTime(SystemTime: *mut i64, PreviousTime: *mut i64) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQueryTimerResolution(MaximumTime: *mut u32, MinimumTime: *mut u32, CurrentTime: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -9563,10 +9555,6 @@ impl std::fmt::Debug for SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_OUTPUT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_OUTPUT {{  }}")
     }
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQuerySystemInformation(SystemInformationClass: SYSTEM_INFORMATION_CLASS, SystemInformation: *mut std::ffi::c_void, SystemInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

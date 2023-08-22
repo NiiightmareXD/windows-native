@@ -2,7 +2,7 @@ use windows::{
     Wdk::Foundation::OBJECT_ATTRIBUTES,
     Win32::{
         Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
-        Security::{GENERIC_MAPPING, SECURITY_DESCRIPTOR},
+        Security::GENERIC_MAPPING,
         System::Kernel::WAIT_TYPE,
     },
 };
@@ -138,10 +138,6 @@ impl std::fmt::Debug for OBJECT_HANDLE_FLAG_INFORMATION {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryObject(Handle: HANDLE, ObjectInformationClass: OBJECT_INFORMATION_CLASS, ObjectInformation: *mut std::ffi::c_void, ObjectInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtSetInformationObject(Handle: HANDLE, ObjectInformationClass: OBJECT_INFORMATION_CLASS, ObjectInformation: *mut std::ffi::c_void, ObjectInformationLength: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -162,27 +158,11 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtWaitForSingleObject(Handle: HANDLE, Alertable: BOOLEAN, Timeout: *mut i64) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtWaitForMultipleObjects(Count: u32, Handles: *mut HANDLE, WaitType: WAIT_TYPE, Alertable: BOOLEAN, Timeout: *mut i64) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtWaitForMultipleObjects32(Count: u32, Handles: *mut i32, WaitType: WAIT_TYPE, Alertable: BOOLEAN, Timeout: *mut i64) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtSetSecurityObject(Handle: HANDLE, SecurityInformation: u32, SecurityDescriptor: *mut SECURITY_DESCRIPTOR) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQuerySecurityObject(Handle: HANDLE, SecurityInformation: u32, SecurityDescriptor: *mut SECURITY_DESCRIPTOR, Length: u32, LengthNeeded: *mut u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtClose(Handle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

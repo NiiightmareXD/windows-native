@@ -2,7 +2,7 @@ use windows::{
     Wdk::Foundation::OBJECT_ATTRIBUTES,
     Win32::{
         Foundation::{BOOLEAN, HANDLE, LUID, NTSTATUS, PSID, UNICODE_STRING},
-        Security::{AUDIT_EVENT_TYPE, GENERIC_MAPPING, OBJECT_TYPE_LIST, PRIVILEGE_SET, SECURITY_DESCRIPTOR, SID_AND_ATTRIBUTES, TOKEN_DEFAULT_DACL, TOKEN_GROUPS, TOKEN_INFORMATION_CLASS, TOKEN_MANDATORY_POLICY, TOKEN_OWNER, TOKEN_PRIMARY_GROUP, TOKEN_PRIVILEGES, TOKEN_SOURCE, TOKEN_TYPE, TOKEN_USER},
+        Security::{GENERIC_MAPPING, OBJECT_TYPE_LIST, PRIVILEGE_SET, SECURITY_DESCRIPTOR, SID_AND_ATTRIBUTES, TOKEN_DEFAULT_DACL, TOKEN_GROUPS, TOKEN_MANDATORY_POLICY, TOKEN_OWNER, TOKEN_PRIMARY_GROUP, TOKEN_PRIVILEGES, TOKEN_SOURCE, TOKEN_TYPE, TOKEN_USER},
     },
 };
 
@@ -175,47 +175,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenProcessToken(ProcessHandle: HANDLE, DesiredAccess: u32, TokenHandle: *mut HANDLE) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtOpenProcessTokenEx(ProcessHandle: HANDLE, DesiredAccess: u32, HandleAttributes: u32, TokenHandle: *mut HANDLE) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtOpenThreadToken(ThreadHandle: HANDLE, DesiredAccess: u32, OpenAsSelf: BOOLEAN, TokenHandle: *mut HANDLE) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtOpenThreadTokenEx(ThreadHandle: HANDLE, DesiredAccess: u32, OpenAsSelf: BOOLEAN, HandleAttributes: u32, TokenHandle: *mut HANDLE) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtDuplicateToken(ExistingTokenHandle: HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, EffectiveOnly: BOOLEAN, Type: TOKEN_TYPE, NewTokenHandle: *mut HANDLE) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtQueryInformationToken(TokenHandle: HANDLE, TokenInformationClass: TOKEN_INFORMATION_CLASS, TokenInformation: *mut std::ffi::c_void, TokenInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtSetInformationToken(TokenHandle: HANDLE, TokenInformationClass: TOKEN_INFORMATION_CLASS, TokenInformation: *mut std::ffi::c_void, TokenInformationLength: u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtAdjustPrivilegesToken(TokenHandle: HANDLE, DisableAllPrivileges: BOOLEAN, NewState: *mut TOKEN_PRIVILEGES, BufferLength: u32, PreviousState: *mut TOKEN_PRIVILEGES, ReturnLength: *mut u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtAdjustGroupsToken(TokenHandle: HANDLE, ResetToDefault: BOOLEAN, NewState: *mut TOKEN_GROUPS, BufferLength: u32, PreviousState: *mut TOKEN_GROUPS, ReturnLength: *mut u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
     pub fn NtAdjustTokenClaimsAndDeviceGroups(TokenHandle: HANDLE, UserResetToDefault: BOOLEAN, DeviceResetToDefault: BOOLEAN, DeviceGroupsResetToDefault: BOOLEAN, NewUserState: *mut TOKEN_SECURITY_ATTRIBUTES_INFORMATION, NewDeviceState: *mut TOKEN_SECURITY_ATTRIBUTES_INFORMATION, NewDeviceGroupsState: *mut TOKEN_GROUPS, UserBufferLength: u32, PreviousUserState: *mut TOKEN_SECURITY_ATTRIBUTES_INFORMATION, DeviceBufferLength: u32, PreviousDeviceState: *mut TOKEN_SECURITY_ATTRIBUTES_INFORMATION, DeviceGroupsBufferLength: u32, PreviousDeviceGroups: *mut TOKEN_GROUPS, UserReturnLength: *mut u32, DeviceReturnLength: *mut u32, DeviceGroupsReturnBufferLength: *mut u32) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtFilterToken(ExistingTokenHandle: HANDLE, Flags: u32, SidsToDisable: *mut TOKEN_GROUPS, PrivilegesToDelete: *mut TOKEN_PRIVILEGES, RestrictedSids: *mut TOKEN_GROUPS, NewTokenHandle: *mut HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -224,14 +184,6 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCompareTokens(FirstTokenHandle: HANDLE, SecondTokenHandle: HANDLE, Equal: *mut BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtPrivilegeCheck(ClientToken: HANDLE, RequiredPrivileges: *mut PRIVILEGE_SET, Result: *mut BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtImpersonateAnonymousToken(ThreadHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -260,40 +212,4 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCompareSigningLevels(FirstSigningLevel: u8, SecondSigningLevel: u8) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtAccessCheckAndAuditAlarm(SubsystemName: *mut UNICODE_STRING, HandleId: *mut std::ffi::c_void, ObjectTypeName: *mut UNICODE_STRING, ObjectName: *mut UNICODE_STRING, SecurityDescriptor: *mut SECURITY_DESCRIPTOR, DesiredAccess: u32, GenericMapping: *mut GENERIC_MAPPING, ObjectCreation: BOOLEAN, GrantedAccess: *mut u32, AccessStatus: *mut NTSTATUS, GenerateOnClose: *mut BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtAccessCheckByTypeAndAuditAlarm(SubsystemName: *mut UNICODE_STRING, HandleId: *mut std::ffi::c_void, ObjectTypeName: *mut UNICODE_STRING, ObjectName: *mut UNICODE_STRING, SecurityDescriptor: *mut SECURITY_DESCRIPTOR, PrincipalSelfSid: PSID, DesiredAccess: u32, AuditType: AUDIT_EVENT_TYPE, Flags: u32, ObjectTypeList: *mut OBJECT_TYPE_LIST, ObjectTypeListLength: u32, GenericMapping: *mut GENERIC_MAPPING, ObjectCreation: BOOLEAN, GrantedAccess: *mut u32, AccessStatus: *mut NTSTATUS, GenerateOnClose: *mut BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtAccessCheckByTypeResultListAndAuditAlarm(SubsystemName: *mut UNICODE_STRING, HandleId: *mut std::ffi::c_void, ObjectTypeName: *mut UNICODE_STRING, ObjectName: *mut UNICODE_STRING, SecurityDescriptor: *mut SECURITY_DESCRIPTOR, PrincipalSelfSid: PSID, DesiredAccess: u32, AuditType: AUDIT_EVENT_TYPE, Flags: u32, ObjectTypeList: *mut OBJECT_TYPE_LIST, ObjectTypeListLength: u32, GenericMapping: *mut GENERIC_MAPPING, ObjectCreation: BOOLEAN, GrantedAccess: *mut u32, AccessStatus: *mut NTSTATUS, GenerateOnClose: *mut BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtAccessCheckByTypeResultListAndAuditAlarmByHandle(SubsystemName: *mut UNICODE_STRING, HandleId: *mut std::ffi::c_void, ClientToken: HANDLE, ObjectTypeName: *mut UNICODE_STRING, ObjectName: *mut UNICODE_STRING, SecurityDescriptor: *mut SECURITY_DESCRIPTOR, PrincipalSelfSid: PSID, DesiredAccess: u32, AuditType: AUDIT_EVENT_TYPE, Flags: u32, ObjectTypeList: *mut OBJECT_TYPE_LIST, ObjectTypeListLength: u32, GenericMapping: *mut GENERIC_MAPPING, ObjectCreation: BOOLEAN, GrantedAccess: *mut u32, AccessStatus: *mut NTSTATUS, GenerateOnClose: *mut BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtOpenObjectAuditAlarm(SubsystemName: *mut UNICODE_STRING, HandleId: *mut std::ffi::c_void, ObjectTypeName: *mut UNICODE_STRING, ObjectName: *mut UNICODE_STRING, SecurityDescriptor: *mut SECURITY_DESCRIPTOR, ClientToken: HANDLE, DesiredAccess: u32, GrantedAccess: u32, Privileges: *mut PRIVILEGE_SET, ObjectCreation: BOOLEAN, AccessGranted: BOOLEAN, GenerateOnClose: *mut BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtPrivilegeObjectAuditAlarm(SubsystemName: *mut UNICODE_STRING, HandleId: *mut std::ffi::c_void, ClientToken: HANDLE, DesiredAccess: u32, Privileges: *mut PRIVILEGE_SET, AccessGranted: BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtCloseObjectAuditAlarm(SubsystemName: *mut UNICODE_STRING, HandleId: *mut std::ffi::c_void, GenerateOnClose: BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtDeleteObjectAuditAlarm(SubsystemName: *mut UNICODE_STRING, HandleId: *mut std::ffi::c_void, GenerateOnClose: BOOLEAN) -> NTSTATUS;
-}
-#[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
-extern "system" {
-    pub fn NtPrivilegedServiceAuditAlarm(SubsystemName: *mut UNICODE_STRING, ServiceName: *mut UNICODE_STRING, ClientToken: HANDLE, Privileges: *mut PRIVILEGE_SET, AccessGranted: BOOLEAN) -> NTSTATUS;
 }
