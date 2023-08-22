@@ -40,29 +40,24 @@ extern "system" {
         OutputLength: u32,
         Status: NTSTATUS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtFlushProcessWriteBuffers() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryDebugFilterState(ComponentId: u32, Level: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetDebugFilterState(ComponentId: u32, Level: u32, State: BOOLEAN) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtYieldExecution() -> NTSTATUS;
-
 }

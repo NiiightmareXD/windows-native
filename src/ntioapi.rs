@@ -464,7 +464,6 @@ extern "system" {
         OutboundQuota: u32,
         DefaultTimeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -479,19 +478,16 @@ extern "system" {
         MaximumMessageSize: u32,
         ReadTimeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDeleteFile(ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtFlushBuffersFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -507,7 +503,6 @@ extern "system" {
         EaIndex: *mut u32,
         RestartScan: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -518,13 +513,11 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         Length: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCancelIoFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -534,7 +527,6 @@ extern "system" {
         IoRequestToCancel: *mut IO_STATUS_BLOCK,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -550,7 +542,6 @@ extern "system" {
         ByteOffset: *mut i64,
         Key: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -566,7 +557,6 @@ extern "system" {
         ByteOffset: *mut i64,
         Key: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -575,7 +565,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         FileInformation: *mut FILE_BASIC_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -584,7 +573,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         FileInformation: *mut FILE_NETWORK_OPEN_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -600,7 +588,6 @@ extern "system" {
         CompletionFilter: u32,
         WatchTree: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -617,19 +604,16 @@ extern "system" {
         WatchTree: BOOLEAN,
         DirectoryNotifyInformationClass: DIRECTORY_NOTIFY_INFORMATION_CLASS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtLoadDriver(DriverServiceName: *mut UNICODE_STRING) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtUnloadDriver(DriverServiceName: *mut UNICODE_STRING) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -663,7 +647,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         Count: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -673,7 +656,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -685,7 +667,6 @@ extern "system" {
         IoCompletionInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -697,7 +678,6 @@ extern "system" {
         IoStatus: NTSTATUS,
         IoStatusInformation: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -710,7 +690,6 @@ extern "system" {
         IoStatus: NTSTATUS,
         IoStatusInformation: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -722,7 +701,6 @@ extern "system" {
         IoStatusBlock: *mut IO_STATUS_BLOCK,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -735,7 +713,6 @@ extern "system" {
         Timeout: *mut i64,
         Alertable: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -745,7 +722,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -760,7 +736,6 @@ extern "system" {
         IoStatusInformation: usize,
         AlreadySignaled: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -769,7 +744,6 @@ extern "system" {
         WaitCompletionPacketHandle: HANDLE,
         RemoveSignaledPacket: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -779,7 +753,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -794,7 +767,6 @@ extern "system" {
         Payload: *mut std::ffi::c_void,
         PayloadSize: u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]

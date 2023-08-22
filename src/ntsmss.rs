@@ -10,11 +10,9 @@ extern "system" {
         ProcessImageType: u32,
         SmssConnection: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSendMsgToSm(ApiPortHandle: HANDLE, MessageData: *mut PORT_MESSAGE) -> NTSTATUS;
-
 }

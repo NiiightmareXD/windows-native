@@ -286,19 +286,16 @@ extern "system" {
         Right: BOOLEAN,
         Node: *mut RTL_BALANCED_NODE,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRbRemoveNode(Tree: *mut RTL_RB_TREE, Node: *mut RTL_BALANCED_NODE) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlInitializeCriticalSection(CriticalSection: *mut CRITICAL_SECTION) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -307,7 +304,6 @@ extern "system" {
         CriticalSection: *mut CRITICAL_SECTION,
         SpinCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -317,49 +313,41 @@ extern "system" {
         SpinCount: u32,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDeleteCriticalSection(CriticalSection: *mut CRITICAL_SECTION) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlEnterCriticalSection(CriticalSection: *mut CRITICAL_SECTION) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlLeaveCriticalSection(CriticalSection: *mut CRITICAL_SECTION) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlTryEnterCriticalSection(CriticalSection: *mut CRITICAL_SECTION) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsCriticalSectionLocked(CriticalSection: *mut CRITICAL_SECTION) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsCriticalSectionLockedByThread(CriticalSection: *mut CRITICAL_SECTION) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetCriticalSectionRecursionCount(CriticalSection: *mut CRITICAL_SECTION) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -368,19 +356,16 @@ extern "system" {
         CriticalSection: *mut CRITICAL_SECTION,
         SpinCount: u32,
     ) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlQueryCriticalSectionOwner(EventHandle: HANDLE) -> HANDLE;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCheckForOrphanedCriticalSections(ThreadHandle: HANDLE);
-
 }
 
 #[repr(C)]
@@ -411,97 +396,81 @@ impl std::fmt::Debug for RTL_RESOURCE {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlInitializeResource(Resource: *mut RTL_RESOURCE);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDeleteResource(Resource: *mut RTL_RESOURCE);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAcquireResourceShared(Resource: *mut RTL_RESOURCE, Wait: BOOLEAN) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAcquireResourceExclusive(Resource: *mut RTL_RESOURCE, Wait: BOOLEAN) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlReleaseResource(Resource: *mut RTL_RESOURCE);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlConvertSharedToExclusive(Resource: *mut RTL_RESOURCE);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlConvertExclusiveToShared(Resource: *mut RTL_RESOURCE);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlInitializeSRWLock(SRWLock: *mut SRWLOCK);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAcquireSRWLockExclusive(SRWLock: *mut SRWLOCK);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAcquireSRWLockShared(SRWLock: *mut SRWLOCK);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlReleaseSRWLockExclusive(SRWLock: *mut SRWLOCK);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlReleaseSRWLockShared(SRWLock: *mut SRWLOCK);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlTryAcquireSRWLockExclusive(SRWLock: *mut SRWLOCK) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlTryAcquireSRWLockShared(SRWLock: *mut SRWLOCK) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAcquireReleaseSRWLockExclusive(SRWLock: *mut SRWLOCK);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlInitializeConditionVariable(ConditionVariable: *mut CONDITION_VARIABLE);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -511,7 +480,6 @@ extern "system" {
         CriticalSection: *mut CRITICAL_SECTION,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -522,19 +490,16 @@ extern "system" {
         Timeout: *mut i64,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlWakeConditionVariable(ConditionVariable: *mut CONDITION_VARIABLE);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlWakeAllConditionVariable(ConditionVariable: *mut CONDITION_VARIABLE);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -544,25 +509,21 @@ extern "system" {
         TotalThreads: u32,
         SpinCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDeleteBarrier(Barrier: *mut SYNCHRONIZATION_BARRIER) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlBarrier(Barrier: *mut SYNCHRONIZATION_BARRIER, Flags: u32) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlBarrierForDelete(Barrier: *mut SYNCHRONIZATION_BARRIER, Flags: u32) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -573,25 +534,21 @@ extern "system" {
         AddressSize: usize,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlWakeAddressAll(Address: *mut std::ffi::c_void);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlWakeAddressSingle(Address: *mut std::ffi::c_void);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAppendAsciizToString(Destination: *mut STRING, Source: *mut i8) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -600,7 +557,6 @@ extern "system" {
         DestinationString: *mut UNICODE_STRING,
         SourceString: *mut i8,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -610,7 +566,6 @@ extern "system" {
         SearchString: *mut UNICODE_STRING,
         CaseInSensitive: BOOLEAN,
     ) -> PWSTR;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -621,19 +576,16 @@ extern "system" {
         CharSet: *mut UNICODE_STRING,
         NonInclusivePrefixLength: *mut u16,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlEraseUnicodeString(String: *mut UNICODE_STRING);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAnsiCharToUnicodeChar(SourceCharacter: *mut *mut u8) -> u16;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -643,7 +595,6 @@ extern "system" {
         SourceString: *mut UNICODE_STRING,
         AllocateDestinationString: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -656,7 +607,6 @@ extern "system" {
         BytesInMultiByteString: u32,
         pdwSpecialChar: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -667,19 +617,16 @@ extern "system" {
         LanguageNlsBase: *mut u16,
         TableInfo: *mut NLSTABLEINFO,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlResetRtlTranslations(TableInfo: *mut NLSTABLEINFO);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsTextUnicode(Buffer: *mut std::ffi::c_void, Size: u32, Result: *mut u32) -> BOOLEAN;
-
 }
 
 #[repr(i32)]
@@ -707,7 +654,6 @@ extern "system" {
         IgnoreCase: BOOLEAN,
         UpcaseTable: PWSTR,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -718,13 +664,11 @@ extern "system" {
         IgnoreCase: BOOLEAN,
         UpcaseTable: PWSTR,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDoesNameContainWildCards(Expression: *mut UNICODE_STRING) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -733,7 +677,6 @@ extern "system" {
         String1: *mut UNICODE_STRING,
         String2: *mut UNICODE_STRING,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -742,7 +685,6 @@ extern "system" {
         String1: *mut UNICODE_STRING,
         String2: *mut UNICODE_STRING,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -752,7 +694,6 @@ extern "system" {
         DnsHostNameString: *mut UNICODE_STRING,
         AllocateComputerNameString: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -762,7 +703,6 @@ extern "system" {
         GuidString: *mut UNICODE_STRING,
         AllocateGuidString: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -774,13 +714,11 @@ extern "system" {
         pResultBuf: PWSTR,
         Size: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsValidLocaleName(LocaleName: PCWSTR, Flags: u32) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -791,7 +729,6 @@ extern "system" {
         Flags: u32,
         AllocateDestinationString: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -802,31 +739,26 @@ extern "system" {
         Flags: u32,
         AllocateDestinationString: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlLocaleNameToLcid(LocaleName: PCWSTR, lcid: *mut u32, Flags: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlLCIDToCultureName(Lcid: u32, String: *mut UNICODE_STRING) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCultureNameToLCID(String: *mut UNICODE_STRING, Lcid: *mut u32) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCleanUpTEBLangLists();
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -836,43 +768,36 @@ extern "system" {
         DefaultLocaleId: *mut u32,
         DefaultCasingTableSize: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetCurrentPeb() -> *mut PEB;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAcquirePebLock();
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlReleasePebLock();
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlTryAcquirePebLock() -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAllocateFromPeb(Size: u32, Block: *mut *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlFreeToPeb(Block: *mut std::ffi::c_void, Size: u32) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -986,7 +911,6 @@ extern "system" {
         ShellInfo: *mut UNICODE_STRING,
         RuntimeData: *mut UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1004,7 +928,6 @@ extern "system" {
         RuntimeData: *mut UNICODE_STRING,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1012,7 +935,6 @@ extern "system" {
     pub fn RtlDestroyProcessParameters(
         ProcessParameters: *mut RTL_USER_PROCESS_PARAMETERS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1020,7 +942,6 @@ extern "system" {
     pub fn RtlNormalizeProcessParams(
         ProcessParameters: *mut RTL_USER_PROCESS_PARAMETERS,
     ) -> *mut RTL_USER_PROCESS_PARAMETERS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1028,7 +949,6 @@ extern "system" {
     pub fn RtlDeNormalizeProcessParams(
         ProcessParameters: *mut RTL_USER_PROCESS_PARAMETERS,
     ) -> *mut RTL_USER_PROCESS_PARAMETERS;
-
 }
 
 #[repr(C)]
@@ -1066,7 +986,6 @@ extern "system" {
         TokenHandle: HANDLE,
         ProcessInformation: *mut RTL_USER_PROCESS_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -1102,13 +1021,11 @@ extern "system" {
         ProcessExtendedParameters: *mut RTL_USER_PROCESS_EXTENDED_PARAMETERS,
         ProcessInformation: *mut RTL_USER_PROCESS_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlExitUserProcess(ExitStatus: NTSTATUS) -> !;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1120,19 +1037,16 @@ extern "system" {
         DebugPort: HANDLE,
         ProcessInformation: *mut RTL_USER_PROCESS_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUpdateClonedCriticalSection(CriticalSection: *mut CRITICAL_SECTION);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUpdateClonedSRWLock(SRWLock: *mut SRWLOCK, Shared: u32);
-
 }
 
 #[repr(C)]
@@ -1164,7 +1078,6 @@ extern "system" {
         EventHandle: HANDLE,
         ReflectionInformation: *mut RTLP_PROCESS_REFLECTION_REFLECTION_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1174,7 +1087,6 @@ extern "system" {
         OldValue: *mut BOOLEAN,
         CheckFlag: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1184,31 +1096,26 @@ extern "system" {
         OldValue: *mut BOOLEAN,
         CheckFlag: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlValidProcessProtection(ProcessProtection: PS_PROTECTION) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlTestProtectedAccess(Source: PS_PROTECTION, Target: PS_PROTECTION) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsCurrentProcess(ProcessHandle: HANDLE) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsCurrentThread(ThreadHandle: HANDLE) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1225,19 +1132,16 @@ extern "system" {
         ThreadHandle: *mut HANDLE,
         ClientId: *mut CLIENT_ID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlExitUserThread(ExitStatus: NTSTATUS) -> !;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsCurrentThreadAttachExempt() -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1250,13 +1154,11 @@ extern "system" {
         ReserveAlignment: usize,
         InitialTeb: *mut INITIAL_TEB,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlFreeUserStack(AllocationBase: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -1310,7 +1212,6 @@ extern "system" {
         InitialPc: *mut std::ffi::c_void,
         InitialSp: *mut std::ffi::c_void,
     ) -> u64;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1320,7 +1221,6 @@ extern "system" {
         ContextFlags: u32,
         ContextEx: *mut *mut CONTEXT_EX,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1331,7 +1231,6 @@ extern "system" {
         ContextEx: *mut *mut CONTEXT_EX,
         EnabledExtendedFeatures: u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1341,7 +1240,6 @@ extern "system" {
         ContextFlags: u32,
         Source: *mut CONTEXT,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1351,13 +1249,11 @@ extern "system" {
         ContextFlags: u32,
         Source: *mut CONTEXT_EX,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetExtendedContextLength(ContextFlags: u32, ContextLength: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1367,13 +1263,11 @@ extern "system" {
         ContextLength: *mut u32,
         EnabledExtendedFeatures: u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetExtendedFeaturesMask(ContextEx: *mut CONTEXT_EX) -> u64;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1383,19 +1277,16 @@ extern "system" {
         FeatureId: u32,
         Length: *mut u32,
     ) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlLocateLegacyContext(ContextEx: *mut CONTEXT_EX, Length: *mut u32) -> *mut CONTEXT;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetExtendedFeaturesMask(ContextEx: *mut CONTEXT_EX, FeatureMask: u64);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1404,7 +1295,6 @@ extern "system" {
         ThreadHandle: HANDLE,
         ThreadContext: *mut WOW64_CONTEXT,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1413,7 +1303,6 @@ extern "system" {
         ThreadHandle: HANDLE,
         ThreadContext: *mut WOW64_CONTEXT,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1427,7 +1316,6 @@ extern "system" {
         PassContext: BOOLEAN,
         AlreadySuspended: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1436,13 +1324,11 @@ extern "system" {
         First: u32,
         Handler: PVECTORED_EXCEPTION_HANDLER,
     ) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRemoveVectoredExceptionHandler(Handle: *mut std::ffi::c_void) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1451,13 +1337,11 @@ extern "system" {
         First: u32,
         Handler: PVECTORED_EXCEPTION_HANDLER,
     ) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRemoveVectoredContinueHandler(Handle: *mut std::ffi::c_void) -> u32;
-
 }
 
 pub type PRTLP_UNHANDLED_EXCEPTION_FILTER =
@@ -1468,13 +1352,11 @@ extern "system" {
     pub fn RtlSetUnhandledExceptionFilter(
         UnhandledExceptionFilter: PRTLP_UNHANDLED_EXCEPTION_FILTER,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUnhandledExceptionFilter(ExceptionPointers: *mut EXCEPTION_POINTERS) -> i32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1483,13 +1365,11 @@ extern "system" {
         ExceptionPointers: *mut EXCEPTION_POINTERS,
         Flags: u32,
     ) -> i32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlKnownExceptionFilter(ExceptionPointers: *mut EXCEPTION_POINTERS) -> i32;
-
 }
 
 #[repr(i32)]
@@ -1533,37 +1413,31 @@ impl std::fmt::Debug for DYNAMIC_FUNCTION_TABLE {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetFunctionTableListHead() -> *mut LIST_ENTRY;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetActiveActivationContext(ActivationContext: *mut ACTIVATION_CONTEXT) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAddRefActivationContext(ActivationContext: *mut ACTIVATION_CONTEXT);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlReleaseActivationContext(ActivationContext: *mut ACTIVATION_CONTEXT);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlZombifyActivationContext(ActivationContext: *mut ACTIVATION_CONTEXT) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsActivationContextActive(ActivationContext: *mut ACTIVATION_CONTEXT) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1573,7 +1447,6 @@ extern "system" {
         ActivationContext: *mut ACTIVATION_CONTEXT,
         Cookie: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1584,13 +1457,11 @@ extern "system" {
         ActivationContext: *mut ACTIVATION_CONTEXT,
         Cookie: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDeactivateActivationContext(Flags: u32, Cookie: usize);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1603,7 +1474,6 @@ extern "system" {
         NotificationContext: *mut std::ffi::c_void,
         ActivationContext: *mut *mut ACTIVATION_CONTEXT,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1615,7 +1485,6 @@ extern "system" {
         StringToFind: *mut UNICODE_STRING,
         ReturnedData: *mut ACTCTX_SECTION_KEYED_DATA,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1627,7 +1496,6 @@ extern "system" {
         GuidToFind: *mut GUID,
         ReturnedData: *mut ACTCTX_SECTION_KEYED_DATA,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1641,7 +1509,6 @@ extern "system" {
         BufferLength: usize,
         RequiredLength: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1655,7 +1522,6 @@ extern "system" {
         ActivationContextInformationLength: usize,
         ReturnLength: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1666,13 +1532,11 @@ extern "system" {
         ActivationContextInformationLength: usize,
         ReturnLength: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlImageNtHeader(BaseOfImage: *mut std::ffi::c_void) -> *mut IMAGE_NT_HEADERS64;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1683,7 +1547,6 @@ extern "system" {
         Size: u64,
         OutHeaders: *mut *mut IMAGE_NT_HEADERS64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1693,7 +1556,6 @@ extern "system" {
         BaseOfImage: *mut std::ffi::c_void,
         VirtualAddress: u32,
     ) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1703,7 +1565,6 @@ extern "system" {
         BaseOfImage: *mut std::ffi::c_void,
         VirtualAddress: u32,
     ) -> *mut IMAGE_SECTION_HEADER;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1714,7 +1575,6 @@ extern "system" {
         DirectoryEntry: u16,
         Size: *mut u32,
     ) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1724,7 +1584,6 @@ extern "system" {
         BaseOfImage: *mut std::ffi::c_void,
         Rva: u32,
     ) -> *mut IMAGE_SECTION_HEADER;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1735,7 +1594,6 @@ extern "system" {
         Rva: u32,
         LastRvaSection: *mut *mut IMAGE_SECTION_HEADER,
     ) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1744,7 +1602,6 @@ extern "system" {
         BaseOfImage: *mut std::ffi::c_void,
         RoutineName: *mut i8,
     ) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1754,7 +1611,6 @@ extern "system" {
         IsFastFail: BOOL,
         IsLongJumpTarget: *mut BOOL,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1763,7 +1619,6 @@ extern "system" {
         CloneCurrentEnvironment: BOOLEAN,
         Environment: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1773,13 +1628,11 @@ extern "system" {
         Environment: *mut *mut std::ffi::c_void,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDestroyEnvironment(Environment: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1788,7 +1641,6 @@ extern "system" {
         Environment: *mut std::ffi::c_void,
         PreviousEnvironment: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1800,7 +1652,6 @@ extern "system" {
         Value: PCWSTR,
         ValueLength: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1810,7 +1661,6 @@ extern "system" {
         Name: *mut UNICODE_STRING,
         Value: *mut UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1823,7 +1673,6 @@ extern "system" {
         ValueLength: usize,
         ReturnLength: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1833,7 +1682,6 @@ extern "system" {
         Name: *mut UNICODE_STRING,
         Value: *mut UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1846,7 +1694,6 @@ extern "system" {
         DestinationLength: usize,
         ReturnLength: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1857,13 +1704,11 @@ extern "system" {
         Destination: *mut UNICODE_STRING,
         ReturnedLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetEnvironmentStrings(NewEnvironment: PCWSTR, NewEnvironmentSize: usize) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -1923,13 +1768,11 @@ pub enum RTL_PATH_TYPE {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDetermineDosPathNameType_U(DosFileName: PCWSTR) -> RTL_PATH_TYPE;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsDosDeviceName_U(DosFileName: PCWSTR) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1940,7 +1783,6 @@ extern "system" {
         Buffer: PWSTR,
         FilePart: *mut PWSTR,
     ) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1952,7 +1794,6 @@ extern "system" {
         FilePart: *mut PWSTR,
         BytesRequired: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1967,25 +1808,21 @@ extern "system" {
         InputPathType: *mut RTL_PATH_TYPE,
         BytesRequired: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetCurrentDirectory_U(BufferLength: u32, Buffer: PWSTR) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetCurrentDirectory_U(PathName: *mut UNICODE_STRING) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetLongestNtPathLength() -> u32;
-
 }
 
 #[repr(C)]
@@ -2039,7 +1876,6 @@ extern "system" {
         Disposition: *mut u32,
         FilePart: *mut PWSTR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2050,7 +1886,6 @@ extern "system" {
         FilePart: *mut PWSTR,
         RelativeName: *mut RTL_RELATIVE_NAME_U,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2061,7 +1896,6 @@ extern "system" {
         FilePart: *mut PWSTR,
         RelativeName: *mut RTL_RELATIVE_NAME_U,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2072,7 +1906,6 @@ extern "system" {
         FilePart: *mut PWSTR,
         RelativeName: *mut RTL_RELATIVE_NAME_U,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2083,7 +1916,6 @@ extern "system" {
         FilePart: *mut PWSTR,
         RelativeName: *mut RTL_RELATIVE_NAME_U,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2094,7 +1926,6 @@ extern "system" {
         FilePart: *mut PWSTR,
         RelativeName: *mut RTL_RELATIVE_NAME_U,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2105,13 +1936,11 @@ extern "system" {
         FilePart: *mut PWSTR,
         RelativeName: *mut RTL_RELATIVE_NAME_U,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlReleaseRelativeName(RelativeName: *mut RTL_RELATIVE_NAME_U);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2124,7 +1953,6 @@ extern "system" {
         Buffer: PWSTR,
         FilePart: *mut PWSTR,
     ) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2140,13 +1968,11 @@ extern "system" {
         FilePartPrefixCch: *mut usize,
         BytesRequired: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDoesFileExists_U(FileName: PCWSTR) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2162,7 +1988,6 @@ extern "system" {
         FileNameSize: *mut usize,
         RequiredLength: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2172,7 +1997,6 @@ extern "system" {
         PathString: *mut UNICODE_STRING,
         Length: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2182,7 +2006,6 @@ extern "system" {
         PathString: *mut UNICODE_STRING,
         Length: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2192,31 +2015,26 @@ extern "system" {
         RealName: *mut UNICODE_STRING,
         LocalName: *mut UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetSearchPath(SearchPathA: *mut PWSTR) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetSearchPathMode(Flags: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetExePath(DosPathName: PCWSTR, SearchPathA: *mut PWSTR) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlReleasePath(Path: PWSTR);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2227,7 +2045,6 @@ extern "system" {
         TargetMachine: u16,
         IncludePathSeperator: BOOLEAN,
     ) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2237,31 +2054,26 @@ extern "system" {
         ProcessMachine: *mut u16,
         NativeMachine: *mut u16,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetImageFileMachines(FileName: PCWSTR, FileMachines: *mut u16) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAreLongPathsEnabled() -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsThreadWithinLoaderCallout() -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDllShutdownInProgress() -> BOOLEAN;
-
 }
 
 #[repr(C)]
@@ -2471,31 +2283,26 @@ extern "system" {
         Flags: u32,
         BaseAddress: *mut std::ffi::c_void,
     ) -> usize;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlZeroHeap(HeapHandle: *mut std::ffi::c_void, Flags: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlProtectHeap(HeapHandle: *mut std::ffi::c_void, MakeReadOnly: BOOLEAN);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlLockHeap(HeapHandle: *mut std::ffi::c_void) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUnlockHeap(HeapHandle: *mut std::ffi::c_void) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2506,7 +2313,6 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         Size: usize,
     ) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2518,7 +2324,6 @@ extern "system" {
         UserValue: *mut *mut std::ffi::c_void,
         UserFlags: *mut u32,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2529,7 +2334,6 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         UserValue: *mut std::ffi::c_void,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2541,7 +2345,6 @@ extern "system" {
         UserFlagsReset: u32,
         UserFlagsSet: u32,
     ) -> BOOLEAN;
-
 }
 
 #[repr(C)]
@@ -2571,7 +2374,6 @@ extern "system" {
         TagPrefix: PWSTR,
         TagNames: PWSTR,
     ) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2583,7 +2385,6 @@ extern "system" {
         ResetCounters: BOOLEAN,
         TagInfo: *mut RTL_HEAP_TAG_INFO,
     ) -> PWSTR;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2594,13 +2395,11 @@ extern "system" {
         Base: *mut std::ffi::c_void,
         Size: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCompactHeap(HeapHandle: *mut std::ffi::c_void, Flags: u32) -> usize;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2610,19 +2409,16 @@ extern "system" {
         Flags: u32,
         BaseAddress: *mut std::ffi::c_void,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlValidateProcessHeaps() -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetProcessHeaps(NumberOfHeaps: u32, ProcessHeaps: *mut *mut std::ffi::c_void) -> u32;
-
 }
 
 pub type PRTL_ENUM_HEAPS_ROUTINE = std::option::Option<
@@ -2635,7 +2431,6 @@ extern "system" {
         EnumRoutine: PRTL_ENUM_HEAPS_ROUTINE,
         Parameter: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -2695,7 +2490,6 @@ extern "system" {
         Flags: u32,
         Usage: *mut RTL_HEAP_USAGE,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -2793,7 +2587,6 @@ extern "system" {
         HeapHandle: *mut std::ffi::c_void,
         Entry: *mut RTL_HEAP_WALK_ENTRY,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -3301,7 +3094,6 @@ extern "system" {
         HeapInformationLength: usize,
         ReturnLength: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3312,7 +3104,6 @@ extern "system" {
         HeapInformation: *mut std::ffi::c_void,
         HeapInformationLength: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3324,7 +3115,6 @@ extern "system" {
         Count: u32,
         Array: *mut *mut std::ffi::c_void,
     ) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3335,19 +3125,16 @@ extern "system" {
         Count: u32,
         Array: *mut *mut std::ffi::c_void,
     ) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDetectHeapLeaks();
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlFlushHeaps();
-
 }
 
 #[repr(C)]
@@ -3405,13 +3192,11 @@ extern "system" {
         InitialSize: usize,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDestroyMemoryZone(MemoryZone: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3421,25 +3206,21 @@ extern "system" {
         BlockSize: usize,
         Block: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlResetMemoryZone(MemoryZone: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlLockMemoryZone(MemoryZone: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUnlockMemoryZone(MemoryZone: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3451,13 +3232,11 @@ extern "system" {
         MinimumBlockSize: u32,
         MaximumBlockSize: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDestroyMemoryBlockLookaside(MemoryBlockLookaside: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3467,7 +3246,6 @@ extern "system" {
         BlockSize: u32,
         Block: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3476,7 +3254,6 @@ extern "system" {
         MemoryBlockLookaside: *mut std::ffi::c_void,
         Block: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3485,37 +3262,31 @@ extern "system" {
         MemoryBlockLookaside: *mut std::ffi::c_void,
         Increment: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlResetMemoryBlockLookaside(MemoryBlockLookaside: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlLockMemoryBlockLookaside(MemoryBlockLookaside: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUnlockMemoryBlockLookaside(MemoryBlockLookaside: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetCurrentTransaction() -> HANDLE;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetCurrentTransaction(TransactionHandle: HANDLE) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3525,25 +3296,21 @@ extern "system" {
         Src: *mut LUID_AND_ATTRIBUTES,
         Dest: *mut LUID_AND_ATTRIBUTES,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUshortByteSwap(Source: u16);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUlongByteSwap(Source: u32);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUlonglongByteSwap(Source: u64);
-
 }
 
 #[repr(C)]
@@ -3637,13 +3404,11 @@ extern "system" {
         MaximumCommit: u32,
         UseEventPair: BOOLEAN,
     ) -> *mut RTL_DEBUG_INFORMATION;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDestroyQueryDebugBuffer(Buffer: *mut RTL_DEBUG_INFORMATION) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3652,7 +3417,6 @@ extern "system" {
         Buffer: *mut RTL_DEBUG_INFORMATION,
         Size: usize,
     ) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3662,7 +3426,6 @@ extern "system" {
         p: *mut std::ffi::c_void,
         Size: usize,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3672,7 +3435,6 @@ extern "system" {
         Flags: u32,
         Buffer: *mut RTL_DEBUG_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3682,7 +3444,6 @@ extern "system" {
         Flags: u32,
         Buffer: *mut RTL_DEBUG_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3694,7 +3455,6 @@ extern "system" {
         MessageId: u32,
         MessageEntry: *mut *mut MESSAGE_RESOURCE_ENTRY,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3710,7 +3470,6 @@ extern "system" {
         Length: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -3749,7 +3508,6 @@ extern "system" {
         ReturnLength: *mut u32,
         ParseContext: *mut PARSE_MESSAGE_CONTEXT,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3763,7 +3521,6 @@ extern "system" {
         FileMUIPathLength: *mut u32,
         Enumerator: *mut u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3778,49 +3535,41 @@ extern "system" {
         ReturnLanguageName: PWSTR,
         ReturnLanguageLen: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetLastNtStatus() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetLastWin32Error() -> i32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetLastWin32ErrorAndNtStatusFromNtStatus(Status: NTSTATUS);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetLastWin32Error(Win32Error: i32);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRestoreLastWin32Error(Win32Error: i32);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetThreadErrorMode() -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetThreadErrorMode(NewMode: u32, OldMode: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3830,7 +3579,6 @@ extern "system" {
         ContextRecord: *mut CONTEXT,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3841,7 +3589,6 @@ extern "system" {
         Flags: u32,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3852,13 +3599,11 @@ extern "system" {
         Flags: u32,
         CrashVerticalProcessHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlReportSilentProcessExit(ProcessHandle: HANDLE, ExitStatus: NTSTATUS) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3868,13 +3613,11 @@ extern "system" {
         Hash: *mut i8,
         ImportTableHashRevision: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIntegerToChar(Value: u32, Base: u32, OutputLength: i32, String: PSTR) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3885,7 +3628,6 @@ extern "system" {
         OutputLength: i32,
         String: PSTR,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -3919,25 +3661,21 @@ extern "system" {
         CurrentSystemTime: *mut i64,
         ThisYear: BOOLEAN,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSystemTimeToLocalTime(SystemTime: *mut i64, LocalTime: *mut i64) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlTimeToElapsedTimeFields(Time: *mut i64, TimeFields: *mut TIME_FIELDS);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetSystemTimePrecise() -> i64;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3947,19 +3685,16 @@ extern "system" {
         TimeZoneBiasEffectiveStart: *mut i64,
         TimeZoneBiasEffectiveEnd: *mut i64,
     ) -> KSYSTEM_TIME;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetInterruptTimePrecise(PerformanceCounter: *mut i64) -> i64;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlQueryUnbiasedInterruptTime(InterruptTime: *mut i64) -> BOOLEAN;
-
 }
 
 #[repr(C)]
@@ -3994,7 +3729,6 @@ extern "system" {
     pub fn RtlQueryTimeZoneInformation(
         TimeZoneInformation: *mut RTL_TIME_ZONE_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4002,7 +3736,6 @@ extern "system" {
     pub fn RtlSetTimeZoneInformation(
         TimeZoneInformation: *mut RTL_TIME_ZONE_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4012,7 +3745,6 @@ extern "system" {
         StartingIndex: u32,
         NumberToClear: u32,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4022,7 +3754,6 @@ extern "system" {
         StartingIndex: u32,
         NumberToSet: u32,
     );
-
 }
 
 #[repr(C)]
@@ -4050,31 +3781,26 @@ extern "system" {
         BitMapBuffer: *mut u64,
         SizeOfBitMap: u64,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlTestBitEx(BitMapHeader: *mut RTL_BITMAP_EX, BitNumber: u64) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlClearAllBitsEx(BitMapHeader: *mut RTL_BITMAP_EX);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlClearBitEx(BitMapHeader: *mut RTL_BITMAP_EX, BitNumber: u64);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetBitEx(BitMapHeader: *mut RTL_BITMAP_EX, BitNumber: u64);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4084,7 +3810,6 @@ extern "system" {
         NumberToFind: u64,
         HintIndex: u64,
     ) -> u64;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4094,7 +3819,6 @@ extern "system" {
         NumberToFind: u64,
         HintIndex: u64,
     ) -> u64;
-
 }
 
 #[repr(C)]
@@ -4175,13 +3899,11 @@ extern "system" {
         SizeOfHandleTableEntry: u32,
         HandleTable: *mut RTL_HANDLE_TABLE,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDestroyHandleTable(HandleTable: *mut RTL_HANDLE_TABLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4190,7 +3912,6 @@ extern "system" {
         HandleTable: *mut RTL_HANDLE_TABLE,
         HandleIndex: *mut u32,
     ) -> *mut RTL_HANDLE_TABLE_ENTRY;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4199,7 +3920,6 @@ extern "system" {
         HandleTable: *mut RTL_HANDLE_TABLE,
         Handle: *mut RTL_HANDLE_TABLE_ENTRY,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4208,7 +3928,6 @@ extern "system" {
         HandleTable: *mut RTL_HANDLE_TABLE,
         Handle: *mut RTL_HANDLE_TABLE_ENTRY,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4218,7 +3937,6 @@ extern "system" {
         HandleIndex: u32,
         Handle: *mut *mut RTL_HANDLE_TABLE_ENTRY,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4227,13 +3945,11 @@ extern "system" {
         NumberOfBuckets: u32,
         AtomTableHandle: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDestroyAtomTable(AtomTableHandle: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4242,7 +3958,6 @@ extern "system" {
         AtomTableHandle: *mut std::ffi::c_void,
         IncludePinnedAtoms: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4252,7 +3967,6 @@ extern "system" {
         AtomName: PWSTR,
         Atom: *mut u16,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4262,7 +3976,6 @@ extern "system" {
         AtomName: PWSTR,
         Atom: *mut u16,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4271,13 +3984,11 @@ extern "system" {
         AtomTableHandle: *mut std::ffi::c_void,
         Atom: u16,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlPinAtomInAtomTable(AtomTableHandle: *mut std::ffi::c_void, Atom: u16) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4290,13 +4001,11 @@ extern "system" {
         AtomName: PWSTR,
         AtomNameLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetIntegerAtom(AtomName: PWSTR, IntegerAtom: *mut u16) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4310,13 +4019,11 @@ extern "system" {
         RemainingSidArea: *mut PSID,
         RemainingSidAreaSize: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSidDominates(Sid1: PSID, Sid2: PSID, Dominates: *mut BOOLEAN) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4326,25 +4033,21 @@ extern "system" {
         Sid2: PSID,
         DominatesTrust: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSidEqualLevel(Sid1: PSID, Sid2: PSID, EqualLevel: *mut BOOLEAN) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSidIsHigherLevel(Sid1: PSID, Sid2: PSID, HigherLevel: *mut BOOLEAN) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlLengthSidAsUnicodeString(Sid: PSID, StringLength: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4354,7 +4057,6 @@ extern "system" {
         SidCount: u32,
         SidAttrHash: *mut SID_AND_ATTRIBUTES_HASH,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4363,13 +4065,11 @@ extern "system" {
         SidAttrHash: *mut SID_AND_ATTRIBUTES_HASH,
         Sid: PSID,
     ) -> *mut SID_AND_ATTRIBUTES;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsElevatedRid(SidAttr: *mut SID_AND_ATTRIBUTES) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4379,7 +4079,6 @@ extern "system" {
         CapabilityGroupSid: PSID,
         CapabilitySid: PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4389,7 +4088,6 @@ extern "system" {
         Control: *mut SECURITY_DESCRIPTOR_CONTROL,
         Revision: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4399,7 +4097,6 @@ extern "system" {
         ControlBitsOfInterest: SECURITY_DESCRIPTOR_CONTROL,
         ControlBitsToSet: SECURITY_DESCRIPTOR_CONTROL,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4409,7 +4106,6 @@ extern "system" {
         Control: SECURITY_DESCRIPTOR_CONTROL,
         Revision: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4418,7 +4114,6 @@ extern "system" {
         SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
         RMControl: *mut u8,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4427,7 +4122,6 @@ extern "system" {
         SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
         RMControl: *mut u8,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4437,7 +4131,6 @@ extern "system" {
         SelfRelativeSecurityDescriptor: *mut SECURITY_DESCRIPTOR,
         BufferLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4446,13 +4139,11 @@ extern "system" {
         SelfRelativeSecurityDescriptor: *mut SECURITY_DESCRIPTOR,
         BufferSize: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlValidAcl(Acl: *mut ACL) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4463,7 +4154,6 @@ extern "system" {
         AclInformationLength: u32,
         AclInformationClass: ACL_INFORMATION_CLASS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4474,25 +4164,21 @@ extern "system" {
         AclInformationLength: u32,
         AclInformationClass: ACL_INFORMATION_CLASS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlFirstFreeAce(Acl: *mut ACL, FirstFree: *mut *mut std::ffi::c_void) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlFindAceByType(Acl: *mut ACL, AceType: u8, Index: *mut u32) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlOwnerAcesPresent(pAcl: *mut ACL) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4503,7 +4189,6 @@ extern "system" {
         AccessMask: u32,
         Sid: PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4515,7 +4200,6 @@ extern "system" {
         AccessMask: u32,
         Sid: PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4528,7 +4212,6 @@ extern "system" {
         AuditSuccess: BOOLEAN,
         AuditFailure: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4542,7 +4225,6 @@ extern "system" {
         AuditSuccess: BOOLEAN,
         AuditFailure: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4556,7 +4238,6 @@ extern "system" {
         InheritedObjectTypeGuid: *mut GUID,
         Sid: PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4570,7 +4251,6 @@ extern "system" {
         InheritedObjectTypeGuid: *mut GUID,
         Sid: PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4586,7 +4266,6 @@ extern "system" {
         AuditSuccess: BOOLEAN,
         AuditFailure: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -4609,7 +4288,6 @@ extern "system" {
         ServerSid: PSID,
         ClientSid: PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4622,7 +4300,6 @@ extern "system" {
         AceType: u8,
         AccessMask: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4636,7 +4313,6 @@ extern "system" {
         AttributeInfo: *mut CLAIM_SECURITY_ATTRIBUTES_INFORMATION,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4648,13 +4324,11 @@ extern "system" {
         AccessMask: u32,
         Sid: PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDefaultNpAcl(Acl: *mut *mut ACL) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4667,7 +4341,6 @@ extern "system" {
         Token: HANDLE,
         GenericMapping: *mut GENERIC_MAPPING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4682,7 +4355,6 @@ extern "system" {
         Token: HANDLE,
         GenericMapping: *mut GENERIC_MAPPING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4698,13 +4370,11 @@ extern "system" {
         Token: HANDLE,
         GenericMapping: *mut GENERIC_MAPPING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDeleteSecurityObject(ObjectDescriptor: *mut *mut SECURITY_DESCRIPTOR) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4716,7 +4386,6 @@ extern "system" {
         DescriptorLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4728,7 +4397,6 @@ extern "system" {
         GenericMapping: *mut GENERIC_MAPPING,
         TokenHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4741,7 +4409,6 @@ extern "system" {
         GenericMapping: *mut GENERIC_MAPPING,
         TokenHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4754,7 +4421,6 @@ extern "system" {
         IsDirectoryObject: BOOLEAN,
         GenericMapping: *mut GENERIC_MAPPING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4771,7 +4437,6 @@ extern "system" {
         TokenHandle: HANDLE,
         GenericMapping: *mut GENERIC_MAPPING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4780,7 +4445,6 @@ extern "system" {
         InputSecurityDescriptor: *mut SECURITY_DESCRIPTOR,
         OutputSecurityDescriptor: *mut *mut SECURITY_DESCRIPTOR,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -4815,7 +4479,6 @@ extern "system" {
         GenericMapping: *mut GENERIC_MAPPING,
         NewSecurityDescriptor: *mut *mut SECURITY_DESCRIPTOR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4827,25 +4490,21 @@ extern "system" {
         GroupSid: PSID,
         NewSecurityDescriptor: *mut *mut SECURITY_DESCRIPTOR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRunEncodeUnicodeString(Seed: *mut u8, String: *mut UNICODE_STRING);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRunDecodeUnicodeString(Seed: u8, String: *mut UNICODE_STRING);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlImpersonateSelf(ImpersonationLevel: SECURITY_IMPERSONATION_LEVEL) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4855,7 +4514,6 @@ extern "system" {
         AdditionalAccess: u32,
         ThreadToken: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4866,7 +4524,6 @@ extern "system" {
         Client: BOOLEAN,
         WasEnabled: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4877,13 +4534,11 @@ extern "system" {
         Flags: u32,
         ReturnedState: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlReleasePrivilege(StatePointer: *mut std::ffi::c_void);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4893,7 +4548,6 @@ extern "system" {
         PrivilegesToKeep: *mut u32,
         PrivilegeCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4902,13 +4556,11 @@ extern "system" {
         Name: *mut UNICODE_STRING,
         Flags: u32,
     ) -> *mut OBJECT_BOUNDARY_DESCRIPTOR;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDeleteBoundaryDescriptor(BoundaryDescriptor: *mut OBJECT_BOUNDARY_DESCRIPTOR);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4917,7 +4569,6 @@ extern "system" {
         BoundaryDescriptor: *mut *mut OBJECT_BOUNDARY_DESCRIPTOR,
         RequiredSid: PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4926,7 +4577,6 @@ extern "system" {
         BoundaryDescriptor: *mut *mut OBJECT_BOUNDARY_DESCRIPTOR,
         IntegrityLabel: PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4936,13 +4586,11 @@ extern "system" {
         NtMinorVersion: *mut u32,
         NtBuildNumber: *mut u32,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetNtGlobalFlags() -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4955,19 +4603,16 @@ extern "system" {
         Milliseconds: u32,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDeregisterWait(WaitHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDeregisterWaitEx(WaitHandle: HANDLE, CompletionEvent: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4977,7 +4622,6 @@ extern "system" {
         Context: *mut std::ffi::c_void,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4987,7 +4631,6 @@ extern "system" {
         CompletionProc: APC_CALLBACK_FUNCTION,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 pub type PRTL_START_POOL_THREAD = std::option::Option<
@@ -5007,31 +4650,26 @@ extern "system" {
         StartPoolThread: PRTL_START_POOL_THREAD,
         ExitPoolThread: PRTL_EXIT_POOL_THREAD,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUserThreadStart(Function: LPTHREAD_START_ROUTINE, Parameter: *mut std::ffi::c_void);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn LdrInitializeThunk(ContextRecord: *mut CONTEXT, Parameter: *mut std::ffi::c_void);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDelayExecution(Alertable: BOOLEAN, DelayInterval: *mut i64) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCreateTimerQueue(TimerQueueHandle: *mut HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5045,7 +4683,6 @@ extern "system" {
         Period: u32,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5056,7 +4693,6 @@ extern "system" {
         DueTime: u32,
         Period: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5066,31 +4702,26 @@ extern "system" {
         TimerToCancel: HANDLE,
         Event: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDeleteTimerQueue(TimerQueueHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDeleteTimerQueueEx(TimerQueueHandle: HANDLE, Event: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlFormatCurrentUserKeyPath(CurrentUserKeyPath: *mut UNICODE_STRING) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlOpenCurrentUser(DesiredAccess: u32, CurrentUserKey: *mut HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5102,7 +4733,6 @@ extern "system" {
         Context: *mut std::ffi::c_void,
         Environment: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5113,19 +4743,16 @@ extern "system" {
         HardwareCounters: u64,
         PerformanceDataHandle: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDisableThreadProfiling(PerformanceDataHandle: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlQueryThreadProfiling(ThreadHandle: HANDLE, Enabled: *mut BOOLEAN) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5135,7 +4762,6 @@ extern "system" {
         Flags: u32,
         PerformanceData: *mut PERFORMANCE_DATA,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5146,7 +4772,6 @@ extern "system" {
         InformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5158,13 +4783,11 @@ extern "system" {
         ApcArgument2: *mut std::ffi::c_void,
         ApcArgument3: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlWow64EnableFsRedirection(Wow64FsEnableRedirection: BOOLEAN) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5173,37 +4796,31 @@ extern "system" {
         Wow64FsEnableRedirection: *mut std::ffi::c_void,
         OldFsRedirectionLevel: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlComputeCrc32(PartialCrc: u32, Buffer: *mut std::ffi::c_void, Length: u32) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlEncodePointer(Ptr: *mut std::ffi::c_void) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDecodePointer(Ptr: *mut std::ffi::c_void) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlEncodeSystemPointer(Ptr: *mut std::ffi::c_void) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlDecodeSystemPointer(Ptr: *mut std::ffi::c_void) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5213,7 +4830,6 @@ extern "system" {
         Pointer: *mut std::ffi::c_void,
         EncodedPointer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5223,49 +4839,41 @@ extern "system" {
         Pointer: *mut std::ffi::c_void,
         DecodedPointer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsProcessorFeaturePresent(ProcessorFeature: u32) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetCurrentProcessorNumber() -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetCurrentProcessorNumberEx(ProcessorNumber: *mut PROCESSOR_NUMBER);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlPushFrame(Frame: *mut TEB_ACTIVE_FRAME);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlPopFrame(Frame: *mut TEB_ACTIVE_FRAME);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetFrame() -> *mut TEB_ACTIVE_FRAME;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetEnabledExtendedAndSupervisorFeatures(FeatureMask: u64) -> u64;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5275,7 +4883,6 @@ extern "system" {
         FeatureId: u32,
         Length: *mut u32,
     ) -> *mut std::ffi::c_void;
-
 }
 
 #[repr(C)]
@@ -5388,37 +4995,31 @@ impl std::fmt::Debug for RTL_ELEVATION_FLAGS {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlQueryElevationFlags(Flags: *mut RTL_ELEVATION_FLAGS) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRegisterThreadWithCsrss() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlLockCurrentThread() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUnlockCurrentThread() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlLockModuleSection(Address: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUnlockModuleSection(Address: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -5478,7 +5079,6 @@ impl std::fmt::Debug for RTL_UNLOAD_EVENT_TRACE32 {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetUnloadEventTrace() -> *mut RTL_UNLOAD_EVENT_TRACE;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5488,19 +5088,16 @@ extern "system" {
         ElementCount: *mut *mut u32,
         EventTrace: *mut *mut std::ffi::c_void,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlQueryPerformanceCounter(PerformanceCounter: *mut i64) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlQueryPerformanceFrequency(PerformanceFrequency: *mut i64) -> u32;
-
 }
 
 #[repr(i32)]
@@ -6118,7 +5715,6 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         BufferSize: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6130,13 +5726,11 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         BufferSize: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlGetCurrentServiceSessionId() -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6146,7 +5740,6 @@ extern "system" {
         Sid: PSID,
         ObjectPath: *mut UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6157,7 +5750,6 @@ extern "system" {
         RelativePath: BOOLEAN,
         ObjectPath: *mut UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6166,13 +5758,11 @@ extern "system" {
         AppContainerSid: PSID,
         AppContainerSidParent: *mut PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCheckSandboxedToken(TokenHandle: HANDLE, IsSandboxed: *mut BOOLEAN) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6182,7 +5772,6 @@ extern "system" {
         CapabilitySidToCheck: PSID,
         HasCapability: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6192,7 +5781,6 @@ extern "system" {
         CapabilityName: *mut UNICODE_STRING,
         HasCapability: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6202,7 +5790,6 @@ extern "system" {
         SidToCheck: PSID,
         IsMember: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6213,13 +5800,11 @@ extern "system" {
         Flags: u32,
         IsMember: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlQueryTokenHostIdAsUlong64(TokenHandle: HANDLE, HostId: *mut u64) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6228,25 +5813,21 @@ extern "system" {
         ParentAppContainerSid: PSID,
         ChildAppContainerSid: PSID,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsCapabilitySid(Sid: PSID) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsPackageSid(Sid: PSID) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsValidProcessTrustLabelSid(Sid: PSID) -> BOOLEAN;
-
 }
 
 #[repr(i32)]
@@ -6265,31 +5846,26 @@ extern "system" {
         AppContainerSid: PSID,
         AppContainerSidType: *mut APPCONTAINER_SID_TYPE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlFlsAlloc(Callback: PFLS_CALLBACK_FUNCTION, FlsIndex: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlFlsFree(FlsIndex: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlFlsGetValue(FlsIndex: u32, FlsData: *mut *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlFlsSetValue(FlsIndex: u32, FlsData: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6298,7 +5874,6 @@ extern "system" {
         FileHandle: HANDLE,
         IsFileOwnedByTrustedInstaller: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -6331,13 +5906,11 @@ extern "system" {
         PkgClaim: *mut PS_PKG_CLAIM,
         AttributesPresent: *mut u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlQueryProtectedPolicy(PolicyGuid: *mut GUID, PolicyValue: *mut usize) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6347,13 +5920,11 @@ extern "system" {
         PolicyValue: usize,
         OldPolicyValue: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlIsEnclaveFeaturePresent(FeatureMask: u32) -> BOOLEAN;
-
 }
 
 #[repr(i32)]
@@ -6684,19 +6255,16 @@ impl std::fmt::Debug for RTL_BSD_ITEM {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCreateBootStatusDataFile() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlLockBootStatusData(FileHandle: *mut HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUnlockBootStatusData(FileHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6709,25 +6277,21 @@ extern "system" {
         BufferSize: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCheckBootStatusIntegrity(FileHandle: HANDLE, Verified: *mut BOOLEAN) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRestoreBootStatusDefaults(FileHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRestoreSystemBootStatusDefaults() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6738,7 +6302,6 @@ extern "system" {
         DataLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6749,19 +6312,16 @@ extern "system" {
         DataLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCheckPortableOperatingSystem(IsPortable: *mut BOOLEAN) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetPortableOperatingSystem(IsPortable: BOOLEAN) -> NTSTATUS;
-
 }
 
 pub type PRTL_SECURE_MEMORY_CACHE_CALLBACK = std::option::Option<
@@ -6773,7 +6333,6 @@ extern "system" {
     pub fn RtlRegisterSecureMemoryCacheCallback(
         Callback: PRTL_SECURE_MEMORY_CACHE_CALLBACK,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6781,7 +6340,6 @@ extern "system" {
     pub fn RtlDeregisterSecureMemoryCacheCallback(
         Callback: PRTL_SECURE_MEMORY_CACHE_CALLBACK,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6790,7 +6348,6 @@ extern "system" {
         MemoryCache: *mut std::ffi::c_void,
         MemoryLength: usize,
     ) -> BOOLEAN;
-
 }
 
 #[repr(C)]
@@ -6815,7 +6372,6 @@ impl std::fmt::Debug for RTL_FEATURE_USAGE_REPORT {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlNotifyFeatureUsage(FeatureUsageReport: *mut RTL_FEATURE_USAGE_REPORT) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -7006,7 +6562,6 @@ extern "system" {
         ChangeStamp: *mut u64,
         FeatureConfiguration: *mut RTL_FEATURE_CONFIGURATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -7017,7 +6572,6 @@ extern "system" {
         FeatureConfiguration: *mut RTL_FEATURE_CONFIGURATION,
         FeatureConfigurationCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -7028,13 +6582,11 @@ extern "system" {
         FeatureConfigurations: *mut RTL_FEATURE_CONFIGURATION,
         FeatureConfigurationCount: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlQueryFeatureConfigurationChangeStamp() -> u64;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -7043,7 +6595,6 @@ extern "system" {
         FeatureConfiguration: *mut RTL_FEATURE_CONFIGURATION,
         FeatureConfigurationCount: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 pub type PRTL_FEATURE_CONFIGURATION_CHANGE_NOTIFICATION =
@@ -7057,7 +6608,6 @@ extern "system" {
         ChangeStamp: *mut u64,
         NotificationHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -7065,7 +6615,6 @@ extern "system" {
     pub fn RtlUnregisterFeatureConfigurationChangeNotification(
         NotificationHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -7074,7 +6623,6 @@ extern "system" {
         FeatureConfiguration: *mut RTL_FEATURE_CONFIGURATION,
         FeatureConfigurationCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -7083,13 +6631,11 @@ extern "system" {
         FeatureConfiguration: *mut RTL_FEATURE_CONFIGURATION,
         FeatureConfigurationCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlEqualWnfChangeStamps(ChangeStamp1: u32, ChangeStamp2: u32) -> BOOLEAN;
-
 }
 
 pub type PWNF_USER_CALLBACK = std::option::Option<
@@ -7112,7 +6658,6 @@ extern "system" {
         CallbackContext: *mut std::ffi::c_void,
         TypeId: *mut WNF_TYPE_ID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -7124,7 +6669,6 @@ extern "system" {
         Length: u32,
         ExplicitScope: *const std::os::raw::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -7139,13 +6683,11 @@ extern "system" {
         SerializationGroup: u32,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlUnsubscribeWnfStateChangeNotification(Callback: PWNF_USER_CALLBACK) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -7162,19 +6704,16 @@ extern "system" {
         DestKey: *mut GUID,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlQueryPropertyStore(Key: usize, Context: *mut usize) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRemovePropertyStore(Key: usize, Context: *mut usize) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -7185,7 +6724,6 @@ extern "system" {
         Exchange: *mut usize,
         Context: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -7198,5 +6736,4 @@ extern "system" {
         ExtendedInformationLength: usize,
         Reserved: u64,
     ) -> NTSTATUS;
-
 }

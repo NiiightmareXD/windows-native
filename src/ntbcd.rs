@@ -161,31 +161,26 @@ extern "system" {
         BcdLoggingLevel: BCD_MESSAGE_TYPE,
         BcdMessageCallbackRoutine: BCD_MESSAGE_CALLBACK,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdInitializeBcdSyncMutant();
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdGetSystemStorePath(BcdSystemStorePath: *mut PWSTR) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdSetSystemStoreDevice(SystemPartition: UNICODE_STRING) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdOpenSystemStore(BcdStoreHandle: *mut HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -194,19 +189,16 @@ extern "system" {
         BcdFilePath: UNICODE_STRING,
         BcdStoreHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdCreateStore(BcdFilePath: UNICODE_STRING, BcdStoreHandle: *mut HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdExportStore(BcdFilePath: UNICODE_STRING) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -216,13 +208,11 @@ extern "system" {
         Flags: u32,
         BcdFilePath: UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdImportStore(BcdFilePath: UNICODE_STRING) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -238,19 +228,16 @@ extern "system" {
         BcdFilePath: UNICODE_STRING,
         BcdImportFlags: BCD_IMPORT_FLAGS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdDeleteObjectReferences(BcdStoreHandle: HANDLE, Identifier: *mut GUID) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdDeleteSystemStore() -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -268,31 +255,26 @@ extern "system" {
         BcdOpenFlags: BCD_OPEN_FLAGS,
         BcdStoreHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdCloseStore(BcdStoreHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdFlushStore(BcdStoreHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdForciblyUnloadStore(BcdStoreHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdMarkAsSystemStore(BcdStoreHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -767,7 +749,6 @@ extern "system" {
         BufferSize: *mut u32,
         ObjectCount: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -777,7 +758,6 @@ extern "system" {
         Identifier: *const GUID,
         BcdObjectHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -788,19 +768,16 @@ extern "system" {
         Description: *mut BCD_OBJECT_DESCRIPTION,
         BcdObjectHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdDeleteObject(BcdObjectHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdCloseObject(BcdObjectHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -824,7 +801,6 @@ extern "system" {
         TargetStoreHandle: HANDLE,
         TargetObjectHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -837,7 +813,6 @@ extern "system" {
         TargetObjectId: *mut GUID,
         TargetObjectHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -848,7 +823,6 @@ extern "system" {
         BcdCopyFlags: BCD_COPY_FLAGS,
         TargetStoreHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -858,7 +832,6 @@ extern "system" {
         SourceObjectHandle: HANDLE,
         TargetObjectHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -869,7 +842,6 @@ extern "system" {
         Description: BCD_OBJECT_DESCRIPTION,
         Identifier: *mut GUID,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -1030,7 +1002,6 @@ extern "system" {
         BufferSize: *mut u32,
         ElementCount: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -1415,7 +1386,6 @@ extern "system" {
         BufferSize: *mut u32,
         ElementCount: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -1441,7 +1411,6 @@ extern "system" {
         BufferSize: *mut u32,
         ElementCount: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1454,7 +1423,6 @@ extern "system" {
         BufferSize: *mut u32,
         ElementCount: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1465,7 +1433,6 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         BufferSize: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1477,7 +1444,6 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         BufferSize: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1488,7 +1454,6 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         BufferSize: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1500,13 +1465,11 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         BufferSize: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn BcdDeleteElement(BcdObjectHandle: HANDLE, BcdElement: u32) -> NTSTATUS;
-
 }
 
 #[repr(i32)]

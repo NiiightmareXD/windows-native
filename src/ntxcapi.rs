@@ -12,19 +12,16 @@ extern "system" {
         ExceptionRecord: *mut EXCEPTION_RECORD,
         ContextRecord: *mut CONTEXT,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRaiseStatus(Status: NTSTATUS) -> !;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtContinue(ContextRecord: *mut CONTEXT, TestAlert: BOOLEAN) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -66,7 +63,6 @@ extern "system" {
         ContextRecord: *mut CONTEXT,
         ContinueArgument: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -76,5 +72,4 @@ extern "system" {
         ContextRecord: *mut CONTEXT,
         FirstChance: BOOLEAN,
     ) -> NTSTATUS;
-
 }

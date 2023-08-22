@@ -217,7 +217,6 @@ extern "system" {
         DefaultDacl: *mut TOKEN_DEFAULT_DACL,
         Source: *mut TOKEN_SOURCE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -233,7 +232,6 @@ extern "system" {
         HandleCount: u32,
         Handles: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -257,7 +255,6 @@ extern "system" {
         DefaultDacl: *mut TOKEN_DEFAULT_DACL,
         Source: *mut TOKEN_SOURCE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -280,7 +277,6 @@ extern "system" {
         DeviceReturnLength: *mut u32,
         DeviceGroupsReturnBufferLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -301,7 +297,6 @@ extern "system" {
         RestrictedDeviceGroups: *mut TOKEN_GROUPS,
         NewTokenHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -311,7 +306,6 @@ extern "system" {
         SecondTokenHandle: HANDLE,
         Equal: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -324,7 +318,6 @@ extern "system" {
         Length: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -339,7 +332,6 @@ extern "system" {
         GrantedAccess: *mut u32,
         AccessStatus: *mut NTSTATUS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -357,7 +349,6 @@ extern "system" {
         GrantedAccess: *mut u32,
         AccessStatus: *mut NTSTATUS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -375,7 +366,6 @@ extern "system" {
         GrantedAccess: *mut u32,
         AccessStatus: *mut NTSTATUS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -387,7 +377,6 @@ extern "system" {
         SourceFileCount: u32,
         TargetFile: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -400,11 +389,9 @@ extern "system" {
         ThumbprintSize: *mut u32,
         ThumbprintAlgorithm: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCompareSigningLevels(FirstSigningLevel: u8, SecondSigningLevel: u8) -> NTSTATUS;
-
 }

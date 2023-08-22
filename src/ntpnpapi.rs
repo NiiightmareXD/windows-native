@@ -295,25 +295,21 @@ extern "system" {
         PnPControlData: *mut std::ffi::c_void,
         PnPControlDataLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSerializeBoot() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtEnableLastKnownGood() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDisableLastKnownGood() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -323,5 +319,4 @@ extern "system" {
         SpareInstancePath: *mut UNICODE_STRING,
         Flags: u32,
     ) -> NTSTATUS;
-
 }

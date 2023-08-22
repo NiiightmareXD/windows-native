@@ -135,7 +135,6 @@ extern "system" {
         ObjectInformation: *mut std::ffi::c_void,
         ObjectInformationLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -149,19 +148,16 @@ extern "system" {
         HandleAttributes: u32,
         Options: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtMakeTemporaryObject(Handle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtMakePermanentObject(Handle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -172,7 +168,6 @@ extern "system" {
         Alertable: BOOLEAN,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -184,7 +179,6 @@ extern "system" {
         Alertable: BOOLEAN,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -196,13 +190,11 @@ extern "system" {
         Alertable: BOOLEAN,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCompareObjects(FirstObjectHandle: HANDLE, SecondObjectHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -212,7 +204,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -224,7 +215,6 @@ extern "system" {
         ShadowDirectoryHandle: HANDLE,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -234,7 +224,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -266,7 +255,6 @@ extern "system" {
         Context: *mut u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -408,7 +396,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         BoundaryDescriptor: *mut OBJECT_BOUNDARY_DESCRIPTOR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -419,13 +406,11 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         BoundaryDescriptor: *mut OBJECT_BOUNDARY_DESCRIPTOR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDeletePrivateNamespace(NamespaceHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -436,7 +421,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         LinkTarget: *mut UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -446,7 +430,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -456,7 +439,6 @@ extern "system" {
         LinkTarget: *mut UNICODE_STRING,
         ReturnedLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -475,5 +457,4 @@ extern "system" {
         SymbolicLinkInformation: *mut std::ffi::c_void,
         SymbolicLinkInformationLength: u32,
     ) -> NTSTATUS;
-
 }

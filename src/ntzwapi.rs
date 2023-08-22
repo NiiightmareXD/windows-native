@@ -75,7 +75,6 @@ extern "system" {
         ServerView: *mut PORT_VIEW,
         ClientView: *mut REMOTE_PORT_VIEW,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -90,7 +89,6 @@ extern "system" {
         GrantedAccess: *mut u32,
         AccessStatus: *mut NTSTATUS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -108,7 +106,6 @@ extern "system" {
         AccessStatus: *mut NTSTATUS,
         GenerateOnClose: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -126,7 +123,6 @@ extern "system" {
         GrantedAccess: *mut u32,
         AccessStatus: *mut NTSTATUS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -149,7 +145,6 @@ extern "system" {
         AccessStatus: *mut NTSTATUS,
         GenerateOnClose: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -167,7 +162,6 @@ extern "system" {
         GrantedAccess: *mut u32,
         AccessStatus: *mut NTSTATUS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -190,7 +184,6 @@ extern "system" {
         AccessStatus: *mut NTSTATUS,
         GenerateOnClose: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -214,7 +207,6 @@ extern "system" {
         AccessStatus: *mut NTSTATUS,
         GenerateOnClose: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -224,31 +216,26 @@ extern "system" {
         tokenTaken: *mut BOOLEAN,
         replaceExisting: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwAddAtom(AtomName: PWSTR, Length: u32, Atom: *mut u16) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwAddAtomEx(AtomName: PWSTR, Length: u32, Atom: *mut u16, Flags: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwAddBootEntry(BootEntry: *mut BOOT_ENTRY, Id: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwAddDriverEntry(DriverEntry: *mut EFI_DRIVER_ENTRY, Id: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -261,7 +248,6 @@ extern "system" {
         PreviousState: *mut TOKEN_GROUPS,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -274,7 +260,6 @@ extern "system" {
         PreviousState: *mut TOKEN_PRIVILEGES,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -297,25 +282,21 @@ extern "system" {
         DeviceReturnLength: *mut u32,
         DeviceGroupsReturnBufferLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwAlertResumeThread(ThreadHandle: HANDLE, PreviousSuspendCount: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwAlertThread(ThreadHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwAlertThreadByThreadId(ThreadId: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -325,7 +306,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         Type: MEMORY_RESERVE_TYPE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -335,7 +315,6 @@ extern "system" {
         NumberOfPages: *mut usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -347,7 +326,6 @@ extern "system" {
         ExtendedParameters: *mut MEM_EXTENDED_PARAMETER,
         ExtendedParameterCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -358,7 +336,6 @@ extern "system" {
         Sequence: *mut u32,
         Seed: *mut i8,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -374,7 +351,6 @@ extern "system" {
         ConnectionMessageAttributes: *mut ALPC_MESSAGE_ATTRIBUTES,
         AcceptConnection: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -384,7 +360,6 @@ extern "system" {
         Flags: u32,
         MessageContext: *mut ALPC_CONTEXT_ATTR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -402,7 +377,6 @@ extern "system" {
         InMessageAttributes: *mut ALPC_MESSAGE_ATTRIBUTES,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -420,7 +394,6 @@ extern "system" {
         InMessageAttributes: *mut ALPC_MESSAGE_ATTRIBUTES,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -430,7 +403,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         PortAttributes: *mut ALPC_PORT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -443,7 +415,6 @@ extern "system" {
         AlpcSectionHandle: *mut HANDLE,
         ActualSectionSize: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -454,7 +425,6 @@ extern "system" {
         MessageSize: usize,
         ResourceId: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -464,7 +434,6 @@ extern "system" {
         Flags: u32,
         ViewAttributes: *mut ALPC_DATA_VIEW_ATTR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -474,7 +443,6 @@ extern "system" {
         Flags: u32,
         SecurityAttribute: *mut ALPC_SECURITY_ATTR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -484,7 +452,6 @@ extern "system" {
         Flags: u32,
         SectionHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -494,7 +461,6 @@ extern "system" {
         Flags: u32,
         ResourceId: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -504,7 +470,6 @@ extern "system" {
         Flags: u32,
         ViewBase: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -514,13 +479,11 @@ extern "system" {
         Flags: u32,
         ContextHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwAlpcDisconnectPort(PortHandle: HANDLE, Flags: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -530,7 +493,6 @@ extern "system" {
         Message: *mut PORT_MESSAGE,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -540,7 +502,6 @@ extern "system" {
         Message: *mut PORT_MESSAGE,
         Flags: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -553,7 +514,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -566,7 +526,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -578,7 +537,6 @@ extern "system" {
         Length: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -591,7 +549,6 @@ extern "system" {
         Length: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -601,7 +558,6 @@ extern "system" {
         Flags: u32,
         ContextHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -616,7 +572,6 @@ extern "system" {
         ReceiveMessageAttributes: *mut ALPC_MESSAGE_ATTRIBUTES,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -627,7 +582,6 @@ extern "system" {
         PortInformation: *mut std::ffi::c_void,
         Length: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -636,13 +590,11 @@ extern "system" {
         File1MappedAsAnImage: *mut std::ffi::c_void,
         File2MappedAsFile: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwAssignProcessToJobObject(JobHandle: HANDLE, ProcessHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -657,7 +609,6 @@ extern "system" {
         IoStatusInformation: usize,
         AlreadySignaled: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -667,7 +618,6 @@ extern "system" {
         OutputLength: u32,
         Status: NTSTATUS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -678,13 +628,11 @@ extern "system" {
         WaitForThread: BOOLEAN,
         ReturnValue: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwCancelIoFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -694,7 +642,6 @@ extern "system" {
         IoRequestToCancel: *mut IO_STATUS_BLOCK,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -704,13 +651,11 @@ extern "system" {
         IoRequestToCancel: *mut IO_STATUS_BLOCK,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwCancelTimer2(TimerHandle: HANDLE, Parameters: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -719,7 +664,6 @@ extern "system" {
         WaitCompletionPacketHandle: HANDLE,
         RemoveSignaledPacket: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -732,7 +676,6 @@ extern "system" {
         ExtendedInformationLength: usize,
         Reserved: u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -745,13 +688,11 @@ extern "system" {
         ExtendedInformationLength: usize,
         Reserved: u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwClearEvent(EventHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -761,25 +702,21 @@ extern "system" {
         HandleId: *mut std::ffi::c_void,
         GenerateOnClose: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwCompactKeys(Count: u32, KeyArray: *mut HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwCompareObjects(FirstObjectHandle: HANDLE, SecondObjectHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwCompareSigningLevels(FirstSigningLevel: u8, SecondSigningLevel: u8) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -789,19 +726,16 @@ extern "system" {
         SecondTokenHandle: HANDLE,
         Equal: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwCompleteConnectPort(PortHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwCompressKey(Key: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -816,13 +750,11 @@ extern "system" {
         ConnectionInformation: *mut std::ffi::c_void,
         ConnectionInformationLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwContinue(ContextRecord: *mut CONTEXT, TestAlert: BOOLEAN) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -831,7 +763,6 @@ extern "system" {
         ContextRecord: *mut CONTEXT,
         ContinueArgument: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -842,7 +773,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -854,7 +784,6 @@ extern "system" {
         ShadowDirectoryHandle: HANDLE,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -870,7 +799,6 @@ extern "system" {
         EnclaveInformationLength: u32,
         EnclaveError: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -880,7 +808,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -891,13 +818,11 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         Count: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwCreateIRTimer(TimerHandle: *mut HANDLE, DesiredAccess: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -907,13 +832,11 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwCreateJobSet(NumJob: u32, UserJobSet: *mut JOB_SET_ARRAY, Flags: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -924,7 +847,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -940,7 +862,6 @@ extern "system" {
         HandleCount: u32,
         Handles: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -955,7 +876,6 @@ extern "system" {
         MaximumMessageSize: u32,
         ReadTimeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -966,7 +886,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         InitialOwner: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -987,7 +906,6 @@ extern "system" {
         OutboundQuota: u32,
         DefaultTimeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -998,7 +916,6 @@ extern "system" {
         MaximumSize: *mut i64,
         Priority: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1010,7 +927,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         PreferredNode: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1022,7 +938,6 @@ extern "system" {
         MaxMessageLength: u32,
         MaxPoolUsage: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1033,7 +948,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         BoundaryDescriptor: *mut OBJECT_BOUNDARY_DESCRIPTOR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1048,7 +962,6 @@ extern "system" {
         DebugPort: HANDLE,
         TokenHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1064,7 +977,6 @@ extern "system" {
         TokenHandle: HANDLE,
         Reserved: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1076,7 +988,6 @@ extern "system" {
         ProcessHandle: HANDLE,
         Reserved: u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1092,7 +1003,6 @@ extern "system" {
         ProfileSource: KPROFILE_SOURCE,
         Affinity: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1109,7 +1019,6 @@ extern "system" {
         GroupCount: u16,
         GroupAffinity: *mut GROUP_AFFINITY,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1125,7 +1034,6 @@ extern "system" {
         ExtendedParameters: *mut MEM_EXTENDED_PARAMETER,
         ExtendedParameterCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1137,7 +1045,6 @@ extern "system" {
         InitialCount: i32,
         MaximumCount: i32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1148,7 +1055,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         LinkTarget: *mut UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1163,7 +1069,6 @@ extern "system" {
         InitialTeb: *mut INITIAL_TEB,
         CreateSuspended: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1181,7 +1086,6 @@ extern "system" {
         MaximumStackSize: usize,
         AttributeList: *mut PS_ATTRIBUTE_LIST,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1193,7 +1097,6 @@ extern "system" {
         ThreadHandle: HANDLE,
         Reserved: u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1205,7 +1108,6 @@ extern "system" {
         Attributes: u32,
         DesiredAccess: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1225,7 +1127,6 @@ extern "system" {
         DefaultDacl: *mut TOKEN_DEFAULT_DACL,
         Source: *mut TOKEN_SOURCE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1249,7 +1150,6 @@ extern "system" {
         DefaultDacl: *mut TOKEN_DEFAULT_DACL,
         Source: *mut TOKEN_SOURCE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1267,7 +1167,6 @@ extern "system" {
         CreateInfo: *mut PS_CREATE_INFO,
         AttributeList: *mut PS_ATTRIBUTE_LIST,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1279,7 +1178,6 @@ extern "system" {
         MaxMessageLength: u32,
         MaxPoolUsage: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1289,7 +1187,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1303,7 +1200,6 @@ extern "system" {
         MaximumStateSize: u32,
         SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1320,13 +1216,11 @@ extern "system" {
         StackReserve: usize,
         StackCommit: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwDebugActiveProcess(ProcessHandle: HANDLE, DebugObjectHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1336,31 +1230,26 @@ extern "system" {
         ClientId: *mut CLIENT_ID,
         ContinueStatus: NTSTATUS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwDelayExecution(Alertable: BOOLEAN, DelayInterval: *mut i64) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwDeleteAtom(Atom: u16) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwDeleteBootEntry(Id: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwDeleteDriverEntry(Id: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1370,13 +1259,11 @@ extern "system" {
         HandleId: *mut std::ffi::c_void,
         GenerateOnClose: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwDeletePrivateNamespace(NamespaceHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1385,25 +1272,21 @@ extern "system" {
         StateName: *const WNF_STATE_NAME,
         ExplicitScope: *const std::os::raw::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwDeleteWnfStateName(StateName: *const WNF_STATE_NAME) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwDisableLastKnownGood() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwEnableLastKnownGood() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1412,7 +1295,6 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         BufferLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1421,7 +1303,6 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         BufferLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1431,13 +1312,11 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         BufferLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwExtendSection(SectionHandle: HANDLE, NewSectionSize: *mut i64) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1449,7 +1328,6 @@ extern "system" {
         Data: *mut std::ffi::c_void,
         DataSize: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1462,7 +1340,6 @@ extern "system" {
         RestrictedSids: *mut TOKEN_GROUPS,
         NewTokenHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1483,19 +1360,16 @@ extern "system" {
         RestrictedDeviceGroups: *mut TOKEN_GROUPS,
         NewTokenHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwFindAtom(AtomName: PWSTR, Length: u32, Atom: *mut u16) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwFlushInstallUILanguage(InstallUILanguage: u16, SetComittedFlag: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1505,19 +1379,16 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         Length: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwFlushProcessWriteBuffers() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwFlushWriteBuffer() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1527,19 +1398,16 @@ extern "system" {
         NumberOfPages: *mut usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwFreezeRegistry(TimeOutInSeconds: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwFreezeTransactions(FreezeTimeout: *mut i64, ThawTimeout: *mut i64) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1552,7 +1420,6 @@ extern "system" {
         ThumbprintSize: *mut u32,
         ThumbprintAlgorithm: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1565,31 +1432,26 @@ extern "system" {
         NewDeliveryDescriptor: *mut WNF_DELIVERY_DESCRIPTOR,
         DescriptorSize: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwGetContextThread(ThreadHandle: HANDLE, ThreadContext: *mut CONTEXT) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwGetCurrentProcessorNumber() -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwGetCurrentProcessorNumberEx(ProcessorNumber: *mut PROCESSOR_NUMBER) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwGetDevicePowerState(Device: HANDLE, State: *mut DEVICE_POWER_STATE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1599,7 +1461,6 @@ extern "system" {
         DataSize: *mut u32,
         Data: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1611,7 +1472,6 @@ extern "system" {
         Flags: u32,
         NewProcessHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1624,7 +1484,6 @@ extern "system" {
         Flags: u32,
         NewThreadHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1636,7 +1495,6 @@ extern "system" {
         SectionPointer: *mut *mut std::ffi::c_void,
         SectionSize: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1647,7 +1505,6 @@ extern "system" {
         EventBlock: *mut PLUGPLAY_EVENT_BLOCK,
         EventBufferSize: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1661,19 +1518,16 @@ extern "system" {
         EntriesInUserAddressArray: *mut usize,
         Granularity: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwImpersonateAnonymousToken(ThreadHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwImpersonateClientOfPort(PortHandle: HANDLE, Message: *mut PORT_MESSAGE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1683,7 +1537,6 @@ extern "system" {
         ClientThreadHandle: HANDLE,
         SecurityQos: *mut SECURITY_QUALITY_OF_SERVICE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1695,7 +1548,6 @@ extern "system" {
         EnclaveInformationLength: u32,
         EnclaveError: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1705,13 +1557,11 @@ extern "system" {
         DefaultLocaleId: *mut u32,
         DefaultCasingTableSize: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwInitializeRegistry(BootCondition: u16) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1722,31 +1572,26 @@ extern "system" {
         Flags: u32,
         Asynchronous: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwIsProcessInJob(ProcessHandle: HANDLE, JobHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwIsSystemResumeAutomatic() -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwIsUILanguageComitted() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwListenPort(PortHandle: HANDLE, ConnectionRequest: *mut PORT_MESSAGE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1762,7 +1607,6 @@ extern "system" {
         NumberOfBytesWritten: *mut usize,
         EnclaveError: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1771,7 +1615,6 @@ extern "system" {
         TargetKey: *mut OBJECT_ATTRIBUTES,
         SourceFile: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1781,7 +1624,6 @@ extern "system" {
         SourceFile: *mut OBJECT_ATTRIBUTES,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1796,7 +1638,6 @@ extern "system" {
         RootHandle: *mut HANDLE,
         Reserved: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1811,19 +1652,16 @@ extern "system" {
         RootHandle: *mut HANDLE,
         Reserved: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwLockProductActivationKeys(pPrivateVer: *mut u32, pSafeMode: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwLockRegistryKey(KeyHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1834,13 +1672,11 @@ extern "system" {
         RegionSize: *mut usize,
         MapType: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwMakePermanentObject(Handle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1852,7 +1688,6 @@ extern "system" {
         PartitionInformation: *mut std::ffi::c_void,
         PartitionInformationLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1865,7 +1700,6 @@ extern "system" {
         ViewSizeOut: *mut u32,
         BaseAddress: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1875,7 +1709,6 @@ extern "system" {
         NumberOfPages: usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1885,19 +1718,16 @@ extern "system" {
         NumberOfPages: usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwModifyBootEntry(BootEntry: *mut BOOT_ENTRY) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwModifyDriverEntry(DriverEntry: *mut EFI_DRIVER_ENTRY) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1913,7 +1743,6 @@ extern "system" {
         CompletionFilter: u32,
         WatchTree: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1930,7 +1759,6 @@ extern "system" {
         WatchTree: BOOLEAN,
         DirectoryNotifyInformationClass: DIRECTORY_NOTIFY_INFORMATION_CLASS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1949,7 +1777,6 @@ extern "system" {
         BufferSize: u32,
         Asynchronous: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1964,7 +1791,6 @@ extern "system" {
         Payload: *mut std::ffi::c_void,
         PayloadSize: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1974,7 +1800,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1984,7 +1809,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1994,7 +1818,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2004,7 +1827,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2014,7 +1836,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2033,7 +1854,6 @@ extern "system" {
         AccessGranted: BOOLEAN,
         GenerateOnClose: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2043,7 +1863,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2054,7 +1873,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         BoundaryDescriptor: *mut OBJECT_BOUNDARY_DESCRIPTOR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2064,7 +1882,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2074,7 +1891,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2085,7 +1901,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         ClientId: *mut CLIENT_ID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2096,7 +1911,6 @@ extern "system" {
         OpenAsSelf: BOOLEAN,
         TokenHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2106,7 +1920,6 @@ extern "system" {
         PnPControlData: *mut std::ffi::c_void,
         PnPControlDataLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2116,7 +1929,6 @@ extern "system" {
         RequiredPrivileges: *mut PRIVILEGE_SET,
         Result: *mut BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2128,7 +1940,6 @@ extern "system" {
         Privileges: *mut PRIVILEGE_SET,
         AccessGranted: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2141,7 +1952,6 @@ extern "system" {
         Privileges: *mut PRIVILEGE_SET,
         AccessGranted: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2152,7 +1962,6 @@ extern "system" {
         BufferLength: u32,
         Buffer: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2162,7 +1971,6 @@ extern "system" {
         RequestCookie: u32,
         PropStatus: NTSTATUS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2174,13 +1982,11 @@ extern "system" {
         NewProtect: u32,
         OldProtect: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwPulseEvent(EventHandle: HANDLE, PreviousState: *mut i32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2189,13 +1995,11 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         FileInformation: *mut FILE_BASIC_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwQueryBootEntryOrder(Ids: *mut u32, Count: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2204,25 +2008,21 @@ extern "system" {
         BootOptions: *mut BOOT_OPTIONS,
         BootOptionsLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwQueryDebugFilterState(ComponentId: u32, Level: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwQueryDefaultLocale(UserProfile: BOOLEAN, DefaultLocaleId: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwQueryDefaultUILanguage(DefaultUILanguageId: *mut u16) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2236,13 +2036,11 @@ extern "system" {
         Context: *mut u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwQueryDriverEntryOrder(Ids: *mut u32, Count: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2254,7 +2052,6 @@ extern "system" {
         EventInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2266,7 +2063,6 @@ extern "system" {
         AtomInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2278,7 +2074,6 @@ extern "system" {
         JobObjectInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2290,7 +2085,6 @@ extern "system" {
         Length: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2302,7 +2096,6 @@ extern "system" {
         ProcessInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2314,7 +2107,6 @@ extern "system" {
         ThreadInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2326,19 +2118,16 @@ extern "system" {
         WorkerFactoryInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwQueryInstallUILanguage(InstallUILanguageId: *mut u16) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwQueryIntervalProfile(ProfileSource: KPROFILE_SOURCE, Interval: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2350,7 +2139,6 @@ extern "system" {
         IoCompletionInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2362,7 +2150,6 @@ extern "system" {
         DataSize: u32,
         ResultDataSize: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2375,7 +2162,6 @@ extern "system" {
         BufferLength: *mut u32,
         RequiredBufferLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2387,14 +2173,12 @@ extern "system" {
         MutantInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwQueryOpenSubKeys(TargetKey: *mut OBJECT_ATTRIBUTES, HandleCount: *mut u32)
     -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2405,7 +2189,6 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         RequiredSize: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2414,7 +2197,6 @@ extern "system" {
         PerformanceCounter: *mut i64,
         PerformanceFrequency: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2426,7 +2208,6 @@ extern "system" {
         SectionInformationLength: usize,
         ReturnLength: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2439,7 +2220,6 @@ extern "system" {
         Length: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2451,7 +2231,6 @@ extern "system" {
         SemaphoreInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2462,7 +2241,6 @@ extern "system" {
         ValueLength: u16,
         ReturnLength: *mut u16,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2474,7 +2252,6 @@ extern "system" {
         ValueLength: *mut u32,
         Attributes: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2485,7 +2262,6 @@ extern "system" {
         SystemInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2498,13 +2274,11 @@ extern "system" {
         SystemInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwQuerySystemTime(SystemTime: *mut i64) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2516,7 +2290,6 @@ extern "system" {
         TimerInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2526,7 +2299,6 @@ extern "system" {
         MinimumTime: *mut u32,
         CurrentTime: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2539,7 +2311,6 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         BufferSize: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2551,7 +2322,6 @@ extern "system" {
         InfoBuffer: *mut std::ffi::c_void,
         InfoBufferSize: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2563,7 +2333,6 @@ extern "system" {
         ApcArgument2: *mut std::ffi::c_void,
         ApcArgument3: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2576,7 +2345,6 @@ extern "system" {
         ApcArgument2: *mut std::ffi::c_void,
         ApcArgument3: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2590,7 +2358,6 @@ extern "system" {
         ApcArgument2: *mut std::ffi::c_void,
         ApcArgument3: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2600,7 +2367,6 @@ extern "system" {
         ContextRecord: *mut CONTEXT,
         FirstChance: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2613,7 +2379,6 @@ extern "system" {
         ValidResponseOptions: u32,
         Response: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2629,7 +2394,6 @@ extern "system" {
         ByteOffset: *mut i64,
         Key: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2642,7 +2406,6 @@ extern "system" {
         BufferSize: usize,
         NumberOfBytesRead: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2654,7 +2417,6 @@ extern "system" {
         BufferSize: usize,
         NumberOfBytesRead: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2666,19 +2428,16 @@ extern "system" {
         ProtocolInformation: *mut std::ffi::c_void,
         CreateOptions: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwRegisterThreadTerminatePort(PortHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwReleaseCMFViewOwnership() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2689,13 +2448,11 @@ extern "system" {
         Alertable: BOOLEAN,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwReleaseMutant(MutantHandle: HANDLE, PreviousCount: *mut i32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2705,13 +2462,11 @@ extern "system" {
         ReleaseCount: i32,
         PreviousCount: *mut i32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwReleaseWorkerFactoryWorker(WorkerFactoryHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2723,7 +2478,6 @@ extern "system" {
         IoStatusBlock: *mut IO_STATUS_BLOCK,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2736,13 +2490,11 @@ extern "system" {
         Timeout: *mut i64,
         Alertable: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwRemoveProcessDebug(ProcessHandle: HANDLE, DebugObjectHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2751,7 +2503,6 @@ extern "system" {
         LogFileName: *mut UNICODE_STRING,
         ExistingTransactionManagerGuid: *mut GUID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2761,7 +2512,6 @@ extern "system" {
         TargetHandle: HANDLE,
         OldFile: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2771,13 +2521,11 @@ extern "system" {
         SpareInstancePath: *mut UNICODE_STRING,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwReplyPort(PortHandle: HANDLE, ReplyMessage: *mut PORT_MESSAGE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2788,7 +2536,6 @@ extern "system" {
         ReplyMessage: *mut PORT_MESSAGE,
         ReceiveMessage: *mut PORT_MESSAGE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2800,19 +2547,16 @@ extern "system" {
         ReceiveMessage: *mut PORT_MESSAGE,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwReplyWaitReplyPort(PortHandle: HANDLE, ReplyMessage: *mut PORT_MESSAGE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwRequestPort(PortHandle: HANDLE, RequestMessage: *mut PORT_MESSAGE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2822,19 +2566,16 @@ extern "system" {
         RequestMessage: *mut PORT_MESSAGE,
         ReplyMessage: *mut PORT_MESSAGE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwRequestWakeupLatency(latency: LATENCY_TIME) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwResetEvent(EventHandle: HANDLE, PreviousState: *mut i32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2844,25 +2585,21 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         RegionSize: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwResumeProcess(ProcessHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwResumeThread(ThreadHandle: HANDLE, PreviousSuspendCount: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwRevertContainerImpersonation() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2872,7 +2609,6 @@ extern "system" {
         LowPrecedenceKeyHandle: HANDLE,
         FileHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2888,25 +2624,21 @@ extern "system" {
         ConnectionInformation: *mut std::ffi::c_void,
         ConnectionInformationLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSerializeBoot() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetBootEntryOrder(Ids: *mut u32, Count: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetBootOptions(BootOptions: *mut BOOT_OPTIONS, FieldsToChange: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2918,61 +2650,51 @@ extern "system" {
         SourceFileCount: u32,
         TargetFile: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetContextThread(ThreadHandle: HANDLE, ThreadContext: *mut CONTEXT) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetDebugFilterState(ComponentId: u32, Level: u32, State: BOOLEAN) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetDefaultHardErrorPort(DefaultHardErrorPort: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetDefaultLocale(UserProfile: BOOLEAN, DefaultLocaleId: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetDefaultUILanguage(DefaultUILanguageId: u16) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetDriverEntryOrder(Ids: *mut u32, Count: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetEventBoostPriority(EventHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetHighEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetHighWaitLowEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2984,7 +2706,6 @@ extern "system" {
         DebugInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2995,7 +2716,6 @@ extern "system" {
         JobObjectInformation: *mut std::ffi::c_void,
         JobObjectInformationLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3006,7 +2726,6 @@ extern "system" {
         ObjectInformation: *mut std::ffi::c_void,
         ObjectInformationLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3017,7 +2736,6 @@ extern "system" {
         ProcessInformation: *mut std::ffi::c_void,
         ProcessInformationLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3028,7 +2746,6 @@ extern "system" {
         SymbolicLinkInformation: *mut std::ffi::c_void,
         SymbolicLinkInformationLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3039,13 +2756,11 @@ extern "system" {
         WorkerFactoryInformation: *mut std::ffi::c_void,
         WorkerFactoryInformationLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetIntervalProfile(Interval: u32, Source: KPROFILE_SOURCE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3057,7 +2772,6 @@ extern "system" {
         IoStatus: NTSTATUS,
         IoStatusInformation: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3070,13 +2784,11 @@ extern "system" {
         IoStatus: NTSTATUS,
         IoStatusInformation: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetIRTimer(TimerHandle: HANDLE, DueTime: *mut i64) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3089,19 +2801,16 @@ extern "system" {
         Entry1Low: u32,
         Entry1Hi: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetLowEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetLowWaitHighEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3110,7 +2819,6 @@ extern "system" {
         VariableName: *mut UNICODE_STRING,
         VariableValue: *mut UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3122,7 +2830,6 @@ extern "system" {
         ValueLength: u32,
         Attributes: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3132,7 +2839,6 @@ extern "system" {
         SystemInformation: *mut std::ffi::c_void,
         SystemInformationLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3142,13 +2848,11 @@ extern "system" {
         LightestSystemState: SYSTEM_POWER_STATE,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetSystemTime(SystemTime: *mut i64, PreviousTime: *mut i64) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3157,7 +2861,6 @@ extern "system" {
         NewFlags: EXECUTION_STATE,
         PreviousFlags: *mut EXECUTION_STATE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3168,7 +2871,6 @@ extern "system" {
         Period: *mut i64,
         Parameters: *mut T2_SET_PARAMETERS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3178,25 +2880,21 @@ extern "system" {
         SetResolution: BOOLEAN,
         ActualTime: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetUuidSeed(Seed: *mut i8) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSetWnfProcessNotificationEvent(NotificationEvent: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwShutdownSystem(Action: SHUTDOWN_ACTION) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3205,7 +2903,6 @@ extern "system" {
         WorkerFactoryHandle: HANDLE,
         PendingWorkerCount: *mut i32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3216,19 +2913,16 @@ extern "system" {
         Alertable: BOOLEAN,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwStartProfile(ProfileHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwStopProfile(ProfileHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3239,19 +2933,16 @@ extern "system" {
         EventMask: u32,
         SubscriptionId: *mut u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSuspendProcess(ProcessHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwSuspendThread(ThreadHandle: HANDLE, PreviousSuspendCount: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3264,7 +2955,6 @@ extern "system" {
         OutputBufferLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3273,37 +2963,31 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         WaitForThread: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwTerminateJobObject(JobHandle: HANDLE, ExitStatus: NTSTATUS) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwTerminateThread(ThreadHandle: HANDLE, ExitStatus: NTSTATUS) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwTestAlert() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwThawRegistry() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwThawTransactions() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3316,7 +3000,6 @@ extern "system" {
         TraceInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3327,7 +3010,6 @@ extern "system" {
         FieldSize: u32,
         Fields: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3338,31 +3020,26 @@ extern "system" {
         OutputFilePath: *mut FILE_PATH,
         OutputFilePathLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwUmsThreadYield(SchedulerParam: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwUnloadKey(TargetKey: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwUnloadKey2(TargetKey: *mut OBJECT_ATTRIBUTES, Flags: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwUnloadKeyEx(TargetKey: *mut OBJECT_ATTRIBUTES, Event: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3373,7 +3050,6 @@ extern "system" {
         RegionSize: *mut usize,
         MapType: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3383,13 +3059,11 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwUnsubscribeWnfStateChange(StateName: *const WNF_STATE_NAME) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3403,19 +3077,16 @@ extern "system" {
         MatchingChangeStamp: u32,
         CheckStamp: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwVdmControl(Service: VDMSERVICECLASS, ServiceData: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwWaitForAlertByThreadId(Address: *mut std::ffi::c_void, Timeout: *mut i64) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3426,7 +3097,6 @@ extern "system" {
         Timeout: *mut i64,
         WaitStateChange: *mut DBGUI_WAIT_STATE_CHANGE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3437,7 +3107,6 @@ extern "system" {
         Alertable: BOOLEAN,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3449,7 +3118,6 @@ extern "system" {
         Alertable: BOOLEAN,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3461,7 +3129,6 @@ extern "system" {
         Alertable: BOOLEAN,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3473,25 +3140,21 @@ extern "system" {
         PacketsReturned: *mut u32,
         DeferredWork: *mut WORKER_FACTORY_DEFERRED_WORK,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwWaitHighEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwWaitLowEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwWorkerFactoryWorkerReady(WorkerFactoryHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3507,7 +3170,6 @@ extern "system" {
         ByteOffset: *mut i64,
         Key: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3520,7 +3182,6 @@ extern "system" {
         BufferSize: usize,
         NumberOfBytesWritten: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3532,11 +3193,9 @@ extern "system" {
         BufferSize: usize,
         NumberOfBytesWritten: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn ZwYieldExecution() -> NTSTATUS;
-
 }

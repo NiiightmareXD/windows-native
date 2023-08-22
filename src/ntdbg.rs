@@ -25,13 +25,11 @@ pub const DEBUG_KILL_ON_CLOSE: u32 = 1;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn DbgUserBreakPoint();
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn DbgBreakPoint();
-
 }
 
 #[repr(C)]
@@ -292,13 +290,11 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDebugActiveProcess(ProcessHandle: HANDLE, DebugObjectHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -308,13 +304,11 @@ extern "system" {
         ClientId: *mut CLIENT_ID,
         ContinueStatus: NTSTATUS,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtRemoveProcessDebug(ProcessHandle: HANDLE, DebugObjectHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -326,7 +320,6 @@ extern "system" {
         DebugInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -337,25 +330,21 @@ extern "system" {
         Timeout: *mut i64,
         WaitStateChange: *mut DBGUI_WAIT_STATE_CHANGE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn DbgUiConnectToDbg() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn DbgUiGetThreadDebugObject() -> HANDLE;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn DbgUiSetThreadDebugObject(DebugObject: HANDLE);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -364,37 +353,31 @@ extern "system" {
         StateChange: *mut DBGUI_WAIT_STATE_CHANGE,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn DbgUiContinue(AppClientId: *mut CLIENT_ID, ContinueStatus: NTSTATUS) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn DbgUiStopDebugging(Process: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn DbgUiDebugActiveProcess(Process: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn DbgUiRemoteBreakin(Context: *mut std::ffi::c_void);
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn DbgUiIssueRemoteBreakin(Process: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -403,7 +386,6 @@ extern "system" {
         StateChange: *mut DBGUI_WAIT_STATE_CHANGE,
         DebugEvent: *mut DEBUG_EVENT,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -412,7 +394,6 @@ extern "system" {
         StateChange: *mut DBGUI_WAIT_STATE_CHANGE,
         DebugEvent: *mut DEBUG_EVENT,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -423,5 +404,4 @@ extern "system" {
         CallbackContext: *mut std::ffi::c_void,
         RegHandle: PREGHANDLE,
     ) -> NTSTATUS;
-
 }

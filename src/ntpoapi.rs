@@ -1602,7 +1602,6 @@ extern "system" {
         NewFlags: EXECUTION_STATE,
         PreviousFlags: *mut EXECUTION_STATE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1613,7 +1612,6 @@ extern "system" {
         Flags: u32,
         Asynchronous: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1623,17 +1621,14 @@ extern "system" {
         LightestSystemState: SYSTEM_POWER_STATE,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtGetDevicePowerState(Device: HANDLE, State: *mut DEVICE_POWER_STATE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtIsSystemResumeAutomatic() -> BOOLEAN;
-
 }

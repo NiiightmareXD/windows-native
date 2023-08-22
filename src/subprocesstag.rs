@@ -220,7 +220,6 @@ extern "system" {
         InfoLevel: TAG_INFO_LEVEL,
         TagInfo: *mut std::ffi::c_void,
     ) -> u32;
-
 }
 
 pub type PQUERY_TAG_INFORMATION = std::option::Option<

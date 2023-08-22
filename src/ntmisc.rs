@@ -26,7 +26,6 @@ pub enum VDMSERVICECLASS {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtVdmControl(Service: VDMSERVICECLASS, ServiceData: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -37,7 +36,6 @@ extern "system" {
         FieldSize: u32,
         Fields: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -97,5 +95,4 @@ extern "system" {
         TraceInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }

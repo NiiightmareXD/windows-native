@@ -520,7 +520,6 @@ extern "system" {
         MaxMessageLength: u32,
         MaxPoolUsage: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -532,7 +531,6 @@ extern "system" {
         MaxMessageLength: u32,
         MaxPoolUsage: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -547,7 +545,6 @@ extern "system" {
         ConnectionInformation: *mut std::ffi::c_void,
         ConnectionInformationLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -563,13 +560,11 @@ extern "system" {
         ConnectionInformation: *mut std::ffi::c_void,
         ConnectionInformationLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtListenPort(PortHandle: HANDLE, ConnectionRequest: *mut PORT_MESSAGE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -582,19 +577,16 @@ extern "system" {
         ServerView: *mut PORT_VIEW,
         ClientView: *mut REMOTE_PORT_VIEW,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCompleteConnectPort(PortHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtRequestPort(PortHandle: HANDLE, RequestMessage: *mut PORT_MESSAGE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -604,19 +596,16 @@ extern "system" {
         RequestMessage: *mut PORT_MESSAGE,
         ReplyMessage: *mut PORT_MESSAGE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtReplyPort(PortHandle: HANDLE, ReplyMessage: *mut PORT_MESSAGE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtReplyWaitReplyPort(PortHandle: HANDLE, ReplyMessage: *mut PORT_MESSAGE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -627,7 +616,6 @@ extern "system" {
         ReplyMessage: *mut PORT_MESSAGE,
         ReceiveMessage: *mut PORT_MESSAGE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -639,13 +627,11 @@ extern "system" {
         ReceiveMessage: *mut PORT_MESSAGE,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtImpersonateClientOfPort(PortHandle: HANDLE, Message: *mut PORT_MESSAGE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -658,7 +644,6 @@ extern "system" {
         BufferSize: usize,
         NumberOfBytesRead: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -671,7 +656,6 @@ extern "system" {
         BufferSize: usize,
         NumberOfBytesWritten: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -690,7 +674,6 @@ extern "system" {
         Length: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -1250,13 +1233,11 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         PortAttributes: *mut ALPC_PORT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtAlpcDisconnectPort(PortHandle: HANDLE, Flags: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1268,7 +1249,6 @@ extern "system" {
         Length: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1279,7 +1259,6 @@ extern "system" {
         PortInformation: *mut std::ffi::c_void,
         Length: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1292,7 +1271,6 @@ extern "system" {
         AlpcSectionHandle: *mut HANDLE,
         ActualSectionSize: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1302,7 +1280,6 @@ extern "system" {
         Flags: u32,
         SectionHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1313,7 +1290,6 @@ extern "system" {
         MessageSize: usize,
         ResourceId: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1323,7 +1299,6 @@ extern "system" {
         Flags: u32,
         ResourceId: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1333,7 +1308,6 @@ extern "system" {
         Flags: u32,
         ViewAttributes: *mut ALPC_DATA_VIEW_ATTR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1343,7 +1317,6 @@ extern "system" {
         Flags: u32,
         ViewBase: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1353,7 +1326,6 @@ extern "system" {
         Flags: u32,
         SecurityAttribute: *mut ALPC_SECURITY_ATTR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1363,7 +1335,6 @@ extern "system" {
         Flags: u32,
         ContextHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1373,7 +1344,6 @@ extern "system" {
         Flags: u32,
         ContextHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1386,7 +1356,6 @@ extern "system" {
         Length: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1404,7 +1373,6 @@ extern "system" {
         InMessageAttributes: *mut ALPC_MESSAGE_ATTRIBUTES,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1422,7 +1390,6 @@ extern "system" {
         InMessageAttributes: *mut ALPC_MESSAGE_ATTRIBUTES,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1438,7 +1405,6 @@ extern "system" {
         ConnectionMessageAttributes: *mut ALPC_MESSAGE_ATTRIBUTES,
         AcceptConnection: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1453,7 +1419,6 @@ extern "system" {
         ReceiveMessageAttributes: *mut ALPC_MESSAGE_ATTRIBUTES,
         Timeout: *mut i64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1463,7 +1428,6 @@ extern "system" {
         Flags: u32,
         MessageContext: *mut ALPC_CONTEXT_ATTR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1473,7 +1437,6 @@ extern "system" {
         Message: *mut PORT_MESSAGE,
         Flags: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1483,7 +1446,6 @@ extern "system" {
         Message: *mut PORT_MESSAGE,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1496,7 +1458,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1509,19 +1470,16 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn AlpcMaxAllowedMessageLength() -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn AlpcGetHeaderSize(Flags: u32) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1532,7 +1490,6 @@ extern "system" {
         BufferSize: u32,
         RequiredBufferSize: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1541,7 +1498,6 @@ extern "system" {
         Buffer: *mut ALPC_MESSAGE_ATTRIBUTES,
         AttributeFlag: u32,
     ) -> *mut std::ffi::c_void;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1553,19 +1509,16 @@ extern "system" {
         ConcurrencyCount: u32,
         AttributeFlags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn AlpcUnregisterCompletionList(PortHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn AlpcRundownCompletionList(PortHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1574,14 +1527,12 @@ extern "system" {
         PortHandle: HANDLE,
         ConcurrencyCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn AlpcRegisterCompletionListWorkerThread(CompletionList: *mut std::ffi::c_void)
     -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1589,7 +1540,6 @@ extern "system" {
     pub fn AlpcUnregisterCompletionListWorkerThread(
         CompletionList: *mut std::ffi::c_void,
     ) -> BOOLEAN;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1599,7 +1549,6 @@ extern "system" {
         LastMessageId: *mut u32,
         LastCallbackId: *mut u32,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1607,7 +1556,6 @@ extern "system" {
     pub fn AlpcGetOutstandingCompletionListMessageCount(
         CompletionList: *mut std::ffi::c_void,
     ) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1616,7 +1564,6 @@ extern "system" {
         CompletionList: *mut std::ffi::c_void,
         MessageAttributes: *mut *mut ALPC_MESSAGE_ATTRIBUTES,
     ) -> *mut PORT_MESSAGE;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1625,7 +1572,6 @@ extern "system" {
         CompletionList: *mut std::ffi::c_void,
         Message: *mut PORT_MESSAGE,
     );
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1634,5 +1580,4 @@ extern "system" {
         CompletionList: *mut std::ffi::c_void,
         Message: *mut PORT_MESSAGE,
     ) -> *mut ALPC_MESSAGE_ATTRIBUTES;
-
 }

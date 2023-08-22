@@ -248,13 +248,11 @@ pub type SAM_SHELL_OBJECT_PROPERTIES = SAM_BYTE_ARRAY_32K;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamFreeMemory(Buffer: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamCloseHandle(SamHandle: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -264,7 +262,6 @@ extern "system" {
         SecurityInformation: u32,
         SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -274,13 +271,11 @@ extern "system" {
         SecurityInformation: u32,
         SecurityDescriptor: *mut *mut SECURITY_DESCRIPTOR,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamRidToSid(ObjectHandle: *mut std::ffi::c_void, Rid: u32, Sid: *mut PSID) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -297,7 +292,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -311,13 +305,11 @@ extern "system" {
         Spn: PWSTR,
         pfDstIsW2K: *mut BOOL,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamShutdownSamServer(ServerHandle: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -759,7 +751,6 @@ extern "system" {
         Name: *mut UNICODE_STRING,
         DomainId: *mut PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -771,7 +762,6 @@ extern "system" {
         PreferedMaximumLength: u32,
         CountReturned: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -782,7 +772,6 @@ extern "system" {
         DomainId: PSID,
         DomainHandle: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -792,7 +781,6 @@ extern "system" {
         DomainInformationClass: DOMAIN_INFORMATION_CLASS,
         Buffer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -802,7 +790,6 @@ extern "system" {
         DomainInformationClass: DOMAIN_INFORMATION_CLASS,
         DomainInformation: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -814,7 +801,6 @@ extern "system" {
         RelativeIds: *mut *mut u32,
         Use: *mut *mut SID_NAME_USE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -826,7 +812,6 @@ extern "system" {
         Sids: *mut PSID,
         Use: *mut *mut SID_NAME_USE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -838,7 +823,6 @@ extern "system" {
         Names: *mut *mut UNICODE_STRING,
         Use: *mut *mut SID_NAME_USE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -847,7 +831,6 @@ extern "system" {
         DomainHandle: *mut std::ffi::c_void,
         MemberId: PSID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -859,7 +842,6 @@ extern "system" {
         Class: DOMAIN_LOCALIZABLE_ACCOUNTS_INFORMATION,
         Buffer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -970,7 +952,6 @@ extern "system" {
         PreferedMaximumLength: u32,
         CountReturned: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -982,7 +963,6 @@ extern "system" {
         GroupHandle: *mut *mut std::ffi::c_void,
         RelativeId: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -993,13 +973,11 @@ extern "system" {
         GroupId: u32,
         GroupHandle: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamDeleteGroup(GroupHandle: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1009,7 +987,6 @@ extern "system" {
         GroupInformationClass: GROUP_INFORMATION_CLASS,
         Buffer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1019,7 +996,6 @@ extern "system" {
         GroupInformationClass: GROUP_INFORMATION_CLASS,
         Buffer: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1029,13 +1005,11 @@ extern "system" {
         MemberId: u32,
         Attributes: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamRemoveMemberFromGroup(GroupHandle: *mut std::ffi::c_void, MemberId: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1046,7 +1020,6 @@ extern "system" {
         Attributes: *mut *mut u32,
         MemberCount: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1056,7 +1029,6 @@ extern "system" {
         MemberId: u32,
         Attributes: u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -1153,7 +1125,6 @@ extern "system" {
         PreferedMaximumLength: u32,
         CountReturned: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1165,7 +1136,6 @@ extern "system" {
         AliasHandle: *mut *mut std::ffi::c_void,
         RelativeId: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1176,13 +1146,11 @@ extern "system" {
         AliasId: u32,
         AliasHandle: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamDeleteAlias(AliasHandle: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1192,7 +1160,6 @@ extern "system" {
         AliasInformationClass: ALIAS_INFORMATION_CLASS,
         Buffer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1202,13 +1169,11 @@ extern "system" {
         AliasInformationClass: ALIAS_INFORMATION_CLASS,
         Buffer: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamAddMemberToAlias(AliasHandle: *mut std::ffi::c_void, MemberId: PSID) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1218,14 +1183,12 @@ extern "system" {
         MemberIds: *mut PSID,
         MemberCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamRemoveMemberFromAlias(AliasHandle: *mut std::ffi::c_void, MemberId: PSID)
     -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1235,7 +1198,6 @@ extern "system" {
         MemberIds: *mut PSID,
         MemberCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1245,7 +1207,6 @@ extern "system" {
         MemberIds: *mut *mut PSID,
         MemberCount: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1257,7 +1218,6 @@ extern "system" {
         MembershipCount: *mut u32,
         Aliases: *mut *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -2051,7 +2011,6 @@ extern "system" {
         PreferedMaximumLength: u32,
         CountReturned: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2063,7 +2022,6 @@ extern "system" {
         UserHandle: *mut *mut std::ffi::c_void,
         RelativeId: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2077,7 +2035,6 @@ extern "system" {
         GrantedAccess: *mut u32,
         RelativeId: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2088,13 +2045,11 @@ extern "system" {
         UserId: u32,
         UserHandle: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamDeleteUser(UserHandle: *mut std::ffi::c_void) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2104,7 +2059,6 @@ extern "system" {
         UserInformationClass: USER_INFORMATION_CLASS,
         Buffer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2114,7 +2068,6 @@ extern "system" {
         UserInformationClass: USER_INFORMATION_CLASS,
         Buffer: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2124,7 +2077,6 @@ extern "system" {
         Groups: *mut *mut GROUP_MEMBERSHIP,
         MembershipCount: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2134,7 +2086,6 @@ extern "system" {
         OldPassword: *mut UNICODE_STRING,
         NewPassword: *mut UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2145,7 +2096,6 @@ extern "system" {
         OldPassword: *mut UNICODE_STRING,
         NewPassword: *mut UNICODE_STRING,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2158,7 +2108,6 @@ extern "system" {
         EffectivePasswordPolicy: *mut *mut DOMAIN_PASSWORD_INFORMATION,
         PasswordChangeFailureInfo: *mut *mut USER_PWD_CHANGE_FAILURE_INFORMATION,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2174,7 +2123,6 @@ extern "system" {
         ReturnedEntryCount: *mut u32,
         SortedBuffer: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2185,7 +2133,6 @@ extern "system" {
         Prefix: *mut UNICODE_STRING,
         Index: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -2294,7 +2241,6 @@ extern "system" {
         ObjectType: SECURITY_DB_OBJECT_TYPE,
         NotificationEventHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2303,14 +2249,12 @@ extern "system" {
         ObjectType: SECURITY_DB_OBJECT_TYPE,
         NotificationEventHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamGetCompatibilityMode(ObjectHandle: *mut std::ffi::c_void, Mode: *mut u32)
     -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -2525,7 +2469,6 @@ extern "system" {
         InputArg: *mut SAM_VALIDATE_INPUT_ARG,
         OutputArg: *mut *mut SAM_VALIDATE_OUTPUT_ARG,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -2619,5 +2562,4 @@ extern "system" {
         OperationIn: *mut SAM_GENERIC_OPERATION_INPUT,
         OperationOut: *mut *mut SAM_GENERIC_OPERATION_OUTPUT,
     ) -> NTSTATUS;
-
 }

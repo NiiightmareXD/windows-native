@@ -1983,7 +1983,6 @@ impl std::fmt::Debug for PROCESS_FREE_FIBER_SHADOW_STACK_ALLOCATION_INFORMATION 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryPortInformationProcess() -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -2604,7 +2603,6 @@ extern "system" {
         DebugPort: HANDLE,
         TokenHandle: HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2620,25 +2618,21 @@ extern "system" {
         TokenHandle: HANDLE,
         Reserved: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtTerminateProcess(ProcessHandle: HANDLE, ExitStatus: NTSTATUS) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSuspendProcess(ProcessHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtResumeProcess(ProcessHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2650,7 +2644,6 @@ extern "system" {
         Flags: u32,
         NewProcessHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2663,7 +2656,6 @@ extern "system" {
         Flags: u32,
         NewThreadHandle: *mut HANDLE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2674,7 +2666,6 @@ extern "system" {
         ProcessInformation: *mut std::ffi::c_void,
         ProcessInformationLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -2694,7 +2685,6 @@ extern "system" {
         ProcessHandle: HANDLE,
         Reserved: u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2707,7 +2697,6 @@ extern "system" {
         ExtendedInformationLength: usize,
         Reserved: u64,
     ) -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -2727,7 +2716,6 @@ extern "system" {
         ThreadHandle: HANDLE,
         Reserved: u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2740,7 +2728,6 @@ extern "system" {
         ExtendedInformationLength: usize,
         Reserved: u64,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2755,7 +2742,6 @@ extern "system" {
         InitialTeb: *mut INITIAL_TEB,
         CreateSuspended: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2766,67 +2752,56 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         ClientId: *mut CLIENT_ID,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtTerminateThread(ThreadHandle: HANDLE, ExitStatus: NTSTATUS) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSuspendThread(ThreadHandle: HANDLE, PreviousSuspendCount: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtResumeThread(ThreadHandle: HANDLE, PreviousSuspendCount: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtGetCurrentProcessorNumber() -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtGetCurrentProcessorNumberEx(ProcessorNumber: *mut PROCESSOR_NUMBER) -> u32;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtGetContextThread(ThreadHandle: HANDLE, ThreadContext: *mut CONTEXT) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetContextThread(ThreadHandle: HANDLE, ThreadContext: *mut CONTEXT) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtAlertThread(ThreadHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtAlertResumeThread(ThreadHandle: HANDLE, PreviousSuspendCount: *mut u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtTestAlert() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2836,13 +2811,11 @@ extern "system" {
         ClientThreadHandle: HANDLE,
         SecurityQos: *mut SECURITY_QUALITY_OF_SERVICE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtRegisterThreadTerminatePort(PortHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2855,7 +2828,6 @@ extern "system" {
         Entry1Low: u32,
         Entry1Hi: u32,
     ) -> NTSTATUS;
-
 }
 
 pub type PPS_APC_ROUTINE = std::option::Option<
@@ -2875,7 +2847,6 @@ extern "system" {
         ApcArgument2: *mut std::ffi::c_void,
         ApcArgument3: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2888,7 +2859,6 @@ extern "system" {
         ApcArgument2: *mut std::ffi::c_void,
         ApcArgument3: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2902,19 +2872,16 @@ extern "system" {
         ApcArgument2: *mut std::ffi::c_void,
         ApcArgument3: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtAlertThreadByThreadId(ThreadId: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtWaitForAlertByThreadId(Address: *mut std::ffi::c_void, Timeout: *mut i64) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -4080,7 +4047,6 @@ extern "system" {
         CreateInfo: *mut PS_CREATE_INFO,
         AttributeList: *mut PS_ATTRIBUTE_LIST,
     ) -> NTSTATUS;
-
 }
 
 pub type PUSER_THREAD_START_ROUTINE = std::option::Option<
@@ -4102,7 +4068,6 @@ extern "system" {
         MaximumStackSize: usize,
         AttributeList: *mut PS_ATTRIBUTE_LIST,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -4596,7 +4561,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4606,25 +4570,21 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtAssignProcessToJobObject(JobHandle: HANDLE, ProcessHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtTerminateJobObject(JobHandle: HANDLE, ExitStatus: NTSTATUS) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtIsProcessInJob(ProcessHandle: HANDLE, JobHandle: HANDLE) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4636,7 +4596,6 @@ extern "system" {
         JobObjectInformationLength: u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4647,19 +4606,16 @@ extern "system" {
         JobObjectInformation: *mut std::ffi::c_void,
         JobObjectInformationLength: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCreateJobSet(NumJob: u32, UserJobSet: *mut JOB_SET_ARRAY, Flags: u32) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtRevertContainerImpersonation() -> NTSTATUS;
-
 }
 
 #[repr(i32)]
@@ -4677,7 +4633,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         Type: MEMORY_RESERVE_TYPE,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4688,7 +4643,6 @@ extern "system" {
         CaptureFlags: u32,
         ThreadContextFlags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -4719,5 +4673,4 @@ extern "system" {
         BulkInformationLength: usize,
         ReturnLength: *mut usize,
     ) -> NTSTATUS;
-
 }

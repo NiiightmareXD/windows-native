@@ -2590,7 +2590,6 @@ extern "system" {
         ExtendedParameters: *mut MEM_EXTENDED_PARAMETER,
         ExtendedParameterCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2602,7 +2601,6 @@ extern "system" {
         BufferSize: usize,
         NumberOfBytesRead: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2615,7 +2613,6 @@ extern "system" {
         NumberOfBytesRead: *mut usize,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2627,7 +2624,6 @@ extern "system" {
         BufferSize: usize,
         NumberOfBytesWritten: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2639,7 +2635,6 @@ extern "system" {
         NewProtect: u32,
         OldProtect: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2650,7 +2645,6 @@ extern "system" {
         RegionSize: *mut usize,
         IoStatus: *mut IO_STATUS_BLOCK,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -2683,7 +2677,6 @@ extern "system" {
         RegionSize: *mut usize,
         MapType: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2694,7 +2687,6 @@ extern "system" {
         RegionSize: *mut usize,
         MapType: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2704,7 +2696,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2721,7 +2712,6 @@ extern "system" {
         AllocationType: u32,
         Win32Protect: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2737,7 +2727,6 @@ extern "system" {
         ExtendedParameters: *mut MEM_EXTENDED_PARAMETER,
         ExtendedParameterCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2746,7 +2735,6 @@ extern "system" {
         ProcessHandle: HANDLE,
         BaseAddress: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2756,13 +2744,11 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         Flags: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtExtendSection(SectionHandle: HANDLE, NewSectionSize: *mut i64) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2774,7 +2760,6 @@ extern "system" {
         SectionInformationLength: usize,
         ReturnLength: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2783,7 +2768,6 @@ extern "system" {
         File1MappedAsAnImage: *mut std::ffi::c_void,
         File2MappedAsFile: *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
 
 #[repr(C)]
@@ -3038,7 +3022,6 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         PreferredNode: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3048,7 +3031,6 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3058,7 +3040,6 @@ extern "system" {
         NumberOfPages: usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3068,7 +3049,6 @@ extern "system" {
         NumberOfPages: usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3078,7 +3058,6 @@ extern "system" {
         NumberOfPages: *mut usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3090,7 +3069,6 @@ extern "system" {
         ExtendedParameters: *mut MEM_EXTENDED_PARAMETER,
         ExtendedParameterCount: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3100,7 +3078,6 @@ extern "system" {
         NumberOfPages: *mut usize,
         UserPfnArray: *mut usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3114,7 +3091,6 @@ extern "system" {
         EntriesInUserAddressArray: *mut usize,
         Granularity: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3124,7 +3100,6 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         RegionSize: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3135,7 +3110,6 @@ extern "system" {
         MaximumSize: *mut i64,
         Priority: u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3145,13 +3119,11 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         Length: usize,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtFlushWriteBuffer() -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3167,7 +3139,6 @@ extern "system" {
         EnclaveInformationLength: u32,
         EnclaveError: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3183,7 +3154,6 @@ extern "system" {
         NumberOfBytesWritten: *mut usize,
         EnclaveError: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3195,7 +3165,6 @@ extern "system" {
         EnclaveInformationLength: u32,
         EnclaveError: *mut u32,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3204,7 +3173,6 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         WaitForThread: BOOLEAN,
     ) -> NTSTATUS;
-
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3215,5 +3183,4 @@ extern "system" {
         WaitForThread: BOOLEAN,
         ReturnValue: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
-
 }
