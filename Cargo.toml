@@ -4,7 +4,6 @@ version = "1.0.36"
 authors = ["NiiightmareXD"]
 edition = "2021"
 description = "Windows Native Undocumented API for Rust Language 🔥"
-documentation = "https://docs.rs/windows-native"
 readme = "README.md"
 repository = "https://github.com/NiiightmareXD/windows-native"
 license = "MIT"
