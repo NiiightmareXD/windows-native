@@ -64,6 +64,7 @@ pub const GDI_CLIENT_METADC16_TYPE: u32 = 6684672;
 pub const GDI_CLIENT_METAFILE_TYPE: u32 = 4587520;
 pub const GDI_CLIENT_METAFILE16_TYPE: u32 = 2490368;
 pub const GDI_CLIENT_PEN_TYPE: u32 = 3145728;
+
 #[repr(C)]
 pub struct GDI_HANDLE_ENTRY {
     pub Anonymous1: GDI_HANDLE_ENTRY_1,
@@ -73,98 +74,129 @@ pub struct GDI_HANDLE_ENTRY {
     pub Flags: u8,
     pub UserPointer: *mut std::ffi::c_void,
 }
+
 #[repr(C)]
 pub struct GDI_HANDLE_ENTRY_1 {
     pub Object: UnionField<*mut std::ffi::c_void>,
     pub NextFree: UnionField<*mut std::ffi::c_void>,
     pub union_field: u64,
 }
+
 impl Default for GDI_HANDLE_ENTRY_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for GDI_HANDLE_ENTRY_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "GDI_HANDLE_ENTRY_1 {{ union }}")
     }
 }
+
 #[repr(C)]
 pub struct GDI_HANDLE_ENTRY_2 {
     pub Anonymous1: UnionField<GDI_HANDLE_ENTRY_2_1>,
     pub Value: UnionField<u32>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 pub struct GDI_HANDLE_ENTRY_2_1 {
     pub ProcessId: u16,
     _bitfield_align_1: [u16; 0],
     _bitfield_1: BitfieldUnit<[u8; 2]>,
 }
+
 impl Default for GDI_HANDLE_ENTRY_2_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for GDI_HANDLE_ENTRY_2_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "GDI_HANDLE_ENTRY_2_1 {{ Lock : {:?}, Count : {:?} }}", self.Lock(), self.Count())
+        write!(
+            f,
+            "GDI_HANDLE_ENTRY_2_1 {{ Lock : {:?}, Count : {:?} }}",
+            self.Lock(),
+            self.Count()
+        )
     }
 }
+
 impl GDI_HANDLE_ENTRY_2_1 {
     #[inline]
     pub fn Lock(&self) -> u16 {
         self._bitfield_1.get(0usize, 1u8) as u16
     }
+
     #[inline]
     pub fn set_Lock(&mut self, val: u16) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Count(&self) -> u16 {
         self._bitfield_1.get(1usize, 15u8) as u16
     }
+
     #[inline]
     pub fn set_Count(&mut self, val: u16) {
         self._bitfield_1.set(1usize, 15u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Lock: u16, Count: u16) -> BitfieldUnit<[u8; 2]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, Lock as u64);
+
         bitfield_unit.set(1usize, 15u8, Count as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for GDI_HANDLE_ENTRY_2 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for GDI_HANDLE_ENTRY_2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "GDI_HANDLE_ENTRY_2 {{ union }}")
     }
 }
+
 impl Default for GDI_HANDLE_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for GDI_HANDLE_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "GDI_HANDLE_ENTRY {{ Anonymous1: {:?}, Owner: {:?} }}", self.Anonymous1, self.Owner)
+        write!(
+            f,
+            "GDI_HANDLE_ENTRY {{ Anonymous1: {:?}, Owner: {:?} }}",
+            self.Anonymous1, self.Owner
+        )
     }
 }
+
 #[repr(C)]
 pub struct GDI_SHARED_MEMORY {
     pub Handles: [GDI_HANDLE_ENTRY; 65535],
 }
+
 impl Default for GDI_SHARED_MEMORY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for GDI_SHARED_MEMORY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "GDI_SHARED_MEMORY {{ Handles: {:?} }}", self.Handles)

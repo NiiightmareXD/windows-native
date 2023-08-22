@@ -1,8 +1,15 @@
 //! # Windows Native Rust Library
 //!
-//! The **Windows-Native** Rust library provides a convenient and safe way to access the native Windows undocumented APIs using the Rust programming language. These APIs are mostly exported from the Process Hacker native API headers (phnt), enabling you to interact with Windows internals in a reliable and efficient manner.
+//! The **Windows-Native** Rust library provides a convenient and safe way to
+//! access the native Windows undocumented APIs using the Rust programming
+//! language. These APIs are mostly exported from the Process Hacker native API
+//! headers (phnt), enabling you to interact with Windows internals in a
+//! reliable and efficient manner.
 //!
-//! Please note that using undocumented APIs can be risky, as they might change without notice in different Windows versions and can potentially cause system instability. Use this library with caution and ensure you have a good understanding of the implications of using undocumented APIs.
+//! Please note that using undocumented APIs can be risky, as they might change
+//! without notice in different Windows versions and can potentially cause
+//! system instability. Use this library with caution and ensure you have a good
+//! understanding of the implications of using undocumented APIs.
 //!
 //! ## Features
 //!
@@ -48,12 +55,15 @@
 //!
 //! ## Contributing
 //!
-//! Contributions are welcome! If you find a bug or want to add new features to the library, please open an issue or submit a pull request.
+//! Contributions are welcome! If you find a bug or want to add new features to
+//! the library, please open an issue or submit a pull request.
 //!
 //! ## Disclaimer
 //!
-//! **Windows-Native** is provided as-is and does not guarantee compatibility with future Windows versions. Using undocumented APIs can have unintended consequences, including system instability and security vulnerabilities. Use at your own risk.
-//!
+//! **Windows-Native** is provided as-is and does not guarantee compatibility
+//! with future Windows versions. Using undocumented APIs can have unintended
+//! consequences, including system instability and security vulnerabilities. Use
+//! at your own risk.
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
@@ -90,6 +100,5 @@ pub mod ntwow64;
 pub mod ntxcapi;
 pub mod ntzwapi;
 pub mod phnt_ntdef;
-pub mod phnt_windows;
 pub mod subprocesstag;
 pub mod winsta;

@@ -2,7 +2,10 @@ use windows::{
     core::{GUID, PWSTR},
     Wdk::{
         Foundation::{DEVICE_OBJECT, FILE_OBJECT, IRP, OBJECT_ATTRIBUTES},
-        System::SystemServices::{BUS_DATA_TYPE, INTERFACE_TYPE, KPROFILE_SOURCE, KUSER_SHARED_DATA, KWAIT_REASON, PTIMER_APC_ROUTINE, RTL_BITMAP, TIMER_SET_INFORMATION_CLASS},
+        System::SystemServices::{
+            BUS_DATA_TYPE, INTERFACE_TYPE, KPROFILE_SOURCE, KUSER_SHARED_DATA, KWAIT_REASON,
+            PTIMER_APC_ROUTINE, RTL_BITMAP, TIMER_SET_INFORMATION_CLASS,
+        },
     },
     Win32::{
         Foundation::{BOOLEAN, HANDLE, LUID, NTSTATUS, UNICODE_STRING},
@@ -861,26 +864,57 @@ pub const SYSDBG_LIVEDUMP_CONTROL_SIZE_WIN11: u32 = 72;
 pub const SYSDBG_LIVEDUMP_CONTROL_SIZE: u32 = 64;
 pub const USER_SHARED_DATA: *const KUSER_SHARED_DATA = 0x7ffe0000 as *const KUSER_SHARED_DATA;
 pub const FLG_USERMODE_VALID_BITS: u32 = 2989595123;
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDelayExecution(Alertable: BOOLEAN, DelayInterval: *mut i64) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQuerySystemEnvironmentValue(VariableName: *mut UNICODE_STRING, VariableValue: PWSTR, ValueLength: u16, ReturnLength: *mut u16) -> NTSTATUS;
+    pub fn NtQuerySystemEnvironmentValue(
+        VariableName: *mut UNICODE_STRING,
+        VariableValue: PWSTR,
+        ValueLength: u16,
+        ReturnLength: *mut u16,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetSystemEnvironmentValue(VariableName: *mut UNICODE_STRING, VariableValue: *mut UNICODE_STRING) -> NTSTATUS;
+    pub fn NtSetSystemEnvironmentValue(
+        VariableName: *mut UNICODE_STRING,
+        VariableValue: *mut UNICODE_STRING,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQuerySystemEnvironmentValueEx(VariableName: *mut UNICODE_STRING, VendorGuid: *const GUID, Value: *mut std::ffi::c_void, ValueLength: *mut u32, Attributes: *mut u32) -> NTSTATUS;
+    pub fn NtQuerySystemEnvironmentValueEx(
+        VariableName: *mut UNICODE_STRING,
+        VendorGuid: *const GUID,
+        Value: *mut std::ffi::c_void,
+        ValueLength: *mut u32,
+        Attributes: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetSystemEnvironmentValueEx(VariableName: *mut UNICODE_STRING, VendorGuid: *const GUID, Value: *mut std::ffi::c_void, ValueLength: u32, Attributes: u32) -> NTSTATUS;
+    pub fn NtSetSystemEnvironmentValueEx(
+        VariableName: *mut UNICODE_STRING,
+        VendorGuid: *const GUID,
+        Value: *mut std::ffi::c_void,
+        ValueLength: u32,
+        Attributes: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSTEM_ENVIRONMENT_INFORMATION_CLASS {
@@ -888,22 +922,26 @@ pub enum SYSTEM_ENVIRONMENT_INFORMATION_CLASS {
     SystemEnvironmentValueInformation = 2,
     MaxSystemEnvironmentInfoClass = 3,
 }
+
 #[repr(C)]
 pub struct VARIABLE_NAME {
     pub NextEntryOffset: u32,
     pub VendorGuid: GUID,
     pub Name: [u16; 1],
 }
+
 impl Default for VARIABLE_NAME {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for VARIABLE_NAME {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "VARIABLE_NAME {{ Name: {:?} }}", self.Name)
     }
 }
+
 #[repr(C)]
 pub struct VARIABLE_NAME_AND_VALUE {
     pub NextEntryOffset: u32,
@@ -913,20 +951,29 @@ pub struct VARIABLE_NAME_AND_VALUE {
     pub VendorGuid: GUID,
     pub Name: [u16; 1],
 }
+
 impl Default for VARIABLE_NAME_AND_VALUE {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for VARIABLE_NAME_AND_VALUE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "VARIABLE_NAME_AND_VALUE {{ Name: {:?} }}", self.Name)
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtEnumerateSystemEnvironmentValuesEx(InformationClass: u32, Buffer: *mut std::ffi::c_void, BufferLength: *mut u32) -> NTSTATUS;
+    pub fn NtEnumerateSystemEnvironmentValuesEx(
+        InformationClass: u32,
+        Buffer: *mut std::ffi::c_void,
+        BufferLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[repr(C)]
 pub struct BOOT_ENTRY {
     pub Version: u32,
@@ -938,31 +985,37 @@ pub struct BOOT_ENTRY {
     pub OsOptionsLength: u32,
     pub OsOptions: [u8; 1],
 }
+
 impl Default for BOOT_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for BOOT_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "BOOT_ENTRY {{ OsOptions: {:?} }}", self.OsOptions)
     }
 }
+
 #[repr(C)]
 pub struct BOOT_ENTRY_LIST {
     pub NextEntryOffset: u32,
     pub BootEntry: BOOT_ENTRY,
 }
+
 impl Default for BOOT_ENTRY_LIST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for BOOT_ENTRY_LIST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "BOOT_ENTRY_LIST {{ BootEntry: {:?} }}", self.BootEntry)
     }
 }
+
 #[repr(C)]
 pub struct BOOT_OPTIONS {
     pub Version: u32,
@@ -972,16 +1025,23 @@ pub struct BOOT_OPTIONS {
     pub NextBootEntryId: u32,
     pub HeadlessRedirection: [u16; 1],
 }
+
 impl Default for BOOT_OPTIONS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for BOOT_OPTIONS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "BOOT_OPTIONS {{ HeadlessRedirection: {:?} }}", self.HeadlessRedirection)
+        write!(
+            f,
+            "BOOT_OPTIONS {{ HeadlessRedirection: {:?} }}",
+            self.HeadlessRedirection
+        )
     }
 }
+
 #[repr(C)]
 pub struct FILE_PATH {
     pub Version: u32,
@@ -989,16 +1049,19 @@ pub struct FILE_PATH {
     pub Type: u32,
     pub FilePath: [u8; 1],
 }
+
 impl Default for FILE_PATH {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_PATH {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "FILE_PATH {{ FilePath: {:?} }}", self.FilePath)
     }
 }
+
 #[repr(C)]
 pub struct EFI_DRIVER_ENTRY {
     pub Version: u32,
@@ -1007,91 +1070,145 @@ pub struct EFI_DRIVER_ENTRY {
     pub FriendlyNameOffset: u32,
     pub DriverFilePathOffset: u32,
 }
+
 impl Default for EFI_DRIVER_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EFI_DRIVER_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "EFI_DRIVER_ENTRY {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct EFI_DRIVER_ENTRY_LIST {
     pub NextEntryOffset: u32,
     pub DriverEntry: EFI_DRIVER_ENTRY,
 }
+
 impl Default for EFI_DRIVER_ENTRY_LIST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EFI_DRIVER_ENTRY_LIST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EFI_DRIVER_ENTRY_LIST {{ DriverEntry: {:?} }}", self.DriverEntry)
+        write!(
+            f,
+            "EFI_DRIVER_ENTRY_LIST {{ DriverEntry: {:?} }}",
+            self.DriverEntry
+        )
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtAddBootEntry(BootEntry: *mut BOOT_ENTRY, Id: *mut u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDeleteBootEntry(Id: u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtModifyBootEntry(BootEntry: *mut BOOT_ENTRY) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtEnumerateBootEntries(Buffer: *mut std::ffi::c_void, BufferLength: *mut u32) -> NTSTATUS;
+    pub fn NtEnumerateBootEntries(
+        Buffer: *mut std::ffi::c_void,
+        BufferLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryBootEntryOrder(Ids: *mut u32, Count: *mut u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetBootEntryOrder(Ids: *mut u32, Count: u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryBootOptions(BootOptions: *mut BOOT_OPTIONS, BootOptionsLength: *mut u32) -> NTSTATUS;
+    pub fn NtQueryBootOptions(
+        BootOptions: *mut BOOT_OPTIONS,
+        BootOptionsLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetBootOptions(BootOptions: *mut BOOT_OPTIONS, FieldsToChange: u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtTranslateFilePath(InputFilePath: *mut FILE_PATH, OutputType: u32, OutputFilePath: *mut FILE_PATH, OutputFilePathLength: *mut u32) -> NTSTATUS;
+    pub fn NtTranslateFilePath(
+        InputFilePath: *mut FILE_PATH,
+        OutputType: u32,
+        OutputFilePath: *mut FILE_PATH,
+        OutputFilePathLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtAddDriverEntry(DriverEntry: *mut EFI_DRIVER_ENTRY, Id: *mut u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDeleteDriverEntry(Id: u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtModifyDriverEntry(DriverEntry: *mut EFI_DRIVER_ENTRY) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtEnumerateDriverEntries(Buffer: *mut std::ffi::c_void, BufferLength: *mut u32) -> NTSTATUS;
+    pub fn NtEnumerateDriverEntries(
+        Buffer: *mut std::ffi::c_void,
+        BufferLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryDriverEntryOrder(Ids: *mut u32, Count: *mut u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetDriverEntryOrder(Ids: *mut u32, Count: u32) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FILTER_BOOT_OPTION_OPERATION {
@@ -1100,306 +1217,567 @@ pub enum FILTER_BOOT_OPTION_OPERATION {
     FilterBootOptionOperationDeleteElement = 2,
     FilterBootOptionOperationMax = 3,
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtFilterBootOption(FilterOperation: FILTER_BOOT_OPTION_OPERATION, ObjectType: u32, ElementType: u32, Data: *mut std::ffi::c_void, DataSize: u32) -> NTSTATUS;
+    pub fn NtFilterBootOption(
+        FilterOperation: FILTER_BOOT_OPTION_OPERATION,
+        ObjectType: u32,
+        ElementType: u32,
+        Data: *mut std::ffi::c_void,
+        DataSize: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EVENT_INFORMATION_CLASS {
     EventBasicInformation = 0,
 }
+
 #[repr(C)]
 pub struct EVENT_BASIC_INFORMATION {
     pub EventType: EVENT_TYPE,
     pub EventState: i32,
 }
+
 impl Default for EVENT_BASIC_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_BASIC_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "EVENT_BASIC_INFORMATION {{  }}")
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateEvent(EventHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, EventType: EVENT_TYPE, InitialState: BOOLEAN) -> NTSTATUS;
+    pub fn NtCreateEvent(
+        EventHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        EventType: EVENT_TYPE,
+        InitialState: BOOLEAN,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenEvent(EventHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
+    pub fn NtOpenEvent(
+        EventHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetEvent(EventHandle: HANDLE, PreviousState: *mut i32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetEventBoostPriority(EventHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtClearEvent(EventHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtResetEvent(EventHandle: HANDLE, PreviousState: *mut i32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtPulseEvent(EventHandle: HANDLE, PreviousState: *mut i32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryEvent(EventHandle: HANDLE, EventInformationClass: EVENT_INFORMATION_CLASS, EventInformation: *mut std::ffi::c_void, EventInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
+    pub fn NtQueryEvent(
+        EventHandle: HANDLE,
+        EventInformationClass: EVENT_INFORMATION_CLASS,
+        EventInformation: *mut std::ffi::c_void,
+        EventInformationLength: u32,
+        ReturnLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateEventPair(EventPairHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
+    pub fn NtCreateEventPair(
+        EventPairHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenEventPair(EventPairHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
+    pub fn NtOpenEventPair(
+        EventPairHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetLowEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetHighEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtWaitLowEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtWaitHighEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetLowWaitHighEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetHighWaitLowEventPair(EventPairHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MUTANT_INFORMATION_CLASS {
     MutantBasicInformation = 0,
     MutantOwnerInformation = 1,
 }
+
 #[repr(C)]
 pub struct MUTANT_BASIC_INFORMATION {
     pub CurrentCount: i32,
     pub OwnedByCaller: BOOLEAN,
     pub AbandonedState: BOOLEAN,
 }
+
 impl Default for MUTANT_BASIC_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MUTANT_BASIC_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MUTANT_BASIC_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct MUTANT_OWNER_INFORMATION {
     pub ClientId: CLIENT_ID,
 }
+
 impl Default for MUTANT_OWNER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MUTANT_OWNER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MUTANT_OWNER_INFORMATION {{  }}")
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateMutant(MutantHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, InitialOwner: BOOLEAN) -> NTSTATUS;
+    pub fn NtCreateMutant(
+        MutantHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        InitialOwner: BOOLEAN,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenMutant(MutantHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
+    pub fn NtOpenMutant(
+        MutantHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtReleaseMutant(MutantHandle: HANDLE, PreviousCount: *mut i32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryMutant(MutantHandle: HANDLE, MutantInformationClass: MUTANT_INFORMATION_CLASS, MutantInformation: *mut std::ffi::c_void, MutantInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
+    pub fn NtQueryMutant(
+        MutantHandle: HANDLE,
+        MutantInformationClass: MUTANT_INFORMATION_CLASS,
+        MutantInformation: *mut std::ffi::c_void,
+        MutantInformationLength: u32,
+        ReturnLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SEMAPHORE_INFORMATION_CLASS {
     SemaphoreBasicInformation = 0,
 }
+
 #[repr(C)]
 pub struct SEMAPHORE_BASIC_INFORMATION {
     pub CurrentCount: i32,
     pub MaximumCount: i32,
 }
+
 impl Default for SEMAPHORE_BASIC_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SEMAPHORE_BASIC_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SEMAPHORE_BASIC_INFORMATION {{  }}")
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateSemaphore(SemaphoreHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, InitialCount: i32, MaximumCount: i32) -> NTSTATUS;
+    pub fn NtCreateSemaphore(
+        SemaphoreHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        InitialCount: i32,
+        MaximumCount: i32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenSemaphore(SemaphoreHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
+    pub fn NtOpenSemaphore(
+        SemaphoreHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtReleaseSemaphore(SemaphoreHandle: HANDLE, ReleaseCount: i32, PreviousCount: *mut i32) -> NTSTATUS;
+    pub fn NtReleaseSemaphore(
+        SemaphoreHandle: HANDLE,
+        ReleaseCount: i32,
+        PreviousCount: *mut i32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQuerySemaphore(SemaphoreHandle: HANDLE, SemaphoreInformationClass: SEMAPHORE_INFORMATION_CLASS, SemaphoreInformation: *mut std::ffi::c_void, SemaphoreInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
+    pub fn NtQuerySemaphore(
+        SemaphoreHandle: HANDLE,
+        SemaphoreInformationClass: SEMAPHORE_INFORMATION_CLASS,
+        SemaphoreInformation: *mut std::ffi::c_void,
+        SemaphoreInformationLength: u32,
+        ReturnLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum TIMER_INFORMATION_CLASS {
     TimerBasicInformation = 0,
 }
+
 #[repr(C)]
 pub struct TIMER_BASIC_INFORMATION {
     pub RemainingTime: i64,
     pub TimerState: BOOLEAN,
 }
+
 impl Default for TIMER_BASIC_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for TIMER_BASIC_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "TIMER_BASIC_INFORMATION {{  }}")
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateTimer(TimerHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, TimerType: TIMER_TYPE) -> NTSTATUS;
+    pub fn NtCreateTimer(
+        TimerHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        TimerType: TIMER_TYPE,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenTimer(TimerHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
+    pub fn NtOpenTimer(
+        TimerHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetTimer(TimerHandle: HANDLE, DueTime: *mut i64, TimerApcRoutine: PTIMER_APC_ROUTINE, TimerContext: *mut std::ffi::c_void, ResumeTimer: BOOLEAN, Period: i32, PreviousState: *mut BOOLEAN) -> NTSTATUS;
+    pub fn NtSetTimer(
+        TimerHandle: HANDLE,
+        DueTime: *mut i64,
+        TimerApcRoutine: PTIMER_APC_ROUTINE,
+        TimerContext: *mut std::ffi::c_void,
+        ResumeTimer: BOOLEAN,
+        Period: i32,
+        PreviousState: *mut BOOLEAN,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetTimerEx(TimerHandle: HANDLE, TimerSetInformationClass: TIMER_SET_INFORMATION_CLASS, TimerSetInformation: *mut std::ffi::c_void, TimerSetInformationLength: u32) -> NTSTATUS;
+    pub fn NtSetTimerEx(
+        TimerHandle: HANDLE,
+        TimerSetInformationClass: TIMER_SET_INFORMATION_CLASS,
+        TimerSetInformation: *mut std::ffi::c_void,
+        TimerSetInformationLength: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCancelTimer(TimerHandle: HANDLE, CurrentState: *mut BOOLEAN) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryTimer(TimerHandle: HANDLE, TimerInformationClass: TIMER_INFORMATION_CLASS, TimerInformation: *mut std::ffi::c_void, TimerInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
+    pub fn NtQueryTimer(
+        TimerHandle: HANDLE,
+        TimerInformationClass: TIMER_INFORMATION_CLASS,
+        TimerInformation: *mut std::ffi::c_void,
+        TimerInformationLength: u32,
+        ReturnLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCreateIRTimer(TimerHandle: *mut HANDLE, DesiredAccess: u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetIRTimer(TimerHandle: HANDLE, DueTime: *mut i64) -> NTSTATUS;
+
 }
+
 #[repr(C)]
 pub struct T2_SET_PARAMETERS {
     pub Version: u32,
     pub Reserved: u32,
     pub NoWakeTolerance: i64,
 }
+
 impl Default for T2_SET_PARAMETERS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for T2_SET_PARAMETERS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "T2_SET_PARAMETERS {{  }}")
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateTimer2(TimerHandle: *mut HANDLE, Reserved1: *mut std::ffi::c_void, ObjectAttributes: *mut OBJECT_ATTRIBUTES, Attributes: u32, DesiredAccess: u32) -> NTSTATUS;
+    pub fn NtCreateTimer2(
+        TimerHandle: *mut HANDLE,
+        Reserved1: *mut std::ffi::c_void,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        Attributes: u32,
+        DesiredAccess: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetTimer2(TimerHandle: HANDLE, DueTime: *mut i64, Period: *mut i64, Parameters: *mut T2_SET_PARAMETERS) -> NTSTATUS;
+    pub fn NtSetTimer2(
+        TimerHandle: HANDLE,
+        DueTime: *mut i64,
+        Period: *mut i64,
+        Parameters: *mut T2_SET_PARAMETERS,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCancelTimer2(TimerHandle: HANDLE, Parameters: *mut std::ffi::c_void) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateProfile(ProfileHandle: *mut HANDLE, Process: HANDLE, ProfileBase: *mut std::ffi::c_void, ProfileSize: usize, BucketSize: u32, Buffer: *mut u32, BufferSize: u32, ProfileSource: KPROFILE_SOURCE, Affinity: usize) -> NTSTATUS;
+    pub fn NtCreateProfile(
+        ProfileHandle: *mut HANDLE,
+        Process: HANDLE,
+        ProfileBase: *mut std::ffi::c_void,
+        ProfileSize: usize,
+        BucketSize: u32,
+        Buffer: *mut u32,
+        BufferSize: u32,
+        ProfileSource: KPROFILE_SOURCE,
+        Affinity: usize,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateProfileEx(ProfileHandle: *mut HANDLE, Process: HANDLE, ProfileBase: *mut std::ffi::c_void, ProfileSize: usize, BucketSize: u32, Buffer: *mut u32, BufferSize: u32, ProfileSource: KPROFILE_SOURCE, GroupCount: u16, GroupAffinity: *mut GROUP_AFFINITY) -> NTSTATUS;
+    pub fn NtCreateProfileEx(
+        ProfileHandle: *mut HANDLE,
+        Process: HANDLE,
+        ProfileBase: *mut std::ffi::c_void,
+        ProfileSize: usize,
+        BucketSize: u32,
+        Buffer: *mut u32,
+        BufferSize: u32,
+        ProfileSource: KPROFILE_SOURCE,
+        GroupCount: u16,
+        GroupAffinity: *mut GROUP_AFFINITY,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtStartProfile(ProfileHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtStopProfile(ProfileHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryIntervalProfile(ProfileSource: KPROFILE_SOURCE, Interval: *mut u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetIntervalProfile(Interval: u32, Source: KPROFILE_SOURCE) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateKeyedEvent(KeyedEventHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, Flags: u32) -> NTSTATUS;
+    pub fn NtCreateKeyedEvent(
+        KeyedEventHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        Flags: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenKeyedEvent(KeyedEventHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
+    pub fn NtOpenKeyedEvent(
+        KeyedEventHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtReleaseKeyedEvent(KeyedEventHandle: HANDLE, KeyValue: *mut std::ffi::c_void, Alertable: BOOLEAN, Timeout: *mut i64) -> NTSTATUS;
+    pub fn NtReleaseKeyedEvent(
+        KeyedEventHandle: HANDLE,
+        KeyValue: *mut std::ffi::c_void,
+        Alertable: BOOLEAN,
+        Timeout: *mut i64,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtWaitForKeyedEvent(KeyedEventHandle: HANDLE, KeyValue: *mut std::ffi::c_void, Alertable: BOOLEAN, Timeout: *mut i64) -> NTSTATUS;
+    pub fn NtWaitForKeyedEvent(
+        KeyedEventHandle: HANDLE,
+        KeyValue: *mut std::ffi::c_void,
+        Alertable: BOOLEAN,
+        Timeout: *mut i64,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtUmsThreadYield(SchedulerParam: *mut std::ffi::c_void) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum WNF_STATE_NAME_LIFETIME {
@@ -1408,6 +1786,7 @@ pub enum WNF_STATE_NAME_LIFETIME {
     WnfPersistentStateName = 2,
     WnfTemporaryStateName = 3,
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum WNF_STATE_NAME_INFORMATION {
@@ -1415,6 +1794,7 @@ pub enum WNF_STATE_NAME_INFORMATION {
     WnfInfoSubscribersPresent = 1,
     WnfInfoIsQuiescent = 2,
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum WNF_DATA_SCOPE {
@@ -1425,20 +1805,24 @@ pub enum WNF_DATA_SCOPE {
     WnfDataScopeMachine = 4,
     WnfDataScopePhysicalMachine = 5,
 }
+
 #[repr(C)]
 pub struct WNF_TYPE_ID {
     pub TypeId: GUID,
 }
+
 impl Default for WNF_TYPE_ID {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for WNF_TYPE_ID {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "WNF_TYPE_ID {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct WNF_DELIVERY_DESCRIPTOR {
     pub SubscriptionId: u64,
@@ -1449,56 +1833,127 @@ pub struct WNF_DELIVERY_DESCRIPTOR {
     pub TypeId: WNF_TYPE_ID,
     pub StateDataOffset: u32,
 }
+
 impl Default for WNF_DELIVERY_DESCRIPTOR {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for WNF_DELIVERY_DESCRIPTOR {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "WNF_DELIVERY_DESCRIPTOR {{ StateName: {:?}, TypeId: {:?} }}", self.StateName, self.TypeId)
+        write!(
+            f,
+            "WNF_DELIVERY_DESCRIPTOR {{ StateName: {:?}, TypeId: {:?} }}",
+            self.StateName, self.TypeId
+        )
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateWnfStateName(StateName: *mut WNF_STATE_NAME, NameLifetime: WNF_STATE_NAME_LIFETIME, DataScope: WNF_DATA_SCOPE, PersistData: BOOLEAN, TypeId: *const WNF_TYPE_ID, MaximumStateSize: u32, SecurityDescriptor: *mut SECURITY_DESCRIPTOR) -> NTSTATUS;
+    pub fn NtCreateWnfStateName(
+        StateName: *mut WNF_STATE_NAME,
+        NameLifetime: WNF_STATE_NAME_LIFETIME,
+        DataScope: WNF_DATA_SCOPE,
+        PersistData: BOOLEAN,
+        TypeId: *const WNF_TYPE_ID,
+        MaximumStateSize: u32,
+        SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDeleteWnfStateName(StateName: *const WNF_STATE_NAME) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtUpdateWnfStateData(StateName: *const WNF_STATE_NAME, Buffer: *const std::os::raw::c_void, Length: u32, TypeId: *const WNF_TYPE_ID, ExplicitScope: *const std::os::raw::c_void, MatchingChangeStamp: u32, CheckStamp: u32) -> NTSTATUS;
+    pub fn NtUpdateWnfStateData(
+        StateName: *const WNF_STATE_NAME,
+        Buffer: *const std::os::raw::c_void,
+        Length: u32,
+        TypeId: *const WNF_TYPE_ID,
+        ExplicitScope: *const std::os::raw::c_void,
+        MatchingChangeStamp: u32,
+        CheckStamp: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtDeleteWnfStateData(StateName: *const WNF_STATE_NAME, ExplicitScope: *const std::os::raw::c_void) -> NTSTATUS;
+    pub fn NtDeleteWnfStateData(
+        StateName: *const WNF_STATE_NAME,
+        ExplicitScope: *const std::os::raw::c_void,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryWnfStateData(StateName: *const WNF_STATE_NAME, TypeId: *const WNF_TYPE_ID, ExplicitScope: *const std::os::raw::c_void, ChangeStamp: *mut u32, Buffer: *mut std::ffi::c_void, BufferSize: *mut u32) -> NTSTATUS;
+    pub fn NtQueryWnfStateData(
+        StateName: *const WNF_STATE_NAME,
+        TypeId: *const WNF_TYPE_ID,
+        ExplicitScope: *const std::os::raw::c_void,
+        ChangeStamp: *mut u32,
+        Buffer: *mut std::ffi::c_void,
+        BufferSize: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryWnfStateNameInformation(StateName: *const WNF_STATE_NAME, NameInfoClass: WNF_STATE_NAME_INFORMATION, ExplicitScope: *const std::os::raw::c_void, InfoBuffer: *mut std::ffi::c_void, InfoBufferSize: u32) -> NTSTATUS;
+    pub fn NtQueryWnfStateNameInformation(
+        StateName: *const WNF_STATE_NAME,
+        NameInfoClass: WNF_STATE_NAME_INFORMATION,
+        ExplicitScope: *const std::os::raw::c_void,
+        InfoBuffer: *mut std::ffi::c_void,
+        InfoBufferSize: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSubscribeWnfStateChange(StateName: *const WNF_STATE_NAME, ChangeStamp: u32, EventMask: u32, SubscriptionId: *mut u64) -> NTSTATUS;
+    pub fn NtSubscribeWnfStateChange(
+        StateName: *const WNF_STATE_NAME,
+        ChangeStamp: u32,
+        EventMask: u32,
+        SubscriptionId: *mut u64,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtUnsubscribeWnfStateChange(StateName: *const WNF_STATE_NAME) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtGetCompleteWnfStateSubscription(OldDescriptorStateName: *mut WNF_STATE_NAME, OldSubscriptionId: *mut u64, OldDescriptorEventMask: u32, OldDescriptorStatus: u32, NewDeliveryDescriptor: *mut WNF_DELIVERY_DESCRIPTOR, DescriptorSize: u32) -> NTSTATUS;
+    pub fn NtGetCompleteWnfStateSubscription(
+        OldDescriptorStateName: *mut WNF_STATE_NAME,
+        OldSubscriptionId: *mut u64,
+        OldDescriptorEventMask: u32,
+        OldDescriptorStatus: u32,
+        NewDeliveryDescriptor: *mut WNF_DELIVERY_DESCRIPTOR,
+        DescriptorSize: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetWnfProcessNotificationEvent(NotificationEvent: HANDLE) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum WORKERFACTORYINFOCLASS {
@@ -1520,6 +1975,7 @@ pub enum WORKERFACTORYINFOCLASS {
     WorkerFactoryThreadCpuSets = 15,
     MaxWorkerFactoryInfoClass = 16,
 }
+
 #[repr(C)]
 pub struct WORKER_FACTORY_BASIC_INFORMATION {
     pub Timeout: i64,
@@ -1547,40 +2003,80 @@ pub struct WORKER_FACTORY_BASIC_INFORMATION {
     pub StackCommit: usize,
     pub LastThreadCreationStatus: NTSTATUS,
 }
+
 impl Default for WORKER_FACTORY_BASIC_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for WORKER_FACTORY_BASIC_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "WORKER_FACTORY_BASIC_INFORMATION {{  }}")
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateWorkerFactory(WorkerFactoryHandleReturn: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, CompletionPortHandle: HANDLE, WorkerProcessHandle: HANDLE, StartRoutine: *mut std::ffi::c_void, StartParameter: *mut std::ffi::c_void, MaxThreadCount: u32, StackReserve: usize, StackCommit: usize) -> NTSTATUS;
+    pub fn NtCreateWorkerFactory(
+        WorkerFactoryHandleReturn: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        CompletionPortHandle: HANDLE,
+        WorkerProcessHandle: HANDLE,
+        StartRoutine: *mut std::ffi::c_void,
+        StartParameter: *mut std::ffi::c_void,
+        MaxThreadCount: u32,
+        StackReserve: usize,
+        StackCommit: usize,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryInformationWorkerFactory(WorkerFactoryHandle: HANDLE, WorkerFactoryInformationClass: WORKERFACTORYINFOCLASS, WorkerFactoryInformation: *mut std::ffi::c_void, WorkerFactoryInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
+    pub fn NtQueryInformationWorkerFactory(
+        WorkerFactoryHandle: HANDLE,
+        WorkerFactoryInformationClass: WORKERFACTORYINFOCLASS,
+        WorkerFactoryInformation: *mut std::ffi::c_void,
+        WorkerFactoryInformationLength: u32,
+        ReturnLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetInformationWorkerFactory(WorkerFactoryHandle: HANDLE, WorkerFactoryInformationClass: WORKERFACTORYINFOCLASS, WorkerFactoryInformation: *mut std::ffi::c_void, WorkerFactoryInformationLength: u32) -> NTSTATUS;
+    pub fn NtSetInformationWorkerFactory(
+        WorkerFactoryHandle: HANDLE,
+        WorkerFactoryInformationClass: WORKERFACTORYINFOCLASS,
+        WorkerFactoryInformation: *mut std::ffi::c_void,
+        WorkerFactoryInformationLength: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtShutdownWorkerFactory(WorkerFactoryHandle: HANDLE, PendingWorkerCount: *mut i32) -> NTSTATUS;
+    pub fn NtShutdownWorkerFactory(
+        WorkerFactoryHandle: HANDLE,
+        PendingWorkerCount: *mut i32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtReleaseWorkerFactoryWorker(WorkerFactoryHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtWorkerFactoryWorkerReady(WorkerFactoryHandle: HANDLE) -> NTSTATUS;
+
 }
+
 #[repr(C)]
 pub struct WORKER_FACTORY_DEFERRED_WORK {
     pub AlpcSendMessage: *mut PORT_MESSAGE,
@@ -1588,52 +2084,100 @@ pub struct WORKER_FACTORY_DEFERRED_WORK {
     pub AlpcSendMessageFlags: u32,
     pub Flags: u32,
 }
+
 impl Default for WORKER_FACTORY_DEFERRED_WORK {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for WORKER_FACTORY_DEFERRED_WORK {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "WORKER_FACTORY_DEFERRED_WORK {{ AlpcSendMessage: {:?} }}", self.AlpcSendMessage)
+        write!(
+            f,
+            "WORKER_FACTORY_DEFERRED_WORK {{ AlpcSendMessage: {:?} }}",
+            self.AlpcSendMessage
+        )
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtWaitForWorkViaWorkerFactory(WorkerFactoryHandle: HANDLE, MiniPackets: *mut FILE_IO_COMPLETION_INFORMATION, Count: u32, PacketsReturned: *mut u32, DeferredWork: *mut WORKER_FACTORY_DEFERRED_WORK) -> NTSTATUS;
+    pub fn NtWaitForWorkViaWorkerFactory(
+        WorkerFactoryHandle: HANDLE,
+        MiniPackets: *mut FILE_IO_COMPLETION_INFORMATION,
+        Count: u32,
+        PacketsReturned: *mut u32,
+        DeferredWork: *mut WORKER_FACTORY_DEFERRED_WORK,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetSystemTime(SystemTime: *mut i64, PreviousTime: *mut i64) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetTimerResolution(DesiredTime: u32, SetResolution: BOOLEAN, ActualTime: *mut u32) -> NTSTATUS;
+    pub fn NtSetTimerResolution(
+        DesiredTime: u32,
+        SetResolution: BOOLEAN,
+        ActualTime: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryPerformanceCounter(PerformanceCounter: *mut i64, PerformanceFrequency: *mut i64) -> NTSTATUS;
+    pub fn NtQueryPerformanceCounter(
+        PerformanceCounter: *mut i64,
+        PerformanceFrequency: *mut i64,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryAuxiliaryCounterFrequency(AuxiliaryCounterFrequency: *mut i64) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtConvertBetweenAuxiliaryCounterAndPerformanceCounter(AuxiliaryCounterValue: *mut i64, PerformanceCounterValue: *mut i64, PerformanceOrAuxiliaryCounterValue: *mut i64, ConversionError: *mut i64) -> NTSTATUS;
+    pub fn NtConvertBetweenAuxiliaryCounterAndPerformanceCounter(
+        AuxiliaryCounterValue: *mut i64,
+        PerformanceCounterValue: *mut i64,
+        PerformanceOrAuxiliaryCounterValue: *mut i64,
+        ConversionError: *mut i64,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtAllocateLocallyUniqueId(Luid: *mut LUID) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetUuidSeed(Seed: *mut i8) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAllocateUuids(Time: *mut u64, Range: *mut u32, Sequence: *mut u32, Seed: *mut i8) -> NTSTATUS;
+    pub fn NtAllocateUuids(
+        Time: *mut u64,
+        Range: *mut u32,
+        Sequence: *mut u32,
+        Seed: *mut i8,
+    ) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSTEM_INFORMATION_CLASS {
@@ -1878,6 +2422,7 @@ pub enum SYSTEM_INFORMATION_CLASS {
     SystemOriginalImageFeatureInformation = 238,
     MaxSystemInfoClass = 239,
 }
+
 #[repr(C)]
 pub struct SYSTEM_BASIC_INFORMATION {
     pub Reserved: u32,
@@ -1892,16 +2437,19 @@ pub struct SYSTEM_BASIC_INFORMATION {
     pub ActiveProcessorsAffinityMask: usize,
     pub NumberOfProcessors: i8,
 }
+
 impl Default for SYSTEM_BASIC_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BASIC_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_BASIC_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_INFORMATION {
     pub ProcessorArchitecture: u16,
@@ -1910,16 +2458,19 @@ pub struct SYSTEM_PROCESSOR_INFORMATION {
     pub MaximumProcessors: u16,
     pub ProcessorFeatureBits: u32,
 }
+
 impl Default for SYSTEM_PROCESSOR_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PROCESSOR_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PERFORMANCE_INFORMATION {
     pub IdleProcessTime: i64,
@@ -2001,16 +2552,19 @@ pub struct SYSTEM_PERFORMANCE_INFORMATION {
     pub ResidentAvailablePages: i64,
     pub SharedCommittedPages: u64,
 }
+
 impl Default for SYSTEM_PERFORMANCE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PERFORMANCE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PERFORMANCE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_TIMEOFDAY_INFORMATION {
     pub BootTime: i64,
@@ -2021,16 +2575,19 @@ pub struct SYSTEM_TIMEOFDAY_INFORMATION {
     pub BootTimeBias: u64,
     pub SleepTimeBias: u64,
 }
+
 impl Default for SYSTEM_TIMEOFDAY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_TIMEOFDAY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_TIMEOFDAY_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_THREAD_INFORMATION {
     pub KernelTime: i64,
@@ -2045,16 +2602,19 @@ pub struct SYSTEM_THREAD_INFORMATION {
     pub ThreadState: KTHREAD_STATE,
     pub WaitReason: KWAIT_REASON,
 }
+
 impl Default for SYSTEM_THREAD_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_THREAD_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_THREAD_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_EXTENDED_THREAD_INFORMATION {
     pub ThreadInfo: SYSTEM_THREAD_INFORMATION,
@@ -2066,16 +2626,23 @@ pub struct SYSTEM_EXTENDED_THREAD_INFORMATION {
     pub Reserved3: usize,
     pub Reserved4: usize,
 }
+
 impl Default for SYSTEM_EXTENDED_THREAD_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_EXTENDED_THREAD_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_EXTENDED_THREAD_INFORMATION {{ ThreadInfo: {:?}, TebBase: {:?} }}", self.ThreadInfo, self.TebBase)
+        write!(
+            f,
+            "SYSTEM_EXTENDED_THREAD_INFORMATION {{ ThreadInfo: {:?}, TebBase: {:?} }}",
+            self.ThreadInfo, self.TebBase
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESS_INFORMATION {
     pub NextEntryOffset: u32,
@@ -2114,31 +2681,41 @@ pub struct SYSTEM_PROCESS_INFORMATION {
     pub OtherTransferCount: i64,
     pub Threads: [SYSTEM_THREAD_INFORMATION; 1],
 }
+
 impl Default for SYSTEM_PROCESS_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_PROCESS_INFORMATION {{ Threads: {:?} }}", self.Threads)
+        write!(
+            f,
+            "SYSTEM_PROCESS_INFORMATION {{ Threads: {:?} }}",
+            self.Threads
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_CALL_COUNT_INFORMATION {
     pub Length: u32,
     pub NumberOfTables: u32,
 }
+
 impl Default for SYSTEM_CALL_COUNT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_CALL_COUNT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_CALL_COUNT_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_DEVICE_INFORMATION {
     pub NumberOfDisks: u32,
@@ -2148,16 +2725,19 @@ pub struct SYSTEM_DEVICE_INFORMATION {
     pub NumberOfSerialPorts: u32,
     pub NumberOfParallelPorts: u32,
 }
+
 impl Default for SYSTEM_DEVICE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_DEVICE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_DEVICE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION {
     pub IdleTime: i64,
@@ -2167,46 +2747,59 @@ pub struct SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION {
     pub InterruptTime: i64,
     pub InterruptCount: u32,
 }
+
 impl Default for SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_FLAGS_INFORMATION {
     pub Flags: u32,
 }
+
 impl Default for SYSTEM_FLAGS_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_FLAGS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_FLAGS_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_CALL_TIME_INFORMATION {
     pub Length: u32,
     pub TotalCalls: u32,
     pub TimeOfCalls: [i64; 1],
 }
+
 impl Default for SYSTEM_CALL_TIME_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_CALL_TIME_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_CALL_TIME_INFORMATION {{ TimeOfCalls: {:?} }}", self.TimeOfCalls)
+        write!(
+            f,
+            "SYSTEM_CALL_TIME_INFORMATION {{ TimeOfCalls: {:?} }}",
+            self.TimeOfCalls
+        )
     }
 }
+
 #[repr(C)]
 pub struct RTL_PROCESS_LOCK_INFORMATION {
     pub Address: *mut std::ffi::c_void,
@@ -2220,31 +2813,37 @@ pub struct RTL_PROCESS_LOCK_INFORMATION {
     pub NumberOfWaitingShared: u32,
     pub NumberOfWaitingExclusive: u32,
 }
+
 impl Default for RTL_PROCESS_LOCK_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for RTL_PROCESS_LOCK_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "RTL_PROCESS_LOCK_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct RTL_PROCESS_LOCKS {
     pub NumberOfLocks: u32,
     pub Locks: [RTL_PROCESS_LOCK_INFORMATION; 1],
 }
+
 impl Default for RTL_PROCESS_LOCKS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for RTL_PROCESS_LOCKS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "RTL_PROCESS_LOCKS {{ Locks: {:?} }}", self.Locks)
     }
 }
+
 #[repr(C)]
 pub struct RTL_PROCESS_BACKTRACE_INFORMATION {
     pub SymbolicBackTrace: *mut i8,
@@ -2253,16 +2852,23 @@ pub struct RTL_PROCESS_BACKTRACE_INFORMATION {
     pub Depth: u16,
     pub BackTrace: [*mut std::ffi::c_void; 32],
 }
+
 impl Default for RTL_PROCESS_BACKTRACE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for RTL_PROCESS_BACKTRACE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_PROCESS_BACKTRACE_INFORMATION {{ BackTrace: {:?} }}", self.BackTrace)
+        write!(
+            f,
+            "RTL_PROCESS_BACKTRACE_INFORMATION {{ BackTrace: {:?} }}",
+            self.BackTrace
+        )
     }
 }
+
 #[repr(C)]
 pub struct RTL_PROCESS_BACKTRACES {
     pub CommittedMemory: u32,
@@ -2271,16 +2877,23 @@ pub struct RTL_PROCESS_BACKTRACES {
     pub NumberOfBackTraces: u32,
     pub BackTraces: [RTL_PROCESS_BACKTRACE_INFORMATION; 1],
 }
+
 impl Default for RTL_PROCESS_BACKTRACES {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for RTL_PROCESS_BACKTRACES {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_PROCESS_BACKTRACES {{ BackTraces: {:?} }}", self.BackTraces)
+        write!(
+            f,
+            "RTL_PROCESS_BACKTRACES {{ BackTraces: {:?} }}",
+            self.BackTraces
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_HANDLE_TABLE_ENTRY_INFO {
     pub UniqueProcessId: u16,
@@ -2291,31 +2904,41 @@ pub struct SYSTEM_HANDLE_TABLE_ENTRY_INFO {
     pub Object: *mut std::ffi::c_void,
     pub GrantedAccess: u32,
 }
+
 impl Default for SYSTEM_HANDLE_TABLE_ENTRY_INFO {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_HANDLE_TABLE_ENTRY_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_HANDLE_TABLE_ENTRY_INFO {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_HANDLE_INFORMATION {
     pub NumberOfHandles: u32,
     pub Handles: [SYSTEM_HANDLE_TABLE_ENTRY_INFO; 1],
 }
+
 impl Default for SYSTEM_HANDLE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_HANDLE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_HANDLE_INFORMATION {{ Handles: {:?} }}", self.Handles)
+        write!(
+            f,
+            "SYSTEM_HANDLE_INFORMATION {{ Handles: {:?} }}",
+            self.Handles
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_OBJECTTYPE_INFORMATION {
     pub NextEntryOffset: u32,
@@ -2330,16 +2953,19 @@ pub struct SYSTEM_OBJECTTYPE_INFORMATION {
     pub WaitableObject: BOOLEAN,
     pub TypeName: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_OBJECTTYPE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_OBJECTTYPE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_OBJECTTYPE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_OBJECT_INFORMATION {
     pub NextEntryOffset: u32,
@@ -2355,16 +2981,19 @@ pub struct SYSTEM_OBJECT_INFORMATION {
     pub SecurityDescriptor: *mut std::ffi::c_void,
     pub NameInfo: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_OBJECT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_OBJECT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_OBJECT_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PAGEFILE_INFORMATION {
     pub NextEntryOffset: u32,
@@ -2373,16 +3002,19 @@ pub struct SYSTEM_PAGEFILE_INFORMATION {
     pub PeakUsage: u32,
     pub PageFileName: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_PAGEFILE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PAGEFILE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PAGEFILE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_VDM_INSTEMUL_INFO {
     pub SegmentNotPresent: u32,
@@ -2420,16 +3052,19 @@ pub struct SYSTEM_VDM_INSTEMUL_INFO {
     pub OpcodeSTI: u32,
     pub BopCount: u32,
 }
+
 impl Default for SYSTEM_VDM_INSTEMUL_INFO {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_VDM_INSTEMUL_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_VDM_INSTEMUL_INFO {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_FILECACHE_INFORMATION {
     pub CurrentSize: usize,
@@ -2442,32 +3077,38 @@ pub struct SYSTEM_FILECACHE_INFORMATION {
     pub TransitionRePurposeCount: u32,
     pub Flags: u32,
 }
+
 impl Default for SYSTEM_FILECACHE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_FILECACHE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_FILECACHE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_BASIC_WORKING_SET_INFORMATION {
     pub CurrentSize: usize,
     pub PeakSize: usize,
     pub PageFaultCount: u32,
 }
+
 impl Default for SYSTEM_BASIC_WORKING_SET_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BASIC_WORKING_SET_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_BASIC_WORKING_SET_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_POOLTAG {
     pub Anonymous1: SYSTEM_POOLTAG_1,
@@ -2478,47 +3119,60 @@ pub struct SYSTEM_POOLTAG {
     pub NonPagedFrees: u32,
     pub NonPagedUsed: usize,
 }
+
 #[repr(C)]
 pub struct SYSTEM_POOLTAG_1 {
     pub Tag: UnionField<[u8; 4]>,
     pub TagUlong: UnionField<u32>,
     pub union_field: u32,
 }
+
 impl Default for SYSTEM_POOLTAG_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POOLTAG_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_POOLTAG_1 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_POOLTAG {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POOLTAG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_POOLTAG {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_POOLTAG_INFORMATION {
     pub Count: u32,
     pub TagInfo: [SYSTEM_POOLTAG; 1],
 }
+
 impl Default for SYSTEM_POOLTAG_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POOLTAG_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_POOLTAG_INFORMATION {{ TagInfo: {:?} }}", self.TagInfo)
+        write!(
+            f,
+            "SYSTEM_POOLTAG_INFORMATION {{ TagInfo: {:?} }}",
+            self.TagInfo
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_INTERRUPT_INFORMATION {
     pub ContextSwitches: u32,
@@ -2528,16 +3182,19 @@ pub struct SYSTEM_INTERRUPT_INFORMATION {
     pub DpcBypassCount: u32,
     pub ApcBypassCount: u32,
 }
+
 impl Default for SYSTEM_INTERRUPT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_INTERRUPT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_INTERRUPT_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_DPC_BEHAVIOR_INFORMATION {
     pub Spare: u32,
@@ -2546,78 +3203,93 @@ pub struct SYSTEM_DPC_BEHAVIOR_INFORMATION {
     pub AdjustDpcThreshold: u32,
     pub IdealDpcRate: u32,
 }
+
 impl Default for SYSTEM_DPC_BEHAVIOR_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_DPC_BEHAVIOR_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_DPC_BEHAVIOR_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_QUERY_TIME_ADJUST_INFORMATION {
     pub TimeAdjustment: u32,
     pub TimeIncrement: u32,
     pub Enable: BOOLEAN,
 }
+
 impl Default for SYSTEM_QUERY_TIME_ADJUST_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_QUERY_TIME_ADJUST_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_QUERY_TIME_ADJUST_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_QUERY_TIME_ADJUST_INFORMATION_PRECISE {
     pub TimeAdjustment: u64,
     pub TimeIncrement: u64,
     pub Enable: BOOLEAN,
 }
+
 impl Default for SYSTEM_QUERY_TIME_ADJUST_INFORMATION_PRECISE {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_QUERY_TIME_ADJUST_INFORMATION_PRECISE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_QUERY_TIME_ADJUST_INFORMATION_PRECISE {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SET_TIME_ADJUST_INFORMATION {
     pub TimeAdjustment: u32,
     pub Enable: BOOLEAN,
 }
+
 impl Default for SYSTEM_SET_TIME_ADJUST_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SET_TIME_ADJUST_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SET_TIME_ADJUST_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SET_TIME_ADJUST_INFORMATION_PRECISE {
     pub TimeAdjustment: u64,
     pub Enable: BOOLEAN,
 }
+
 impl Default for SYSTEM_SET_TIME_ADJUST_INFORMATION_PRECISE {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SET_TIME_ADJUST_INFORMATION_PRECISE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SET_TIME_ADJUST_INFORMATION_PRECISE {{  }}")
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EVENT_TRACE_INFORMATION_CLASS {
@@ -2650,142 +3322,186 @@ pub enum EVENT_TRACE_INFORMATION_CLASS {
     EventTraceUnifiedStackCachingInformation = 26,
     MaxEventTraceInfoClass = 27,
 }
+
 #[repr(C)]
 pub struct TRACE_ENABLE_FLAG_EXTENSION {
     pub Offset: u16,
     pub Length: u8,
     pub Flag: u8,
 }
+
 impl Default for TRACE_ENABLE_FLAG_EXTENSION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for TRACE_ENABLE_FLAG_EXTENSION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "TRACE_ENABLE_FLAG_EXTENSION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct TRACE_ENABLE_FLAG_EXT_HEADER {
     pub Length: u16,
     pub Items: u16,
 }
+
 impl Default for TRACE_ENABLE_FLAG_EXT_HEADER {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for TRACE_ENABLE_FLAG_EXT_HEADER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "TRACE_ENABLE_FLAG_EXT_HEADER {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct TRACE_ENABLE_FLAG_EXT_ITEM {
     pub Offset: u16,
     pub Type: u16,
 }
+
 impl Default for TRACE_ENABLE_FLAG_EXT_ITEM {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for TRACE_ENABLE_FLAG_EXT_ITEM {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "TRACE_ENABLE_FLAG_EXT_ITEM {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ETW_STACK_CACHING_CONFIG {
     pub CacheSize: u32,
     pub BucketCount: u32,
 }
+
 impl Default for ETW_STACK_CACHING_CONFIG {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ETW_STACK_CACHING_CONFIG {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ETW_STACK_CACHING_CONFIG {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct PERFINFO_GROUPMASK {
     pub Masks: [u32; 8],
 }
+
 impl Default for PERFINFO_GROUPMASK {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PERFINFO_GROUPMASK {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "PERFINFO_GROUPMASK {{ Masks: {:?} }}", self.Masks)
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_VERSION_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub EventTraceKernelVersion: u32,
 }
+
 impl Default for EVENT_TRACE_VERSION_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_VERSION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_VERSION_INFORMATION {{ EventTraceInformationClass: {:?} }}", self.EventTraceInformationClass)
+        write!(
+            f,
+            "EVENT_TRACE_VERSION_INFORMATION {{ EventTraceInformationClass: {:?} }}",
+            self.EventTraceInformationClass
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_GROUPMASK_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub TraceHandle: TRACEHANDLE,
     pub EventTraceGroupMasks: PERFINFO_GROUPMASK,
 }
+
 impl Default for EVENT_TRACE_GROUPMASK_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_GROUPMASK_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_GROUPMASK_INFORMATION {{ EventTraceInformationClass: {:?}, EventTraceGroupMasks: {:?} }}", self.EventTraceInformationClass, self.EventTraceGroupMasks)
+        write!(
+            f,
+            "EVENT_TRACE_GROUPMASK_INFORMATION {{ EventTraceInformationClass: {:?}, EventTraceGroupMasks: {:?} }}",
+            self.EventTraceInformationClass, self.EventTraceGroupMasks
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_PERFORMANCE_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub LogfileBytesWritten: i64,
 }
+
 impl Default for EVENT_TRACE_PERFORMANCE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_PERFORMANCE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_PERFORMANCE_INFORMATION {{ EventTraceInformationClass: {:?} }}", self.EventTraceInformationClass)
+        write!(
+            f,
+            "EVENT_TRACE_PERFORMANCE_INFORMATION {{ EventTraceInformationClass: {:?} }}",
+            self.EventTraceInformationClass
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_TIME_PROFILE_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub ProfileInterval: u32,
 }
+
 impl Default for EVENT_TRACE_TIME_PROFILE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_TIME_PROFILE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_TIME_PROFILE_INFORMATION {{ EventTraceInformationClass: {:?} }}", self.EventTraceInformationClass)
+        write!(
+            f,
+            "EVENT_TRACE_TIME_PROFILE_INFORMATION {{ EventTraceInformationClass: {:?} }}",
+            self.EventTraceInformationClass
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_SESSION_SECURITY_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
@@ -2793,16 +3509,23 @@ pub struct EVENT_TRACE_SESSION_SECURITY_INFORMATION {
     pub TraceHandle: TRACEHANDLE,
     pub SecurityDescriptor: [u8; 1],
 }
+
 impl Default for EVENT_TRACE_SESSION_SECURITY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_SESSION_SECURITY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_SESSION_SECURITY_INFORMATION {{ EventTraceInformationClass: {:?}, SecurityDescriptor: {:?} }}", self.EventTraceInformationClass, self.SecurityDescriptor)
+        write!(
+            f,
+            "EVENT_TRACE_SESSION_SECURITY_INFORMATION {{ EventTraceInformationClass: {:?}, SecurityDescriptor: {:?} }}",
+            self.EventTraceInformationClass, self.SecurityDescriptor
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_SPINLOCK_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
@@ -2811,32 +3534,46 @@ pub struct EVENT_TRACE_SPINLOCK_INFORMATION {
     pub SpinLockContentionSampleRate: u32,
     pub SpinLockHoldThreshold: u32,
 }
+
 impl Default for EVENT_TRACE_SPINLOCK_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_SPINLOCK_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_SPINLOCK_INFORMATION {{ EventTraceInformationClass: {:?} }}", self.EventTraceInformationClass)
+        write!(
+            f,
+            "EVENT_TRACE_SPINLOCK_INFORMATION {{ EventTraceInformationClass: {:?} }}",
+            self.EventTraceInformationClass
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_SYSTEM_EVENT_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub TraceHandle: TRACEHANDLE,
     pub HookId: [u32; 1],
 }
+
 impl Default for EVENT_TRACE_SYSTEM_EVENT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_SYSTEM_EVENT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_SYSTEM_EVENT_INFORMATION {{ EventTraceInformationClass: {:?}, HookId: {:?} }}", self.EventTraceInformationClass, self.HookId)
+        write!(
+            f,
+            "EVENT_TRACE_SYSTEM_EVENT_INFORMATION {{ EventTraceInformationClass: {:?}, HookId: {:?} }}",
+            self.EventTraceInformationClass, self.HookId
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_EXECUTIVE_RESOURCE_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
@@ -2844,79 +3581,114 @@ pub struct EVENT_TRACE_EXECUTIVE_RESOURCE_INFORMATION {
     pub ContentionSamplingRate: u32,
     pub NumberOfExcessiveTimeouts: u32,
 }
+
 impl Default for EVENT_TRACE_EXECUTIVE_RESOURCE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_EXECUTIVE_RESOURCE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_EXECUTIVE_RESOURCE_INFORMATION {{ EventTraceInformationClass: {:?} }}", self.EventTraceInformationClass)
+        write!(
+            f,
+            "EVENT_TRACE_EXECUTIVE_RESOURCE_INFORMATION {{ EventTraceInformationClass: {:?} }}",
+            self.EventTraceInformationClass
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_HEAP_TRACING_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub ProcessId: [u32; 1],
 }
+
 impl Default for EVENT_TRACE_HEAP_TRACING_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_HEAP_TRACING_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_HEAP_TRACING_INFORMATION {{ EventTraceInformationClass: {:?}, ProcessId: {:?} }}", self.EventTraceInformationClass, self.ProcessId)
+        write!(
+            f,
+            "EVENT_TRACE_HEAP_TRACING_INFORMATION {{ EventTraceInformationClass: {:?}, ProcessId: {:?} }}",
+            self.EventTraceInformationClass, self.ProcessId
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_TAG_FILTER_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub TraceHandle: TRACEHANDLE,
     pub Filter: [u32; 1],
 }
+
 impl Default for EVENT_TRACE_TAG_FILTER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_TAG_FILTER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_TAG_FILTER_INFORMATION {{ EventTraceInformationClass: {:?}, Filter: {:?} }}", self.EventTraceInformationClass, self.Filter)
+        write!(
+            f,
+            "EVENT_TRACE_TAG_FILTER_INFORMATION {{ EventTraceInformationClass: {:?}, Filter: {:?} }}",
+            self.EventTraceInformationClass, self.Filter
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_PROFILE_COUNTER_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub TraceHandle: TRACEHANDLE,
     pub ProfileSource: [u32; 1],
 }
+
 impl Default for EVENT_TRACE_PROFILE_COUNTER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_PROFILE_COUNTER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_PROFILE_COUNTER_INFORMATION {{ EventTraceInformationClass: {:?}, ProfileSource: {:?} }}", self.EventTraceInformationClass, self.ProfileSource)
+        write!(
+            f,
+            "EVENT_TRACE_PROFILE_COUNTER_INFORMATION {{ EventTraceInformationClass: {:?}, ProfileSource: {:?} }}",
+            self.EventTraceInformationClass, self.ProfileSource
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_PROFILE_LIST_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub Spare: u32,
     pub Profile: [*mut PROFILE_SOURCE_INFO; 1],
 }
+
 impl Default for EVENT_TRACE_PROFILE_LIST_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_PROFILE_LIST_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_PROFILE_LIST_INFORMATION {{ EventTraceInformationClass: {:?}, Profile: {:?} }}", self.EventTraceInformationClass, self.Profile)
+        write!(
+            f,
+            "EVENT_TRACE_PROFILE_LIST_INFORMATION {{ EventTraceInformationClass: {:?}, Profile: {:?} }}",
+            self.EventTraceInformationClass, self.Profile
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_STACK_CACHING_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
@@ -2926,16 +3698,23 @@ pub struct EVENT_TRACE_STACK_CACHING_INFORMATION {
     pub CacheSize: u32,
     pub BucketCount: u32,
 }
+
 impl Default for EVENT_TRACE_STACK_CACHING_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_STACK_CACHING_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_STACK_CACHING_INFORMATION {{ EventTraceInformationClass: {:?}, Reserved: {:?} }}", self.EventTraceInformationClass, self.Reserved)
+        write!(
+            f,
+            "EVENT_TRACE_STACK_CACHING_INFORMATION {{ EventTraceInformationClass: {:?}, Reserved: {:?} }}",
+            self.EventTraceInformationClass, self.Reserved
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_SOFT_RESTART_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
@@ -2943,16 +3722,23 @@ pub struct EVENT_TRACE_SOFT_RESTART_INFORMATION {
     pub PersistTraceBuffers: BOOLEAN,
     pub FileName: [u16; 1],
 }
+
 impl Default for EVENT_TRACE_SOFT_RESTART_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_SOFT_RESTART_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_SOFT_RESTART_INFORMATION {{ EventTraceInformationClass: {:?}, FileName: {:?} }}", self.EventTraceInformationClass, self.FileName)
+        write!(
+            f,
+            "EVENT_TRACE_SOFT_RESTART_INFORMATION {{ EventTraceInformationClass: {:?}, FileName: {:?} }}",
+            self.EventTraceInformationClass, self.FileName
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_PROFILE_ADD_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
@@ -2965,32 +3751,46 @@ pub struct EVENT_TRACE_PROFILE_ADD_INFORMATION {
     pub Persist: BOOLEAN,
     pub ProfileSourceDescription: [u16; 1],
 }
+
 impl Default for EVENT_TRACE_PROFILE_ADD_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_PROFILE_ADD_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_PROFILE_ADD_INFORMATION {{ EventTraceInformationClass: {:?}, CpuInfoHierarchy: {:?}, ProfileSourceDescription: {:?} }}", self.EventTraceInformationClass, self.CpuInfoHierarchy, self.ProfileSourceDescription)
+        write!(
+            f,
+            "EVENT_TRACE_PROFILE_ADD_INFORMATION {{ EventTraceInformationClass: {:?}, CpuInfoHierarchy: {:?}, ProfileSourceDescription: {:?} }}",
+            self.EventTraceInformationClass, self.CpuInfoHierarchy, self.ProfileSourceDescription
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_PROFILE_REMOVE_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub ProfileSource: KPROFILE_SOURCE,
     pub CpuInfoHierarchy: [u32; 3],
 }
+
 impl Default for EVENT_TRACE_PROFILE_REMOVE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_PROFILE_REMOVE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_PROFILE_REMOVE_INFORMATION {{ EventTraceInformationClass: {:?}, CpuInfoHierarchy: {:?} }}", self.EventTraceInformationClass, self.CpuInfoHierarchy)
+        write!(
+            f,
+            "EVENT_TRACE_PROFILE_REMOVE_INFORMATION {{ EventTraceInformationClass: {:?}, CpuInfoHierarchy: {:?} }}",
+            self.EventTraceInformationClass, self.CpuInfoHierarchy
+        )
     }
 }
+
 #[repr(C)]
 pub struct EVENT_TRACE_COVERAGE_SAMPLER_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
@@ -3000,16 +3800,23 @@ pub struct EVENT_TRACE_COVERAGE_SAMPLER_INFORMATION {
     pub Reserved: u8,
     pub SamplerHandle: HANDLE,
 }
+
 impl Default for EVENT_TRACE_COVERAGE_SAMPLER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for EVENT_TRACE_COVERAGE_SAMPLER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "EVENT_TRACE_COVERAGE_SAMPLER_INFORMATION {{ EventTraceInformationClass: {:?} }}", self.EventTraceInformationClass)
+        write!(
+            f,
+            "EVENT_TRACE_COVERAGE_SAMPLER_INFORMATION {{ EventTraceInformationClass: {:?} }}",
+            self.EventTraceInformationClass
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_EXCEPTION_INFORMATION {
     pub AlignmentFixupCount: u32,
@@ -3017,16 +3824,19 @@ pub struct SYSTEM_EXCEPTION_INFORMATION {
     pub FloatingEmulationCount: u32,
     pub ByteWordEmulationCount: u32,
 }
+
 impl Default for SYSTEM_EXCEPTION_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_EXCEPTION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_EXCEPTION_INFORMATION {{  }}")
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSTEM_CRASH_DUMP_CONFIGURATION_CLASS {
@@ -3034,31 +3844,37 @@ pub enum SYSTEM_CRASH_DUMP_CONFIGURATION_CLASS {
     SystemCrashDumpReconfigure = 1,
     SystemCrashDumpInitializationComplete = 2,
 }
+
 #[repr(C)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct SYSTEM_CRASH_DUMP_STATE_INFORMATION {
     pub CrashDumpConfigurationClass: SYSTEM_CRASH_DUMP_CONFIGURATION_CLASS,
 }
+
 impl Default for SYSTEM_CRASH_DUMP_STATE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_KERNEL_DEBUGGER_INFORMATION {
     pub KernelDebuggerEnabled: BOOLEAN,
     pub KernelDebuggerNotPresent: BOOLEAN,
 }
+
 impl Default for SYSTEM_KERNEL_DEBUGGER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_KERNEL_DEBUGGER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_KERNEL_DEBUGGER_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_CONTEXT_SWITCH_INFORMATION {
     pub ContextSwitches: u32,
@@ -3074,32 +3890,38 @@ pub struct SYSTEM_CONTEXT_SWITCH_INFORMATION {
     pub PreemptLast: u32,
     pub SwitchToIdle: u32,
 }
+
 impl Default for SYSTEM_CONTEXT_SWITCH_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_CONTEXT_SWITCH_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_CONTEXT_SWITCH_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_REGISTRY_QUOTA_INFORMATION {
     pub RegistryQuotaAllowed: u32,
     pub RegistryQuotaUsed: u32,
     pub PagedPoolSize: usize,
 }
+
 impl Default for SYSTEM_REGISTRY_QUOTA_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_REGISTRY_QUOTA_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_REGISTRY_QUOTA_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_IDLE_INFORMATION {
     pub IdleTime: u64,
@@ -3111,31 +3933,37 @@ pub struct SYSTEM_PROCESSOR_IDLE_INFORMATION {
     pub C3Transitions: u32,
     pub Padding: u32,
 }
+
 impl Default for SYSTEM_PROCESSOR_IDLE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_IDLE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PROCESSOR_IDLE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_LEGACY_DRIVER_INFORMATION {
     pub VetoType: u32,
     pub VetoList: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_LEGACY_DRIVER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_LEGACY_DRIVER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_LEGACY_DRIVER_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_LOOKASIDE_INFORMATION {
     pub CurrentDepth: u16,
@@ -3148,30 +3976,36 @@ pub struct SYSTEM_LOOKASIDE_INFORMATION {
     pub Tag: u32,
     pub Size: u32,
 }
+
 impl Default for SYSTEM_LOOKASIDE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_LOOKASIDE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_LOOKASIDE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_RANGE_START_INFORMATION {
     pub SystemRangeStart: usize,
 }
+
 impl Default for SYSTEM_RANGE_START_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_RANGE_START_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_RANGE_START_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_VERIFIER_INFORMATION_LEGACY {
     pub NextEntryOffset: u32,
@@ -3200,16 +4034,19 @@ pub struct SYSTEM_VERIFIER_INFORMATION_LEGACY {
     pub PeakPagedPoolUsageInBytes: usize,
     pub PeakNonPagedPoolUsageInBytes: usize,
 }
+
 impl Default for SYSTEM_VERIFIER_INFORMATION_LEGACY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_VERIFIER_INFORMATION_LEGACY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_VERIFIER_INFORMATION_LEGACY {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_VERIFIER_INFORMATION {
     pub NextEntryOffset: u32,
@@ -3241,32 +4078,42 @@ pub struct SYSTEM_VERIFIER_INFORMATION {
     pub PeakPagedPoolUsageInBytes: usize,
     pub PeakNonPagedPoolUsageInBytes: usize,
 }
+
 impl Default for SYSTEM_VERIFIER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_VERIFIER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_VERIFIER_INFORMATION {{ RuleClasses: {:?} }}", self.RuleClasses)
+        write!(
+            f,
+            "SYSTEM_VERIFIER_INFORMATION {{ RuleClasses: {:?} }}",
+            self.RuleClasses
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SESSION_PROCESS_INFORMATION {
     pub SessionId: u32,
     pub SizeOfBuf: u32,
     pub Buffer: *mut std::ffi::c_void,
 }
+
 impl Default for SYSTEM_SESSION_PROCESS_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SESSION_PROCESS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SESSION_PROCESS_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_GDI_DRIVER_INFORMATION {
     pub DriverName: UNICODE_STRING,
@@ -3276,22 +4123,26 @@ pub struct SYSTEM_GDI_DRIVER_INFORMATION {
     pub ExportSectionPointer: *mut IMAGE_EXPORT_DIRECTORY,
     pub ImageLength: u32,
 }
+
 impl Default for SYSTEM_GDI_DRIVER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_GDI_DRIVER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_GDI_DRIVER_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_NUMA_INFORMATION {
     pub HighestNodeNumber: u32,
     pub Reserved: u32,
     pub Anonymous1: SYSTEM_NUMA_INFORMATION_1,
 }
+
 #[repr(C)]
 pub struct SYSTEM_NUMA_INFORMATION_1 {
     pub ActiveProcessorsGroupAffinity: UnionField<[GROUP_AFFINITY; 64]>,
@@ -3299,26 +4150,35 @@ pub struct SYSTEM_NUMA_INFORMATION_1 {
     pub Pad: UnionField<[u64; 128]>,
     pub union_field: [u64; 128],
 }
+
 impl Default for SYSTEM_NUMA_INFORMATION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_NUMA_INFORMATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_NUMA_INFORMATION_1 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_NUMA_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_NUMA_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_NUMA_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
+        write!(
+            f,
+            "SYSTEM_NUMA_INFORMATION {{ Anonymous1: {:?} }}",
+            self.Anonymous1
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_POWER_INFORMATION {
     pub CurrentFrequency: u8,
@@ -3342,16 +4202,19 @@ pub struct SYSTEM_PROCESSOR_POWER_INFORMATION {
     pub LastProcessorIdleTime: u64,
     pub Energy: u64,
 }
+
 impl Default for SYSTEM_PROCESSOR_POWER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_POWER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PROCESSOR_POWER_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX {
     pub Object: *mut std::ffi::c_void,
@@ -3363,38 +4226,49 @@ pub struct SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX {
     pub HandleAttributes: u32,
     pub Reserved: u32,
 }
+
 impl Default for SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_HANDLE_INFORMATION_EX {
     pub NumberOfHandles: usize,
     pub Reserved: usize,
     pub Handles: [SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX; 1],
 }
+
 impl Default for SYSTEM_HANDLE_INFORMATION_EX {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_HANDLE_INFORMATION_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_HANDLE_INFORMATION_EX {{ Handles: {:?} }}", self.Handles)
+        write!(
+            f,
+            "SYSTEM_HANDLE_INFORMATION_EX {{ Handles: {:?} }}",
+            self.Handles
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_BIGPOOL_ENTRY {
     pub Anonymous1: SYSTEM_BIGPOOL_ENTRY_1,
     pub SizeInBytes: usize,
     pub Anonymous2: SYSTEM_BIGPOOL_ENTRY_2,
 }
+
 #[repr(C)]
 pub struct SYSTEM_BIGPOOL_ENTRY_1 {
     pub VirtualAddress: UnionField<*mut std::ffi::c_void>,
@@ -3402,79 +4276,105 @@ pub struct SYSTEM_BIGPOOL_ENTRY_1 {
     _bitfield_1: UnionField<BitfieldUnit<[u8; 1]>>,
     pub union_field: u64,
 }
+
 impl Default for SYSTEM_BIGPOOL_ENTRY_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BIGPOOL_ENTRY_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_BIGPOOL_ENTRY_1 {{ union }}")
     }
 }
+
 impl SYSTEM_BIGPOOL_ENTRY_1 {
     #[inline]
     pub fn NonPaged(&self) -> usize {
         unsafe { std::mem::transmute(self._bitfield_1.as_ref().get(0usize, 1u8)) }
     }
+
     #[inline]
     pub fn set_NonPaged(&mut self, val: usize) {
         unsafe {
             let val: u64 = std::mem::transmute(val);
+
             self._bitfield_1.as_mut().set(0usize, 1u8, val as u64)
         }
     }
+
     #[inline]
     pub fn new_bitfield_1(NonPaged: usize) -> BitfieldUnit<[u8; 1]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, {
             let NonPaged: u64 = unsafe { std::mem::transmute(NonPaged) };
+
             NonPaged as u64
         });
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_BIGPOOL_ENTRY_2 {
     pub Tag: UnionField<[u8; 4]>,
     pub TagUlong: UnionField<u32>,
     pub union_field: u32,
 }
+
 impl Default for SYSTEM_BIGPOOL_ENTRY_2 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BIGPOOL_ENTRY_2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_BIGPOOL_ENTRY_2 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_BIGPOOL_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BIGPOOL_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_BIGPOOL_ENTRY {{ Anonymous1: {:?}, Anonymous2: {:?} }}", self.Anonymous1, self.Anonymous2)
+        write!(
+            f,
+            "SYSTEM_BIGPOOL_ENTRY {{ Anonymous1: {:?}, Anonymous2: {:?} }}",
+            self.Anonymous1, self.Anonymous2
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_BIGPOOL_INFORMATION {
     pub Count: u32,
     pub AllocatedInfo: [SYSTEM_BIGPOOL_ENTRY; 1],
 }
+
 impl Default for SYSTEM_BIGPOOL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BIGPOOL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_BIGPOOL_INFORMATION {{ AllocatedInfo: {:?} }}", self.AllocatedInfo)
+        write!(
+            f,
+            "SYSTEM_BIGPOOL_INFORMATION {{ AllocatedInfo: {:?} }}",
+            self.AllocatedInfo
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_POOL_ENTRY {
     pub Allocated: BOOLEAN,
@@ -3483,6 +4383,7 @@ pub struct SYSTEM_POOL_ENTRY {
     pub Size: u32,
     pub Anonymous1: SYSTEM_POOL_ENTRY_1,
 }
+
 #[repr(C)]
 pub struct SYSTEM_POOL_ENTRY_1 {
     pub Tag: UnionField<[u8; 4]>,
@@ -3490,26 +4391,35 @@ pub struct SYSTEM_POOL_ENTRY_1 {
     pub ProcessChargedQuota: UnionField<*mut std::ffi::c_void>,
     pub union_field: u64,
 }
+
 impl Default for SYSTEM_POOL_ENTRY_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POOL_ENTRY_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_POOL_ENTRY_1 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_POOL_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POOL_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_POOL_ENTRY {{ Anonymous1: {:?} }}", self.Anonymous1)
+        write!(
+            f,
+            "SYSTEM_POOL_ENTRY {{ Anonymous1: {:?} }}",
+            self.Anonymous1
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_POOL_INFORMATION {
     pub TotalSize: usize,
@@ -3520,16 +4430,23 @@ pub struct SYSTEM_POOL_INFORMATION {
     pub NumberOfEntries: u32,
     pub Entries: [SYSTEM_POOL_ENTRY; 1],
 }
+
 impl Default for SYSTEM_POOL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POOL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_POOL_INFORMATION {{ Entries: {:?} }}", self.Entries)
+        write!(
+            f,
+            "SYSTEM_POOL_INFORMATION {{ Entries: {:?} }}",
+            self.Entries
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SESSION_POOLTAG_INFORMATION {
     pub NextEntryOffset: usize,
@@ -3537,16 +4454,23 @@ pub struct SYSTEM_SESSION_POOLTAG_INFORMATION {
     pub Count: u32,
     pub TagInfo: [SYSTEM_POOLTAG; 1],
 }
+
 impl Default for SYSTEM_SESSION_POOLTAG_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SESSION_POOLTAG_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_SESSION_POOLTAG_INFORMATION {{ TagInfo: {:?} }}", self.TagInfo)
+        write!(
+            f,
+            "SYSTEM_SESSION_POOLTAG_INFORMATION {{ TagInfo: {:?} }}",
+            self.TagInfo
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SESSION_MAPPED_VIEW_INFORMATION {
     pub NextEntryOffset: usize,
@@ -3555,16 +4479,19 @@ pub struct SYSTEM_SESSION_MAPPED_VIEW_INFORMATION {
     pub NumberOfBytesAvailable: usize,
     pub NumberOfBytesAvailableContiguous: usize,
 }
+
 impl Default for SYSTEM_SESSION_MAPPED_VIEW_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SESSION_MAPPED_VIEW_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SESSION_MAPPED_VIEW_INFORMATION {{  }}")
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum WATCHDOG_HANDLER_ACTION {
@@ -3577,22 +4504,38 @@ pub enum WATCHDOG_HANDLER_ACTION {
     WdActionQueryTriggerAction = 6,
     WdActionQueryState = 7,
 }
-pub type PSYSTEM_WATCHDOG_HANDLER = std::option::Option<unsafe extern "system" fn(Action: WATCHDOG_HANDLER_ACTION, Context: *mut std::ffi::c_void, DataValue: *mut u32, NoLocks: BOOLEAN) -> NTSTATUS>;
+
+pub type PSYSTEM_WATCHDOG_HANDLER = std::option::Option<
+    unsafe extern "system" fn(
+        Action: WATCHDOG_HANDLER_ACTION,
+        Context: *mut std::ffi::c_void,
+        DataValue: *mut u32,
+        NoLocks: BOOLEAN,
+    ) -> NTSTATUS,
+>;
+
 #[repr(C)]
 pub struct SYSTEM_WATCHDOG_HANDLER_INFORMATION {
     pub WdHandler: PSYSTEM_WATCHDOG_HANDLER,
     pub Context: *mut std::ffi::c_void,
 }
+
 impl Default for SYSTEM_WATCHDOG_HANDLER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_WATCHDOG_HANDLER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_WATCHDOG_HANDLER_INFORMATION {{ WdHandler: {:?} }}", self.WdHandler)
+        write!(
+            f,
+            "SYSTEM_WATCHDOG_HANDLER_INFORMATION {{ WdHandler: {:?} }}",
+            self.WdHandler
+        )
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum WATCHDOG_INFORMATION_CLASS {
@@ -3607,21 +4550,29 @@ pub enum WATCHDOG_INFORMATION_CLASS {
     WdInfoGeneratedLastReset = 8,
     WdInfoInvalid = 9,
 }
+
 #[repr(C)]
 pub struct SYSTEM_WATCHDOG_TIMER_INFORMATION {
     pub WdInfoClass: WATCHDOG_INFORMATION_CLASS,
     pub DataValue: u32,
 }
+
 impl Default for SYSTEM_WATCHDOG_TIMER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_WATCHDOG_TIMER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_WATCHDOG_TIMER_INFORMATION {{ WdInfoClass: {:?} }}", self.WdInfoClass)
+        write!(
+            f,
+            "SYSTEM_WATCHDOG_TIMER_INFORMATION {{ WdInfoClass: {:?} }}",
+            self.WdInfoClass
+        )
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSTEM_FIRMWARE_TABLE_ACTION {
@@ -3629,6 +4580,7 @@ pub enum SYSTEM_FIRMWARE_TABLE_ACTION {
     SystemFirmwareTableGet = 1,
     SystemFirmwareTableMax = 2,
 }
+
 #[repr(C)]
 pub struct SYSTEM_MEMORY_LIST_INFORMATION {
     pub ZeroPageCount: usize,
@@ -3640,16 +4592,23 @@ pub struct SYSTEM_MEMORY_LIST_INFORMATION {
     pub RepurposedPagesByPriority: [usize; 8],
     pub ModifiedPageCountPageFile: usize,
 }
+
 impl Default for SYSTEM_MEMORY_LIST_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_MEMORY_LIST_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_MEMORY_LIST_INFORMATION {{ PageCountByPriority: {:?}, RepurposedPagesByPriority: {:?} }}", self.PageCountByPriority, self.RepurposedPagesByPriority)
+        write!(
+            f,
+            "SYSTEM_MEMORY_LIST_INFORMATION {{ PageCountByPriority: {:?}, RepurposedPagesByPriority: {:?} }}",
+            self.PageCountByPriority, self.RepurposedPagesByPriority
+        )
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSTEM_MEMORY_LIST_COMMAND {
@@ -3661,51 +4620,65 @@ pub enum SYSTEM_MEMORY_LIST_COMMAND {
     MemoryPurgeLowPriorityStandbyList = 5,
     MemoryCommandMax = 6,
 }
+
 #[repr(C)]
 pub struct SYSTEM_THREAD_CID_PRIORITY_INFORMATION {
     pub ClientId: CLIENT_ID,
     pub Priority: i32,
 }
+
 impl Default for SYSTEM_THREAD_CID_PRIORITY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_THREAD_CID_PRIORITY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_THREAD_CID_PRIORITY_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_IDLE_CYCLE_TIME_INFORMATION {
     pub CycleTime: u64,
 }
+
 impl Default for SYSTEM_PROCESSOR_IDLE_CYCLE_TIME_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_IDLE_CYCLE_TIME_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PROCESSOR_IDLE_CYCLE_TIME_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_VERIFIER_ISSUE {
     pub IssueType: u64,
     pub Address: *mut std::ffi::c_void,
     pub Parameters: [u64; 2],
 }
+
 impl Default for SYSTEM_VERIFIER_ISSUE {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_VERIFIER_ISSUE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_VERIFIER_ISSUE {{ Parameters: {:?} }}", self.Parameters)
+        write!(
+            f,
+            "SYSTEM_VERIFIER_ISSUE {{ Parameters: {:?} }}",
+            self.Parameters
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_VERIFIER_CANCELLATION_INFORMATION {
     pub CancelProbability: u32,
@@ -3715,16 +4688,23 @@ pub struct SYSTEM_VERIFIER_CANCELLATION_INFORMATION {
     pub AvailableIssues: u32,
     pub Issues: [SYSTEM_VERIFIER_ISSUE; 128],
 }
+
 impl Default for SYSTEM_VERIFIER_CANCELLATION_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_VERIFIER_CANCELLATION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_VERIFIER_CANCELLATION_INFORMATION {{ Issues: {:?} }}", self.Issues)
+        write!(
+            f,
+            "SYSTEM_VERIFIER_CANCELLATION_INFORMATION {{ Issues: {:?} }}",
+            self.Issues
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_REF_TRACE_INFORMATION {
     pub TraceEnable: BOOLEAN,
@@ -3732,46 +4712,55 @@ pub struct SYSTEM_REF_TRACE_INFORMATION {
     pub TraceProcessName: UNICODE_STRING,
     pub TracePoolTags: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_REF_TRACE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_REF_TRACE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_REF_TRACE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SPECIAL_POOL_INFORMATION {
     pub PoolTag: u32,
     pub Flags: u32,
 }
+
 impl Default for SYSTEM_SPECIAL_POOL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SPECIAL_POOL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SPECIAL_POOL_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESS_ID_INFORMATION {
     pub ProcessId: HANDLE,
     pub ImageName: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_PROCESS_ID_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESS_ID_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PROCESS_ID_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_HYPERVISOR_QUERY_INFORMATION {
     pub HypervisorConnected: BOOLEAN,
@@ -3780,28 +4769,37 @@ pub struct SYSTEM_HYPERVISOR_QUERY_INFORMATION {
     pub Spare0: [BOOLEAN; 5],
     pub EnabledEnlightenments: u64,
 }
+
 impl Default for SYSTEM_HYPERVISOR_QUERY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_HYPERVISOR_QUERY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_HYPERVISOR_QUERY_INFORMATION {{ Spare0: {:?} }}", self.Spare0)
+        write!(
+            f,
+            "SYSTEM_HYPERVISOR_QUERY_INFORMATION {{ Spare0: {:?} }}",
+            self.Spare0
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_BOOT_ENVIRONMENT_INFORMATION {
     pub BootIdentifier: GUID,
     pub FirmwareType: FIRMWARE_TYPE,
     pub Anonymous1: SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1,
 }
+
 #[repr(C)]
 pub struct SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1 {
     pub BootFlags: UnionField<u64>,
     pub Anonymous1: UnionField<SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1_1>,
     pub union_field: u64,
 }
+
 #[repr(C)]
 #[repr(align(8))]
 pub struct SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1_1 {
@@ -3809,11 +4807,13 @@ pub struct SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1_1 {
     _bitfield_1: BitfieldUnit<[u8; 2]>,
     pub padding_0: [u16; 3],
 }
+
 impl Default for SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
@@ -3830,120 +4830,167 @@ impl std::fmt::Debug for SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1_1 {
         )
     }
 }
+
 impl SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1_1 {
     #[inline]
     pub fn DbgMenuOsSelection(&self) -> u64 {
         self._bitfield_1.get(0usize, 1u8)
     }
+
     #[inline]
     pub fn set_DbgMenuOsSelection(&mut self, val: u64) {
         self._bitfield_1.set(0usize, 1u8, val)
     }
+
     #[inline]
     pub fn DbgHiberBoot(&self) -> u64 {
         self._bitfield_1.get(1usize, 1u8)
     }
+
     #[inline]
     pub fn set_DbgHiberBoot(&mut self, val: u64) {
         self._bitfield_1.set(1usize, 1u8, val)
     }
+
     #[inline]
     pub fn DbgSoftBoot(&self) -> u64 {
         self._bitfield_1.get(2usize, 1u8)
     }
+
     #[inline]
     pub fn set_DbgSoftBoot(&mut self, val: u64) {
         self._bitfield_1.set(2usize, 1u8, val)
     }
+
     #[inline]
     pub fn DbgMeasuredLaunch(&self) -> u64 {
         self._bitfield_1.get(3usize, 1u8)
     }
+
     #[inline]
     pub fn set_DbgMeasuredLaunch(&mut self, val: u64) {
         self._bitfield_1.set(3usize, 1u8, val)
     }
+
     #[inline]
     pub fn DbgMeasuredLaunchCapable(&self) -> u64 {
         self._bitfield_1.get(4usize, 1u8)
     }
+
     #[inline]
     pub fn set_DbgMeasuredLaunchCapable(&mut self, val: u64) {
         self._bitfield_1.set(4usize, 1u8, val)
     }
+
     #[inline]
     pub fn DbgSystemHiveReplace(&self) -> u64 {
         self._bitfield_1.get(5usize, 1u8)
     }
+
     #[inline]
     pub fn set_DbgSystemHiveReplace(&mut self, val: u64) {
         self._bitfield_1.set(5usize, 1u8, val)
     }
+
     #[inline]
     pub fn DbgMeasuredLaunchSmmProtections(&self) -> u64 {
         self._bitfield_1.get(6usize, 1u8)
     }
+
     #[inline]
     pub fn set_DbgMeasuredLaunchSmmProtections(&mut self, val: u64) {
         self._bitfield_1.set(6usize, 1u8, val)
     }
+
     #[inline]
     pub fn DbgMeasuredLaunchSmmLevel(&self) -> u64 {
         self._bitfield_1.get(7usize, 7u8)
     }
+
     #[inline]
     pub fn set_DbgMeasuredLaunchSmmLevel(&mut self, val: u64) {
         self._bitfield_1.set(7usize, 7u8, val)
     }
+
     #[inline]
-    pub fn new_bitfield_1(DbgMenuOsSelection: u64, DbgHiberBoot: u64, DbgSoftBoot: u64, DbgMeasuredLaunch: u64, DbgMeasuredLaunchCapable: u64, DbgSystemHiveReplace: u64, DbgMeasuredLaunchSmmProtections: u64, DbgMeasuredLaunchSmmLevel: u64) -> BitfieldUnit<[u8; 2]> {
+    pub fn new_bitfield_1(
+        DbgMenuOsSelection: u64,
+        DbgHiberBoot: u64,
+        DbgSoftBoot: u64,
+        DbgMeasuredLaunch: u64,
+        DbgMeasuredLaunchCapable: u64,
+        DbgSystemHiveReplace: u64,
+        DbgMeasuredLaunchSmmProtections: u64,
+        DbgMeasuredLaunchSmmLevel: u64,
+    ) -> BitfieldUnit<[u8; 2]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, DbgMenuOsSelection);
+
         bitfield_unit.set(1usize, 1u8, DbgHiberBoot);
+
         bitfield_unit.set(2usize, 1u8, DbgSoftBoot);
+
         bitfield_unit.set(3usize, 1u8, DbgMeasuredLaunch);
+
         bitfield_unit.set(4usize, 1u8, DbgMeasuredLaunchCapable);
+
         bitfield_unit.set(5usize, 1u8, DbgSystemHiveReplace);
+
         bitfield_unit.set(6usize, 1u8, DbgMeasuredLaunchSmmProtections);
+
         bitfield_unit.set(7usize, 7u8, DbgMeasuredLaunchSmmLevel);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_BOOT_ENVIRONMENT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BOOT_ENVIRONMENT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_BOOT_ENVIRONMENT_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
+        write!(
+            f,
+            "SYSTEM_BOOT_ENVIRONMENT_INFORMATION {{ Anonymous1: {:?} }}",
+            self.Anonymous1
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_IMAGE_FILE_EXECUTION_OPTIONS_INFORMATION {
     pub FlagsToEnable: u32,
     pub FlagsToDisable: u32,
 }
+
 impl Default for SYSTEM_IMAGE_FILE_EXECUTION_OPTIONS_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_IMAGE_FILE_EXECUTION_OPTIONS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_IMAGE_FILE_EXECUTION_OPTIONS_INFORMATION {{  }}")
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum COVERAGE_REQUEST_CODES {
@@ -3951,37 +4998,48 @@ pub enum COVERAGE_REQUEST_CODES {
     CoverageSearchByHash = 1,
     CoverageSearchByName = 2,
 }
+
 #[repr(C)]
 pub struct COVERAGE_MODULE_REQUEST {
     pub RequestType: COVERAGE_REQUEST_CODES,
     pub SearchInfo: COVERAGE_MODULE_REQUEST_1,
 }
+
 #[repr(C)]
 pub struct COVERAGE_MODULE_REQUEST_1 {
     pub MD5Hash: UnionField<[u8; 16]>,
     pub ModuleName: UnionField<UNICODE_STRING>,
     pub union_field: [u64; 2],
 }
+
 impl Default for COVERAGE_MODULE_REQUEST_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for COVERAGE_MODULE_REQUEST_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "COVERAGE_MODULE_REQUEST_1 {{ union }}")
     }
 }
+
 impl Default for COVERAGE_MODULE_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for COVERAGE_MODULE_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "COVERAGE_MODULE_REQUEST {{ RequestType: {:?}, SearchInfo: {:?} }}", self.RequestType, self.SearchInfo)
+        write!(
+            f,
+            "COVERAGE_MODULE_REQUEST {{ RequestType: {:?}, SearchInfo: {:?} }}",
+            self.RequestType, self.SearchInfo
+        )
     }
 }
+
 #[repr(C)]
 pub struct COVERAGE_MODULE_INFO {
     pub ModuleInfoSize: u32,
@@ -3990,16 +5048,23 @@ pub struct COVERAGE_MODULE_INFO {
     pub CoverageSectionSize: u32,
     pub CoverageSection: [u8; 1],
 }
+
 impl Default for COVERAGE_MODULE_INFO {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for COVERAGE_MODULE_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "COVERAGE_MODULE_INFO {{ CoverageSection: {:?} }}", self.CoverageSection)
+        write!(
+            f,
+            "COVERAGE_MODULE_INFO {{ CoverageSection: {:?} }}",
+            self.CoverageSection
+        )
     }
 }
+
 #[repr(C)]
 pub struct COVERAGE_MODULES {
     pub ListAndReset: u32,
@@ -4007,30 +5072,40 @@ pub struct COVERAGE_MODULES {
     pub ModuleRequestInfo: COVERAGE_MODULE_REQUEST,
     pub Modules: [COVERAGE_MODULE_INFO; 1],
 }
+
 impl Default for COVERAGE_MODULES {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for COVERAGE_MODULES {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "COVERAGE_MODULES {{ ModuleRequestInfo: {:?}, Modules: {:?} }}", self.ModuleRequestInfo, self.Modules)
+        write!(
+            f,
+            "COVERAGE_MODULES {{ ModuleRequestInfo: {:?}, Modules: {:?} }}",
+            self.ModuleRequestInfo, self.Modules
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PREFETCH_PATCH_INFORMATION {
     pub PrefetchPatchCount: u32,
 }
+
 impl Default for SYSTEM_PREFETCH_PATCH_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PREFETCH_PATCH_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PREFETCH_PATCH_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_VERIFIER_FAULTS_INFORMATION {
     pub Probability: u32,
@@ -4038,16 +5113,19 @@ pub struct SYSTEM_VERIFIER_FAULTS_INFORMATION {
     pub PoolTags: UNICODE_STRING,
     pub Applications: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_VERIFIER_FAULTS_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_VERIFIER_FAULTS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_VERIFIER_FAULTS_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_VERIFIER_INFORMATION_EX {
     pub VerifyMode: u32,
@@ -4057,134 +5135,173 @@ pub struct SYSTEM_VERIFIER_INFORMATION_EX {
     pub VerifierExtensionEnabled: u32,
     pub Reserved: [u32; 1],
 }
+
 impl Default for SYSTEM_VERIFIER_INFORMATION_EX {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_VERIFIER_INFORMATION_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_VERIFIER_INFORMATION_EX {{ Reserved: {:?} }}", self.Reserved)
+        write!(
+            f,
+            "SYSTEM_VERIFIER_INFORMATION_EX {{ Reserved: {:?} }}",
+            self.Reserved
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SYSTEM_PARTITION_INFORMATION {
     pub SystemPartition: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_SYSTEM_PARTITION_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SYSTEM_PARTITION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SYSTEM_PARTITION_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SYSTEM_DISK_INFORMATION {
     pub SystemDisk: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_SYSTEM_DISK_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SYSTEM_DISK_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SYSTEM_DISK_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_NUMA_PROXIMITY_MAP {
     pub NodeProximityId: u32,
     pub NodeNumber: u16,
 }
+
 impl Default for SYSTEM_NUMA_PROXIMITY_MAP {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_NUMA_PROXIMITY_MAP {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_NUMA_PROXIMITY_MAP {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT {
     pub Hits: u64,
     pub PercentFrequency: u8,
 }
+
 impl Default for SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT_WIN8 {
     pub Hits: u32,
     pub PercentFrequency: u8,
 }
+
 impl Default for SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT_WIN8 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT_WIN8 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT_WIN8 {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_PERFORMANCE_STATE_DISTRIBUTION {
     pub ProcessorNumber: u32,
     pub StateCount: u32,
     pub States: [SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT; 1],
 }
+
 impl Default for SYSTEM_PROCESSOR_PERFORMANCE_STATE_DISTRIBUTION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_PERFORMANCE_STATE_DISTRIBUTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_PROCESSOR_PERFORMANCE_STATE_DISTRIBUTION {{ States: {:?} }}", self.States)
+        write!(
+            f,
+            "SYSTEM_PROCESSOR_PERFORMANCE_STATE_DISTRIBUTION {{ States: {:?} }}",
+            self.States
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_PERFORMANCE_DISTRIBUTION {
     pub ProcessorCount: u32,
     pub Offsets: [u32; 1],
 }
+
 impl Default for SYSTEM_PROCESSOR_PERFORMANCE_DISTRIBUTION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_PERFORMANCE_DISTRIBUTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_PROCESSOR_PERFORMANCE_DISTRIBUTION {{ Offsets: {:?} }}", self.Offsets)
+        write!(
+            f,
+            "SYSTEM_PROCESSOR_PERFORMANCE_DISTRIBUTION {{ Offsets: {:?} }}",
+            self.Offsets
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_MICROCODE_UPDATE_INFORMATION {
     pub Operation: u32,
 }
+
 impl Default for SYSTEM_PROCESSOR_MICROCODE_UPDATE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_MICROCODE_UPDATE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PROCESSOR_MICROCODE_UPDATE_INFORMATION {{  }}")
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSTEM_VA_TYPE {
@@ -4196,6 +5313,7 @@ pub enum SYSTEM_VA_TYPE {
     SystemVaTypeSessionSpace = 5,
     SystemVaTypeMax = 6,
 }
+
 #[repr(C)]
 pub struct SYSTEM_VA_LIST_INFORMATION {
     pub VirtualSize: usize,
@@ -4203,16 +5321,19 @@ pub struct SYSTEM_VA_LIST_INFORMATION {
     pub VirtualLimit: usize,
     pub AllocationFailures: usize,
 }
+
 impl Default for SYSTEM_VA_LIST_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_VA_LIST_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_VA_LIST_INFORMATION {{  }}")
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum STORE_INFORMATION_CLASS {
@@ -4241,6 +5362,7 @@ pub enum STORE_INFORMATION_CLASS {
     ProcessStoreInfoRequest = 23,
     StoreInformationMax = 24,
 }
+
 #[repr(C)]
 pub struct SYSTEM_STORE_INFORMATION {
     pub Version: u32,
@@ -4248,16 +5370,23 @@ pub struct SYSTEM_STORE_INFORMATION {
     pub Data: *mut std::ffi::c_void,
     pub Length: u32,
 }
+
 impl Default for SYSTEM_STORE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_STORE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_STORE_INFORMATION {{ StoreInformationClass: {:?} }}", self.StoreInformationClass)
+        write!(
+            f,
+            "SYSTEM_STORE_INFORMATION {{ StoreInformationClass: {:?} }}",
+            self.StoreInformationClass
+        )
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ST_STATS_LEVEL {
@@ -4267,6 +5396,7 @@ pub enum ST_STATS_LEVEL {
     StStatsLevelSpaceBitmap = 3,
     StStatsLevelMax = 4,
 }
+
 #[repr(C)]
 pub struct SM_STATS_REQUEST {
     _bitfield_align_1: [u16; 0],
@@ -4274,50 +5404,70 @@ pub struct SM_STATS_REQUEST {
     pub BufferSize: u32,
     pub Buffer: *mut std::ffi::c_void,
 }
+
 impl Default for SM_STATS_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_STATS_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_STATS_REQUEST {{ Version : {:?}, DetailLevel : {:?}, StoreId : {:?} }}", self.Version(), self.DetailLevel(), self.StoreId())
+        write!(
+            f,
+            "SM_STATS_REQUEST {{ Version : {:?}, DetailLevel : {:?}, StoreId : {:?} }}",
+            self.Version(),
+            self.DetailLevel(),
+            self.StoreId()
+        )
     }
 }
+
 impl SM_STATS_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn DetailLevel(&self) -> u32 {
         self._bitfield_1.get(8usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_DetailLevel(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn StoreId(&self) -> u32 {
         self._bitfield_1.get(16usize, 16u8) as u32
     }
+
     #[inline]
     pub fn set_StoreId(&mut self, val: u32) {
         self._bitfield_1.set(16usize, 16u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, DetailLevel: u32, StoreId: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 8u8, DetailLevel as u64);
+
         bitfield_unit.set(16usize, 16u8, StoreId as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct ST_DATA_MGR_STATS {
     pub RegionCount: u32,
@@ -4326,121 +5476,153 @@ pub struct ST_DATA_MGR_STATS {
     pub LazyCleanupRegionCount: u32,
     pub Space: [ST_DATA_MGR_STATS_1; 8],
 }
+
 #[repr(C)]
 pub struct ST_DATA_MGR_STATS_1 {
     pub RegionsInUse: u32,
     pub SpaceUsed: u32,
 }
+
 impl Default for ST_DATA_MGR_STATS_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ST_DATA_MGR_STATS_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ST_DATA_MGR_STATS_1 {{  }}")
     }
 }
+
 impl Default for ST_DATA_MGR_STATS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ST_DATA_MGR_STATS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ST_DATA_MGR_STATS {{ Space: {:?} }}", self.Space)
     }
 }
+
 #[repr(C)]
 pub struct ST_IO_STATS_PERIOD {
     pub PageCounts: [u32; 5],
 }
+
 impl Default for ST_IO_STATS_PERIOD {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ST_IO_STATS_PERIOD {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ST_IO_STATS_PERIOD {{ PageCounts: {:?} }}", self.PageCounts)
+        write!(
+            f,
+            "ST_IO_STATS_PERIOD {{ PageCounts: {:?} }}",
+            self.PageCounts
+        )
     }
 }
+
 #[repr(C)]
 pub struct ST_IO_STATS {
     pub PeriodCount: u32,
     pub Periods: [ST_IO_STATS_PERIOD; 64],
 }
+
 impl Default for ST_IO_STATS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ST_IO_STATS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ST_IO_STATS {{ Periods: {:?} }}", self.Periods)
     }
 }
+
 #[repr(C)]
 pub struct ST_READ_LATENCY_BUCKET {
     pub LatencyUs: u32,
     pub Count: u32,
 }
+
 impl Default for ST_READ_LATENCY_BUCKET {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ST_READ_LATENCY_BUCKET {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ST_READ_LATENCY_BUCKET {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ST_READ_LATENCY_STATS {
     pub Buckets: [ST_READ_LATENCY_BUCKET; 8],
 }
+
 impl Default for ST_READ_LATENCY_STATS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ST_READ_LATENCY_STATS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ST_READ_LATENCY_STATS {{ Buckets: {:?} }}", self.Buckets)
     }
 }
+
 #[repr(C)]
 pub struct ST_STATS_REGION_INFO {
     pub SpaceUsed: u16,
     pub Priority: u8,
     pub Spare: u8,
 }
+
 impl Default for ST_STATS_REGION_INFO {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ST_STATS_REGION_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ST_STATS_REGION_INFO {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ST_STATS_SPACE_BITMAP {
     pub CompressedBytes: usize,
     pub BytesPerBit: u32,
     pub StoreBitmap: [u8; 1],
 }
+
 impl Default for ST_STATS_SPACE_BITMAP {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ST_STATS_SPACE_BITMAP {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ST_STATS_SPACE_BITMAP {{ StoreBitmap: {:?} }}", self.StoreBitmap)
+        write!(
+            f,
+            "ST_STATS_SPACE_BITMAP {{ StoreBitmap: {:?} }}",
+            self.StoreBitmap
+        )
     }
 }
+
 #[repr(C)]
 pub struct ST_STATS {
     _bitfield_align_1: [u16; 0],
@@ -4451,6 +5633,7 @@ pub struct ST_STATS {
     pub Basic: ST_STATS_1,
     pub Io: ST_STATS_2,
 }
+
 #[repr(C)]
 pub struct ST_STATS_1 {
     pub RegionSize: u32,
@@ -4460,120 +5643,184 @@ pub struct ST_STATS_1 {
     pub UserData: ST_DATA_MGR_STATS,
     pub Metadata: ST_DATA_MGR_STATS,
 }
+
 impl Default for ST_STATS_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ST_STATS_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ST_STATS_1 {{ UserData: {:?}, Metadata: {:?} }}", self.UserData, self.Metadata)
+        write!(
+            f,
+            "ST_STATS_1 {{ UserData: {:?}, Metadata: {:?} }}",
+            self.UserData, self.Metadata
+        )
     }
 }
+
 #[repr(C)]
 pub struct ST_STATS_2 {
     pub IoStats: ST_IO_STATS,
     pub ReadLatencyStats: ST_READ_LATENCY_STATS,
 }
+
 impl Default for ST_STATS_2 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ST_STATS_2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ST_STATS_2 {{ IoStats: {:?}, ReadLatencyStats: {:?} }}", self.IoStats, self.ReadLatencyStats)
+        write!(
+            f,
+            "ST_STATS_2 {{ IoStats: {:?}, ReadLatencyStats: {:?} }}",
+            self.IoStats, self.ReadLatencyStats
+        )
     }
 }
+
 impl Default for ST_STATS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ST_STATS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ST_STATS {{ Version : {:?}, Level : {:?}, StoreType : {:?}, NoDuplication : {:?}, NoCompression : {:?}, EncryptionStrength : {:?}, VirtualRegions : {:?}, Spare0 : {:?}, Basic: {:?}, Io: {:?} }}", self.Version(), self.Level(), self.StoreType(), self.NoDuplication(), self.NoCompression(), self.EncryptionStrength(), self.VirtualRegions(), self.Spare0(), self.Basic, self.Io)
+        write!(
+            f,
+            "ST_STATS {{ Version : {:?}, Level : {:?}, StoreType : {:?}, NoDuplication : {:?}, NoCompression : {:?}, EncryptionStrength : {:?}, VirtualRegions : {:?}, Spare0 : {:?}, Basic: {:?}, Io: {:?} }}",
+            self.Version(),
+            self.Level(),
+            self.StoreType(),
+            self.NoDuplication(),
+            self.NoCompression(),
+            self.EncryptionStrength(),
+            self.VirtualRegions(),
+            self.Spare0(),
+            self.Basic,
+            self.Io
+        )
     }
 }
+
 impl ST_STATS {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn Level(&self) -> u32 {
         self._bitfield_1.get(8usize, 4u8) as u32
     }
+
     #[inline]
     pub fn set_Level(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 4u8, val as u64)
     }
+
     #[inline]
     pub fn StoreType(&self) -> u32 {
         self._bitfield_1.get(12usize, 4u8) as u32
     }
+
     #[inline]
     pub fn set_StoreType(&mut self, val: u32) {
         self._bitfield_1.set(12usize, 4u8, val as u64)
     }
+
     #[inline]
     pub fn NoDuplication(&self) -> u32 {
         self._bitfield_1.get(16usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_NoDuplication(&mut self, val: u32) {
         self._bitfield_1.set(16usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn NoCompression(&self) -> u32 {
         self._bitfield_1.get(17usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_NoCompression(&mut self, val: u32) {
         self._bitfield_1.set(17usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn EncryptionStrength(&self) -> u32 {
         self._bitfield_1.get(18usize, 12u8) as u32
     }
+
     #[inline]
     pub fn set_EncryptionStrength(&mut self, val: u32) {
         self._bitfield_1.set(18usize, 12u8, val as u64)
     }
+
     #[inline]
     pub fn VirtualRegions(&self) -> u32 {
         self._bitfield_1.get(30usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_VirtualRegions(&mut self, val: u32) {
         self._bitfield_1.set(30usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare0(&self) -> u32 {
         self._bitfield_1.get(31usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_Spare0(&mut self, val: u32) {
         self._bitfield_1.set(31usize, 1u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(Version: u32, Level: u32, StoreType: u32, NoDuplication: u32, NoCompression: u32, EncryptionStrength: u32, VirtualRegions: u32, Spare0: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        Version: u32,
+        Level: u32,
+        StoreType: u32,
+        NoDuplication: u32,
+        NoCompression: u32,
+        EncryptionStrength: u32,
+        VirtualRegions: u32,
+        Spare0: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 4u8, Level as u64);
+
         bitfield_unit.set(12usize, 4u8, StoreType as u64);
+
         bitfield_unit.set(16usize, 1u8, NoDuplication as u64);
+
         bitfield_unit.set(17usize, 1u8, NoCompression as u64);
+
         bitfield_unit.set(18usize, 12u8, EncryptionStrength as u64);
+
         bitfield_unit.set(30usize, 1u8, VirtualRegions as u64);
+
         bitfield_unit.set(31usize, 1u8, Spare0 as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SM_STORE_TYPE {
@@ -4581,6 +5828,7 @@ pub enum SM_STORE_TYPE {
     StoreTypeFile = 1,
     StoreTypeMax = 2,
 }
+
 #[repr(C)]
 pub struct SM_STORE_BASIC_PARAMS {
     pub Anonymous1: SM_STORE_BASIC_PARAMS_1,
@@ -4588,23 +5836,27 @@ pub struct SM_STORE_BASIC_PARAMS {
     pub RegionSize: u32,
     pub RegionCountMax: u32,
 }
+
 #[repr(C)]
 pub struct SM_STORE_BASIC_PARAMS_1 {
     pub Anonymous1: UnionField<SM_STORE_BASIC_PARAMS_1_1>,
     pub StoreFlags: UnionField<u32>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SM_STORE_BASIC_PARAMS_1_1 {
     _bitfield_align_1: [u16; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SM_STORE_BASIC_PARAMS_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_STORE_BASIC_PARAMS_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
@@ -4626,165 +5878,232 @@ impl std::fmt::Debug for SM_STORE_BASIC_PARAMS_1_1 {
         )
     }
 }
+
 impl SM_STORE_BASIC_PARAMS_1_1 {
     #[inline]
     pub fn StoreType(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_StoreType(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn NoDuplication(&self) -> u32 {
         self._bitfield_1.get(8usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_NoDuplication(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn FailNoCompression(&self) -> u32 {
         self._bitfield_1.get(9usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_FailNoCompression(&mut self, val: u32) {
         self._bitfield_1.set(9usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn NoCompression(&self) -> u32 {
         self._bitfield_1.get(10usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_NoCompression(&mut self, val: u32) {
         self._bitfield_1.set(10usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn NoEncryption(&self) -> u32 {
         self._bitfield_1.get(11usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_NoEncryption(&mut self, val: u32) {
         self._bitfield_1.set(11usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn NoEvictOnAdd(&self) -> u32 {
         self._bitfield_1.get(12usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_NoEvictOnAdd(&mut self, val: u32) {
         self._bitfield_1.set(12usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn PerformsFileIo(&self) -> u32 {
         self._bitfield_1.get(13usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_PerformsFileIo(&mut self, val: u32) {
         self._bitfield_1.set(13usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn VdlNotSet(&self) -> u32 {
         self._bitfield_1.get(14usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_VdlNotSet(&mut self, val: u32) {
         self._bitfield_1.set(14usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn UseIntermediateAddBuffer(&self) -> u32 {
         self._bitfield_1.get(15usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_UseIntermediateAddBuffer(&mut self, val: u32) {
         self._bitfield_1.set(15usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn CompressNoHuff(&self) -> u32 {
         self._bitfield_1.get(16usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_CompressNoHuff(&mut self, val: u32) {
         self._bitfield_1.set(16usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn LockActiveRegions(&self) -> u32 {
         self._bitfield_1.get(17usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_LockActiveRegions(&mut self, val: u32) {
         self._bitfield_1.set(17usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn VirtualRegions(&self) -> u32 {
         self._bitfield_1.get(18usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_VirtualRegions(&mut self, val: u32) {
         self._bitfield_1.set(18usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(19usize, 13u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(19usize, 13u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(StoreType: u32, NoDuplication: u32, FailNoCompression: u32, NoCompression: u32, NoEncryption: u32, NoEvictOnAdd: u32, PerformsFileIo: u32, VdlNotSet: u32, UseIntermediateAddBuffer: u32, CompressNoHuff: u32, LockActiveRegions: u32, VirtualRegions: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        StoreType: u32,
+        NoDuplication: u32,
+        FailNoCompression: u32,
+        NoCompression: u32,
+        NoEncryption: u32,
+        NoEvictOnAdd: u32,
+        PerformsFileIo: u32,
+        VdlNotSet: u32,
+        UseIntermediateAddBuffer: u32,
+        CompressNoHuff: u32,
+        LockActiveRegions: u32,
+        VirtualRegions: u32,
+        Spare: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, StoreType as u64);
+
         bitfield_unit.set(8usize, 1u8, NoDuplication as u64);
+
         bitfield_unit.set(9usize, 1u8, FailNoCompression as u64);
+
         bitfield_unit.set(10usize, 1u8, NoCompression as u64);
+
         bitfield_unit.set(11usize, 1u8, NoEncryption as u64);
+
         bitfield_unit.set(12usize, 1u8, NoEvictOnAdd as u64);
+
         bitfield_unit.set(13usize, 1u8, PerformsFileIo as u64);
+
         bitfield_unit.set(14usize, 1u8, VdlNotSet as u64);
+
         bitfield_unit.set(15usize, 1u8, UseIntermediateAddBuffer as u64);
+
         bitfield_unit.set(16usize, 1u8, CompressNoHuff as u64);
+
         bitfield_unit.set(17usize, 1u8, LockActiveRegions as u64);
+
         bitfield_unit.set(18usize, 1u8, VirtualRegions as u64);
+
         bitfield_unit.set(19usize, 13u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SM_STORE_BASIC_PARAMS_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_STORE_BASIC_PARAMS_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SM_STORE_BASIC_PARAMS_1 {{ union }}")
     }
 }
+
 impl Default for SM_STORE_BASIC_PARAMS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_STORE_BASIC_PARAMS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_STORE_BASIC_PARAMS {{ Anonymous1: {:?} }}", self.Anonymous1)
+        write!(
+            f,
+            "SM_STORE_BASIC_PARAMS {{ Anonymous1: {:?} }}",
+            self.Anonymous1
+        )
     }
 }
+
 #[repr(C)]
 pub struct SMKM_REGION_EXTENT {
     pub RegionCount: u32,
     pub ByteOffset: usize,
 }
+
 impl Default for SMKM_REGION_EXTENT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMKM_REGION_EXTENT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SMKM_REGION_EXTENT {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SMKM_FILE_INFO {
     pub FileHandle: HANDLE,
@@ -4796,16 +6115,27 @@ pub struct SMKM_FILE_INFO {
     pub Extents: *mut SMKM_REGION_EXTENT,
     pub ExtentCount: u32,
 }
+
 impl Default for SMKM_FILE_INFO {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMKM_FILE_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SMKM_FILE_INFO {{ FileObject: {:?}, VolumeFileObject: {:?}, VolumeDeviceObject: {:?}, UsageNotificationIrp: {:?}, Extents: {:?} }}", self.FileObject, self.VolumeFileObject, self.VolumeDeviceObject, self.UsageNotificationIrp, self.Extents)
+        write!(
+            f,
+            "SMKM_FILE_INFO {{ FileObject: {:?}, VolumeFileObject: {:?}, VolumeDeviceObject: {:?}, UsageNotificationIrp: {:?}, Extents: {:?} }}",
+            self.FileObject,
+            self.VolumeFileObject,
+            self.VolumeDeviceObject,
+            self.UsageNotificationIrp,
+            self.Extents
+        )
     }
 }
+
 #[repr(C)]
 pub struct SM_STORE_CACHE_BACKED_PARAMS {
     pub SectorSize: u32,
@@ -4815,16 +6145,23 @@ pub struct SM_STORE_CACHE_BACKED_PARAMS {
     pub EtaContext: *mut std::ffi::c_void,
     pub StoreRegionBitmap: *mut RTL_BITMAP,
 }
+
 impl Default for SM_STORE_CACHE_BACKED_PARAMS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_STORE_CACHE_BACKED_PARAMS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_STORE_CACHE_BACKED_PARAMS {{ FileInfo: {:?}, StoreRegionBitmap: {:?} }}", self.FileInfo, self.StoreRegionBitmap)
+        write!(
+            f,
+            "SM_STORE_CACHE_BACKED_PARAMS {{ FileInfo: {:?}, StoreRegionBitmap: {:?} }}",
+            self.FileInfo, self.StoreRegionBitmap
+        )
     }
 }
+
 #[repr(C)]
 pub struct SM_STORE_PARAMETERS {
     pub Store: SM_STORE_BASIC_PARAMS,
@@ -4832,16 +6169,23 @@ pub struct SM_STORE_PARAMETERS {
     pub Flags: u32,
     pub CacheBacked: SM_STORE_CACHE_BACKED_PARAMS,
 }
+
 impl Default for SM_STORE_PARAMETERS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_STORE_PARAMETERS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_STORE_PARAMETERS {{ Store: {:?}, CacheBacked: {:?} }}", self.Store, self.CacheBacked)
+        write!(
+            f,
+            "SM_STORE_PARAMETERS {{ Store: {:?}, CacheBacked: {:?} }}",
+            self.Store, self.CacheBacked
+        )
     }
 }
+
 #[repr(C)]
 pub struct SM_CREATE_REQUEST {
     _bitfield_align_1: [u32; 0],
@@ -4849,224 +6193,328 @@ pub struct SM_CREATE_REQUEST {
     pub Params: SM_STORE_PARAMETERS,
     pub StoreId: u32,
 }
+
 impl Default for SM_CREATE_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_CREATE_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_CREATE_REQUEST {{ Version : {:?}, AcquireReference : {:?}, KeyedStore : {:?}, Spare : {:?}, Params: {:?} }}", self.Version(), self.AcquireReference(), self.KeyedStore(), self.Spare(), self.Params)
+        write!(
+            f,
+            "SM_CREATE_REQUEST {{ Version : {:?}, AcquireReference : {:?}, KeyedStore : {:?}, Spare : {:?}, Params: {:?} }}",
+            self.Version(),
+            self.AcquireReference(),
+            self.KeyedStore(),
+            self.Spare(),
+            self.Params
+        )
     }
 }
+
 impl SM_CREATE_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn AcquireReference(&self) -> u32 {
         self._bitfield_1.get(8usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_AcquireReference(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn KeyedStore(&self) -> u32 {
         self._bitfield_1.get(9usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_KeyedStore(&mut self, val: u32) {
         self._bitfield_1.set(9usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(10usize, 22u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(10usize, 22u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(Version: u32, AcquireReference: u32, KeyedStore: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        Version: u32,
+        AcquireReference: u32,
+        KeyedStore: u32,
+        Spare: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 1u8, AcquireReference as u64);
+
         bitfield_unit.set(9usize, 1u8, KeyedStore as u64);
+
         bitfield_unit.set(10usize, 22u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SM_DELETE_REQUEST {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub StoreId: u32,
 }
+
 impl Default for SM_DELETE_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_DELETE_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_DELETE_REQUEST {{ Version : {:?}, Spare : {:?} }}", self.Version(), self.Spare())
+        write!(
+            f,
+            "SM_DELETE_REQUEST {{ Version : {:?}, Spare : {:?} }}",
+            self.Version(),
+            self.Spare()
+        )
     }
 }
+
 impl SM_DELETE_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(8usize, 24u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 24u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SM_STORE_LIST_REQUEST {
     _bitfield_align_1: [u16; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub StoreId: [u32; 32],
 }
+
 impl Default for SM_STORE_LIST_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_STORE_LIST_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_STORE_LIST_REQUEST {{ Version : {:?}, StoreCount : {:?}, ExtendedRequest : {:?}, Spare : {:?}, StoreId: {:?} }}", self.Version(), self.StoreCount(), self.ExtendedRequest(), self.Spare(), self.StoreId)
+        write!(
+            f,
+            "SM_STORE_LIST_REQUEST {{ Version : {:?}, StoreCount : {:?}, ExtendedRequest : {:?}, Spare : {:?}, StoreId: {:?} }}",
+            self.Version(),
+            self.StoreCount(),
+            self.ExtendedRequest(),
+            self.Spare(),
+            self.StoreId
+        )
     }
 }
+
 impl SM_STORE_LIST_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn StoreCount(&self) -> u32 {
         self._bitfield_1.get(8usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_StoreCount(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn ExtendedRequest(&self) -> u32 {
         self._bitfield_1.get(16usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_ExtendedRequest(&mut self, val: u32) {
         self._bitfield_1.set(16usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(17usize, 15u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(17usize, 15u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(Version: u32, StoreCount: u32, ExtendedRequest: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        Version: u32,
+        StoreCount: u32,
+        ExtendedRequest: u32,
+        Spare: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 8u8, StoreCount as u64);
+
         bitfield_unit.set(16usize, 1u8, ExtendedRequest as u64);
+
         bitfield_unit.set(17usize, 15u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SM_STORE_LIST_REQUEST_EX {
     pub Request: SM_STORE_LIST_REQUEST,
     pub NameBuffer: [[u16; 64]; 32],
 }
+
 impl Default for SM_STORE_LIST_REQUEST_EX {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_STORE_LIST_REQUEST_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_STORE_LIST_REQUEST_EX {{ Request: {:?}, NameBuffer: {:?} }}", self.Request, self.NameBuffer)
+        write!(
+            f,
+            "SM_STORE_LIST_REQUEST_EX {{ Request: {:?}, NameBuffer: {:?} }}",
+            self.Request, self.NameBuffer
+        )
     }
 }
+
 #[repr(C)]
 pub struct SMC_CACHE_LIST_REQUEST {
     _bitfield_align_1: [u16; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub CacheId: [u32; 16],
 }
+
 impl Default for SMC_CACHE_LIST_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMC_CACHE_LIST_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SMC_CACHE_LIST_REQUEST {{ Version : {:?}, CacheCount : {:?}, Spare : {:?}, CacheId: {:?} }}", self.Version(), self.CacheCount(), self.Spare(), self.CacheId)
+        write!(
+            f,
+            "SMC_CACHE_LIST_REQUEST {{ Version : {:?}, CacheCount : {:?}, Spare : {:?}, CacheId: {:?} }}",
+            self.Version(),
+            self.CacheCount(),
+            self.Spare(),
+            self.CacheId
+        )
     }
 }
+
 impl SMC_CACHE_LIST_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn CacheCount(&self) -> u32 {
         self._bitfield_1.get(8usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_CacheCount(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(16usize, 16u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(16usize, 16u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, CacheCount: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 8u8, CacheCount as u64);
+
         bitfield_unit.set(16usize, 16u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SMC_CACHE_PARAMETERS {
     pub CacheFileSize: usize,
@@ -5076,65 +6524,96 @@ pub struct SMC_CACHE_PARAMETERS {
     pub CacheFlags: u32,
     pub Priority: u32,
 }
+
 impl Default for SMC_CACHE_PARAMETERS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMC_CACHE_PARAMETERS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SMC_CACHE_PARAMETERS {{ PerformsFileIo : {:?}, VdlNotSet : {:?}, Spare : {:?} }}", self.PerformsFileIo(), self.VdlNotSet(), self.Spare())
+        write!(
+            f,
+            "SMC_CACHE_PARAMETERS {{ PerformsFileIo : {:?}, VdlNotSet : {:?}, Spare : {:?} }}",
+            self.PerformsFileIo(),
+            self.VdlNotSet(),
+            self.Spare()
+        )
     }
 }
+
 impl SMC_CACHE_PARAMETERS {
     #[inline]
     pub fn PerformsFileIo(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_PerformsFileIo(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn VdlNotSet(&self) -> u32 {
         self._bitfield_1.get(1usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_VdlNotSet(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(2usize, 30u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(2usize, 30u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(PerformsFileIo: u32, VdlNotSet: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        PerformsFileIo: u32,
+        VdlNotSet: u32,
+        Spare: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, PerformsFileIo as u64);
+
         bitfield_unit.set(1usize, 1u8, VdlNotSet as u64);
+
         bitfield_unit.set(2usize, 30u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SMC_CACHE_CREATE_PARAMETERS {
     pub CacheParameters: SMC_CACHE_PARAMETERS,
     pub TemplateFilePath: [u16; 512],
 }
+
 impl Default for SMC_CACHE_CREATE_PARAMETERS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMC_CACHE_CREATE_PARAMETERS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SMC_CACHE_CREATE_PARAMETERS {{ CacheParameters: {:?}, TemplateFilePath: {:?} }}", self.CacheParameters, self.TemplateFilePath)
+        write!(
+            f,
+            "SMC_CACHE_CREATE_PARAMETERS {{ CacheParameters: {:?}, TemplateFilePath: {:?} }}",
+            self.CacheParameters, self.TemplateFilePath
+        )
     }
 }
+
 #[repr(C)]
 pub struct SMC_CACHE_CREATE_REQUEST {
     _bitfield_align_1: [u32; 0],
@@ -5142,82 +6621,115 @@ pub struct SMC_CACHE_CREATE_REQUEST {
     pub CacheId: u32,
     pub CacheCreateParams: SMC_CACHE_CREATE_PARAMETERS,
 }
+
 impl Default for SMC_CACHE_CREATE_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMC_CACHE_CREATE_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SMC_CACHE_CREATE_REQUEST {{ Version : {:?}, Spare : {:?}, CacheCreateParams: {:?} }}", self.Version(), self.Spare(), self.CacheCreateParams)
+        write!(
+            f,
+            "SMC_CACHE_CREATE_REQUEST {{ Version : {:?}, Spare : {:?}, CacheCreateParams: {:?} }}",
+            self.Version(),
+            self.Spare(),
+            self.CacheCreateParams
+        )
     }
 }
+
 impl SMC_CACHE_CREATE_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(8usize, 24u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 24u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SMC_CACHE_DELETE_REQUEST {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub CacheId: u32,
 }
+
 impl Default for SMC_CACHE_DELETE_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMC_CACHE_DELETE_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SMC_CACHE_DELETE_REQUEST {{ Version : {:?}, Spare : {:?} }}", self.Version(), self.Spare())
+        write!(
+            f,
+            "SMC_CACHE_DELETE_REQUEST {{ Version : {:?}, Spare : {:?} }}",
+            self.Version(),
+            self.Spare()
+        )
     }
 }
+
 impl SMC_CACHE_DELETE_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(8usize, 24u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 24u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SM_STORE_MANAGER_TYPE {
@@ -5225,6 +6737,7 @@ pub enum SM_STORE_MANAGER_TYPE {
     SmStoreManagerTypeVirtual = 1,
     SmStoreManagerTypeMax = 2,
 }
+
 #[repr(C)]
 pub struct SMC_STORE_CREATE_REQUEST {
     _bitfield_align_1: [u32; 0],
@@ -5234,41 +6747,59 @@ pub struct SMC_STORE_CREATE_REQUEST {
     pub StoreManagerType: SM_STORE_MANAGER_TYPE,
     pub StoreId: u32,
 }
+
 impl Default for SMC_STORE_CREATE_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMC_STORE_CREATE_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SMC_STORE_CREATE_REQUEST {{ Version : {:?}, Spare : {:?}, StoreParams: {:?}, StoreManagerType: {:?} }}", self.Version(), self.Spare(), self.StoreParams, self.StoreManagerType)
+        write!(
+            f,
+            "SMC_STORE_CREATE_REQUEST {{ Version : {:?}, Spare : {:?}, StoreParams: {:?}, StoreManagerType: {:?} }}",
+            self.Version(),
+            self.Spare(),
+            self.StoreParams,
+            self.StoreManagerType
+        )
     }
 }
+
 impl SMC_STORE_CREATE_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(8usize, 24u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 24u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SMC_STORE_DELETE_REQUEST {
     _bitfield_align_1: [u32; 0],
@@ -5277,41 +6808,58 @@ pub struct SMC_STORE_DELETE_REQUEST {
     pub StoreManagerType: SM_STORE_MANAGER_TYPE,
     pub StoreId: u32,
 }
+
 impl Default for SMC_STORE_DELETE_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMC_STORE_DELETE_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SMC_STORE_DELETE_REQUEST {{ Version : {:?}, Spare : {:?}, StoreManagerType: {:?} }}", self.Version(), self.Spare(), self.StoreManagerType)
+        write!(
+            f,
+            "SMC_STORE_DELETE_REQUEST {{ Version : {:?}, Spare : {:?}, StoreManagerType: {:?} }}",
+            self.Version(),
+            self.Spare(),
+            self.StoreManagerType
+        )
     }
 }
+
 impl SMC_STORE_DELETE_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(8usize, 24u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 24u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SMC_CACHE_STATS {
     pub TotalFileSize: usize,
@@ -5325,50 +6873,76 @@ pub struct SMC_CACHE_STATS {
     pub Priority: u32,
     pub TemplateFilePath: [u16; 512],
 }
+
 impl Default for SMC_CACHE_STATS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMC_CACHE_STATS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SMC_CACHE_STATS {{ FileCount : {:?}, PerformsFileIo : {:?}, Spare : {:?}, StoreIds: {:?}, TemplateFilePath: {:?} }}", self.FileCount(), self.PerformsFileIo(), self.Spare(), self.StoreIds, self.TemplateFilePath)
+        write!(
+            f,
+            "SMC_CACHE_STATS {{ FileCount : {:?}, PerformsFileIo : {:?}, Spare : {:?}, StoreIds: {:?}, TemplateFilePath: {:?} }}",
+            self.FileCount(),
+            self.PerformsFileIo(),
+            self.Spare(),
+            self.StoreIds,
+            self.TemplateFilePath
+        )
     }
 }
+
 impl SMC_CACHE_STATS {
     #[inline]
     pub fn FileCount(&self) -> u32 {
         self._bitfield_1.get(0usize, 6u8) as u32
     }
+
     #[inline]
     pub fn set_FileCount(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 6u8, val as u64)
     }
+
     #[inline]
     pub fn PerformsFileIo(&self) -> u32 {
         self._bitfield_1.get(6usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_PerformsFileIo(&mut self, val: u32) {
         self._bitfield_1.set(6usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(7usize, 25u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(7usize, 25u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(FileCount: u32, PerformsFileIo: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        FileCount: u32,
+        PerformsFileIo: u32,
+        Spare: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 6u8, FileCount as u64);
+
         bitfield_unit.set(6usize, 1u8, PerformsFileIo as u64);
+
         bitfield_unit.set(7usize, 25u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SMC_CACHE_STATS_REQUEST {
     _bitfield_align_1: [u32; 0],
@@ -5376,105 +6950,146 @@ pub struct SMC_CACHE_STATS_REQUEST {
     pub CacheId: u32,
     pub CacheStats: SMC_CACHE_STATS,
 }
+
 impl Default for SMC_CACHE_STATS_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMC_CACHE_STATS_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SMC_CACHE_STATS_REQUEST {{ Version : {:?}, NoFilePath : {:?}, Spare : {:?}, CacheStats: {:?} }}", self.Version(), self.NoFilePath(), self.Spare(), self.CacheStats)
+        write!(
+            f,
+            "SMC_CACHE_STATS_REQUEST {{ Version : {:?}, NoFilePath : {:?}, Spare : {:?}, CacheStats: {:?} }}",
+            self.Version(),
+            self.NoFilePath(),
+            self.Spare(),
+            self.CacheStats
+        )
     }
 }
+
 impl SMC_CACHE_STATS_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn NoFilePath(&self) -> u32 {
         self._bitfield_1.get(8usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_NoFilePath(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(9usize, 23u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(9usize, 23u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, NoFilePath: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 1u8, NoFilePath as u64);
+
         bitfield_unit.set(9usize, 23u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SM_REGISTRATION_INFO {
     pub CachesUpdatedEvent: HANDLE,
 }
+
 impl Default for SM_REGISTRATION_INFO {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_REGISTRATION_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SM_REGISTRATION_INFO {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SM_REGISTRATION_REQUEST {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub RegInfo: SM_REGISTRATION_INFO,
 }
+
 impl Default for SM_REGISTRATION_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_REGISTRATION_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_REGISTRATION_REQUEST {{ Version : {:?}, Spare : {:?}, RegInfo: {:?} }}", self.Version(), self.Spare(), self.RegInfo)
+        write!(
+            f,
+            "SM_REGISTRATION_REQUEST {{ Version : {:?}, Spare : {:?}, RegInfo: {:?} }}",
+            self.Version(),
+            self.Spare(),
+            self.RegInfo
+        )
     }
 }
+
 impl SM_REGISTRATION_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(8usize, 24u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 24u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SM_STORE_RESIZE_REQUEST {
     _bitfield_align_1: [u32; 0],
@@ -5483,50 +7098,71 @@ pub struct SM_STORE_RESIZE_REQUEST {
     pub NumberOfRegions: u32,
     pub RegionBitmap: *mut RTL_BITMAP,
 }
+
 impl Default for SM_STORE_RESIZE_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_STORE_RESIZE_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_STORE_RESIZE_REQUEST {{ Version : {:?}, AddRegions : {:?}, Spare : {:?}, RegionBitmap: {:?} }}", self.Version(), self.AddRegions(), self.Spare(), self.RegionBitmap)
+        write!(
+            f,
+            "SM_STORE_RESIZE_REQUEST {{ Version : {:?}, AddRegions : {:?}, Spare : {:?}, RegionBitmap: {:?} }}",
+            self.Version(),
+            self.AddRegions(),
+            self.Spare(),
+            self.RegionBitmap
+        )
     }
 }
+
 impl SM_STORE_RESIZE_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn AddRegions(&self) -> u32 {
         self._bitfield_1.get(8usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_AddRegions(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(9usize, 23u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(9usize, 23u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, AddRegions: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 1u8, AddRegions as u64);
+
         bitfield_unit.set(9usize, 23u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SMC_STORE_RESIZE_REQUEST {
     _bitfield_align_1: [u32; 0],
@@ -5536,50 +7172,71 @@ pub struct SMC_STORE_RESIZE_REQUEST {
     pub StoreManagerType: SM_STORE_MANAGER_TYPE,
     pub RegionCount: u32,
 }
+
 impl Default for SMC_STORE_RESIZE_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SMC_STORE_RESIZE_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SMC_STORE_RESIZE_REQUEST {{ Version : {:?}, AddRegions : {:?}, Spare : {:?}, StoreManagerType: {:?} }}", self.Version(), self.AddRegions(), self.Spare(), self.StoreManagerType)
+        write!(
+            f,
+            "SMC_STORE_RESIZE_REQUEST {{ Version : {:?}, AddRegions : {:?}, Spare : {:?}, StoreManagerType: {:?} }}",
+            self.Version(),
+            self.AddRegions(),
+            self.Spare(),
+            self.StoreManagerType
+        )
     }
 }
+
 impl SMC_STORE_RESIZE_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn AddRegions(&self) -> u32 {
         self._bitfield_1.get(8usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_AddRegions(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(9usize, 23u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(9usize, 23u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, AddRegions: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 1u8, AddRegions as u64);
+
         bitfield_unit.set(9usize, 23u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SM_CONFIG_TYPE {
@@ -5588,147 +7245,208 @@ pub enum SM_CONFIG_TYPE {
     SmConfigPrefetchSeekThreshold = 2,
     SmConfigTypeMax = 3,
 }
+
 #[repr(C)]
 pub struct SM_CONFIG_REQUEST {
     _bitfield_align_1: [u16; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub ConfigValue: u32,
 }
+
 impl Default for SM_CONFIG_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_CONFIG_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_CONFIG_REQUEST {{ Version : {:?}, Spare : {:?}, ConfigType : {:?} }}", self.Version(), self.Spare(), self.ConfigType())
+        write!(
+            f,
+            "SM_CONFIG_REQUEST {{ Version : {:?}, Spare : {:?}, ConfigType : {:?} }}",
+            self.Version(),
+            self.Spare(),
+            self.ConfigType()
+        )
     }
 }
+
 impl SM_CONFIG_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(8usize, 16u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 16u8, val as u64)
     }
+
     #[inline]
     pub fn ConfigType(&self) -> u32 {
         self._bitfield_1.get(24usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_ConfigType(&mut self, val: u32) {
         self._bitfield_1.set(24usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, Spare: u32, ConfigType: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 16u8, Spare as u64);
+
         bitfield_unit.set(24usize, 8u8, ConfigType as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SM_STORE_HIGH_MEM_PRIORITY_REQUEST {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub ProcessHandle: HANDLE,
 }
+
 impl Default for SM_STORE_HIGH_MEM_PRIORITY_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_STORE_HIGH_MEM_PRIORITY_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_STORE_HIGH_MEM_PRIORITY_REQUEST {{ Version : {:?}, SetHighMemoryPriority : {:?}, Spare : {:?} }}", self.Version(), self.SetHighMemoryPriority(), self.Spare())
+        write!(
+            f,
+            "SM_STORE_HIGH_MEM_PRIORITY_REQUEST {{ Version : {:?}, SetHighMemoryPriority : {:?}, Spare : {:?} }}",
+            self.Version(),
+            self.SetHighMemoryPriority(),
+            self.Spare()
+        )
     }
 }
+
 impl SM_STORE_HIGH_MEM_PRIORITY_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn SetHighMemoryPriority(&self) -> u32 {
         self._bitfield_1.get(8usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SetHighMemoryPriority(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(9usize, 23u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(9usize, 23u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(Version: u32, SetHighMemoryPriority: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        Version: u32,
+        SetHighMemoryPriority: u32,
+        Spare: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 1u8, SetHighMemoryPriority as u64);
+
         bitfield_unit.set(9usize, 23u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SM_SYSTEM_STORE_TRIM_REQUEST {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub PagesToTrim: usize,
 }
+
 impl Default for SM_SYSTEM_STORE_TRIM_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_SYSTEM_STORE_TRIM_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_SYSTEM_STORE_TRIM_REQUEST {{ Version : {:?}, Spare : {:?} }}", self.Version(), self.Spare())
+        write!(
+            f,
+            "SM_SYSTEM_STORE_TRIM_REQUEST {{ Version : {:?}, Spare : {:?} }}",
+            self.Version(),
+            self.Spare()
+        )
     }
 }
+
 impl SM_SYSTEM_STORE_TRIM_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(8usize, 24u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 24u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SM_MEM_COMPRESSION_INFO_REQUEST {
     _bitfield_align_1: [u32; 0],
@@ -5739,41 +7457,57 @@ pub struct SM_MEM_COMPRESSION_INFO_REQUEST {
     pub TotalCompressedSize: usize,
     pub TotalUniqueDataCompressed: usize,
 }
+
 impl Default for SM_MEM_COMPRESSION_INFO_REQUEST {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SM_MEM_COMPRESSION_INFO_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SM_MEM_COMPRESSION_INFO_REQUEST {{ Version : {:?}, Spare : {:?} }}", self.Version(), self.Spare())
+        write!(
+            f,
+            "SM_MEM_COMPRESSION_INFO_REQUEST {{ Version : {:?}, Spare : {:?} }}",
+            self.Version(),
+            self.Spare()
+        )
     }
 }
+
 impl SM_MEM_COMPRESSION_INFO_REQUEST {
     #[inline]
     pub fn Version(&self) -> u32 {
         self._bitfield_1.get(0usize, 8u8) as u32
     }
+
     #[inline]
     pub fn set_Version(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 8u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(8usize, 24u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 8u8, Version as u64);
+
         bitfield_unit.set(8usize, 24u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_REGISTRY_APPEND_STRING_PARAMETERS {
     pub KeyHandle: HANDLE,
@@ -5787,77 +7521,100 @@ pub struct SYSTEM_REGISTRY_APPEND_STRING_PARAMETERS {
     pub CreateIfDoesntExist: BOOLEAN,
     pub TruncateExistingValue: BOOLEAN,
 }
+
 impl Default for SYSTEM_REGISTRY_APPEND_STRING_PARAMETERS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_REGISTRY_APPEND_STRING_PARAMETERS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_REGISTRY_APPEND_STRING_PARAMETERS {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_VHD_BOOT_INFORMATION {
     pub OsDiskIsVhd: BOOLEAN,
     pub OsVhdFilePathOffset: u32,
     pub OsVhdParentVolume: [u16; 1],
 }
+
 impl Default for SYSTEM_VHD_BOOT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_VHD_BOOT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_VHD_BOOT_INFORMATION {{ OsVhdParentVolume: {:?} }}", self.OsVhdParentVolume)
+        write!(
+            f,
+            "SYSTEM_VHD_BOOT_INFORMATION {{ OsVhdParentVolume: {:?} }}",
+            self.OsVhdParentVolume
+        )
     }
 }
+
 #[repr(C)]
 pub struct PS_CPU_QUOTA_QUERY_ENTRY {
     pub SessionId: u32,
     pub Weight: u32,
 }
+
 impl Default for PS_CPU_QUOTA_QUERY_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PS_CPU_QUOTA_QUERY_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "PS_CPU_QUOTA_QUERY_ENTRY {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct PS_CPU_QUOTA_QUERY_INFORMATION {
     pub SessionCount: u32,
     pub SessionInformation: [PS_CPU_QUOTA_QUERY_ENTRY; 1],
 }
+
 impl Default for PS_CPU_QUOTA_QUERY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PS_CPU_QUOTA_QUERY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PS_CPU_QUOTA_QUERY_INFORMATION {{ SessionInformation: {:?} }}", self.SessionInformation)
+        write!(
+            f,
+            "PS_CPU_QUOTA_QUERY_INFORMATION {{ SessionInformation: {:?} }}",
+            self.SessionInformation
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_ERROR_PORT_TIMEOUTS {
     pub StartTimeout: u32,
     pub CommTimeout: u32,
 }
+
 impl Default for SYSTEM_ERROR_PORT_TIMEOUTS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ERROR_PORT_TIMEOUTS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_ERROR_PORT_TIMEOUTS {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_LOW_PRIORITY_IO_INFORMATION {
     pub LowPriReadOperations: u32,
@@ -5871,16 +7628,19 @@ pub struct SYSTEM_LOW_PRIORITY_IO_INFORMATION {
     pub BoostedPagingIrpCount: u32,
     pub BlanketBoostCount: u32,
 }
+
 impl Default for SYSTEM_LOW_PRIORITY_IO_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_LOW_PRIORITY_IO_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_LOW_PRIORITY_IO_INFORMATION {{  }}")
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum TPM_BOOT_ENTROPY_RESULT_CODE {
@@ -5890,6 +7650,7 @@ pub enum TPM_BOOT_ENTROPY_RESULT_CODE {
     TpmBootEntropyTpmError = 3,
     TpmBootEntropySuccess = 4,
 }
+
 #[repr(C)]
 pub struct TPM_BOOT_ENTROPY_NT_RESULT {
     pub Policy: u64,
@@ -5899,16 +7660,23 @@ pub struct TPM_BOOT_ENTROPY_NT_RESULT {
     pub EntropyLength: u32,
     pub EntropyData: [u8; 40],
 }
+
 impl Default for TPM_BOOT_ENTROPY_NT_RESULT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for TPM_BOOT_ENTROPY_NT_RESULT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "TPM_BOOT_ENTROPY_NT_RESULT {{ ResultCode: {:?}, EntropyData: {:?} }}", self.ResultCode, self.EntropyData)
+        write!(
+            f,
+            "TPM_BOOT_ENTROPY_NT_RESULT {{ ResultCode: {:?}, EntropyData: {:?} }}",
+            self.ResultCode, self.EntropyData
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_VERIFIER_COUNTERS_INFORMATION {
     pub Legacy: SYSTEM_VERIFIER_INFORMATION,
@@ -5936,16 +7704,23 @@ pub struct SYSTEM_VERIFIER_COUNTERS_INFORMATION {
     pub UnsupportedRelocs: u32,
     pub IATInExecutableSection: u32,
 }
+
 impl Default for SYSTEM_VERIFIER_COUNTERS_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_VERIFIER_COUNTERS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_VERIFIER_COUNTERS_INFORMATION {{ Legacy: {:?} }}", self.Legacy)
+        write!(
+            f,
+            "SYSTEM_VERIFIER_COUNTERS_INFORMATION {{ Legacy: {:?} }}",
+            self.Legacy
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_ACPI_AUDIT_INFORMATION {
     pub RsdpCount: u32,
@@ -5953,50 +7728,74 @@ pub struct SYSTEM_ACPI_AUDIT_INFORMATION {
     _bitfield_1: BitfieldUnit<[u8; 1]>,
     pub padding_0: [u8; 3],
 }
+
 impl Default for SYSTEM_ACPI_AUDIT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ACPI_AUDIT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_ACPI_AUDIT_INFORMATION {{ SameRsdt : {:?}, SlicPresent : {:?}, SlicDifferent : {:?} }}", self.SameRsdt(), self.SlicPresent(), self.SlicDifferent())
+        write!(
+            f,
+            "SYSTEM_ACPI_AUDIT_INFORMATION {{ SameRsdt : {:?}, SlicPresent : {:?}, SlicDifferent : {:?} }}",
+            self.SameRsdt(),
+            self.SlicPresent(),
+            self.SlicDifferent()
+        )
     }
 }
+
 impl SYSTEM_ACPI_AUDIT_INFORMATION {
     #[inline]
     pub fn SameRsdt(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SameRsdt(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SlicPresent(&self) -> u32 {
         self._bitfield_1.get(1usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SlicPresent(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SlicDifferent(&self) -> u32 {
         self._bitfield_1.get(2usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SlicDifferent(&mut self, val: u32) {
         self._bitfield_1.set(2usize, 1u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(SameRsdt: u32, SlicPresent: u32, SlicDifferent: u32) -> BitfieldUnit<[u8; 1]> {
+    pub fn new_bitfield_1(
+        SameRsdt: u32,
+        SlicPresent: u32,
+        SlicDifferent: u32,
+    ) -> BitfieldUnit<[u8; 1]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, SameRsdt as u64);
+
         bitfield_unit.set(1usize, 1u8, SlicPresent as u64);
+
         bitfield_unit.set(2usize, 1u8, SlicDifferent as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_BASIC_PERFORMANCE_INFORMATION {
     pub AvailablePages: usize,
@@ -6004,103 +7803,139 @@ pub struct SYSTEM_BASIC_PERFORMANCE_INFORMATION {
     pub CommitLimit: usize,
     pub PeakCommitment: usize,
 }
+
 impl Default for SYSTEM_BASIC_PERFORMANCE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BASIC_PERFORMANCE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_BASIC_PERFORMANCE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct QUERY_PERFORMANCE_COUNTER_FLAGS {
     pub Anonymous1: QUERY_PERFORMANCE_COUNTER_FLAGS_1,
 }
+
 #[repr(C)]
 pub struct QUERY_PERFORMANCE_COUNTER_FLAGS_1 {
     pub Anonymous1: UnionField<QUERY_PERFORMANCE_COUNTER_FLAGS_1_1>,
     pub ul: UnionField<u32>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct QUERY_PERFORMANCE_COUNTER_FLAGS_1_1 {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for QUERY_PERFORMANCE_COUNTER_FLAGS_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for QUERY_PERFORMANCE_COUNTER_FLAGS_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "QUERY_PERFORMANCE_COUNTER_FLAGS_1_1 {{ KernelTransition : {:?}, Reserved : {:?} }}", self.KernelTransition(), self.Reserved())
+        write!(
+            f,
+            "QUERY_PERFORMANCE_COUNTER_FLAGS_1_1 {{ KernelTransition : {:?}, Reserved : {:?} }}",
+            self.KernelTransition(),
+            self.Reserved()
+        )
     }
 }
+
 impl QUERY_PERFORMANCE_COUNTER_FLAGS_1_1 {
     #[inline]
     pub fn KernelTransition(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_KernelTransition(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Reserved(&self) -> u32 {
         self._bitfield_1.get(1usize, 31u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(KernelTransition: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, KernelTransition as u64);
+
         bitfield_unit.set(1usize, 31u8, Reserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for QUERY_PERFORMANCE_COUNTER_FLAGS_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for QUERY_PERFORMANCE_COUNTER_FLAGS_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "QUERY_PERFORMANCE_COUNTER_FLAGS_1 {{ union }}")
     }
 }
+
 impl Default for QUERY_PERFORMANCE_COUNTER_FLAGS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for QUERY_PERFORMANCE_COUNTER_FLAGS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "QUERY_PERFORMANCE_COUNTER_FLAGS {{ Anonymous1: {:?} }}", self.Anonymous1)
+        write!(
+            f,
+            "QUERY_PERFORMANCE_COUNTER_FLAGS {{ Anonymous1: {:?} }}",
+            self.Anonymous1
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_QUERY_PERFORMANCE_COUNTER_INFORMATION {
     pub Version: u32,
     pub Flags: QUERY_PERFORMANCE_COUNTER_FLAGS,
     pub ValidFlags: QUERY_PERFORMANCE_COUNTER_FLAGS,
 }
+
 impl Default for SYSTEM_QUERY_PERFORMANCE_COUNTER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_QUERY_PERFORMANCE_COUNTER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_QUERY_PERFORMANCE_COUNTER_INFORMATION {{ Flags: {:?}, ValidFlags: {:?} }}", self.Flags, self.ValidFlags)
+        write!(
+            f,
+            "SYSTEM_QUERY_PERFORMANCE_COUNTER_INFORMATION {{ Flags: {:?}, ValidFlags: {:?} }}",
+            self.Flags, self.ValidFlags
+        )
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSTEM_PIXEL_FORMAT {
@@ -6110,6 +7945,7 @@ pub enum SYSTEM_PIXEL_FORMAT {
     SystemPixelFormatB8G8R8 = 3,
     SystemPixelFormatB8G8R8X8 = 4,
 }
+
 #[repr(C)]
 pub struct SYSTEM_BOOT_GRAPHICS_INFORMATION {
     pub FrameBuffer: i64,
@@ -6120,31 +7956,41 @@ pub struct SYSTEM_BOOT_GRAPHICS_INFORMATION {
     pub Format: SYSTEM_PIXEL_FORMAT,
     pub DisplayRotation: u32,
 }
+
 impl Default for SYSTEM_BOOT_GRAPHICS_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BOOT_GRAPHICS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_BOOT_GRAPHICS_INFORMATION {{ Format: {:?} }}", self.Format)
+        write!(
+            f,
+            "SYSTEM_BOOT_GRAPHICS_INFORMATION {{ Format: {:?} }}",
+            self.Format
+        )
     }
 }
+
 #[repr(C)]
 pub struct MEMORY_SCRUB_INFORMATION {
     pub Handle: HANDLE,
     pub PagesScrubbed: u32,
 }
+
 impl Default for MEMORY_SCRUB_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MEMORY_SCRUB_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MEMORY_SCRUB_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct PEBS_DS_SAVE_AREA32 {
     pub BtsBufferBase: u32,
@@ -6158,16 +8004,23 @@ pub struct PEBS_DS_SAVE_AREA32 {
     pub PebsGpCounterReset: [u32; 8],
     pub PebsFixedCounterReset: [u32; 4],
 }
+
 impl Default for PEBS_DS_SAVE_AREA32 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PEBS_DS_SAVE_AREA32 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PEBS_DS_SAVE_AREA32 {{ PebsGpCounterReset: {:?}, PebsFixedCounterReset: {:?} }}", self.PebsGpCounterReset, self.PebsFixedCounterReset)
+        write!(
+            f,
+            "PEBS_DS_SAVE_AREA32 {{ PebsGpCounterReset: {:?}, PebsFixedCounterReset: {:?} }}",
+            self.PebsGpCounterReset, self.PebsFixedCounterReset
+        )
     }
 }
+
 #[repr(C)]
 pub struct PEBS_DS_SAVE_AREA64 {
     pub BtsBufferBase: u64,
@@ -6181,92 +8034,122 @@ pub struct PEBS_DS_SAVE_AREA64 {
     pub PebsGpCounterReset: [u64; 8],
     pub PebsFixedCounterReset: [u64; 4],
 }
+
 impl Default for PEBS_DS_SAVE_AREA64 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PEBS_DS_SAVE_AREA64 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PEBS_DS_SAVE_AREA64 {{ PebsGpCounterReset: {:?}, PebsFixedCounterReset: {:?} }}", self.PebsGpCounterReset, self.PebsFixedCounterReset)
+        write!(
+            f,
+            "PEBS_DS_SAVE_AREA64 {{ PebsGpCounterReset: {:?}, PebsFixedCounterReset: {:?} }}",
+            self.PebsGpCounterReset, self.PebsFixedCounterReset
+        )
     }
 }
+
 #[repr(C)]
 pub struct PEBS_DS_SAVE_AREA {
     pub As32Bit: UnionField<PEBS_DS_SAVE_AREA32>,
     pub As64Bit: UnionField<PEBS_DS_SAVE_AREA64>,
     pub union_field: [u64; 20],
 }
+
 impl Default for PEBS_DS_SAVE_AREA {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PEBS_DS_SAVE_AREA {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "PEBS_DS_SAVE_AREA {{ union }}")
     }
 }
+
 #[repr(C)]
 pub struct PROCESSOR_PROFILE_CONTROL_AREA {
     pub PebsDsSaveArea: PEBS_DS_SAVE_AREA,
 }
+
 impl Default for PROCESSOR_PROFILE_CONTROL_AREA {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PROCESSOR_PROFILE_CONTROL_AREA {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESSOR_PROFILE_CONTROL_AREA {{ PebsDsSaveArea: {:?} }}", self.PebsDsSaveArea)
+        write!(
+            f,
+            "PROCESSOR_PROFILE_CONTROL_AREA {{ PebsDsSaveArea: {:?} }}",
+            self.PebsDsSaveArea
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_PROFILE_CONTROL_AREA {
     pub ProcessorProfileControlArea: PROCESSOR_PROFILE_CONTROL_AREA,
     pub Allocate: BOOLEAN,
 }
+
 impl Default for SYSTEM_PROCESSOR_PROFILE_CONTROL_AREA {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_PROFILE_CONTROL_AREA {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_PROCESSOR_PROFILE_CONTROL_AREA {{ ProcessorProfileControlArea: {:?} }}", self.ProcessorProfileControlArea)
+        write!(
+            f,
+            "SYSTEM_PROCESSOR_PROFILE_CONTROL_AREA {{ ProcessorProfileControlArea: {:?} }}",
+            self.ProcessorProfileControlArea
+        )
     }
 }
+
 #[repr(C)]
 pub struct MEMORY_COMBINE_INFORMATION {
     pub Handle: HANDLE,
     pub PagesCombined: usize,
 }
+
 impl Default for MEMORY_COMBINE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MEMORY_COMBINE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MEMORY_COMBINE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct MEMORY_COMBINE_INFORMATION_EX {
     pub Handle: HANDLE,
     pub PagesCombined: usize,
     pub Flags: u32,
 }
+
 impl Default for MEMORY_COMBINE_INFORMATION_EX {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MEMORY_COMBINE_INFORMATION_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MEMORY_COMBINE_INFORMATION_EX {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct MEMORY_COMBINE_INFORMATION_EX2 {
     pub Handle: HANDLE,
@@ -6274,73 +8157,106 @@ pub struct MEMORY_COMBINE_INFORMATION_EX2 {
     pub Flags: u32,
     pub ProcessHandle: HANDLE,
 }
+
 impl Default for MEMORY_COMBINE_INFORMATION_EX2 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MEMORY_COMBINE_INFORMATION_EX2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MEMORY_COMBINE_INFORMATION_EX2 {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_ENTROPY_TIMING_INFORMATION {
-    pub EntropyRoutine: std::option::Option<unsafe extern "system" fn(arg1: *mut std::ffi::c_void, arg2: u32)>,
-    pub InitializationRoutine: std::option::Option<unsafe extern "system" fn(arg1: *mut std::ffi::c_void, arg2: u32, arg3: *mut std::ffi::c_void)>,
+    pub EntropyRoutine:
+        std::option::Option<unsafe extern "system" fn(arg1: *mut std::ffi::c_void, arg2: u32)>,
+    pub InitializationRoutine: std::option::Option<
+        unsafe extern "system" fn(
+            arg1: *mut std::ffi::c_void,
+            arg2: u32,
+            arg3: *mut std::ffi::c_void,
+        ),
+    >,
     pub InitializationContext: *mut std::ffi::c_void,
 }
+
 impl Default for SYSTEM_ENTROPY_TIMING_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ENTROPY_TIMING_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_ENTROPY_TIMING_INFORMATION {{ EntropyRoutine: {:?}, InitializationRoutine: {:?} }}", self.EntropyRoutine, self.InitializationRoutine)
+        write!(
+            f,
+            "SYSTEM_ENTROPY_TIMING_INFORMATION {{ EntropyRoutine: {:?}, InitializationRoutine: {:?} }}",
+            self.EntropyRoutine, self.InitializationRoutine
+        )
     }
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSTEM_CONSOLE_INFORMATION {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SYSTEM_CONSOLE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_CONSOLE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_CONSOLE_INFORMATION {{ DriverLoaded : {:?}, Spare : {:?} }}", self.DriverLoaded(), self.Spare())
+        write!(
+            f,
+            "SYSTEM_CONSOLE_INFORMATION {{ DriverLoaded : {:?}, Spare : {:?} }}",
+            self.DriverLoaded(),
+            self.Spare()
+        )
     }
 }
+
 impl SYSTEM_CONSOLE_INFORMATION {
     #[inline]
     pub fn DriverLoaded(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_DriverLoaded(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(1usize, 31u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(DriverLoaded: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, DriverLoaded as u64);
+
         bitfield_unit.set(1usize, 31u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PLATFORM_BINARY_INFORMATION {
     pub PhysicalAddress: u64,
@@ -6349,16 +8265,19 @@ pub struct SYSTEM_PLATFORM_BINARY_INFORMATION {
     pub HandoffBufferSize: u32,
     pub CommandLineBufferSize: u32,
 }
+
 impl Default for SYSTEM_PLATFORM_BINARY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PLATFORM_BINARY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PLATFORM_BINARY_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_POLICY_INFORMATION {
     pub InputData: *mut std::ffi::c_void,
@@ -6367,31 +8286,37 @@ pub struct SYSTEM_POLICY_INFORMATION {
     pub OutputDataSize: u32,
     pub Version: u32,
 }
+
 impl Default for SYSTEM_POLICY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POLICY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_POLICY_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_HYPERVISOR_PROCESSOR_COUNT_INFORMATION {
     pub NumberOfLogicalProcessors: u32,
     pub NumberOfCores: u32,
 }
+
 impl Default for SYSTEM_HYPERVISOR_PROCESSOR_COUNT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_HYPERVISOR_PROCESSOR_COUNT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_HYPERVISOR_PROCESSOR_COUNT_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_DEVICE_DATA_INFORMATION {
     pub DeviceId: UNICODE_STRING,
@@ -6400,16 +8325,19 @@ pub struct SYSTEM_DEVICE_DATA_INFORMATION {
     pub DataBufferLength: u32,
     pub DataBuffer: *mut std::ffi::c_void,
 }
+
 impl Default for SYSTEM_DEVICE_DATA_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_DEVICE_DATA_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_DEVICE_DATA_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct PHYSICAL_CHANNEL_RUN {
     pub NodeNumber: u32,
@@ -6418,16 +8346,19 @@ pub struct PHYSICAL_CHANNEL_RUN {
     pub PageCount: u64,
     pub Flags: u32,
 }
+
 impl Default for PHYSICAL_CHANNEL_RUN {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PHYSICAL_CHANNEL_RUN {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "PHYSICAL_CHANNEL_RUN {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_MEMORY_TOPOLOGY_INFORMATION {
     pub NumberOfRuns: u64,
@@ -6435,16 +8366,23 @@ pub struct SYSTEM_MEMORY_TOPOLOGY_INFORMATION {
     pub NumberOfChannels: u32,
     pub Run: [PHYSICAL_CHANNEL_RUN; 1],
 }
+
 impl Default for SYSTEM_MEMORY_TOPOLOGY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_MEMORY_TOPOLOGY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_MEMORY_TOPOLOGY_INFORMATION {{ Run: {:?} }}", self.Run)
+        write!(
+            f,
+            "SYSTEM_MEMORY_TOPOLOGY_INFORMATION {{ Run: {:?} }}",
+            self.Run
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_MEMORY_CHANNEL_INFORMATION {
     pub ChannelNumber: u32,
@@ -6454,31 +8392,37 @@ pub struct SYSTEM_MEMORY_CHANNEL_INFORMATION {
     pub FreePageCount: u64,
     pub StandbyPageCount: u64,
 }
+
 impl Default for SYSTEM_MEMORY_CHANNEL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_MEMORY_CHANNEL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_MEMORY_CHANNEL_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_BOOT_LOGO_INFORMATION {
     pub Flags: u32,
     pub BitmapOffset: u32,
 }
+
 impl Default for SYSTEM_BOOT_LOGO_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BOOT_LOGO_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_BOOT_LOGO_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION_EX {
     pub IdleTime: i64,
@@ -6492,44 +8436,52 @@ pub struct SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION_EX {
     pub Spare1: i64,
     pub Spare2: i64,
 }
+
 impl Default for SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION_EX {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION_EX {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SECUREBOOT_POLICY_INFORMATION {
     pub PolicyPublisher: GUID,
     pub PolicyVersion: u32,
     pub PolicyOptions: u32,
 }
+
 impl Default for SYSTEM_SECUREBOOT_POLICY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SECUREBOOT_POLICY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SECUREBOOT_POLICY_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PAGEFILE_INFORMATION_EX {
     pub Anonymous1: SYSTEM_PAGEFILE_INFORMATION_EX_1,
     pub MinimumSize: u32,
     pub MaximumSize: u32,
 }
+
 #[repr(C)]
 pub struct SYSTEM_PAGEFILE_INFORMATION_EX_1 {
     pub Info: UnionField<SYSTEM_PAGEFILE_INFORMATION>,
     pub Anonymous1: UnionField<SYSTEM_PAGEFILE_INFORMATION_EX_1_1>,
     pub union_field: [u64; 4],
 }
+
 #[repr(C)]
 pub struct SYSTEM_PAGEFILE_INFORMATION_EX_1_1 {
     pub NextEntryOffset: u32,
@@ -6538,51 +8490,65 @@ pub struct SYSTEM_PAGEFILE_INFORMATION_EX_1_1 {
     pub PeakUsage: u32,
     pub PageFileName: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_PAGEFILE_INFORMATION_EX_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PAGEFILE_INFORMATION_EX_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PAGEFILE_INFORMATION_EX_1_1 {{  }}")
     }
 }
+
 impl Default for SYSTEM_PAGEFILE_INFORMATION_EX_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PAGEFILE_INFORMATION_EX_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PAGEFILE_INFORMATION_EX_1 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_PAGEFILE_INFORMATION_EX {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PAGEFILE_INFORMATION_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_PAGEFILE_INFORMATION_EX {{ Anonymous1: {:?} }}", self.Anonymous1)
+        write!(
+            f,
+            "SYSTEM_PAGEFILE_INFORMATION_EX {{ Anonymous1: {:?} }}",
+            self.Anonymous1
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SECUREBOOT_INFORMATION {
     pub SecureBootEnabled: BOOLEAN,
     pub SecureBootCapable: BOOLEAN,
 }
+
 impl Default for SYSTEM_SECUREBOOT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SECUREBOOT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SECUREBOOT_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct PROCESS_DISK_COUNTERS {
     pub BytesRead: u64,
@@ -6591,73 +8557,95 @@ pub struct PROCESS_DISK_COUNTERS {
     pub WriteOperationCount: u64,
     pub FlushOperationCount: u64,
 }
+
 impl Default for PROCESS_DISK_COUNTERS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PROCESS_DISK_COUNTERS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "PROCESS_DISK_COUNTERS {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ENERGY_STATE_DURATION {
     pub Value: UnionField<u64>,
     pub Anonymous1: UnionField<ENERGY_STATE_DURATION_1>,
     pub union_field: u64,
 }
+
 #[repr(C)]
 pub struct ENERGY_STATE_DURATION_1 {
     pub LastChangeTime: u32,
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for ENERGY_STATE_DURATION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ENERGY_STATE_DURATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ENERGY_STATE_DURATION_1 {{ Duration : {:?}, IsInState : {:?} }}", self.Duration(), self.IsInState())
+        write!(
+            f,
+            "ENERGY_STATE_DURATION_1 {{ Duration : {:?}, IsInState : {:?} }}",
+            self.Duration(),
+            self.IsInState()
+        )
     }
 }
+
 impl ENERGY_STATE_DURATION_1 {
     #[inline]
     pub fn Duration(&self) -> u32 {
         self._bitfield_1.get(0usize, 31u8) as u32
     }
+
     #[inline]
     pub fn set_Duration(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 31u8, val as u64)
     }
+
     #[inline]
     pub fn IsInState(&self) -> u32 {
         self._bitfield_1.get(31usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_IsInState(&mut self, val: u32) {
         self._bitfield_1.set(31usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Duration: u32, IsInState: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 31u8, Duration as u64);
+
         bitfield_unit.set(31usize, 1u8, IsInState as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for ENERGY_STATE_DURATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ENERGY_STATE_DURATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ENERGY_STATE_DURATION {{ union }}")
     }
 }
+
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES {
     pub Cycles: [[u64; 2]; 4],
@@ -6674,79 +8662,102 @@ pub struct PROCESS_ENERGY_VALUES {
     pub AttributedCycles: [[u64; 2]; 4],
     pub WorkOnBehalfCycles: [[u64; 2]; 4],
 }
+
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_1 {
     pub Durations: UnionField<[ENERGY_STATE_DURATION; 3]>,
     pub Anonymous1: UnionField<PROCESS_ENERGY_VALUES_1_1>,
     pub union_field: [u64; 3],
 }
+
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_1_1 {
     pub ForegroundDuration: ENERGY_STATE_DURATION,
     pub DesktopVisibleDuration: ENERGY_STATE_DURATION,
     pub PSMForegroundDuration: ENERGY_STATE_DURATION,
 }
+
 impl Default for PROCESS_ENERGY_VALUES_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PROCESS_ENERGY_VALUES_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_ENERGY_VALUES_1_1 {{ ForegroundDuration: {:?}, DesktopVisibleDuration: {:?}, PSMForegroundDuration: {:?} }}", self.ForegroundDuration, self.DesktopVisibleDuration, self.PSMForegroundDuration)
+        write!(
+            f,
+            "PROCESS_ENERGY_VALUES_1_1 {{ ForegroundDuration: {:?}, DesktopVisibleDuration: {:?}, PSMForegroundDuration: {:?} }}",
+            self.ForegroundDuration, self.DesktopVisibleDuration, self.PSMForegroundDuration
+        )
     }
 }
+
 impl Default for PROCESS_ENERGY_VALUES_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PROCESS_ENERGY_VALUES_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "PROCESS_ENERGY_VALUES_1 {{ union }}")
     }
 }
+
 impl Default for PROCESS_ENERGY_VALUES {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PROCESS_ENERGY_VALUES {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_ENERGY_VALUES {{ Cycles: {:?}, Anonymous1: {:?}, AttributedCycles: {:?}, WorkOnBehalfCycles: {:?} }}", self.Cycles, self.Anonymous1, self.AttributedCycles, self.WorkOnBehalfCycles)
+        write!(
+            f,
+            "PROCESS_ENERGY_VALUES {{ Cycles: {:?}, Anonymous1: {:?}, AttributedCycles: {:?}, WorkOnBehalfCycles: {:?} }}",
+            self.Cycles, self.Anonymous1, self.AttributedCycles, self.WorkOnBehalfCycles
+        )
     }
 }
+
 #[repr(C)]
 pub struct TIMELINE_BITMAP {
     pub Value: UnionField<u64>,
     pub Anonymous1: UnionField<TIMELINE_BITMAP_1>,
     pub union_field: u64,
 }
+
 #[repr(C)]
 pub struct TIMELINE_BITMAP_1 {
     pub EndTime: u32,
     pub Bitmap: u32,
 }
+
 impl Default for TIMELINE_BITMAP_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for TIMELINE_BITMAP_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "TIMELINE_BITMAP_1 {{  }}")
     }
 }
+
 impl Default for TIMELINE_BITMAP {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for TIMELINE_BITMAP {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "TIMELINE_BITMAP {{ union }}")
     }
 }
+
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_EXTENSION {
     pub Anonymous1: PROCESS_ENERGY_VALUES_EXTENSION_1,
@@ -6754,12 +8765,14 @@ pub struct PROCESS_ENERGY_VALUES_EXTENSION {
     pub KeyboardInput: u32,
     pub MouseInput: u32,
 }
+
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_EXTENSION_1 {
     pub Timelines: UnionField<[TIMELINE_BITMAP; 14]>,
     pub Anonymous1: UnionField<PROCESS_ENERGY_VALUES_EXTENSION_1_1>,
     pub union_field: [u64; 14],
 }
+
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_EXTENSION_1_1 {
     pub CpuTimeline: TIMELINE_BITMAP,
@@ -6777,36 +8790,55 @@ pub struct PROCESS_ENERGY_VALUES_EXTENSION_1_1 {
     pub DisplayRequiredTimeline: TIMELINE_BITMAP,
     pub KeyboardInputTimeline: TIMELINE_BITMAP,
 }
+
 impl Default for PROCESS_ENERGY_VALUES_EXTENSION_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PROCESS_ENERGY_VALUES_EXTENSION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
             "PROCESS_ENERGY_VALUES_EXTENSION_1_1 {{ CpuTimeline: {:?}, DiskTimeline: {:?}, NetworkTimeline: {:?}, MBBTimeline: {:?}, ForegroundTimeline: {:?}, DesktopVisibleTimeline: {:?}, CompositionRenderedTimeline: {:?}, CompositionDirtyGeneratedTimeline: {:?}, CompositionDirtyPropagatedTimeline: {:?}, InputTimeline: {:?}, AudioInTimeline: {:?}, AudioOutTimeline: {:?}, DisplayRequiredTimeline: {:?}, KeyboardInputTimeline: {:?} }}",
-            self.CpuTimeline, self.DiskTimeline, self.NetworkTimeline, self.MBBTimeline, self.ForegroundTimeline, self.DesktopVisibleTimeline, self.CompositionRenderedTimeline, self.CompositionDirtyGeneratedTimeline, self.CompositionDirtyPropagatedTimeline, self.InputTimeline, self.AudioInTimeline, self.AudioOutTimeline, self.DisplayRequiredTimeline, self.KeyboardInputTimeline
+            self.CpuTimeline,
+            self.DiskTimeline,
+            self.NetworkTimeline,
+            self.MBBTimeline,
+            self.ForegroundTimeline,
+            self.DesktopVisibleTimeline,
+            self.CompositionRenderedTimeline,
+            self.CompositionDirtyGeneratedTimeline,
+            self.CompositionDirtyPropagatedTimeline,
+            self.InputTimeline,
+            self.AudioInTimeline,
+            self.AudioOutTimeline,
+            self.DisplayRequiredTimeline,
+            self.KeyboardInputTimeline
         )
     }
 }
+
 impl Default for PROCESS_ENERGY_VALUES_EXTENSION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PROCESS_ENERGY_VALUES_EXTENSION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "PROCESS_ENERGY_VALUES_EXTENSION_1 {{ union }}")
     }
 }
+
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_EXTENSION_2 {
     pub Durations: UnionField<[ENERGY_STATE_DURATION; 5]>,
     pub Anonymous1: UnionField<PROCESS_ENERGY_VALUES_EXTENSION_2_1>,
     pub union_field: [u64; 5],
 }
+
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_EXTENSION_2_1 {
     pub InputDuration: ENERGY_STATE_DURATION,
@@ -6815,51 +8847,77 @@ pub struct PROCESS_ENERGY_VALUES_EXTENSION_2_1 {
     pub DisplayRequiredDuration: ENERGY_STATE_DURATION,
     pub PSMBackgroundDuration: ENERGY_STATE_DURATION,
 }
+
 impl Default for PROCESS_ENERGY_VALUES_EXTENSION_2_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PROCESS_ENERGY_VALUES_EXTENSION_2_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_ENERGY_VALUES_EXTENSION_2_1 {{ InputDuration: {:?}, AudioInDuration: {:?}, AudioOutDuration: {:?}, DisplayRequiredDuration: {:?}, PSMBackgroundDuration: {:?} }}", self.InputDuration, self.AudioInDuration, self.AudioOutDuration, self.DisplayRequiredDuration, self.PSMBackgroundDuration)
+        write!(
+            f,
+            "PROCESS_ENERGY_VALUES_EXTENSION_2_1 {{ InputDuration: {:?}, AudioInDuration: {:?}, AudioOutDuration: {:?}, DisplayRequiredDuration: {:?}, PSMBackgroundDuration: {:?} }}",
+            self.InputDuration,
+            self.AudioInDuration,
+            self.AudioOutDuration,
+            self.DisplayRequiredDuration,
+            self.PSMBackgroundDuration
+        )
     }
 }
+
 impl Default for PROCESS_ENERGY_VALUES_EXTENSION_2 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PROCESS_ENERGY_VALUES_EXTENSION_2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "PROCESS_ENERGY_VALUES_EXTENSION_2 {{ union }}")
     }
 }
+
 impl Default for PROCESS_ENERGY_VALUES_EXTENSION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PROCESS_ENERGY_VALUES_EXTENSION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_ENERGY_VALUES_EXTENSION {{ Anonymous1: {:?}, Anonymous2: {:?} }}", self.Anonymous1, self.Anonymous2)
+        write!(
+            f,
+            "PROCESS_ENERGY_VALUES_EXTENSION {{ Anonymous1: {:?}, Anonymous2: {:?} }}",
+            self.Anonymous1, self.Anonymous2
+        )
     }
 }
+
 #[repr(C)]
 pub struct PROCESS_EXTENDED_ENERGY_VALUES {
     pub Base: PROCESS_ENERGY_VALUES,
     pub Extension: PROCESS_ENERGY_VALUES_EXTENSION,
 }
+
 impl Default for PROCESS_EXTENDED_ENERGY_VALUES {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for PROCESS_EXTENDED_ENERGY_VALUES {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_EXTENDED_ENERGY_VALUES {{ Base: {:?}, Extension: {:?} }}", self.Base, self.Extension)
+        write!(
+            f,
+            "PROCESS_EXTENDED_ENERGY_VALUES {{ Base: {:?}, Extension: {:?} }}",
+            self.Base, self.Extension
+        )
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSTEM_PROCESS_CLASSIFICATION {
@@ -6870,6 +8928,7 @@ pub enum SYSTEM_PROCESS_CLASSIFICATION {
     SystemProcessClassificationRegistry = 4,
     SystemProcessClassificationMaximum = 5,
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESS_INFORMATION_EXTENSION {
     pub DiskCounters: PROCESS_DISK_COUNTERS,
@@ -6884,135 +8943,186 @@ pub struct SYSTEM_PROCESS_INFORMATION_EXTENSION {
     pub SpareUlong: u32,
     pub ProcessSequenceNumber: u64,
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESS_INFORMATION_EXTENSION_1 {
     pub Flags: UnionField<u32>,
     pub Anonymous1: UnionField<SYSTEM_PROCESS_INFORMATION_EXTENSION_1_1>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSTEM_PROCESS_INFORMATION_EXTENSION_1_1 {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SYSTEM_PROCESS_INFORMATION_EXTENSION_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESS_INFORMATION_EXTENSION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_PROCESS_INFORMATION_EXTENSION_1_1 {{ HasStrongId : {:?}, Classification : {:?}, BackgroundActivityModerated : {:?}, Spare : {:?} }}", self.HasStrongId(), self.Classification(), self.BackgroundActivityModerated(), self.Spare())
+        write!(
+            f,
+            "SYSTEM_PROCESS_INFORMATION_EXTENSION_1_1 {{ HasStrongId : {:?}, Classification : {:?}, BackgroundActivityModerated : {:?}, Spare : {:?} }}",
+            self.HasStrongId(),
+            self.Classification(),
+            self.BackgroundActivityModerated(),
+            self.Spare()
+        )
     }
 }
+
 impl SYSTEM_PROCESS_INFORMATION_EXTENSION_1_1 {
     #[inline]
     pub fn HasStrongId(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_HasStrongId(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Classification(&self) -> u32 {
         self._bitfield_1.get(1usize, 4u8) as u32
     }
+
     #[inline]
     pub fn set_Classification(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 4u8, val as u64)
     }
+
     #[inline]
     pub fn BackgroundActivityModerated(&self) -> u32 {
         self._bitfield_1.get(5usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_BackgroundActivityModerated(&mut self, val: u32) {
         self._bitfield_1.set(5usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Spare(&self) -> u32 {
         self._bitfield_1.get(6usize, 26u8) as u32
     }
+
     #[inline]
     pub fn set_Spare(&mut self, val: u32) {
         self._bitfield_1.set(6usize, 26u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(HasStrongId: u32, Classification: u32, BackgroundActivityModerated: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        HasStrongId: u32,
+        Classification: u32,
+        BackgroundActivityModerated: u32,
+        Spare: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, HasStrongId as u64);
+
         bitfield_unit.set(1usize, 4u8, Classification as u64);
+
         bitfield_unit.set(5usize, 1u8, BackgroundActivityModerated as u64);
+
         bitfield_unit.set(6usize, 26u8, Spare as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_PROCESS_INFORMATION_EXTENSION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESS_INFORMATION_EXTENSION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PROCESS_INFORMATION_EXTENSION_1 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_PROCESS_INFORMATION_EXTENSION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESS_INFORMATION_EXTENSION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_PROCESS_INFORMATION_EXTENSION {{ DiskCounters: {:?}, Anonymous1: {:?}, EnergyValues: {:?} }}", self.DiskCounters, self.Anonymous1, self.EnergyValues)
+        write!(
+            f,
+            "SYSTEM_PROCESS_INFORMATION_EXTENSION {{ DiskCounters: {:?}, Anonymous1: {:?}, EnergyValues: {:?} }}",
+            self.DiskCounters, self.Anonymous1, self.EnergyValues
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PORTABLE_WORKSPACE_EFI_LAUNCHER_INFORMATION {
     pub EfiLauncherEnabled: BOOLEAN,
 }
+
 impl Default for SYSTEM_PORTABLE_WORKSPACE_EFI_LAUNCHER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PORTABLE_WORKSPACE_EFI_LAUNCHER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_PORTABLE_WORKSPACE_EFI_LAUNCHER_INFORMATION {{  }}")
+        write!(
+            f,
+            "SYSTEM_PORTABLE_WORKSPACE_EFI_LAUNCHER_INFORMATION {{  }}"
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX {
     pub DebuggerAllowed: BOOLEAN,
     pub DebuggerEnabled: BOOLEAN,
     pub DebuggerPresent: BOOLEAN,
 }
+
 impl Default for SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_ELAM_CERTIFICATE_INFORMATION {
     pub ElamDriverFile: HANDLE,
 }
+
 impl Default for SYSTEM_ELAM_CERTIFICATE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ELAM_CERTIFICATE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_ELAM_CERTIFICATE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct OFFLINE_CRASHDUMP_CONFIGURATION_TABLE_V2 {
     pub Version: u32,
@@ -7021,104 +9131,129 @@ pub struct OFFLINE_CRASHDUMP_CONFIGURATION_TABLE_V2 {
     pub ResetDataAddress: i64,
     pub ResetDataSize: u32,
 }
+
 impl Default for OFFLINE_CRASHDUMP_CONFIGURATION_TABLE_V2 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for OFFLINE_CRASHDUMP_CONFIGURATION_TABLE_V2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "OFFLINE_CRASHDUMP_CONFIGURATION_TABLE_V2 {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct OFFLINE_CRASHDUMP_CONFIGURATION_TABLE_V1 {
     pub Version: u32,
     pub AbnormalResetOccurred: u32,
     pub OfflineMemoryDumpCapable: u32,
 }
+
 impl Default for OFFLINE_CRASHDUMP_CONFIGURATION_TABLE_V1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for OFFLINE_CRASHDUMP_CONFIGURATION_TABLE_V1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "OFFLINE_CRASHDUMP_CONFIGURATION_TABLE_V1 {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_FEATURES_INFORMATION {
     pub ProcessorFeatureBits: u64,
     pub Reserved: [u64; 3],
 }
+
 impl Default for SYSTEM_PROCESSOR_FEATURES_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_FEATURES_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_PROCESSOR_FEATURES_INFORMATION {{ Reserved: {:?} }}", self.Reserved)
+        write!(
+            f,
+            "SYSTEM_PROCESSOR_FEATURES_INFORMATION {{ Reserved: {:?} }}",
+            self.Reserved
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_EDID_INFORMATION {
     pub Edid: [u8; 128],
 }
+
 impl Default for SYSTEM_EDID_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_EDID_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_EDID_INFORMATION {{ Edid: {:?} }}", self.Edid)
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_MANUFACTURING_INFORMATION {
     pub Options: u32,
     pub ProfileName: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_MANUFACTURING_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_MANUFACTURING_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_MANUFACTURING_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_ENERGY_ESTIMATION_CONFIG_INFORMATION {
     pub Enabled: BOOLEAN,
 }
+
 impl Default for SYSTEM_ENERGY_ESTIMATION_CONFIG_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ENERGY_ESTIMATION_CONFIG_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_ENERGY_ESTIMATION_CONFIG_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct HV_DETAILS {
     pub Data: [u32; 4],
 }
+
 impl Default for HV_DETAILS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for HV_DETAILS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "HV_DETAILS {{ Data: {:?} }}", self.Data)
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_HYPERVISOR_DETAIL_INFORMATION {
     pub HvVendorAndMaxFunction: HV_DETAILS,
@@ -7129,44 +9264,67 @@ pub struct SYSTEM_HYPERVISOR_DETAIL_INFORMATION {
     pub EnlightenmentInfo: HV_DETAILS,
     pub ImplementationLimits: HV_DETAILS,
 }
+
 impl Default for SYSTEM_HYPERVISOR_DETAIL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_HYPERVISOR_DETAIL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_HYPERVISOR_DETAIL_INFORMATION {{ HvVendorAndMaxFunction: {:?}, HypervisorInterface: {:?}, HypervisorVersion: {:?}, HvFeatures: {:?}, HwFeatures: {:?}, EnlightenmentInfo: {:?}, ImplementationLimits: {:?} }}", self.HvVendorAndMaxFunction, self.HypervisorInterface, self.HypervisorVersion, self.HvFeatures, self.HwFeatures, self.EnlightenmentInfo, self.ImplementationLimits)
+        write!(
+            f,
+            "SYSTEM_HYPERVISOR_DETAIL_INFORMATION {{ HvVendorAndMaxFunction: {:?}, HypervisorInterface: {:?}, HypervisorVersion: {:?}, HvFeatures: {:?}, HwFeatures: {:?}, EnlightenmentInfo: {:?}, ImplementationLimits: {:?} }}",
+            self.HvVendorAndMaxFunction,
+            self.HypervisorInterface,
+            self.HypervisorVersion,
+            self.HvFeatures,
+            self.HwFeatures,
+            self.EnlightenmentInfo,
+            self.ImplementationLimits
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_CYCLE_STATS_INFORMATION {
     pub Cycles: [[u64; 2]; 4],
 }
+
 impl Default for SYSTEM_PROCESSOR_CYCLE_STATS_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PROCESSOR_CYCLE_STATS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_PROCESSOR_CYCLE_STATS_INFORMATION {{ Cycles: {:?} }}", self.Cycles)
+        write!(
+            f,
+            "SYSTEM_PROCESSOR_CYCLE_STATS_INFORMATION {{ Cycles: {:?} }}",
+            self.Cycles
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_TPM_INFORMATION {
     pub Flags: u32,
 }
+
 impl Default for SYSTEM_TPM_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_TPM_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_TPM_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_VSM_PROTECTION_INFORMATION {
     pub DmaProtectionsAvailable: BOOLEAN,
@@ -7174,30 +9332,36 @@ pub struct SYSTEM_VSM_PROTECTION_INFORMATION {
     pub HardwareMbecAvailable: BOOLEAN,
     pub ApicVirtualizationAvailable: BOOLEAN,
 }
+
 impl Default for SYSTEM_VSM_PROTECTION_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_VSM_PROTECTION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_VSM_PROTECTION_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_KERNEL_DEBUGGER_FLAGS {
     pub KernelDebuggerIgnoreUmExceptions: BOOLEAN,
 }
+
 impl Default for SYSTEM_KERNEL_DEBUGGER_FLAGS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_KERNEL_DEBUGGER_FLAGS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_KERNEL_DEBUGGER_FLAGS {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_CODEINTEGRITYPOLICY_INFORMATION {
     pub Options: u32,
@@ -7205,16 +9369,19 @@ pub struct SYSTEM_CODEINTEGRITYPOLICY_INFORMATION {
     pub Version: u64,
     pub PolicyGuid: GUID,
 }
+
 impl Default for SYSTEM_CODEINTEGRITYPOLICY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_CODEINTEGRITYPOLICY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_CODEINTEGRITYPOLICY_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_ISOLATED_USER_MODE_INFORMATION {
     _bitfield_align_1: [u8; 0],
@@ -7222,11 +9389,13 @@ pub struct SYSTEM_ISOLATED_USER_MODE_INFORMATION {
     pub Spare0: [BOOLEAN; 6],
     pub Spare1: u64,
 }
+
 impl Default for SYSTEM_ISOLATED_USER_MODE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ISOLATED_USER_MODE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
@@ -7246,240 +9415,331 @@ impl std::fmt::Debug for SYSTEM_ISOLATED_USER_MODE_INFORMATION {
         )
     }
 }
+
 impl SYSTEM_ISOLATED_USER_MODE_INFORMATION {
     #[inline]
     pub fn SecureKernelRunning(&self) -> BOOLEAN {
         unsafe { std::mem::transmute(self._bitfield_1.get(0usize, 1u8) as u8) }
     }
+
     #[inline]
     pub fn set_SecureKernelRunning(&mut self, val: BOOLEAN) {
         unsafe {
             let val: u8 = std::mem::transmute(val);
+
             self._bitfield_1.set(0usize, 1u8, val as u64)
         }
     }
+
     #[inline]
     pub fn HvciEnabled(&self) -> BOOLEAN {
         unsafe { std::mem::transmute(self._bitfield_1.get(1usize, 1u8) as u8) }
     }
+
     #[inline]
     pub fn set_HvciEnabled(&mut self, val: BOOLEAN) {
         unsafe {
             let val: u8 = std::mem::transmute(val);
+
             self._bitfield_1.set(1usize, 1u8, val as u64)
         }
     }
+
     #[inline]
     pub fn HvciStrictMode(&self) -> BOOLEAN {
         unsafe { std::mem::transmute(self._bitfield_1.get(2usize, 1u8) as u8) }
     }
+
     #[inline]
     pub fn set_HvciStrictMode(&mut self, val: BOOLEAN) {
         unsafe {
             let val: u8 = std::mem::transmute(val);
+
             self._bitfield_1.set(2usize, 1u8, val as u64)
         }
     }
+
     #[inline]
     pub fn DebugEnabled(&self) -> BOOLEAN {
         unsafe { std::mem::transmute(self._bitfield_1.get(3usize, 1u8) as u8) }
     }
+
     #[inline]
     pub fn set_DebugEnabled(&mut self, val: BOOLEAN) {
         unsafe {
             let val: u8 = std::mem::transmute(val);
+
             self._bitfield_1.set(3usize, 1u8, val as u64)
         }
     }
+
     #[inline]
     pub fn FirmwarePageProtection(&self) -> BOOLEAN {
         unsafe { std::mem::transmute(self._bitfield_1.get(4usize, 1u8) as u8) }
     }
+
     #[inline]
     pub fn set_FirmwarePageProtection(&mut self, val: BOOLEAN) {
         unsafe {
             let val: u8 = std::mem::transmute(val);
+
             self._bitfield_1.set(4usize, 1u8, val as u64)
         }
     }
+
     #[inline]
     pub fn EncryptionKeyAvailable(&self) -> BOOLEAN {
         unsafe { std::mem::transmute(self._bitfield_1.get(5usize, 1u8) as u8) }
     }
+
     #[inline]
     pub fn set_EncryptionKeyAvailable(&mut self, val: BOOLEAN) {
         unsafe {
             let val: u8 = std::mem::transmute(val);
+
             self._bitfield_1.set(5usize, 1u8, val as u64)
         }
     }
+
     #[inline]
     pub fn SpareFlags(&self) -> BOOLEAN {
         unsafe { std::mem::transmute(self._bitfield_1.get(6usize, 2u8) as u8) }
     }
+
     #[inline]
     pub fn set_SpareFlags(&mut self, val: BOOLEAN) {
         unsafe {
             let val: u8 = std::mem::transmute(val);
+
             self._bitfield_1.set(6usize, 2u8, val as u64)
         }
     }
+
     #[inline]
     pub fn TrustletRunning(&self) -> BOOLEAN {
         unsafe { std::mem::transmute(self._bitfield_1.get(8usize, 1u8) as u8) }
     }
+
     #[inline]
     pub fn set_TrustletRunning(&mut self, val: BOOLEAN) {
         unsafe {
             let val: u8 = std::mem::transmute(val);
+
             self._bitfield_1.set(8usize, 1u8, val as u64)
         }
     }
+
     #[inline]
     pub fn HvciDisableAllowed(&self) -> BOOLEAN {
         unsafe { std::mem::transmute(self._bitfield_1.get(9usize, 1u8) as u8) }
     }
+
     #[inline]
     pub fn set_HvciDisableAllowed(&mut self, val: BOOLEAN) {
         unsafe {
             let val: u8 = std::mem::transmute(val);
+
             self._bitfield_1.set(9usize, 1u8, val as u64)
         }
     }
+
     #[inline]
     pub fn SpareFlags2(&self) -> BOOLEAN {
         unsafe { std::mem::transmute(self._bitfield_1.get(10usize, 6u8) as u8) }
     }
+
     #[inline]
     pub fn set_SpareFlags2(&mut self, val: BOOLEAN) {
         unsafe {
             let val: u8 = std::mem::transmute(val);
+
             self._bitfield_1.set(10usize, 6u8, val as u64)
         }
     }
+
     #[inline]
-    pub fn new_bitfield_1(SecureKernelRunning: BOOLEAN, HvciEnabled: BOOLEAN, HvciStrictMode: BOOLEAN, DebugEnabled: BOOLEAN, FirmwarePageProtection: BOOLEAN, EncryptionKeyAvailable: BOOLEAN, SpareFlags: BOOLEAN, TrustletRunning: BOOLEAN, HvciDisableAllowed: BOOLEAN, SpareFlags2: BOOLEAN) -> BitfieldUnit<[u8; 2]> {
+    pub fn new_bitfield_1(
+        SecureKernelRunning: BOOLEAN,
+        HvciEnabled: BOOLEAN,
+        HvciStrictMode: BOOLEAN,
+        DebugEnabled: BOOLEAN,
+        FirmwarePageProtection: BOOLEAN,
+        EncryptionKeyAvailable: BOOLEAN,
+        SpareFlags: BOOLEAN,
+        TrustletRunning: BOOLEAN,
+        HvciDisableAllowed: BOOLEAN,
+        SpareFlags2: BOOLEAN,
+    ) -> BitfieldUnit<[u8; 2]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, {
             let SecureKernelRunning: u8 = unsafe { std::mem::transmute(SecureKernelRunning) };
+
             SecureKernelRunning as u64
         });
+
         bitfield_unit.set(1usize, 1u8, {
             let HvciEnabled: u8 = unsafe { std::mem::transmute(HvciEnabled) };
+
             HvciEnabled as u64
         });
+
         bitfield_unit.set(2usize, 1u8, {
             let HvciStrictMode: u8 = unsafe { std::mem::transmute(HvciStrictMode) };
+
             HvciStrictMode as u64
         });
+
         bitfield_unit.set(3usize, 1u8, {
             let DebugEnabled: u8 = unsafe { std::mem::transmute(DebugEnabled) };
+
             DebugEnabled as u64
         });
+
         bitfield_unit.set(4usize, 1u8, {
             let FirmwarePageProtection: u8 = unsafe { std::mem::transmute(FirmwarePageProtection) };
+
             FirmwarePageProtection as u64
         });
+
         bitfield_unit.set(5usize, 1u8, {
             let EncryptionKeyAvailable: u8 = unsafe { std::mem::transmute(EncryptionKeyAvailable) };
+
             EncryptionKeyAvailable as u64
         });
+
         bitfield_unit.set(6usize, 2u8, {
             let SpareFlags: u8 = unsafe { std::mem::transmute(SpareFlags) };
+
             SpareFlags as u64
         });
+
         bitfield_unit.set(8usize, 1u8, {
             let TrustletRunning: u8 = unsafe { std::mem::transmute(TrustletRunning) };
+
             TrustletRunning as u64
         });
+
         bitfield_unit.set(9usize, 1u8, {
             let HvciDisableAllowed: u8 = unsafe { std::mem::transmute(HvciDisableAllowed) };
+
             HvciDisableAllowed as u64
         });
+
         bitfield_unit.set(10usize, 6u8, {
             let SpareFlags2: u8 = unsafe { std::mem::transmute(SpareFlags2) };
+
             SpareFlags2 as u64
         });
+
         bitfield_unit
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SINGLE_MODULE_INFORMATION {
     pub TargetModuleAddress: *mut std::ffi::c_void,
     pub ExInfo: RTL_PROCESS_MODULE_INFORMATION_EX,
 }
+
 impl Default for SYSTEM_SINGLE_MODULE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SINGLE_MODULE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SINGLE_MODULE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_INTERRUPT_CPU_SET_INFORMATION {
     pub Gsiv: u32,
     pub Group: u16,
     pub CpuSets: u64,
 }
+
 impl Default for SYSTEM_INTERRUPT_CPU_SET_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_INTERRUPT_CPU_SET_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_INTERRUPT_CPU_SET_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SECUREBOOT_POLICY_FULL_INFORMATION {
     pub PolicyInformation: SYSTEM_SECUREBOOT_POLICY_INFORMATION,
     pub PolicySize: u32,
     pub Policy: [u8; 1],
 }
+
 impl Default for SYSTEM_SECUREBOOT_POLICY_FULL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SECUREBOOT_POLICY_FULL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_SECUREBOOT_POLICY_FULL_INFORMATION {{ PolicyInformation: {:?}, Policy: {:?} }}", self.PolicyInformation, self.Policy)
+        write!(
+            f,
+            "SYSTEM_SECUREBOOT_POLICY_FULL_INFORMATION {{ PolicyInformation: {:?}, Policy: {:?} }}",
+            self.PolicyInformation, self.Policy
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_ROOT_SILO_INFORMATION {
     pub NumberOfSilos: u32,
     pub SiloIdList: [u32; 1],
 }
+
 impl Default for SYSTEM_ROOT_SILO_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ROOT_SILO_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_ROOT_SILO_INFORMATION {{ SiloIdList: {:?} }}", self.SiloIdList)
+        write!(
+            f,
+            "SYSTEM_ROOT_SILO_INFORMATION {{ SiloIdList: {:?} }}",
+            self.SiloIdList
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_CPU_SET_TAG_INFORMATION {
     pub Tag: u64,
     pub CpuSets: [u64; 1],
 }
+
 impl Default for SYSTEM_CPU_SET_TAG_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_CPU_SET_TAG_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_CPU_SET_TAG_INFORMATION {{ CpuSets: {:?} }}", self.CpuSets)
+        write!(
+            f,
+            "SYSTEM_CPU_SET_TAG_INFORMATION {{ CpuSets: {:?} }}",
+            self.CpuSets
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SECURE_KERNEL_HYPERGUARD_PROFILE_INFORMATION {
     pub ExtentCount: u32,
@@ -7507,31 +9767,44 @@ pub struct SYSTEM_SECURE_KERNEL_HYPERGUARD_PROFILE_INFORMATION {
     pub Reserved1: u32,
     pub PageNotPresentCount: u64,
 }
+
 impl Default for SYSTEM_SECURE_KERNEL_HYPERGUARD_PROFILE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SECURE_KERNEL_HYPERGUARD_PROFILE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_SECURE_KERNEL_HYPERGUARD_PROFILE_INFORMATION {{  }}")
+        write!(
+            f,
+            "SYSTEM_SECURE_KERNEL_HYPERGUARD_PROFILE_INFORMATION {{  }}"
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SECUREBOOT_PLATFORM_MANIFEST_INFORMATION {
     pub PlatformManifestSize: u32,
     pub PlatformManifest: [u8; 1],
 }
+
 impl Default for SYSTEM_SECUREBOOT_PLATFORM_MANIFEST_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SECUREBOOT_PLATFORM_MANIFEST_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_SECUREBOOT_PLATFORM_MANIFEST_INFORMATION {{ PlatformManifest: {:?} }}", self.PlatformManifest)
+        write!(
+            f,
+            "SYSTEM_SECUREBOOT_PLATFORM_MANIFEST_INFORMATION {{ PlatformManifest: {:?} }}",
+            self.PlatformManifest
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_INTERRUPT_STEERING_INFORMATION_INPUT {
     pub Gsiv: u32,
@@ -7540,73 +9813,98 @@ pub struct SYSTEM_INTERRUPT_STEERING_INFORMATION_INPUT {
     pub IsPrimaryInterrupt: u8,
     pub TargetAffinity: GROUP_AFFINITY,
 }
+
 impl Default for SYSTEM_INTERRUPT_STEERING_INFORMATION_INPUT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_INTERRUPT_STEERING_INFORMATION_INPUT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_INTERRUPT_STEERING_INFORMATION_INPUT {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT {
     pub AsULONG: UnionField<u32>,
     pub Anonymous1: UnionField<SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT_1>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT_1 {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT_1 {{ Enabled : {:?}, Reserved : {:?} }}", self.Enabled(), self.Reserved())
+        write!(
+            f,
+            "SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT_1 {{ Enabled : {:?}, Reserved : {:?} }}",
+            self.Enabled(),
+            self.Reserved()
+        )
     }
 }
+
 impl SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT_1 {
     #[inline]
     pub fn Enabled(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_Enabled(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Reserved(&self) -> u32 {
         self._bitfield_1.get(1usize, 31u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(Enabled: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, Enabled as u64);
+
         bitfield_unit.set(1usize, 31u8, Reserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT {{ union }}")
+        write!(
+            f,
+            "SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT {{ union }}"
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_MEMORY_USAGE_INFORMATION {
     pub TotalPhysicalBytes: u64,
@@ -7617,47 +9915,56 @@ pub struct SYSTEM_MEMORY_USAGE_INFORMATION {
     pub CommitLimitBytes: u64,
     pub PeakCommitmentBytes: u64,
 }
+
 impl Default for SYSTEM_MEMORY_USAGE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_MEMORY_USAGE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_MEMORY_USAGE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_CODEINTEGRITY_CERTIFICATE_INFORMATION {
     pub ImageFile: HANDLE,
     pub Type: u32,
 }
+
 impl Default for SYSTEM_CODEINTEGRITY_CERTIFICATE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_CODEINTEGRITY_CERTIFICATE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_CODEINTEGRITY_CERTIFICATE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_PHYSICAL_MEMORY_INFORMATION {
     pub TotalPhysicalBytes: u64,
     pub LowestPhysicalAddress: u64,
     pub HighestPhysicalAddress: u64,
 }
+
 impl Default for SYSTEM_PHYSICAL_MEMORY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_PHYSICAL_MEMORY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_PHYSICAL_MEMORY_INFORMATION {{  }}")
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSTEM_ACTIVITY_MODERATION_STATE {
@@ -7666,21 +9973,29 @@ pub enum SYSTEM_ACTIVITY_MODERATION_STATE {
     SystemActivityModerationStateUserManagedDisableThrottling = 2,
     MaxSystemActivityModerationState = 3,
 }
+
 #[repr(C)]
 pub struct SYSTEM_ACTIVITY_MODERATION_EXE_STATE {
     pub ExePathNt: UNICODE_STRING,
     pub ModerationState: SYSTEM_ACTIVITY_MODERATION_STATE,
 }
+
 impl Default for SYSTEM_ACTIVITY_MODERATION_EXE_STATE {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ACTIVITY_MODERATION_EXE_STATE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_ACTIVITY_MODERATION_EXE_STATE {{ ModerationState: {:?} }}", self.ModerationState)
+        write!(
+            f,
+            "SYSTEM_ACTIVITY_MODERATION_EXE_STATE {{ ModerationState: {:?} }}",
+            self.ModerationState
+        )
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSTEM_ACTIVITY_MODERATION_APP_TYPE {
@@ -7688,126 +10003,176 @@ pub enum SYSTEM_ACTIVITY_MODERATION_APP_TYPE {
     SystemActivityModerationAppTypePackaged = 1,
     MaxSystemActivityModerationAppType = 2,
 }
+
 #[repr(C)]
 pub struct SYSTEM_ACTIVITY_MODERATION_INFO {
     pub Identifier: UNICODE_STRING,
     pub ModerationState: SYSTEM_ACTIVITY_MODERATION_STATE,
     pub AppType: SYSTEM_ACTIVITY_MODERATION_APP_TYPE,
 }
+
 impl Default for SYSTEM_ACTIVITY_MODERATION_INFO {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ACTIVITY_MODERATION_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_ACTIVITY_MODERATION_INFO {{ ModerationState: {:?}, AppType: {:?} }}", self.ModerationState, self.AppType)
+        write!(
+            f,
+            "SYSTEM_ACTIVITY_MODERATION_INFO {{ ModerationState: {:?}, AppType: {:?} }}",
+            self.ModerationState, self.AppType
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_ACTIVITY_MODERATION_USER_SETTINGS {
     pub UserKeyHandle: HANDLE,
 }
+
 impl Default for SYSTEM_ACTIVITY_MODERATION_USER_SETTINGS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ACTIVITY_MODERATION_USER_SETTINGS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_ACTIVITY_MODERATION_USER_SETTINGS {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION {
     pub Anonymous1: SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1,
     pub UnlockId: [u8; 32],
 }
+
 #[repr(C)]
 pub struct SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1 {
     pub Flags: UnionField<u32>,
     pub Anonymous1: UnionField<SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1_1>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1_1 {{ Locked : {:?}, UnlockApplied : {:?}, UnlockIdValid : {:?}, Reserved : {:?} }}", self.Locked(), self.UnlockApplied(), self.UnlockIdValid(), self.Reserved())
+        write!(
+            f,
+            "SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1_1 {{ Locked : {:?}, UnlockApplied : {:?}, UnlockIdValid : {:?}, Reserved : {:?} }}",
+            self.Locked(),
+            self.UnlockApplied(),
+            self.UnlockIdValid(),
+            self.Reserved()
+        )
     }
 }
+
 impl SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1_1 {
     #[inline]
     pub fn Locked(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_Locked(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn UnlockApplied(&self) -> u32 {
         self._bitfield_1.get(1usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_UnlockApplied(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn UnlockIdValid(&self) -> u32 {
         self._bitfield_1.get(2usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_UnlockIdValid(&mut self, val: u32) {
         self._bitfield_1.set(2usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Reserved(&self) -> u32 {
         self._bitfield_1.get(3usize, 29u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved(&mut self, val: u32) {
         self._bitfield_1.set(3usize, 29u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(Locked: u32, UnlockApplied: u32, UnlockIdValid: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        Locked: u32,
+        UnlockApplied: u32,
+        UnlockIdValid: u32,
+        Reserved: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, Locked as u64);
+
         bitfield_unit.set(1usize, 1u8, UnlockApplied as u64);
+
         bitfield_unit.set(2usize, 1u8, UnlockIdValid as u64);
+
         bitfield_unit.set(3usize, 29u8, Reserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION {{ Anonymous1: {:?}, UnlockId: {:?} }}", self.Anonymous1, self.UnlockId)
+        write!(
+            f,
+            "SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION {{ Anonymous1: {:?}, UnlockId: {:?} }}",
+            self.Anonymous1, self.UnlockId
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_FLUSH_INFORMATION {
     pub SupportedFlushMethods: u32,
@@ -7815,52 +10180,66 @@ pub struct SYSTEM_FLUSH_INFORMATION {
     pub SystemFlushCapabilities: u64,
     pub Reserved: [u64; 2],
 }
+
 impl Default for SYSTEM_FLUSH_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_FLUSH_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_FLUSH_INFORMATION {{ Reserved: {:?} }}", self.Reserved)
+        write!(
+            f,
+            "SYSTEM_FLUSH_INFORMATION {{ Reserved: {:?} }}",
+            self.Reserved
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_WRITE_CONSTRAINT_INFORMATION {
     pub WriteConstraintPolicy: u32,
     pub Reserved: u32,
 }
+
 impl Default for SYSTEM_WRITE_CONSTRAINT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_WRITE_CONSTRAINT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_WRITE_CONSTRAINT_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_KERNEL_VA_SHADOW_INFORMATION {
     pub Anonymous1: SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1,
 }
+
 #[repr(C)]
 pub struct SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1 {
     pub KvaShadowFlags: UnionField<u32>,
     pub Anonymous1: UnionField<SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1_1>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
@@ -7879,189 +10258,254 @@ impl std::fmt::Debug for SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1_1 {
         )
     }
 }
+
 impl SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1_1 {
     #[inline]
     pub fn KvaShadowEnabled(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_KvaShadowEnabled(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn KvaShadowUserGlobal(&self) -> u32 {
         self._bitfield_1.get(1usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_KvaShadowUserGlobal(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn KvaShadowPcid(&self) -> u32 {
         self._bitfield_1.get(2usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_KvaShadowPcid(&mut self, val: u32) {
         self._bitfield_1.set(2usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn KvaShadowInvpcid(&self) -> u32 {
         self._bitfield_1.get(3usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_KvaShadowInvpcid(&mut self, val: u32) {
         self._bitfield_1.set(3usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn KvaShadowRequired(&self) -> u32 {
         self._bitfield_1.get(4usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_KvaShadowRequired(&mut self, val: u32) {
         self._bitfield_1.set(4usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn KvaShadowRequiredAvailable(&self) -> u32 {
         self._bitfield_1.get(5usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_KvaShadowRequiredAvailable(&mut self, val: u32) {
         self._bitfield_1.set(5usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn InvalidPteBit(&self) -> u32 {
         self._bitfield_1.get(6usize, 6u8) as u32
     }
+
     #[inline]
     pub fn set_InvalidPteBit(&mut self, val: u32) {
         self._bitfield_1.set(6usize, 6u8, val as u64)
     }
+
     #[inline]
     pub fn L1DataCacheFlushSupported(&self) -> u32 {
         self._bitfield_1.get(12usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_L1DataCacheFlushSupported(&mut self, val: u32) {
         self._bitfield_1.set(12usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn L1TerminalFaultMitigationPresent(&self) -> u32 {
         self._bitfield_1.get(13usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_L1TerminalFaultMitigationPresent(&mut self, val: u32) {
         self._bitfield_1.set(13usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Reserved(&self) -> u32 {
         self._bitfield_1.get(14usize, 18u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved(&mut self, val: u32) {
         self._bitfield_1.set(14usize, 18u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(KvaShadowEnabled: u32, KvaShadowUserGlobal: u32, KvaShadowPcid: u32, KvaShadowInvpcid: u32, KvaShadowRequired: u32, KvaShadowRequiredAvailable: u32, InvalidPteBit: u32, L1DataCacheFlushSupported: u32, L1TerminalFaultMitigationPresent: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        KvaShadowEnabled: u32,
+        KvaShadowUserGlobal: u32,
+        KvaShadowPcid: u32,
+        KvaShadowInvpcid: u32,
+        KvaShadowRequired: u32,
+        KvaShadowRequiredAvailable: u32,
+        InvalidPteBit: u32,
+        L1DataCacheFlushSupported: u32,
+        L1TerminalFaultMitigationPresent: u32,
+        Reserved: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, KvaShadowEnabled as u64);
+
         bitfield_unit.set(1usize, 1u8, KvaShadowUserGlobal as u64);
+
         bitfield_unit.set(2usize, 1u8, KvaShadowPcid as u64);
+
         bitfield_unit.set(3usize, 1u8, KvaShadowInvpcid as u64);
+
         bitfield_unit.set(4usize, 1u8, KvaShadowRequired as u64);
+
         bitfield_unit.set(5usize, 1u8, KvaShadowRequiredAvailable as u64);
+
         bitfield_unit.set(6usize, 6u8, InvalidPteBit as u64);
+
         bitfield_unit.set(12usize, 1u8, L1DataCacheFlushSupported as u64);
+
         bitfield_unit.set(13usize, 1u8, L1TerminalFaultMitigationPresent as u64);
+
         bitfield_unit.set(14usize, 18u8, Reserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_KERNEL_VA_SHADOW_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_KERNEL_VA_SHADOW_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_KERNEL_VA_SHADOW_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
+        write!(
+            f,
+            "SYSTEM_KERNEL_VA_SHADOW_INFORMATION {{ Anonymous1: {:?} }}",
+            self.Anonymous1
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_CODEINTEGRITYVERIFICATION_INFORMATION {
     pub FileHandle: HANDLE,
     pub ImageSize: u32,
     pub Image: *mut std::ffi::c_void,
 }
+
 impl Default for SYSTEM_CODEINTEGRITYVERIFICATION_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_CODEINTEGRITYVERIFICATION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_CODEINTEGRITYVERIFICATION_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_HYPERVISOR_SHARED_PAGE_INFORMATION {
     pub HypervisorSharedUserVa: *mut std::ffi::c_void,
 }
+
 impl Default for SYSTEM_HYPERVISOR_SHARED_PAGE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_HYPERVISOR_SHARED_PAGE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_HYPERVISOR_SHARED_PAGE_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_FIRMWARE_PARTITION_INFORMATION {
     pub FirmwarePartition: UNICODE_STRING,
 }
+
 impl Default for SYSTEM_FIRMWARE_PARTITION_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_FIRMWARE_PARTITION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_FIRMWARE_PARTITION_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SPECULATION_CONTROL_INFORMATION {
     pub SpeculationControlFlags: SYSTEM_SPECULATION_CONTROL_INFORMATION_1,
     pub SpeculationControlFlags2: SYSTEM_SPECULATION_CONTROL_INFORMATION_2,
 }
+
 #[repr(C)]
 pub struct SYSTEM_SPECULATION_CONTROL_INFORMATION_1 {
     pub Flags: UnionField<u32>,
     pub Anonymous1: UnionField<SYSTEM_SPECULATION_CONTROL_INFORMATION_1_1>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSTEM_SPECULATION_CONTROL_INFORMATION_1_1 {
     _bitfield_align_1: [u8; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SYSTEM_SPECULATION_CONTROL_INFORMATION_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SPECULATION_CONTROL_INFORMATION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
@@ -8099,239 +10543,298 @@ impl std::fmt::Debug for SYSTEM_SPECULATION_CONTROL_INFORMATION_1_1 {
         )
     }
 }
+
 impl SYSTEM_SPECULATION_CONTROL_INFORMATION_1_1 {
     #[inline]
     pub fn BpbEnabled(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_BpbEnabled(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn BpbDisabledSystemPolicy(&self) -> u32 {
         self._bitfield_1.get(1usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_BpbDisabledSystemPolicy(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn BpbDisabledNoHardwareSupport(&self) -> u32 {
         self._bitfield_1.get(2usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_BpbDisabledNoHardwareSupport(&mut self, val: u32) {
         self._bitfield_1.set(2usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SpecCtrlEnumerated(&self) -> u32 {
         self._bitfield_1.get(3usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SpecCtrlEnumerated(&mut self, val: u32) {
         self._bitfield_1.set(3usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SpecCmdEnumerated(&self) -> u32 {
         self._bitfield_1.get(4usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SpecCmdEnumerated(&mut self, val: u32) {
         self._bitfield_1.set(4usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn IbrsPresent(&self) -> u32 {
         self._bitfield_1.get(5usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_IbrsPresent(&mut self, val: u32) {
         self._bitfield_1.set(5usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn StibpPresent(&self) -> u32 {
         self._bitfield_1.get(6usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_StibpPresent(&mut self, val: u32) {
         self._bitfield_1.set(6usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SmepPresent(&self) -> u32 {
         self._bitfield_1.get(7usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SmepPresent(&mut self, val: u32) {
         self._bitfield_1.set(7usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SpeculativeStoreBypassDisableAvailable(&self) -> u32 {
         self._bitfield_1.get(8usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SpeculativeStoreBypassDisableAvailable(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SpeculativeStoreBypassDisableSupported(&self) -> u32 {
         self._bitfield_1.get(9usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SpeculativeStoreBypassDisableSupported(&mut self, val: u32) {
         self._bitfield_1.set(9usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SpeculativeStoreBypassDisabledSystemWide(&self) -> u32 {
         self._bitfield_1.get(10usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SpeculativeStoreBypassDisabledSystemWide(&mut self, val: u32) {
         self._bitfield_1.set(10usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SpeculativeStoreBypassDisabledKernel(&self) -> u32 {
         self._bitfield_1.get(11usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SpeculativeStoreBypassDisabledKernel(&mut self, val: u32) {
         self._bitfield_1.set(11usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SpeculativeStoreBypassDisableRequired(&self) -> u32 {
         self._bitfield_1.get(12usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SpeculativeStoreBypassDisableRequired(&mut self, val: u32) {
         self._bitfield_1.set(12usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn BpbDisabledKernelToUser(&self) -> u32 {
         self._bitfield_1.get(13usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_BpbDisabledKernelToUser(&mut self, val: u32) {
         self._bitfield_1.set(13usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SpecCtrlRetpolineEnabled(&self) -> u32 {
         self._bitfield_1.get(14usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SpecCtrlRetpolineEnabled(&mut self, val: u32) {
         self._bitfield_1.set(14usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SpecCtrlImportOptimizationEnabled(&self) -> u32 {
         self._bitfield_1.get(15usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SpecCtrlImportOptimizationEnabled(&mut self, val: u32) {
         self._bitfield_1.set(15usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn EnhancedIbrs(&self) -> u32 {
         self._bitfield_1.get(16usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_EnhancedIbrs(&mut self, val: u32) {
         self._bitfield_1.set(16usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn HvL1tfStatusAvailable(&self) -> u32 {
         self._bitfield_1.get(17usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_HvL1tfStatusAvailable(&mut self, val: u32) {
         self._bitfield_1.set(17usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn HvL1tfProcessorNotAffected(&self) -> u32 {
         self._bitfield_1.get(18usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_HvL1tfProcessorNotAffected(&mut self, val: u32) {
         self._bitfield_1.set(18usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn HvL1tfMigitationEnabled(&self) -> u32 {
         self._bitfield_1.get(19usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_HvL1tfMigitationEnabled(&mut self, val: u32) {
         self._bitfield_1.set(19usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn HvL1tfMigitationNotEnabled_Hardware(&self) -> u32 {
         self._bitfield_1.get(20usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_HvL1tfMigitationNotEnabled_Hardware(&mut self, val: u32) {
         self._bitfield_1.set(20usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn HvL1tfMigitationNotEnabled_LoadOption(&self) -> u32 {
         self._bitfield_1.get(21usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_HvL1tfMigitationNotEnabled_LoadOption(&mut self, val: u32) {
         self._bitfield_1.set(21usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn HvL1tfMigitationNotEnabled_CoreScheduler(&self) -> u32 {
         self._bitfield_1.get(22usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_HvL1tfMigitationNotEnabled_CoreScheduler(&mut self, val: u32) {
         self._bitfield_1.set(22usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn EnhancedIbrsReported(&self) -> u32 {
         self._bitfield_1.get(23usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_EnhancedIbrsReported(&mut self, val: u32) {
         self._bitfield_1.set(23usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn MdsHardwareProtected(&self) -> u32 {
         self._bitfield_1.get(24usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_MdsHardwareProtected(&mut self, val: u32) {
         self._bitfield_1.set(24usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn MbClearEnabled(&self) -> u32 {
         self._bitfield_1.get(25usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_MbClearEnabled(&mut self, val: u32) {
         self._bitfield_1.set(25usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn MbClearReported(&self) -> u32 {
         self._bitfield_1.get(26usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_MbClearReported(&mut self, val: u32) {
         self._bitfield_1.set(26usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn ReservedTaa(&self) -> u32 {
         self._bitfield_1.get(27usize, 4u8) as u32
     }
+
     #[inline]
     pub fn set_ReservedTaa(&mut self, val: u32) {
         self._bitfield_1.set(27usize, 4u8, val as u64)
     }
+
     #[inline]
     pub fn Reserved(&self) -> u32 {
         self._bitfield_1.get(31usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved(&mut self, val: u32) {
         self._bitfield_1.set(31usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(
         BpbEnabled: u32,
@@ -8365,352 +10868,529 @@ impl SYSTEM_SPECULATION_CONTROL_INFORMATION_1_1 {
         Reserved: u32,
     ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, BpbEnabled as u64);
+
         bitfield_unit.set(1usize, 1u8, BpbDisabledSystemPolicy as u64);
+
         bitfield_unit.set(2usize, 1u8, BpbDisabledNoHardwareSupport as u64);
+
         bitfield_unit.set(3usize, 1u8, SpecCtrlEnumerated as u64);
+
         bitfield_unit.set(4usize, 1u8, SpecCmdEnumerated as u64);
+
         bitfield_unit.set(5usize, 1u8, IbrsPresent as u64);
+
         bitfield_unit.set(6usize, 1u8, StibpPresent as u64);
+
         bitfield_unit.set(7usize, 1u8, SmepPresent as u64);
+
         bitfield_unit.set(8usize, 1u8, SpeculativeStoreBypassDisableAvailable as u64);
+
         bitfield_unit.set(9usize, 1u8, SpeculativeStoreBypassDisableSupported as u64);
-        bitfield_unit.set(10usize, 1u8, SpeculativeStoreBypassDisabledSystemWide as u64);
+
+        bitfield_unit.set(
+            10usize,
+            1u8,
+            SpeculativeStoreBypassDisabledSystemWide as u64,
+        );
+
         bitfield_unit.set(11usize, 1u8, SpeculativeStoreBypassDisabledKernel as u64);
+
         bitfield_unit.set(12usize, 1u8, SpeculativeStoreBypassDisableRequired as u64);
+
         bitfield_unit.set(13usize, 1u8, BpbDisabledKernelToUser as u64);
+
         bitfield_unit.set(14usize, 1u8, SpecCtrlRetpolineEnabled as u64);
+
         bitfield_unit.set(15usize, 1u8, SpecCtrlImportOptimizationEnabled as u64);
+
         bitfield_unit.set(16usize, 1u8, EnhancedIbrs as u64);
+
         bitfield_unit.set(17usize, 1u8, HvL1tfStatusAvailable as u64);
+
         bitfield_unit.set(18usize, 1u8, HvL1tfProcessorNotAffected as u64);
+
         bitfield_unit.set(19usize, 1u8, HvL1tfMigitationEnabled as u64);
+
         bitfield_unit.set(20usize, 1u8, HvL1tfMigitationNotEnabled_Hardware as u64);
+
         bitfield_unit.set(21usize, 1u8, HvL1tfMigitationNotEnabled_LoadOption as u64);
-        bitfield_unit.set(22usize, 1u8, HvL1tfMigitationNotEnabled_CoreScheduler as u64);
+
+        bitfield_unit.set(
+            22usize,
+            1u8,
+            HvL1tfMigitationNotEnabled_CoreScheduler as u64,
+        );
+
         bitfield_unit.set(23usize, 1u8, EnhancedIbrsReported as u64);
+
         bitfield_unit.set(24usize, 1u8, MdsHardwareProtected as u64);
+
         bitfield_unit.set(25usize, 1u8, MbClearEnabled as u64);
+
         bitfield_unit.set(26usize, 1u8, MbClearReported as u64);
+
         bitfield_unit.set(27usize, 4u8, ReservedTaa as u64);
+
         bitfield_unit.set(31usize, 1u8, Reserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_SPECULATION_CONTROL_INFORMATION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SPECULATION_CONTROL_INFORMATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SPECULATION_CONTROL_INFORMATION_1 {{ union }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SPECULATION_CONTROL_INFORMATION_2 {
     pub Flags: UnionField<u32>,
     pub Anonymous1: UnionField<SYSTEM_SPECULATION_CONTROL_INFORMATION_2_1>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSTEM_SPECULATION_CONTROL_INFORMATION_2_1 {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SYSTEM_SPECULATION_CONTROL_INFORMATION_2_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SPECULATION_CONTROL_INFORMATION_2_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_SPECULATION_CONTROL_INFORMATION_2_1 {{ Reserved1 : {:?}, BhbEnabled : {:?}, BhbDisabledSystemPolicy : {:?}, BhbDisabledNoHardwareSupport : {:?}, Reserved2 : {:?}, RdclHardwareProtectedReported : {:?}, RdclHardwareProtected : {:?}, Reserved : {:?} }}", self.Reserved1(), self.BhbEnabled(), self.BhbDisabledSystemPolicy(), self.BhbDisabledNoHardwareSupport(), self.Reserved2(), self.RdclHardwareProtectedReported(), self.RdclHardwareProtected(), self.Reserved())
+        write!(
+            f,
+            "SYSTEM_SPECULATION_CONTROL_INFORMATION_2_1 {{ Reserved1 : {:?}, BhbEnabled : {:?}, BhbDisabledSystemPolicy : {:?}, BhbDisabledNoHardwareSupport : {:?}, Reserved2 : {:?}, RdclHardwareProtectedReported : {:?}, RdclHardwareProtected : {:?}, Reserved : {:?} }}",
+            self.Reserved1(),
+            self.BhbEnabled(),
+            self.BhbDisabledSystemPolicy(),
+            self.BhbDisabledNoHardwareSupport(),
+            self.Reserved2(),
+            self.RdclHardwareProtectedReported(),
+            self.RdclHardwareProtected(),
+            self.Reserved()
+        )
     }
 }
+
 impl SYSTEM_SPECULATION_CONTROL_INFORMATION_2_1 {
     #[inline]
     pub fn Reserved1(&self) -> u32 {
         self._bitfield_1.get(0usize, 5u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved1(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 5u8, val as u64)
     }
+
     #[inline]
     pub fn BhbEnabled(&self) -> u32 {
         self._bitfield_1.get(5usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_BhbEnabled(&mut self, val: u32) {
         self._bitfield_1.set(5usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn BhbDisabledSystemPolicy(&self) -> u32 {
         self._bitfield_1.get(6usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_BhbDisabledSystemPolicy(&mut self, val: u32) {
         self._bitfield_1.set(6usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn BhbDisabledNoHardwareSupport(&self) -> u32 {
         self._bitfield_1.get(7usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_BhbDisabledNoHardwareSupport(&mut self, val: u32) {
         self._bitfield_1.set(7usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Reserved2(&self) -> u32 {
         self._bitfield_1.get(8usize, 3u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved2(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 3u8, val as u64)
     }
+
     #[inline]
     pub fn RdclHardwareProtectedReported(&self) -> u32 {
         self._bitfield_1.get(11usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_RdclHardwareProtectedReported(&mut self, val: u32) {
         self._bitfield_1.set(11usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn RdclHardwareProtected(&self) -> u32 {
         self._bitfield_1.get(12usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_RdclHardwareProtected(&mut self, val: u32) {
         self._bitfield_1.set(12usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Reserved(&self) -> u32 {
         self._bitfield_1.get(13usize, 19u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved(&mut self, val: u32) {
         self._bitfield_1.set(13usize, 19u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(Reserved1: u32, BhbEnabled: u32, BhbDisabledSystemPolicy: u32, BhbDisabledNoHardwareSupport: u32, Reserved2: u32, RdclHardwareProtectedReported: u32, RdclHardwareProtected: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        Reserved1: u32,
+        BhbEnabled: u32,
+        BhbDisabledSystemPolicy: u32,
+        BhbDisabledNoHardwareSupport: u32,
+        Reserved2: u32,
+        RdclHardwareProtectedReported: u32,
+        RdclHardwareProtected: u32,
+        Reserved: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 5u8, Reserved1 as u64);
+
         bitfield_unit.set(5usize, 1u8, BhbEnabled as u64);
+
         bitfield_unit.set(6usize, 1u8, BhbDisabledSystemPolicy as u64);
+
         bitfield_unit.set(7usize, 1u8, BhbDisabledNoHardwareSupport as u64);
+
         bitfield_unit.set(8usize, 3u8, Reserved2 as u64);
+
         bitfield_unit.set(11usize, 1u8, RdclHardwareProtectedReported as u64);
+
         bitfield_unit.set(12usize, 1u8, RdclHardwareProtected as u64);
+
         bitfield_unit.set(13usize, 19u8, Reserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_SPECULATION_CONTROL_INFORMATION_2 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SPECULATION_CONTROL_INFORMATION_2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SPECULATION_CONTROL_INFORMATION_2 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_SPECULATION_CONTROL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SPECULATION_CONTROL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_SPECULATION_CONTROL_INFORMATION {{ SpeculationControlFlags: {:?}, SpeculationControlFlags2: {:?} }}", self.SpeculationControlFlags, self.SpeculationControlFlags2)
+        write!(
+            f,
+            "SYSTEM_SPECULATION_CONTROL_INFORMATION {{ SpeculationControlFlags: {:?}, SpeculationControlFlags2: {:?} }}",
+            self.SpeculationControlFlags, self.SpeculationControlFlags2
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_DMA_GUARD_POLICY_INFORMATION {
     pub DmaGuardPolicyEnabled: BOOLEAN,
 }
+
 impl Default for SYSTEM_DMA_GUARD_POLICY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_DMA_GUARD_POLICY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_DMA_GUARD_POLICY_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_ENCLAVE_LAUNCH_CONTROL_INFORMATION {
     pub EnclaveLaunchSigner: [u8; 32],
 }
+
 impl Default for SYSTEM_ENCLAVE_LAUNCH_CONTROL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ENCLAVE_LAUNCH_CONTROL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_ENCLAVE_LAUNCH_CONTROL_INFORMATION {{ EnclaveLaunchSigner: {:?} }}", self.EnclaveLaunchSigner)
+        write!(
+            f,
+            "SYSTEM_ENCLAVE_LAUNCH_CONTROL_INFORMATION {{ EnclaveLaunchSigner: {:?} }}",
+            self.EnclaveLaunchSigner
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_WORKLOAD_ALLOWED_CPU_SET_INFORMATION {
     pub WorkloadClass: u64,
     pub CpuSets: [u64; 1],
 }
+
 impl Default for SYSTEM_WORKLOAD_ALLOWED_CPU_SET_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_WORKLOAD_ALLOWED_CPU_SET_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_WORKLOAD_ALLOWED_CPU_SET_INFORMATION {{ CpuSets: {:?} }}", self.CpuSets)
+        write!(
+            f,
+            "SYSTEM_WORKLOAD_ALLOWED_CPU_SET_INFORMATION {{ CpuSets: {:?} }}",
+            self.CpuSets
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SECURITY_MODEL_INFORMATION {
     pub Anonymous1: SYSTEM_SECURITY_MODEL_INFORMATION_1,
 }
+
 #[repr(C)]
 pub struct SYSTEM_SECURITY_MODEL_INFORMATION_1 {
     pub SecurityModelFlags: UnionField<u32>,
     pub Anonymous1: UnionField<SYSTEM_SECURITY_MODEL_INFORMATION_1_1>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSTEM_SECURITY_MODEL_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SYSTEM_SECURITY_MODEL_INFORMATION_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SECURITY_MODEL_INFORMATION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_SECURITY_MODEL_INFORMATION_1_1 {{ SModeAdminlessEnabled : {:?}, AllowDeviceOwnerProtectionDowngrade : {:?}, Reserved : {:?} }}", self.SModeAdminlessEnabled(), self.AllowDeviceOwnerProtectionDowngrade(), self.Reserved())
+        write!(
+            f,
+            "SYSTEM_SECURITY_MODEL_INFORMATION_1_1 {{ SModeAdminlessEnabled : {:?}, AllowDeviceOwnerProtectionDowngrade : {:?}, Reserved : {:?} }}",
+            self.SModeAdminlessEnabled(),
+            self.AllowDeviceOwnerProtectionDowngrade(),
+            self.Reserved()
+        )
     }
 }
+
 impl SYSTEM_SECURITY_MODEL_INFORMATION_1_1 {
     #[inline]
     pub fn SModeAdminlessEnabled(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SModeAdminlessEnabled(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn AllowDeviceOwnerProtectionDowngrade(&self) -> u32 {
         self._bitfield_1.get(1usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_AllowDeviceOwnerProtectionDowngrade(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Reserved(&self) -> u32 {
         self._bitfield_1.get(2usize, 30u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved(&mut self, val: u32) {
         self._bitfield_1.set(2usize, 30u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(SModeAdminlessEnabled: u32, AllowDeviceOwnerProtectionDowngrade: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        SModeAdminlessEnabled: u32,
+        AllowDeviceOwnerProtectionDowngrade: u32,
+        Reserved: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, SModeAdminlessEnabled as u64);
+
         bitfield_unit.set(1usize, 1u8, AllowDeviceOwnerProtectionDowngrade as u64);
+
         bitfield_unit.set(2usize, 30u8, Reserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_SECURITY_MODEL_INFORMATION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SECURITY_MODEL_INFORMATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SECURITY_MODEL_INFORMATION_1 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_SECURITY_MODEL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SECURITY_MODEL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_SECURITY_MODEL_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
+        write!(
+            f,
+            "SYSTEM_SECURITY_MODEL_INFORMATION {{ Anonymous1: {:?} }}",
+            self.Anonymous1
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_FEATURE_CONFIGURATION_INFORMATION {
     pub ChangeStamp: u64,
     pub Configuration: *mut RTL_FEATURE_CONFIGURATION,
 }
+
 impl Default for SYSTEM_FEATURE_CONFIGURATION_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_FEATURE_CONFIGURATION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_FEATURE_CONFIGURATION_INFORMATION {{ Configuration: {:?} }}", self.Configuration)
+        write!(
+            f,
+            "SYSTEM_FEATURE_CONFIGURATION_INFORMATION {{ Configuration: {:?} }}",
+            self.Configuration
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION_ENTRY {
     pub ChangeStamp: u64,
     pub Section: *mut std::ffi::c_void,
     pub Size: u64,
 }
+
 impl Default for SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION_ENTRY {{  }}")
+        write!(
+            f,
+            "SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION_ENTRY {{  }}"
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION {
     pub OverallChangeStamp: u64,
     pub Descriptors: [SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION_ENTRY; 3],
 }
+
 impl Default for SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION {{ Descriptors: {:?} }}", self.Descriptors)
+        write!(
+            f,
+            "SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION {{ Descriptors: {:?} }}",
+            self.Descriptors
+        )
     }
 }
+
 #[repr(C)]
 pub struct RTL_FEATURE_USAGE_SUBSCRIPTION_TARGET {
     pub Data: [u32; 2],
 }
+
 impl Default for RTL_FEATURE_USAGE_SUBSCRIPTION_TARGET {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for RTL_FEATURE_USAGE_SUBSCRIPTION_TARGET {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_FEATURE_USAGE_SUBSCRIPTION_TARGET {{ Data: {:?} }}", self.Data)
+        write!(
+            f,
+            "RTL_FEATURE_USAGE_SUBSCRIPTION_TARGET {{ Data: {:?} }}",
+            self.Data
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_FEATURE_USAGE_SUBSCRIPTION_DETAILS {
     pub FeatureId: u32,
@@ -8718,192 +11398,275 @@ pub struct SYSTEM_FEATURE_USAGE_SUBSCRIPTION_DETAILS {
     pub ReportingOptions: u16,
     pub ReportingTarget: RTL_FEATURE_USAGE_SUBSCRIPTION_TARGET,
 }
+
 impl Default for SYSTEM_FEATURE_USAGE_SUBSCRIPTION_DETAILS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_FEATURE_USAGE_SUBSCRIPTION_DETAILS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_FEATURE_USAGE_SUBSCRIPTION_DETAILS {{ ReportingTarget: {:?} }}", self.ReportingTarget)
+        write!(
+            f,
+            "SYSTEM_FEATURE_USAGE_SUBSCRIPTION_DETAILS {{ ReportingTarget: {:?} }}",
+            self.ReportingTarget
+        )
     }
 }
+
 #[repr(C)]
 #[repr(align(1))]
+
 pub union SECURE_SPECULATION_CONTROL_INFORMATION {
     _bitfield_align_1: [u8; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SECURE_SPECULATION_CONTROL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SECURE_SPECULATION_CONTROL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SECURE_SPECULATION_CONTROL_INFORMATION {{ union }}")
     }
 }
+
 impl SECURE_SPECULATION_CONTROL_INFORMATION {
     #[inline]
     pub fn KvaShadowSupported(&self) -> u32 {
         unsafe { self._bitfield_1.get(0usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_KvaShadowSupported(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(0usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn KvaShadowEnabled(&self) -> u32 {
         unsafe { self._bitfield_1.get(1usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_KvaShadowEnabled(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(1usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn KvaShadowUserGlobal(&self) -> u32 {
         unsafe { self._bitfield_1.get(2usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_KvaShadowUserGlobal(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(2usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn KvaShadowPcid(&self) -> u32 {
         unsafe { self._bitfield_1.get(3usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_KvaShadowPcid(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(3usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn MbClearEnabled(&self) -> u32 {
         unsafe { self._bitfield_1.get(4usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_MbClearEnabled(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(4usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn L1TFMitigated(&self) -> u32 {
         unsafe { self._bitfield_1.get(5usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_L1TFMitigated(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(5usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn BpbEnabled(&self) -> u32 {
         unsafe { self._bitfield_1.get(6usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_BpbEnabled(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(6usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn IbrsPresent(&self) -> u32 {
         unsafe { self._bitfield_1.get(7usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_IbrsPresent(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(7usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn EnhancedIbrs(&self) -> u32 {
         unsafe { self._bitfield_1.get(8usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_EnhancedIbrs(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(8usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn StibpPresent(&self) -> u32 {
         unsafe { self._bitfield_1.get(9usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_StibpPresent(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(9usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn SsbdSupported(&self) -> u32 {
         unsafe { self._bitfield_1.get(10usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_SsbdSupported(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(10usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn SsbdRequired(&self) -> u32 {
         unsafe { self._bitfield_1.get(11usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_SsbdRequired(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(11usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn BpbKernelToUser(&self) -> u32 {
         unsafe { self._bitfield_1.get(12usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_BpbKernelToUser(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(12usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn BpbUserToKernel(&self) -> u32 {
         unsafe { self._bitfield_1.get(13usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_BpbUserToKernel(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(13usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn ReturnSpeculate(&self) -> u32 {
         unsafe { self._bitfield_1.get(14usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_ReturnSpeculate(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(14usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn BranchConfusionSafe(&self) -> u32 {
         unsafe { self._bitfield_1.get(15usize, 1u8) as u32 }
     }
+
     #[inline]
     pub fn set_BranchConfusionSafe(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(15usize, 1u8, val as u64) }
     }
+
     #[inline]
     pub fn Reserved(&self) -> u32 {
         unsafe { self._bitfield_1.get(16usize, 16u8) as u32 }
     }
+
     #[inline]
     pub fn set_Reserved(&mut self, val: u32) {
         unsafe { self._bitfield_1.set(16usize, 16u8, val as u64) }
     }
 }
+
 #[inline]
-pub fn new_bitfield_1(KvaShadowSupported: u32, KvaShadowEnabled: u32, KvaShadowUserGlobal: u32, KvaShadowPcid: u32, MbClearEnabled: u32, L1TFMitigated: u32, BpbEnabled: u32, IbrsPresent: u32, EnhancedIbrs: u32, StibpPresent: u32, SsbdSupported: u32, SsbdRequired: u32, BpbKernelToUser: u32, BpbUserToKernel: u32, ReturnSpeculate: u32, BranchConfusionSafe: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+
+pub fn new_bitfield_1(
+    KvaShadowSupported: u32,
+    KvaShadowEnabled: u32,
+    KvaShadowUserGlobal: u32,
+    KvaShadowPcid: u32,
+    MbClearEnabled: u32,
+    L1TFMitigated: u32,
+    BpbEnabled: u32,
+    IbrsPresent: u32,
+    EnhancedIbrs: u32,
+    StibpPresent: u32,
+    SsbdSupported: u32,
+    SsbdRequired: u32,
+    BpbKernelToUser: u32,
+    BpbUserToKernel: u32,
+    ReturnSpeculate: u32,
+    BranchConfusionSafe: u32,
+    Reserved: u32,
+) -> BitfieldUnit<[u8; 4]> {
     let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
     bitfield_unit.set(0usize, 1u8, KvaShadowSupported as u64);
+
     bitfield_unit.set(1usize, 1u8, KvaShadowEnabled as u64);
+
     bitfield_unit.set(2usize, 1u8, KvaShadowUserGlobal as u64);
+
     bitfield_unit.set(3usize, 1u8, KvaShadowPcid as u64);
+
     bitfield_unit.set(4usize, 1u8, MbClearEnabled as u64);
+
     bitfield_unit.set(5usize, 1u8, L1TFMitigated as u64);
+
     bitfield_unit.set(6usize, 1u8, BpbEnabled as u64);
+
     bitfield_unit.set(7usize, 1u8, IbrsPresent as u64);
+
     bitfield_unit.set(8usize, 1u8, EnhancedIbrs as u64);
+
     bitfield_unit.set(9usize, 1u8, StibpPresent as u64);
+
     bitfield_unit.set(10usize, 1u8, SsbdSupported as u64);
+
     bitfield_unit.set(11usize, 1u8, SsbdRequired as u64);
+
     bitfield_unit.set(12usize, 1u8, BpbKernelToUser as u64);
+
     bitfield_unit.set(13usize, 1u8, BpbUserToKernel as u64);
+
     bitfield_unit.set(14usize, 1u8, ReturnSpeculate as u64);
+
     bitfield_unit.set(15usize, 1u8, BranchConfusionSafe as u64);
+
     bitfield_unit.set(16usize, 16u8, Reserved as u64);
+
     bitfield_unit
 }
+
 #[repr(C)]
 pub struct SYSTEM_FIRMWARE_RAMDISK_INFORMATION {
     pub Version: u32,
@@ -8911,138 +11674,196 @@ pub struct SYSTEM_FIRMWARE_RAMDISK_INFORMATION {
     pub BaseAddress: usize,
     pub Size: usize,
 }
+
 impl Default for SYSTEM_FIRMWARE_RAMDISK_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_FIRMWARE_RAMDISK_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_FIRMWARE_RAMDISK_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_SHADOW_STACK_INFORMATION {
     pub Anonymous1: SYSTEM_SHADOW_STACK_INFORMATION_1,
 }
+
 #[repr(C)]
 pub struct SYSTEM_SHADOW_STACK_INFORMATION_1 {
     pub Flags: UnionField<u32>,
     pub Anonymous1: UnionField<SYSTEM_SHADOW_STACK_INFORMATION_1_1>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSTEM_SHADOW_STACK_INFORMATION_1_1 {
     _bitfield_align_1: [u16; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SYSTEM_SHADOW_STACK_INFORMATION_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SHADOW_STACK_INFORMATION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_SHADOW_STACK_INFORMATION_1_1 {{ CetCapable : {:?}, UserCetAllowed : {:?}, ReservedForUserCet : {:?}, KernelCetEnabled : {:?}, KernelCetAuditModeEnabled : {:?}, ReservedForKernelCet : {:?}, Reserved : {:?} }}", self.CetCapable(), self.UserCetAllowed(), self.ReservedForUserCet(), self.KernelCetEnabled(), self.KernelCetAuditModeEnabled(), self.ReservedForKernelCet(), self.Reserved())
+        write!(
+            f,
+            "SYSTEM_SHADOW_STACK_INFORMATION_1_1 {{ CetCapable : {:?}, UserCetAllowed : {:?}, ReservedForUserCet : {:?}, KernelCetEnabled : {:?}, KernelCetAuditModeEnabled : {:?}, ReservedForKernelCet : {:?}, Reserved : {:?} }}",
+            self.CetCapable(),
+            self.UserCetAllowed(),
+            self.ReservedForUserCet(),
+            self.KernelCetEnabled(),
+            self.KernelCetAuditModeEnabled(),
+            self.ReservedForKernelCet(),
+            self.Reserved()
+        )
     }
 }
+
 impl SYSTEM_SHADOW_STACK_INFORMATION_1_1 {
     #[inline]
     pub fn CetCapable(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_CetCapable(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn UserCetAllowed(&self) -> u32 {
         self._bitfield_1.get(1usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_UserCetAllowed(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn ReservedForUserCet(&self) -> u32 {
         self._bitfield_1.get(2usize, 6u8) as u32
     }
+
     #[inline]
     pub fn set_ReservedForUserCet(&mut self, val: u32) {
         self._bitfield_1.set(2usize, 6u8, val as u64)
     }
+
     #[inline]
     pub fn KernelCetEnabled(&self) -> u32 {
         self._bitfield_1.get(8usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_KernelCetEnabled(&mut self, val: u32) {
         self._bitfield_1.set(8usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn KernelCetAuditModeEnabled(&self) -> u32 {
         self._bitfield_1.get(9usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_KernelCetAuditModeEnabled(&mut self, val: u32) {
         self._bitfield_1.set(9usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn ReservedForKernelCet(&self) -> u32 {
         self._bitfield_1.get(10usize, 6u8) as u32
     }
+
     #[inline]
     pub fn set_ReservedForKernelCet(&mut self, val: u32) {
         self._bitfield_1.set(10usize, 6u8, val as u64)
     }
+
     #[inline]
     pub fn Reserved(&self) -> u32 {
         self._bitfield_1.get(16usize, 16u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved(&mut self, val: u32) {
         self._bitfield_1.set(16usize, 16u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(CetCapable: u32, UserCetAllowed: u32, ReservedForUserCet: u32, KernelCetEnabled: u32, KernelCetAuditModeEnabled: u32, ReservedForKernelCet: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        CetCapable: u32,
+        UserCetAllowed: u32,
+        ReservedForUserCet: u32,
+        KernelCetEnabled: u32,
+        KernelCetAuditModeEnabled: u32,
+        ReservedForKernelCet: u32,
+        Reserved: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, CetCapable as u64);
+
         bitfield_unit.set(1usize, 1u8, UserCetAllowed as u64);
+
         bitfield_unit.set(2usize, 6u8, ReservedForUserCet as u64);
+
         bitfield_unit.set(8usize, 1u8, KernelCetEnabled as u64);
+
         bitfield_unit.set(9usize, 1u8, KernelCetAuditModeEnabled as u64);
+
         bitfield_unit.set(10usize, 6u8, ReservedForKernelCet as u64);
+
         bitfield_unit.set(16usize, 16u8, Reserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_SHADOW_STACK_INFORMATION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SHADOW_STACK_INFORMATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_SHADOW_STACK_INFORMATION_1 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_SHADOW_STACK_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_SHADOW_STACK_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_SHADOW_STACK_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
+        write!(
+            f,
+            "SYSTEM_SHADOW_STACK_INFORMATION {{ Anonymous1: {:?} }}",
+            self.Anonymous1
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_BUILD_VERSION_INFORMATION_FLAGS {
     pub Value32: UnionField<u32>,
     pub Anonymous1: UnionField<SYSTEM_BUILD_VERSION_INFORMATION_FLAGS_1>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSTEM_BUILD_VERSION_INFORMATION_FLAGS_1 {
@@ -9050,51 +11871,69 @@ pub struct SYSTEM_BUILD_VERSION_INFORMATION_FLAGS_1 {
     _bitfield_1: BitfieldUnit<[u8; 1]>,
     pub padding_0: [u8; 3],
 }
+
 impl Default for SYSTEM_BUILD_VERSION_INFORMATION_FLAGS_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BUILD_VERSION_INFORMATION_FLAGS_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_BUILD_VERSION_INFORMATION_FLAGS_1 {{ IsTopLevel : {:?}, IsChecked : {:?} }}", self.IsTopLevel(), self.IsChecked())
+        write!(
+            f,
+            "SYSTEM_BUILD_VERSION_INFORMATION_FLAGS_1 {{ IsTopLevel : {:?}, IsChecked : {:?} }}",
+            self.IsTopLevel(),
+            self.IsChecked()
+        )
     }
 }
+
 impl SYSTEM_BUILD_VERSION_INFORMATION_FLAGS_1 {
     #[inline]
     pub fn IsTopLevel(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_IsTopLevel(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn IsChecked(&self) -> u32 {
         self._bitfield_1.get(1usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_IsChecked(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn new_bitfield_1(IsTopLevel: u32, IsChecked: u32) -> BitfieldUnit<[u8; 1]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, IsTopLevel as u64);
+
         bitfield_unit.set(1usize, 1u8, IsChecked as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_BUILD_VERSION_INFORMATION_FLAGS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BUILD_VERSION_INFORMATION_FLAGS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_BUILD_VERSION_INFORMATION_FLAGS {{ union }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_BUILD_VERSION_INFORMATION {
     pub LayerNumber: u16,
@@ -9111,78 +11950,111 @@ pub struct SYSTEM_BUILD_VERSION_INFORMATION {
     pub NtBuildArch: [u8; 16],
     pub Flags: SYSTEM_BUILD_VERSION_INFORMATION_FLAGS,
 }
+
 impl Default for SYSTEM_BUILD_VERSION_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_BUILD_VERSION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_BUILD_VERSION_INFORMATION {{ LayerName: {:?}, NtBuildBranch: {:?}, NtBuildLab: {:?}, NtBuildLabEx: {:?}, NtBuildStamp: {:?}, NtBuildArch: {:?}, Flags: {:?} }}", self.LayerName, self.NtBuildBranch, self.NtBuildLab, self.NtBuildLabEx, self.NtBuildStamp, self.NtBuildArch, self.Flags)
+        write!(
+            f,
+            "SYSTEM_BUILD_VERSION_INFORMATION {{ LayerName: {:?}, NtBuildBranch: {:?}, NtBuildLab: {:?}, NtBuildLabEx: {:?}, NtBuildStamp: {:?}, NtBuildArch: {:?}, Flags: {:?} }}",
+            self.LayerName,
+            self.NtBuildBranch,
+            self.NtBuildLab,
+            self.NtBuildLabEx,
+            self.NtBuildStamp,
+            self.NtBuildArch,
+            self.Flags
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_POOL_LIMIT_MEM_INFO {
     pub MemoryLimit: u64,
     pub NotificationLimit: u64,
 }
+
 impl Default for SYSTEM_POOL_LIMIT_MEM_INFO {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POOL_LIMIT_MEM_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_POOL_LIMIT_MEM_INFO {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_POOL_LIMIT_INFO {
     pub PoolTag: u32,
     pub MemLimits: [SYSTEM_POOL_LIMIT_MEM_INFO; 2],
     pub NotificationHandle: WNF_STATE_NAME,
 }
+
 impl Default for SYSTEM_POOL_LIMIT_INFO {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POOL_LIMIT_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_POOL_LIMIT_INFO {{ MemLimits: {:?}, NotificationHandle: {:?} }}", self.MemLimits, self.NotificationHandle)
+        write!(
+            f,
+            "SYSTEM_POOL_LIMIT_INFO {{ MemLimits: {:?}, NotificationHandle: {:?} }}",
+            self.MemLimits, self.NotificationHandle
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_POOL_LIMIT_INFORMATION {
     pub Version: u32,
     pub EntryCount: u32,
     pub LimitEntries: [SYSTEM_POOL_LIMIT_INFO; 1],
 }
+
 impl Default for SYSTEM_POOL_LIMIT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POOL_LIMIT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_POOL_LIMIT_INFORMATION {{ LimitEntries: {:?} }}", self.LimitEntries)
+        write!(
+            f,
+            "SYSTEM_POOL_LIMIT_INFORMATION {{ LimitEntries: {:?} }}",
+            self.LimitEntries
+        )
     }
 }
+
 #[repr(C)]
 pub struct HV_MINROOT_NUMA_LPS {
     pub NodeIndex: u32,
     pub Mask: [usize; 16],
 }
+
 impl Default for HV_MINROOT_NUMA_LPS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for HV_MINROOT_NUMA_LPS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "HV_MINROOT_NUMA_LPS {{ Mask: {:?} }}", self.Mask)
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_XFG_FAILURE_INFORMATION {
     pub ReturnAddress: *mut std::ffi::c_void,
@@ -9190,37 +12062,48 @@ pub struct SYSTEM_XFG_FAILURE_INFORMATION {
     pub DispatchMode: u32,
     pub XfgValue: u64,
 }
+
 impl Default for SYSTEM_XFG_FAILURE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_XFG_FAILURE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_XFG_FAILURE_INFORMATION {{  }}")
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSTEM_IOMMU_STATE {
     IommuStateBlock = 0,
     IommuStateUnblock = 1,
 }
+
 #[repr(C)]
 pub struct SYSTEM_IOMMU_STATE_INFORMATION {
     pub State: SYSTEM_IOMMU_STATE,
     pub Pdo: *mut std::ffi::c_void,
 }
+
 impl Default for SYSTEM_IOMMU_STATE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_IOMMU_STATE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_IOMMU_STATE_INFORMATION {{ State: {:?} }}", self.State)
+        write!(
+            f,
+            "SYSTEM_IOMMU_STATE_INFORMATION {{ State: {:?} }}",
+            self.State
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_HYPERVISOR_MINROOT_INFORMATION {
     pub NumProc: u32,
@@ -9232,253 +12115,369 @@ pub struct SYSTEM_HYPERVISOR_MINROOT_INFORMATION {
     pub RootProcNumaNodesLpsSpecified: u32,
     pub RootProcNumaNodeLps: [HV_MINROOT_NUMA_LPS; 64],
 }
+
 impl Default for SYSTEM_HYPERVISOR_MINROOT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_HYPERVISOR_MINROOT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_HYPERVISOR_MINROOT_INFORMATION {{ RootProcNumaNodes: {:?}, RootProcNumaNodeLps: {:?} }}", self.RootProcNumaNodes, self.RootProcNumaNodeLps)
+        write!(
+            f,
+            "SYSTEM_HYPERVISOR_MINROOT_INFORMATION {{ RootProcNumaNodes: {:?}, RootProcNumaNodeLps: {:?} }}",
+            self.RootProcNumaNodes, self.RootProcNumaNodeLps
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_HYPERVISOR_BOOT_PAGES_INFORMATION {
     pub RangeCount: u32,
     pub RangeArray: [usize; 1],
 }
+
 impl Default for SYSTEM_HYPERVISOR_BOOT_PAGES_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_HYPERVISOR_BOOT_PAGES_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_HYPERVISOR_BOOT_PAGES_INFORMATION {{ RangeArray: {:?} }}", self.RangeArray)
+        write!(
+            f,
+            "SYSTEM_HYPERVISOR_BOOT_PAGES_INFORMATION {{ RangeArray: {:?} }}",
+            self.RangeArray
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_POINTER_AUTH_INFORMATION {
     pub Anonymous1: SYSTEM_POINTER_AUTH_INFORMATION_1,
     pub Anonymous2: SYSTEM_POINTER_AUTH_INFORMATION_2,
 }
+
 #[repr(C)]
 pub struct SYSTEM_POINTER_AUTH_INFORMATION_1 {
     pub SupportedFlags: UnionField<u16>,
     pub Anonymous1: UnionField<SYSTEM_POINTER_AUTH_INFORMATION_1_1>,
     pub union_field: u16,
 }
+
 #[repr(C)]
 #[repr(align(2))]
 pub struct SYSTEM_POINTER_AUTH_INFORMATION_1_1 {
     _bitfield_align_1: [u16; 0],
     _bitfield_1: BitfieldUnit<[u8; 2]>,
 }
+
 impl Default for SYSTEM_POINTER_AUTH_INFORMATION_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POINTER_AUTH_INFORMATION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_POINTER_AUTH_INFORMATION_1_1 {{ AddressAuthSupported : {:?}, AddressAuthQarma : {:?}, GenericAuthSupported : {:?}, GenericAuthQarma : {:?}, SupportedReserved : {:?} }}", self.AddressAuthSupported(), self.AddressAuthQarma(), self.GenericAuthSupported(), self.GenericAuthQarma(), self.SupportedReserved())
+        write!(
+            f,
+            "SYSTEM_POINTER_AUTH_INFORMATION_1_1 {{ AddressAuthSupported : {:?}, AddressAuthQarma : {:?}, GenericAuthSupported : {:?}, GenericAuthQarma : {:?}, SupportedReserved : {:?} }}",
+            self.AddressAuthSupported(),
+            self.AddressAuthQarma(),
+            self.GenericAuthSupported(),
+            self.GenericAuthQarma(),
+            self.SupportedReserved()
+        )
     }
 }
+
 impl SYSTEM_POINTER_AUTH_INFORMATION_1_1 {
     #[inline]
     pub fn AddressAuthSupported(&self) -> u16 {
         self._bitfield_1.get(0usize, 1u8) as u16
     }
+
     #[inline]
     pub fn set_AddressAuthSupported(&mut self, val: u16) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn AddressAuthQarma(&self) -> u16 {
         self._bitfield_1.get(1usize, 1u8) as u16
     }
+
     #[inline]
     pub fn set_AddressAuthQarma(&mut self, val: u16) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn GenericAuthSupported(&self) -> u16 {
         self._bitfield_1.get(2usize, 1u8) as u16
     }
+
     #[inline]
     pub fn set_GenericAuthSupported(&mut self, val: u16) {
         self._bitfield_1.set(2usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn GenericAuthQarma(&self) -> u16 {
         self._bitfield_1.get(3usize, 1u8) as u16
     }
+
     #[inline]
     pub fn set_GenericAuthQarma(&mut self, val: u16) {
         self._bitfield_1.set(3usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SupportedReserved(&self) -> u16 {
         self._bitfield_1.get(4usize, 12u8) as u16
     }
+
     #[inline]
     pub fn set_SupportedReserved(&mut self, val: u16) {
         self._bitfield_1.set(4usize, 12u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(AddressAuthSupported: u16, AddressAuthQarma: u16, GenericAuthSupported: u16, GenericAuthQarma: u16, SupportedReserved: u16) -> BitfieldUnit<[u8; 2]> {
+    pub fn new_bitfield_1(
+        AddressAuthSupported: u16,
+        AddressAuthQarma: u16,
+        GenericAuthSupported: u16,
+        GenericAuthQarma: u16,
+        SupportedReserved: u16,
+    ) -> BitfieldUnit<[u8; 2]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, AddressAuthSupported as u64);
+
         bitfield_unit.set(1usize, 1u8, AddressAuthQarma as u64);
+
         bitfield_unit.set(2usize, 1u8, GenericAuthSupported as u64);
+
         bitfield_unit.set(3usize, 1u8, GenericAuthQarma as u64);
+
         bitfield_unit.set(4usize, 12u8, SupportedReserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_POINTER_AUTH_INFORMATION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POINTER_AUTH_INFORMATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_POINTER_AUTH_INFORMATION_1 {{ union }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_POINTER_AUTH_INFORMATION_2 {
     pub EnabledFlags: UnionField<u16>,
     pub Anonymous1: UnionField<SYSTEM_POINTER_AUTH_INFORMATION_2_1>,
     pub union_field: u16,
 }
+
 #[repr(C)]
 #[repr(align(2))]
 pub struct SYSTEM_POINTER_AUTH_INFORMATION_2_1 {
     _bitfield_align_1: [u8; 0],
     _bitfield_1: BitfieldUnit<[u8; 2]>,
 }
+
 impl Default for SYSTEM_POINTER_AUTH_INFORMATION_2_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POINTER_AUTH_INFORMATION_2_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_POINTER_AUTH_INFORMATION_2_1 {{ UserPerProcessIpAuthEnabled : {:?}, UserGlobalIpAuthEnabled : {:?}, UserEnabledReserved : {:?}, KernelIpAuthEnabled : {:?}, KernelEnabledReserved : {:?} }}", self.UserPerProcessIpAuthEnabled(), self.UserGlobalIpAuthEnabled(), self.UserEnabledReserved(), self.KernelIpAuthEnabled(), self.KernelEnabledReserved())
+        write!(
+            f,
+            "SYSTEM_POINTER_AUTH_INFORMATION_2_1 {{ UserPerProcessIpAuthEnabled : {:?}, UserGlobalIpAuthEnabled : {:?}, UserEnabledReserved : {:?}, KernelIpAuthEnabled : {:?}, KernelEnabledReserved : {:?} }}",
+            self.UserPerProcessIpAuthEnabled(),
+            self.UserGlobalIpAuthEnabled(),
+            self.UserEnabledReserved(),
+            self.KernelIpAuthEnabled(),
+            self.KernelEnabledReserved()
+        )
     }
 }
+
 impl SYSTEM_POINTER_AUTH_INFORMATION_2_1 {
     #[inline]
     pub fn UserPerProcessIpAuthEnabled(&self) -> u16 {
         self._bitfield_1.get(0usize, 1u8) as u16
     }
+
     #[inline]
     pub fn set_UserPerProcessIpAuthEnabled(&mut self, val: u16) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn UserGlobalIpAuthEnabled(&self) -> u16 {
         self._bitfield_1.get(1usize, 1u8) as u16
     }
+
     #[inline]
     pub fn set_UserGlobalIpAuthEnabled(&mut self, val: u16) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn UserEnabledReserved(&self) -> u16 {
         self._bitfield_1.get(2usize, 6u8) as u16
     }
+
     #[inline]
     pub fn set_UserEnabledReserved(&mut self, val: u16) {
         self._bitfield_1.set(2usize, 6u8, val as u64)
     }
+
     #[inline]
     pub fn KernelIpAuthEnabled(&self) -> u16 {
         self._bitfield_1.get(8usize, 1u8) as u16
     }
+
     #[inline]
     pub fn set_KernelIpAuthEnabled(&mut self, val: u16) {
         self._bitfield_1.set(8usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn KernelEnabledReserved(&self) -> u16 {
         self._bitfield_1.get(9usize, 7u8) as u16
     }
+
     #[inline]
     pub fn set_KernelEnabledReserved(&mut self, val: u16) {
         self._bitfield_1.set(9usize, 7u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(UserPerProcessIpAuthEnabled: u16, UserGlobalIpAuthEnabled: u16, UserEnabledReserved: u16, KernelIpAuthEnabled: u16, KernelEnabledReserved: u16) -> BitfieldUnit<[u8; 2]> {
+    pub fn new_bitfield_1(
+        UserPerProcessIpAuthEnabled: u16,
+        UserGlobalIpAuthEnabled: u16,
+        UserEnabledReserved: u16,
+        KernelIpAuthEnabled: u16,
+        KernelEnabledReserved: u16,
+    ) -> BitfieldUnit<[u8; 2]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, UserPerProcessIpAuthEnabled as u64);
+
         bitfield_unit.set(1usize, 1u8, UserGlobalIpAuthEnabled as u64);
+
         bitfield_unit.set(2usize, 6u8, UserEnabledReserved as u64);
+
         bitfield_unit.set(8usize, 1u8, KernelIpAuthEnabled as u64);
+
         bitfield_unit.set(9usize, 7u8, KernelEnabledReserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSTEM_POINTER_AUTH_INFORMATION_2 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POINTER_AUTH_INFORMATION_2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_POINTER_AUTH_INFORMATION_2 {{ union }}")
     }
 }
+
 impl Default for SYSTEM_POINTER_AUTH_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_POINTER_AUTH_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_POINTER_AUTH_INFORMATION {{ Anonymous1: {:?}, Anonymous2: {:?} }}", self.Anonymous1, self.Anonymous2)
+        write!(
+            f,
+            "SYSTEM_POINTER_AUTH_INFORMATION {{ Anonymous1: {:?}, Anonymous2: {:?} }}",
+            self.Anonymous1, self.Anonymous2
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_INPUT {
     pub Version: u32,
     pub FeatureName: PWSTR,
     pub BornOnVersion: u32,
 }
+
 impl Default for SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_INPUT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_INPUT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_INPUT {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_OUTPUT {
     pub Version: u32,
     pub FeatureIsEnabled: BOOLEAN,
 }
+
 impl Default for SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_OUTPUT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_OUTPUT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_OUTPUT {{  }}")
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQuerySystemInformationEx(SystemInformationClass: SYSTEM_INFORMATION_CLASS, InputBuffer: *mut std::ffi::c_void, InputBufferLength: u32, SystemInformation: *mut std::ffi::c_void, SystemInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
+    pub fn NtQuerySystemInformationEx(
+        SystemInformationClass: SYSTEM_INFORMATION_CLASS,
+        InputBuffer: *mut std::ffi::c_void,
+        InputBufferLength: u32,
+        SystemInformation: *mut std::ffi::c_void,
+        SystemInformationLength: u32,
+        ReturnLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetSystemInformation(SystemInformationClass: SYSTEM_INFORMATION_CLASS, SystemInformation: *mut std::ffi::c_void, SystemInformationLength: u32) -> NTSTATUS;
+    pub fn NtSetSystemInformation(
+        SystemInformationClass: SYSTEM_INFORMATION_CLASS,
+        SystemInformation: *mut std::ffi::c_void,
+        SystemInformationLength: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SYSDBG_COMMAND {
@@ -9523,38 +12522,45 @@ pub enum SYSDBG_COMMAND {
     SysDbgKdPullRemoteFile = 38,
     SysDbgMaxInfoClass = 39,
 }
+
 #[repr(C)]
 pub struct SYSDBG_VIRTUAL {
     pub Address: *mut std::ffi::c_void,
     pub Buffer: *mut std::ffi::c_void,
     pub Request: u32,
 }
+
 impl Default for SYSDBG_VIRTUAL {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_VIRTUAL {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSDBG_VIRTUAL {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSDBG_PHYSICAL {
     pub Address: i64,
     pub Buffer: *mut std::ffi::c_void,
     pub Request: u32,
 }
+
 impl Default for SYSDBG_PHYSICAL {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_PHYSICAL {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSDBG_PHYSICAL {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSDBG_CONTROL_SPACE {
     pub Address: u64,
@@ -9562,16 +12568,19 @@ pub struct SYSDBG_CONTROL_SPACE {
     pub Request: u32,
     pub Processor: u32,
 }
+
 impl Default for SYSDBG_CONTROL_SPACE {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_CONTROL_SPACE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSDBG_CONTROL_SPACE {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSDBG_IO_SPACE {
     pub Address: u64,
@@ -9581,31 +12590,37 @@ pub struct SYSDBG_IO_SPACE {
     pub BusNumber: u32,
     pub AddressSpace: u32,
 }
+
 impl Default for SYSDBG_IO_SPACE {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_IO_SPACE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSDBG_IO_SPACE {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSDBG_MSR {
     pub Msr: u32,
     pub Data: u64,
 }
+
 impl Default for SYSDBG_MSR {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_MSR {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSDBG_MSR {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSDBG_BUS_DATA {
     pub Address: u32,
@@ -9615,16 +12630,19 @@ pub struct SYSDBG_BUS_DATA {
     pub BusNumber: u32,
     pub SlotNumber: u32,
 }
+
 impl Default for SYSDBG_BUS_DATA {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_BUS_DATA {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSDBG_BUS_DATA {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSDBG_TRIAGE_DUMP {
     pub Flags: u32,
@@ -9637,175 +12655,247 @@ pub struct SYSDBG_TRIAGE_DUMP {
     pub ThreadHandles: u32,
     pub Handles: *mut HANDLE,
 }
+
 impl Default for SYSDBG_TRIAGE_DUMP {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_TRIAGE_DUMP {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSDBG_TRIAGE_DUMP {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSDBG_LIVEDUMP_CONTROL_FLAGS {
     pub Anonymous1: UnionField<SYSDBG_LIVEDUMP_CONTROL_FLAGS_1>,
     pub AsUlong: UnionField<u32>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSDBG_LIVEDUMP_CONTROL_FLAGS_1 {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SYSDBG_LIVEDUMP_CONTROL_FLAGS_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_LIVEDUMP_CONTROL_FLAGS_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSDBG_LIVEDUMP_CONTROL_FLAGS_1 {{ UseDumpStorageStack : {:?}, CompressMemoryPagesData : {:?}, IncludeUserSpaceMemoryPages : {:?}, AbortIfMemoryPressure : {:?}, SelectiveDump : {:?}, Reserved : {:?} }}", self.UseDumpStorageStack(), self.CompressMemoryPagesData(), self.IncludeUserSpaceMemoryPages(), self.AbortIfMemoryPressure(), self.SelectiveDump(), self.Reserved())
+        write!(
+            f,
+            "SYSDBG_LIVEDUMP_CONTROL_FLAGS_1 {{ UseDumpStorageStack : {:?}, CompressMemoryPagesData : {:?}, IncludeUserSpaceMemoryPages : {:?}, AbortIfMemoryPressure : {:?}, SelectiveDump : {:?}, Reserved : {:?} }}",
+            self.UseDumpStorageStack(),
+            self.CompressMemoryPagesData(),
+            self.IncludeUserSpaceMemoryPages(),
+            self.AbortIfMemoryPressure(),
+            self.SelectiveDump(),
+            self.Reserved()
+        )
     }
 }
+
 impl SYSDBG_LIVEDUMP_CONTROL_FLAGS_1 {
     #[inline]
     pub fn UseDumpStorageStack(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_UseDumpStorageStack(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn CompressMemoryPagesData(&self) -> u32 {
         self._bitfield_1.get(1usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_CompressMemoryPagesData(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn IncludeUserSpaceMemoryPages(&self) -> u32 {
         self._bitfield_1.get(2usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_IncludeUserSpaceMemoryPages(&mut self, val: u32) {
         self._bitfield_1.set(2usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn AbortIfMemoryPressure(&self) -> u32 {
         self._bitfield_1.get(3usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_AbortIfMemoryPressure(&mut self, val: u32) {
         self._bitfield_1.set(3usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn SelectiveDump(&self) -> u32 {
         self._bitfield_1.get(4usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_SelectiveDump(&mut self, val: u32) {
         self._bitfield_1.set(4usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Reserved(&self) -> u32 {
         self._bitfield_1.get(5usize, 27u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved(&mut self, val: u32) {
         self._bitfield_1.set(5usize, 27u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(UseDumpStorageStack: u32, CompressMemoryPagesData: u32, IncludeUserSpaceMemoryPages: u32, AbortIfMemoryPressure: u32, SelectiveDump: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        UseDumpStorageStack: u32,
+        CompressMemoryPagesData: u32,
+        IncludeUserSpaceMemoryPages: u32,
+        AbortIfMemoryPressure: u32,
+        SelectiveDump: u32,
+        Reserved: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, UseDumpStorageStack as u64);
+
         bitfield_unit.set(1usize, 1u8, CompressMemoryPagesData as u64);
+
         bitfield_unit.set(2usize, 1u8, IncludeUserSpaceMemoryPages as u64);
+
         bitfield_unit.set(3usize, 1u8, AbortIfMemoryPressure as u64);
+
         bitfield_unit.set(4usize, 1u8, SelectiveDump as u64);
+
         bitfield_unit.set(5usize, 27u8, Reserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSDBG_LIVEDUMP_CONTROL_FLAGS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_LIVEDUMP_CONTROL_FLAGS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSDBG_LIVEDUMP_CONTROL_FLAGS {{ union }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSDBG_LIVEDUMP_CONTROL_ADDPAGES {
     pub Anonymous1: UnionField<SYSDBG_LIVEDUMP_CONTROL_ADDPAGES_1>,
     pub AsUlong: UnionField<u32>,
     pub union_field: u32,
 }
+
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSDBG_LIVEDUMP_CONTROL_ADDPAGES_1 {
     _bitfield_align_1: [u32; 0],
     _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
+
 impl Default for SYSDBG_LIVEDUMP_CONTROL_ADDPAGES_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_LIVEDUMP_CONTROL_ADDPAGES_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSDBG_LIVEDUMP_CONTROL_ADDPAGES_1 {{ HypervisorPages : {:?}, NonEssentialHypervisorPages : {:?}, Reserved : {:?} }}", self.HypervisorPages(), self.NonEssentialHypervisorPages(), self.Reserved())
+        write!(
+            f,
+            "SYSDBG_LIVEDUMP_CONTROL_ADDPAGES_1 {{ HypervisorPages : {:?}, NonEssentialHypervisorPages : {:?}, Reserved : {:?} }}",
+            self.HypervisorPages(),
+            self.NonEssentialHypervisorPages(),
+            self.Reserved()
+        )
     }
 }
+
 impl SYSDBG_LIVEDUMP_CONTROL_ADDPAGES_1 {
     #[inline]
     pub fn HypervisorPages(&self) -> u32 {
         self._bitfield_1.get(0usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_HypervisorPages(&mut self, val: u32) {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn NonEssentialHypervisorPages(&self) -> u32 {
         self._bitfield_1.get(1usize, 1u8) as u32
     }
+
     #[inline]
     pub fn set_NonEssentialHypervisorPages(&mut self, val: u32) {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
+
     #[inline]
     pub fn Reserved(&self) -> u32 {
         self._bitfield_1.get(2usize, 30u8) as u32
     }
+
     #[inline]
     pub fn set_Reserved(&mut self, val: u32) {
         self._bitfield_1.set(2usize, 30u8, val as u64)
     }
+
     #[inline]
-    pub fn new_bitfield_1(HypervisorPages: u32, NonEssentialHypervisorPages: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+    pub fn new_bitfield_1(
+        HypervisorPages: u32,
+        NonEssentialHypervisorPages: u32,
+        Reserved: u32,
+    ) -> BitfieldUnit<[u8; 4]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, HypervisorPages as u64);
+
         bitfield_unit.set(1usize, 1u8, NonEssentialHypervisorPages as u64);
+
         bitfield_unit.set(2usize, 30u8, Reserved as u64);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSDBG_LIVEDUMP_CONTROL_ADDPAGES {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_LIVEDUMP_CONTROL_ADDPAGES {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSDBG_LIVEDUMP_CONTROL_ADDPAGES {{ union }}")
     }
 }
+
 #[repr(C)]
 pub struct SYSDBG_LIVEDUMP_SELECTIVE_CONTROL {
     pub Version: u32,
@@ -9813,73 +12903,99 @@ pub struct SYSDBG_LIVEDUMP_SELECTIVE_CONTROL {
     pub Anonymous1: SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1,
     pub Reserved: [u64; 4],
 }
+
 #[repr(C)]
 pub struct SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1 {
     pub Flags: UnionField<u64>,
     pub Anonymous1: UnionField<SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1_1>,
     pub union_field: u64,
 }
+
 #[repr(C)]
 #[repr(align(8))]
 pub struct SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1_1 {
     _bitfield_align_1: [u64; 0],
     _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
+
 impl Default for SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1_1 {{ ThreadKernelStacks : {:?}, ReservedFlags : {:?} }}", self.ThreadKernelStacks(), self.ReservedFlags())
+        write!(
+            f,
+            "SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1_1 {{ ThreadKernelStacks : {:?}, ReservedFlags : {:?} }}",
+            self.ThreadKernelStacks(),
+            self.ReservedFlags()
+        )
     }
 }
+
 impl SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1_1 {
     #[inline]
     pub fn ThreadKernelStacks(&self) -> u64 {
         self._bitfield_1.get(0usize, 1u8)
     }
+
     #[inline]
     pub fn set_ThreadKernelStacks(&mut self, val: u64) {
         self._bitfield_1.set(0usize, 1u8, val)
     }
+
     #[inline]
     pub fn ReservedFlags(&self) -> u64 {
         self._bitfield_1.get(1usize, 63u8)
     }
+
     #[inline]
     pub fn set_ReservedFlags(&mut self, val: u64) {
         self._bitfield_1.set(1usize, 63u8, val)
     }
+
     #[inline]
     pub fn new_bitfield_1(ThreadKernelStacks: u64, ReservedFlags: u64) -> BitfieldUnit<[u8; 8]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
+
         bitfield_unit.set(0usize, 1u8, ThreadKernelStacks);
+
         bitfield_unit.set(1usize, 63u8, ReservedFlags);
+
         bitfield_unit
     }
 }
+
 impl Default for SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1 {{ union }}")
     }
 }
+
 impl Default for SYSDBG_LIVEDUMP_SELECTIVE_CONTROL {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_LIVEDUMP_SELECTIVE_CONTROL {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSDBG_LIVEDUMP_SELECTIVE_CONTROL {{ Anonymous1: {:?}, Reserved: {:?} }}", self.Anonymous1, self.Reserved)
+        write!(
+            f,
+            "SYSDBG_LIVEDUMP_SELECTIVE_CONTROL {{ Anonymous1: {:?}, Reserved: {:?} }}",
+            self.Anonymous1, self.Reserved
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSDBG_LIVEDUMP_CONTROL {
     pub Version: u32,
@@ -9894,34 +13010,53 @@ pub struct SYSDBG_LIVEDUMP_CONTROL {
     pub AddPagesControl: SYSDBG_LIVEDUMP_CONTROL_ADDPAGES,
     pub SelectiveControl: *mut SYSDBG_LIVEDUMP_SELECTIVE_CONTROL,
 }
+
 impl Default for SYSDBG_LIVEDUMP_CONTROL {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_LIVEDUMP_CONTROL {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSDBG_LIVEDUMP_CONTROL {{ Flags: {:?}, AddPagesControl: {:?}, SelectiveControl: {:?} }}", self.Flags, self.AddPagesControl, self.SelectiveControl)
+        write!(
+            f,
+            "SYSDBG_LIVEDUMP_CONTROL {{ Flags: {:?}, AddPagesControl: {:?}, SelectiveControl: {:?} }}",
+            self.Flags, self.AddPagesControl, self.SelectiveControl
+        )
     }
 }
+
 #[repr(C)]
 pub struct SYSDBG_KD_PULL_REMOTE_FILE {
     pub ImageFileName: UNICODE_STRING,
 }
+
 impl Default for SYSDBG_KD_PULL_REMOTE_FILE {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for SYSDBG_KD_PULL_REMOTE_FILE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSDBG_KD_PULL_REMOTE_FILE {{  }}")
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSystemDebugControl(Command: SYSDBG_COMMAND, InputBuffer: *mut std::ffi::c_void, InputBufferLength: u32, OutputBuffer: *mut std::ffi::c_void, OutputBufferLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
+    pub fn NtSystemDebugControl(
+        Command: SYSDBG_COMMAND,
+        InputBuffer: *mut std::ffi::c_void,
+        InputBufferLength: u32,
+        OutputBuffer: *mut std::ffi::c_void,
+        OutputBufferLength: u32,
+        ReturnLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HARDERROR_RESPONSE_OPTION {
@@ -9935,6 +13070,7 @@ pub enum HARDERROR_RESPONSE_OPTION {
     OptionOkNoWait = 7,
     OptionCancelTryContinue = 8,
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HARDERROR_RESPONSE {
@@ -9950,10 +13086,20 @@ pub enum HARDERROR_RESPONSE {
     ResponseTryAgain = 9,
     ResponseContinue = 10,
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtRaiseHardError(ErrorStatus: NTSTATUS, NumberOfParameters: u32, UnicodeStringParameterMask: u32, Parameters: *mut usize, ValidResponseOptions: u32, Response: *mut u32) -> NTSTATUS;
+    pub fn NtRaiseHardError(
+        ErrorStatus: NTSTATUS,
+        NumberOfParameters: u32,
+        UnicodeStringParameterMask: u32,
+        Parameters: *mut usize,
+        ValidResponseOptions: u32,
+        Response: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ALTERNATIVE_ARCHITECTURE_TYPE {
@@ -9961,72 +13107,119 @@ pub enum ALTERNATIVE_ARCHITECTURE_TYPE {
     NEC98x86 = 1,
     EndAlternatives = 2,
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryDefaultLocale(UserProfile: BOOLEAN, DefaultLocaleId: *mut u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetDefaultLocale(UserProfile: BOOLEAN, DefaultLocaleId: u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryInstallUILanguage(InstallUILanguageId: *mut u16) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtFlushInstallUILanguage(InstallUILanguage: u16, SetComittedFlag: u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryDefaultUILanguage(DefaultUILanguageId: *mut u16) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetDefaultUILanguage(DefaultUILanguageId: u16) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtIsUILanguageComitted() -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtInitializeNlsFiles(BaseAddress: *mut *mut std::ffi::c_void, DefaultLocaleId: *mut u32, DefaultCasingTableSize: *mut i64) -> NTSTATUS;
+    pub fn NtInitializeNlsFiles(
+        BaseAddress: *mut *mut std::ffi::c_void,
+        DefaultLocaleId: *mut u32,
+        DefaultCasingTableSize: *mut i64,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtReleaseCMFViewOwnership() -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtMapCMFModule(What: u32, Index: u32, CacheIndexOut: *mut u32, CacheFlagsOut: *mut u32, ViewSizeOut: *mut u32, BaseAddress: *mut *mut std::ffi::c_void) -> NTSTATUS;
+    pub fn NtMapCMFModule(
+        What: u32,
+        Index: u32,
+        CacheIndexOut: *mut u32,
+        CacheFlagsOut: *mut u32,
+        ViewSizeOut: *mut u32,
+        BaseAddress: *mut *mut std::ffi::c_void,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtGetMUIRegistryInfo(Flags: u32, DataSize: *mut u32, Data: *mut std::ffi::c_void) -> NTSTATUS;
+    pub fn NtGetMUIRegistryInfo(
+        Flags: u32,
+        DataSize: *mut u32,
+        Data: *mut std::ffi::c_void,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtAddAtom(AtomName: PWSTR, Length: u32, Atom: *mut u16) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtAddAtomEx(AtomName: PWSTR, Length: u32, Atom: *mut u16, Flags: u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtFindAtom(AtomName: PWSTR, Length: u32, Atom: *mut u16) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDeleteAtom(Atom: u16) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ATOM_INFORMATION_CLASS {
     AtomBasicInformation = 0,
     AtomTableInformation = 1,
 }
+
 #[repr(C)]
 pub struct ATOM_BASIC_INFORMATION {
     pub UsageCount: u16,
@@ -10034,43 +13227,67 @@ pub struct ATOM_BASIC_INFORMATION {
     pub NameLength: u16,
     pub Name: [u16; 1],
 }
+
 impl Default for ATOM_BASIC_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ATOM_BASIC_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ATOM_BASIC_INFORMATION {{ Name: {:?} }}", self.Name)
     }
 }
+
 #[repr(C)]
 pub struct ATOM_TABLE_INFORMATION {
     pub NumberOfAtoms: u32,
     pub Atoms: [u16; 1],
 }
+
 impl Default for ATOM_TABLE_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ATOM_TABLE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ATOM_TABLE_INFORMATION {{ Atoms: {:?} }}", self.Atoms)
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryInformationAtom(Atom: u16, AtomInformationClass: ATOM_INFORMATION_CLASS, AtomInformation: *mut std::ffi::c_void, AtomInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
+    pub fn NtQueryInformationAtom(
+        Atom: u16,
+        AtomInformationClass: ATOM_INFORMATION_CLASS,
+        AtomInformation: *mut std::ffi::c_void,
+        AtomInformationLength: u32,
+        ReturnLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryLicenseValue(ValueName: *mut UNICODE_STRING, Type: *mut u32, Data: *mut std::ffi::c_void, DataSize: u32, ResultDataSize: *mut u32) -> NTSTATUS;
+    pub fn NtQueryLicenseValue(
+        ValueName: *mut UNICODE_STRING,
+        Type: *mut u32,
+        Data: *mut std::ffi::c_void,
+        DataSize: u32,
+        ResultDataSize: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetDefaultHardErrorPort(DefaultHardErrorPort: HANDLE) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SHUTDOWN_ACTION {
@@ -10079,15 +13296,21 @@ pub enum SHUTDOWN_ACTION {
     ShutdownPowerOff = 2,
     ShutdownRebootForRecovery = 3,
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtShutdownSystem(Action: SHUTDOWN_ACTION) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDisplayString(String: *mut UNICODE_STRING) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDrawText(Text: *mut UNICODE_STRING) -> NTSTATUS;
+
 }

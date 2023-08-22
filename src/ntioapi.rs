@@ -2,7 +2,9 @@ use windows::{
     Wdk::{
         Foundation::OBJECT_ATTRIBUTES,
         Storage::FileSystem::{FILE_BASIC_INFORMATION, FILE_NETWORK_OPEN_INFORMATION},
-        System::SystemServices::{DIRECTORY_NOTIFY_INFORMATION_CLASS, IO_SESSION_EVENT, IO_SESSION_STATE},
+        System::SystemServices::{
+            DIRECTORY_NOTIFY_INFORMATION_CLASS, IO_SESSION_EVENT, IO_SESSION_STATE,
+        },
     },
     Win32::{
         Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
@@ -84,22 +86,26 @@ pub const FILE_INVALID_FILE_ID: u64 = 18446744073709551615;
 pub const REPARSE_DATA_BUFFER_HEADER_SIZE: u32 = 8;
 pub const FILE_COPY_STRUCTURED_STORAGE: u32 = 65;
 pub const FILE_STRUCTURED_STORAGE: u32 = 1089;
+
 #[repr(C)]
 pub struct FILE_IO_COMPLETION_INFORMATION {
     pub KeyContext: *mut std::ffi::c_void,
     pub ApcContext: *mut std::ffi::c_void,
     pub IoStatusBlock: IO_STATUS_BLOCK,
 }
+
 impl Default for FILE_IO_COMPLETION_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_IO_COMPLETION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "FILE_IO_COMPLETION_INFORMATION {{ }}")
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FILE_INFORMATION_CLASS {
@@ -181,103 +187,137 @@ pub enum FILE_INFORMATION_CLASS {
     FileKnownFolderInformation = 76,
     FileMaximumInformation = 77,
 }
+
 #[repr(C)]
 pub struct FILE_INTERNAL_INFORMATION {
     pub Anonymous1: FILE_INTERNAL_INFORMATION_1,
 }
+
 #[repr(C)]
 pub struct FILE_INTERNAL_INFORMATION_1 {
     pub IndexNumber: UnionField<i64>,
     pub Anonymous1: UnionField<FILE_INTERNAL_INFORMATION_1_1>,
     pub union_field: u64,
 }
+
 #[repr(C)]
 #[repr(align(8))]
 pub struct FILE_INTERNAL_INFORMATION_1_1 {
     _bitfield_align_1: [u64; 0],
     _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
+
 impl Default for FILE_INTERNAL_INFORMATION_1_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_INTERNAL_INFORMATION_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "FILE_INTERNAL_INFORMATION_1_1 {{ MftRecordIndex : {:?}, SequenceNumber : {:?} }}", self.MftRecordIndex(), self.SequenceNumber())
+        write!(
+            f,
+            "FILE_INTERNAL_INFORMATION_1_1 {{ MftRecordIndex : {:?}, SequenceNumber : {:?} }}",
+            self.MftRecordIndex(),
+            self.SequenceNumber()
+        )
     }
 }
+
 impl FILE_INTERNAL_INFORMATION_1_1 {
     #[inline]
     pub fn MftRecordIndex(&self) -> i64 {
         unsafe { std::mem::transmute(self._bitfield_1.get(0usize, 48u8)) }
     }
+
     #[inline]
     pub fn set_MftRecordIndex(&mut self, val: i64) {
         unsafe {
             let val: u64 = std::mem::transmute(val);
+
             self._bitfield_1.set(0usize, 48u8, val as u64)
         }
     }
+
     #[inline]
     pub fn SequenceNumber(&self) -> i64 {
         unsafe { std::mem::transmute(self._bitfield_1.get(48usize, 16u8)) }
     }
+
     #[inline]
     pub fn set_SequenceNumber(&mut self, val: i64) {
         unsafe {
             let val: u64 = std::mem::transmute(val);
+
             self._bitfield_1.set(48usize, 16u8, val as u64)
         }
     }
+
     #[inline]
     pub fn new_bitfield_1(MftRecordIndex: i64, SequenceNumber: i64) -> BitfieldUnit<[u8; 8]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
+
         bitfield_unit.set(0usize, 48u8, {
             let MftRecordIndex: u64 = unsafe { std::mem::transmute(MftRecordIndex) };
+
             MftRecordIndex as u64
         });
+
         bitfield_unit.set(48usize, 16u8, {
             let SequenceNumber: u64 = unsafe { std::mem::transmute(SequenceNumber) };
+
             SequenceNumber as u64
         });
+
         bitfield_unit
     }
 }
+
 impl Default for FILE_INTERNAL_INFORMATION_1 {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_INTERNAL_INFORMATION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "FILE_INTERNAL_INFORMATION_1 {{ union }}")
     }
 }
+
 impl Default for FILE_INTERNAL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_INTERNAL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "FILE_INTERNAL_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
+        write!(
+            f,
+            "FILE_INTERNAL_INFORMATION {{ Anonymous1: {:?} }}",
+            self.Anonymous1
+        )
     }
 }
+
 #[repr(C)]
 pub struct FILE_POSITION_INFORMATION {
     pub CurrentByteOffset: i64,
 }
+
 impl Default for FILE_POSITION_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_POSITION_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "FILE_POSITION_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct FILE_LINK_INFORMATION_EX {
     pub Flags: u32,
@@ -285,16 +325,23 @@ pub struct FILE_LINK_INFORMATION_EX {
     pub FileNameLength: u32,
     pub FileName: [u16; 1],
 }
+
 impl Default for FILE_LINK_INFORMATION_EX {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_LINK_INFORMATION_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "FILE_LINK_INFORMATION_EX {{ FileName: {:?} }}", self.FileName)
+        write!(
+            f,
+            "FILE_LINK_INFORMATION_EX {{ FileName: {:?} }}",
+            self.FileName
+        )
     }
 }
+
 #[repr(C)]
 pub struct FILE_RENAME_INFORMATION_EX {
     pub Flags: u32,
@@ -302,16 +349,23 @@ pub struct FILE_RENAME_INFORMATION_EX {
     pub FileNameLength: u32,
     pub FileName: [u16; 1],
 }
+
 impl Default for FILE_RENAME_INFORMATION_EX {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_RENAME_INFORMATION_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "FILE_RENAME_INFORMATION_EX {{ FileName: {:?} }}", self.FileName)
+        write!(
+            f,
+            "FILE_RENAME_INFORMATION_EX {{ FileName: {:?} }}",
+            self.FileName
+        )
     }
 }
+
 #[repr(C)]
 pub struct FILE_INTEGRITY_STREAM_INFORMATION {
     pub ChecksumAlgorithm: u16,
@@ -319,30 +373,36 @@ pub struct FILE_INTEGRITY_STREAM_INFORMATION {
     pub ClusterShift: u8,
     pub Flags: u32,
 }
+
 impl Default for FILE_INTEGRITY_STREAM_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_INTEGRITY_STREAM_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "FILE_INTEGRITY_STREAM_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct FILE_DIRECTORY_NEXT_INFORMATION {
     pub NextEntryOffset: u32,
 }
+
 impl Default for FILE_DIRECTORY_NEXT_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_DIRECTORY_NEXT_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "FILE_DIRECTORY_NEXT_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct FILE_QUOTA_INFORMATION {
     pub NextEntryOffset: u32,
@@ -353,16 +413,19 @@ pub struct FILE_QUOTA_INFORMATION {
     pub QuotaLimit: i64,
     pub Sid: SID,
 }
+
 impl Default for FILE_QUOTA_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_QUOTA_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "FILE_QUOTA_INFORMATION {{  }}")
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FSINFOCLASS {
@@ -382,153 +445,377 @@ pub enum FSINFOCLASS {
     FileFsFullSizeInformationEx = 14,
     FileFsMaximumInformation = 15,
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateNamedPipeFile(FileHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, IoStatusBlock: *mut IO_STATUS_BLOCK, ShareAccess: u32, CreateDisposition: u32, CreateOptions: u32, NamedPipeType: u32, ReadMode: u32, CompletionMode: u32, MaximumInstances: u32, InboundQuota: u32, OutboundQuota: u32, DefaultTimeout: *mut i64) -> NTSTATUS;
+    pub fn NtCreateNamedPipeFile(
+        FileHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        IoStatusBlock: *mut IO_STATUS_BLOCK,
+        ShareAccess: u32,
+        CreateDisposition: u32,
+        CreateOptions: u32,
+        NamedPipeType: u32,
+        ReadMode: u32,
+        CompletionMode: u32,
+        MaximumInstances: u32,
+        InboundQuota: u32,
+        OutboundQuota: u32,
+        DefaultTimeout: *mut i64,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateMailslotFile(FileHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, IoStatusBlock: *mut IO_STATUS_BLOCK, CreateOptions: u32, MailslotQuota: u32, MaximumMessageSize: u32, ReadTimeout: *mut i64) -> NTSTATUS;
+    pub fn NtCreateMailslotFile(
+        FileHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        IoStatusBlock: *mut IO_STATUS_BLOCK,
+        CreateOptions: u32,
+        MailslotQuota: u32,
+        MaximumMessageSize: u32,
+        ReadTimeout: *mut i64,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtDeleteFile(ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtFlushBuffersFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryEaFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK, Buffer: *mut std::ffi::c_void, Length: u32, ReturnSingleEntry: BOOLEAN, EaList: *mut std::ffi::c_void, EaListLength: u32, EaIndex: *mut u32, RestartScan: BOOLEAN) -> NTSTATUS;
+    pub fn NtQueryEaFile(
+        FileHandle: HANDLE,
+        IoStatusBlock: *mut IO_STATUS_BLOCK,
+        Buffer: *mut std::ffi::c_void,
+        Length: u32,
+        ReturnSingleEntry: BOOLEAN,
+        EaList: *mut std::ffi::c_void,
+        EaListLength: u32,
+        EaIndex: *mut u32,
+        RestartScan: BOOLEAN,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetEaFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK, Buffer: *mut std::ffi::c_void, Length: u32) -> NTSTATUS;
+    pub fn NtSetEaFile(
+        FileHandle: HANDLE,
+        IoStatusBlock: *mut IO_STATUS_BLOCK,
+        Buffer: *mut std::ffi::c_void,
+        Length: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtCancelIoFile(FileHandle: HANDLE, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCancelSynchronousIoFile(ThreadHandle: HANDLE, IoRequestToCancel: *mut IO_STATUS_BLOCK, IoStatusBlock: *mut IO_STATUS_BLOCK) -> NTSTATUS;
+    pub fn NtCancelSynchronousIoFile(
+        ThreadHandle: HANDLE,
+        IoRequestToCancel: *mut IO_STATUS_BLOCK,
+        IoStatusBlock: *mut IO_STATUS_BLOCK,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtReadFileScatter(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, SegmentArray: *mut FILE_SEGMENT_ELEMENT, Length: u32, ByteOffset: *mut i64, Key: *mut u32) -> NTSTATUS;
+    pub fn NtReadFileScatter(
+        FileHandle: HANDLE,
+        Event: HANDLE,
+        ApcRoutine: PIO_APC_ROUTINE,
+        ApcContext: *mut std::ffi::c_void,
+        IoStatusBlock: *mut IO_STATUS_BLOCK,
+        SegmentArray: *mut FILE_SEGMENT_ELEMENT,
+        Length: u32,
+        ByteOffset: *mut i64,
+        Key: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtWriteFileGather(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, SegmentArray: *mut FILE_SEGMENT_ELEMENT, Length: u32, ByteOffset: *mut i64, Key: *mut u32) -> NTSTATUS;
+    pub fn NtWriteFileGather(
+        FileHandle: HANDLE,
+        Event: HANDLE,
+        ApcRoutine: PIO_APC_ROUTINE,
+        ApcContext: *mut std::ffi::c_void,
+        IoStatusBlock: *mut IO_STATUS_BLOCK,
+        SegmentArray: *mut FILE_SEGMENT_ELEMENT,
+        Length: u32,
+        ByteOffset: *mut i64,
+        Key: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryAttributesFile(ObjectAttributes: *mut OBJECT_ATTRIBUTES, FileInformation: *mut FILE_BASIC_INFORMATION) -> NTSTATUS;
+    pub fn NtQueryAttributesFile(
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        FileInformation: *mut FILE_BASIC_INFORMATION,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryFullAttributesFile(ObjectAttributes: *mut OBJECT_ATTRIBUTES, FileInformation: *mut FILE_NETWORK_OPEN_INFORMATION) -> NTSTATUS;
+    pub fn NtQueryFullAttributesFile(
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        FileInformation: *mut FILE_NETWORK_OPEN_INFORMATION,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtNotifyChangeDirectoryFile(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, Buffer: *mut std::ffi::c_void, Length: u32, CompletionFilter: u32, WatchTree: BOOLEAN) -> NTSTATUS;
+    pub fn NtNotifyChangeDirectoryFile(
+        FileHandle: HANDLE,
+        Event: HANDLE,
+        ApcRoutine: PIO_APC_ROUTINE,
+        ApcContext: *mut std::ffi::c_void,
+        IoStatusBlock: *mut IO_STATUS_BLOCK,
+        Buffer: *mut std::ffi::c_void,
+        Length: u32,
+        CompletionFilter: u32,
+        WatchTree: BOOLEAN,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtNotifyChangeDirectoryFileEx(FileHandle: HANDLE, Event: HANDLE, ApcRoutine: PIO_APC_ROUTINE, ApcContext: *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, Buffer: *mut std::ffi::c_void, Length: u32, CompletionFilter: u32, WatchTree: BOOLEAN, DirectoryNotifyInformationClass: DIRECTORY_NOTIFY_INFORMATION_CLASS) -> NTSTATUS;
+    pub fn NtNotifyChangeDirectoryFileEx(
+        FileHandle: HANDLE,
+        Event: HANDLE,
+        ApcRoutine: PIO_APC_ROUTINE,
+        ApcContext: *mut std::ffi::c_void,
+        IoStatusBlock: *mut IO_STATUS_BLOCK,
+        Buffer: *mut std::ffi::c_void,
+        Length: u32,
+        CompletionFilter: u32,
+        WatchTree: BOOLEAN,
+        DirectoryNotifyInformationClass: DIRECTORY_NOTIFY_INFORMATION_CLASS,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtLoadDriver(DriverServiceName: *mut UNICODE_STRING) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtUnloadDriver(DriverServiceName: *mut UNICODE_STRING) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum IO_COMPLETION_INFORMATION_CLASS {
     IoCompletionBasicInformation = 0,
 }
+
 #[repr(C)]
 pub struct IO_COMPLETION_BASIC_INFORMATION {
     pub Depth: i32,
 }
+
 impl Default for IO_COMPLETION_BASIC_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for IO_COMPLETION_BASIC_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "IO_COMPLETION_BASIC_INFORMATION {{  }}")
     }
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateIoCompletion(IoCompletionHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES, Count: u32) -> NTSTATUS;
+    pub fn NtCreateIoCompletion(
+        IoCompletionHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+        Count: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenIoCompletion(IoCompletionHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
+    pub fn NtOpenIoCompletion(
+        IoCompletionHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryIoCompletion(IoCompletionHandle: HANDLE, IoCompletionInformationClass: IO_COMPLETION_INFORMATION_CLASS, IoCompletionInformation: *mut std::ffi::c_void, IoCompletionInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
+    pub fn NtQueryIoCompletion(
+        IoCompletionHandle: HANDLE,
+        IoCompletionInformationClass: IO_COMPLETION_INFORMATION_CLASS,
+        IoCompletionInformation: *mut std::ffi::c_void,
+        IoCompletionInformationLength: u32,
+        ReturnLength: *mut u32,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetIoCompletion(IoCompletionHandle: HANDLE, KeyContext: *mut std::ffi::c_void, ApcContext: *mut std::ffi::c_void, IoStatus: NTSTATUS, IoStatusInformation: usize) -> NTSTATUS;
+    pub fn NtSetIoCompletion(
+        IoCompletionHandle: HANDLE,
+        KeyContext: *mut std::ffi::c_void,
+        ApcContext: *mut std::ffi::c_void,
+        IoStatus: NTSTATUS,
+        IoStatusInformation: usize,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetIoCompletionEx(IoCompletionHandle: HANDLE, IoCompletionPacketHandle: HANDLE, KeyContext: *mut std::ffi::c_void, ApcContext: *mut std::ffi::c_void, IoStatus: NTSTATUS, IoStatusInformation: usize) -> NTSTATUS;
+    pub fn NtSetIoCompletionEx(
+        IoCompletionHandle: HANDLE,
+        IoCompletionPacketHandle: HANDLE,
+        KeyContext: *mut std::ffi::c_void,
+        ApcContext: *mut std::ffi::c_void,
+        IoStatus: NTSTATUS,
+        IoStatusInformation: usize,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtRemoveIoCompletion(IoCompletionHandle: HANDLE, KeyContext: *mut *mut std::ffi::c_void, ApcContext: *mut *mut std::ffi::c_void, IoStatusBlock: *mut IO_STATUS_BLOCK, Timeout: *mut i64) -> NTSTATUS;
+    pub fn NtRemoveIoCompletion(
+        IoCompletionHandle: HANDLE,
+        KeyContext: *mut *mut std::ffi::c_void,
+        ApcContext: *mut *mut std::ffi::c_void,
+        IoStatusBlock: *mut IO_STATUS_BLOCK,
+        Timeout: *mut i64,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtRemoveIoCompletionEx(IoCompletionHandle: HANDLE, IoCompletionInformation: *mut FILE_IO_COMPLETION_INFORMATION, Count: u32, NumEntriesRemoved: *mut u32, Timeout: *mut i64, Alertable: BOOLEAN) -> NTSTATUS;
+    pub fn NtRemoveIoCompletionEx(
+        IoCompletionHandle: HANDLE,
+        IoCompletionInformation: *mut FILE_IO_COMPLETION_INFORMATION,
+        Count: u32,
+        NumEntriesRemoved: *mut u32,
+        Timeout: *mut i64,
+        Alertable: BOOLEAN,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCreateWaitCompletionPacket(WaitCompletionPacketHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
+    pub fn NtCreateWaitCompletionPacket(
+        WaitCompletionPacketHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtAssociateWaitCompletionPacket(WaitCompletionPacketHandle: HANDLE, IoCompletionHandle: HANDLE, TargetObjectHandle: HANDLE, KeyContext: *mut std::ffi::c_void, ApcContext: *mut std::ffi::c_void, IoStatus: NTSTATUS, IoStatusInformation: usize, AlreadySignaled: *mut BOOLEAN) -> NTSTATUS;
+    pub fn NtAssociateWaitCompletionPacket(
+        WaitCompletionPacketHandle: HANDLE,
+        IoCompletionHandle: HANDLE,
+        TargetObjectHandle: HANDLE,
+        KeyContext: *mut std::ffi::c_void,
+        ApcContext: *mut std::ffi::c_void,
+        IoStatus: NTSTATUS,
+        IoStatusInformation: usize,
+        AlreadySignaled: *mut BOOLEAN,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCancelWaitCompletionPacket(WaitCompletionPacketHandle: HANDLE, RemoveSignaledPacket: BOOLEAN) -> NTSTATUS;
+    pub fn NtCancelWaitCompletionPacket(
+        WaitCompletionPacketHandle: HANDLE,
+        RemoveSignaledPacket: BOOLEAN,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtOpenSession(SessionHandle: *mut HANDLE, DesiredAccess: u32, ObjectAttributes: *mut OBJECT_ATTRIBUTES) -> NTSTATUS;
+    pub fn NtOpenSession(
+        SessionHandle: *mut HANDLE,
+        DesiredAccess: u32,
+        ObjectAttributes: *mut OBJECT_ATTRIBUTES,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtNotifyChangeSession(SessionHandle: HANDLE, ChangeSequenceNumber: u32, ChangeTimeStamp: *mut i64, Event: IO_SESSION_EVENT, NewState: IO_SESSION_STATE, PreviousState: IO_SESSION_STATE, Payload: *mut std::ffi::c_void, PayloadSize: u32) -> NTSTATUS;
+    pub fn NtNotifyChangeSession(
+        SessionHandle: HANDLE,
+        ChangeSequenceNumber: u32,
+        ChangeTimeStamp: *mut i64,
+        Event: IO_SESSION_EVENT,
+        NewState: IO_SESSION_STATE,
+        PreviousState: IO_SESSION_STATE,
+        Payload: *mut std::ffi::c_void,
+        PayloadSize: u32,
+    ) -> NTSTATUS;
+
 }
+
 #[repr(C)]
 pub struct FILE_MAILSLOT_PEEK_BUFFER {
     pub ReadDataAvailable: u32,
     pub NumberOfMessages: u32,
     pub MessageLength: u32,
 }
+
 impl Default for FILE_MAILSLOT_PEEK_BUFFER {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for FILE_MAILSLOT_PEEK_BUFFER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "FILE_MAILSLOT_PEEK_BUFFER {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct MOUNTMGR_CREATE_POINT_INPUT {
     pub SymbolicLinkNameOffset: u16,
@@ -536,16 +823,19 @@ pub struct MOUNTMGR_CREATE_POINT_INPUT {
     pub DeviceNameOffset: u16,
     pub DeviceNameLength: u16,
 }
+
 impl Default for MOUNTMGR_CREATE_POINT_INPUT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MOUNTMGR_CREATE_POINT_INPUT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MOUNTMGR_CREATE_POINT_INPUT {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct MOUNTMGR_MOUNT_POINT {
     pub SymbolicLinkNameOffset: u32,
@@ -558,62 +848,82 @@ pub struct MOUNTMGR_MOUNT_POINT {
     pub DeviceNameLength: u16,
     pub Reserved3: u16,
 }
+
 impl Default for MOUNTMGR_MOUNT_POINT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MOUNTMGR_MOUNT_POINT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MOUNTMGR_MOUNT_POINT {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct MOUNTMGR_MOUNT_POINTS {
     pub Size: u32,
     pub NumberOfMountPoints: u32,
     pub MountPoints: [MOUNTMGR_MOUNT_POINT; 1],
 }
+
 impl Default for MOUNTMGR_MOUNT_POINTS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MOUNTMGR_MOUNT_POINTS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "MOUNTMGR_MOUNT_POINTS {{ MountPoints: {:?} }}", self.MountPoints)
+        write!(
+            f,
+            "MOUNTMGR_MOUNT_POINTS {{ MountPoints: {:?} }}",
+            self.MountPoints
+        )
     }
 }
+
 #[repr(C)]
 pub struct MOUNTMGR_DRIVE_LETTER_TARGET {
     pub DeviceNameLength: u16,
     pub DeviceName: [u16; 1],
 }
+
 impl Default for MOUNTMGR_DRIVE_LETTER_TARGET {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MOUNTMGR_DRIVE_LETTER_TARGET {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "MOUNTMGR_DRIVE_LETTER_TARGET {{ DeviceName: {:?} }}", self.DeviceName)
+        write!(
+            f,
+            "MOUNTMGR_DRIVE_LETTER_TARGET {{ DeviceName: {:?} }}",
+            self.DeviceName
+        )
     }
 }
+
 #[repr(C)]
 pub struct MOUNTMGR_DRIVE_LETTER_INFORMATION {
     pub DriveLetterWasAssigned: BOOLEAN,
     pub CurrentDriveLetter: u8,
 }
+
 impl Default for MOUNTMGR_DRIVE_LETTER_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MOUNTMGR_DRIVE_LETTER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MOUNTMGR_DRIVE_LETTER_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct MOUNTMGR_VOLUME_MOUNT_POINT {
     pub SourceVolumeNameOffset: u16,
@@ -621,110 +931,136 @@ pub struct MOUNTMGR_VOLUME_MOUNT_POINT {
     pub TargetVolumeNameOffset: u16,
     pub TargetVolumeNameLength: u16,
 }
+
 impl Default for MOUNTMGR_VOLUME_MOUNT_POINT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MOUNTMGR_VOLUME_MOUNT_POINT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MOUNTMGR_VOLUME_MOUNT_POINT {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct MOUNTMGR_CHANGE_NOTIFY_INFO {
     pub EpicNumber: u32,
 }
+
 impl Default for MOUNTMGR_CHANGE_NOTIFY_INFO {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MOUNTMGR_CHANGE_NOTIFY_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MOUNTMGR_CHANGE_NOTIFY_INFO {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct MOUNTMGR_TARGET_NAME {
     pub DeviceNameLength: u16,
     pub DeviceName: [u16; 1],
 }
+
 impl Default for MOUNTMGR_TARGET_NAME {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MOUNTMGR_TARGET_NAME {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "MOUNTMGR_TARGET_NAME {{ DeviceName: {:?} }}", self.DeviceName)
+        write!(
+            f,
+            "MOUNTMGR_TARGET_NAME {{ DeviceName: {:?} }}",
+            self.DeviceName
+        )
     }
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MOUNTMGR_AUTO_MOUNT_STATE {
     Disabled = 0,
     Enabled = 1,
 }
+
 #[repr(C)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct MOUNTMGR_QUERY_AUTO_MOUNT {
     pub CurrentState: MOUNTMGR_AUTO_MOUNT_STATE,
 }
+
 impl Default for MOUNTMGR_QUERY_AUTO_MOUNT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 #[repr(C)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct MOUNTMGR_SET_AUTO_MOUNT {
     pub NewState: MOUNTMGR_AUTO_MOUNT_STATE,
 }
+
 impl Default for MOUNTMGR_SET_AUTO_MOUNT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 #[repr(C)]
 pub struct MOUNTMGR_SILO_ARRIVAL_INPUT {
     pub JobHandle: HANDLE,
 }
+
 impl Default for MOUNTMGR_SILO_ARRIVAL_INPUT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MOUNTMGR_SILO_ARRIVAL_INPUT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MOUNTMGR_SILO_ARRIVAL_INPUT {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct MOUNTDEV_NAME {
     pub NameLength: u16,
     pub Name: [u16; 1],
 }
+
 impl Default for MOUNTDEV_NAME {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MOUNTDEV_NAME {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MOUNTDEV_NAME {{ Name: {:?} }}", self.Name)
     }
 }
+
 #[repr(C)]
 pub struct MOUNTMGR_VOLUME_PATHS {
     pub MultiSzLength: u32,
     pub MultiSz: [u16; 1],
 }
+
 impl Default for MOUNTMGR_VOLUME_PATHS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for MOUNTMGR_VOLUME_PATHS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "MOUNTMGR_VOLUME_PATHS {{ MultiSz: {:?} }}", self.MultiSz)

@@ -1,6 +1,7 @@
 use windows::Win32::Foundation::{HANDLE, NTSTATUS};
 
 pub const FLT_PORT_ALL_ACCESS: u32 = 2031617;
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum VDMSERVICECLASS {
@@ -21,14 +22,24 @@ pub enum VDMSERVICECLASS {
     VdmQueryVdmProcess = 14,
     VdmPreInitialize = 15,
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtVdmControl(Service: VDMSERVICECLASS, ServiceData: *mut std::ffi::c_void) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtTraceEvent(TraceHandle: HANDLE, Flags: u32, FieldSize: u32, Fields: *mut std::ffi::c_void) -> NTSTATUS;
+    pub fn NtTraceEvent(
+        TraceHandle: HANDLE,
+        Flags: u32,
+        FieldSize: u32,
+        Fields: *mut std::ffi::c_void,
+    ) -> NTSTATUS;
+
 }
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum TRACE_CONTROL_INFORMATION_CLASS {
@@ -75,7 +86,16 @@ pub enum TRACE_CONTROL_INFORMATION_CLASS {
     TraceControlQueryUsedProcessorCount = 44,
     TraceControlGetPmcOwnership = 45,
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtTraceControl(TraceInformationClass: TRACE_CONTROL_INFORMATION_CLASS, InputBuffer: *mut std::ffi::c_void, InputBufferLength: u32, TraceInformation: *mut std::ffi::c_void, TraceInformationLength: u32, ReturnLength: *mut u32) -> NTSTATUS;
+    pub fn NtTraceControl(
+        TraceInformationClass: TRACE_CONTROL_INFORMATION_CLASS,
+        InputBuffer: *mut std::ffi::c_void,
+        InputBufferLength: u32,
+        TraceInformation: *mut std::ffi::c_void,
+        TraceInformationLength: u32,
+        ReturnLength: *mut u32,
+    ) -> NTSTATUS;
+
 }

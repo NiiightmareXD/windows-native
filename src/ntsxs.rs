@@ -3,7 +3,9 @@ use windows::{
     Win32::{
         Foundation::{BOOLEAN, HANDLE, UNICODE_STRING},
         System::{
-            ApplicationInstallationAndServicing::{ACTCTX_COMPATIBILITY_ELEMENT_TYPE, ACTCTX_REQUESTED_RUN_LEVEL},
+            ApplicationInstallationAndServicing::{
+                ACTCTX_COMPATIBILITY_ELEMENT_TYPE, ACTCTX_REQUESTED_RUN_LEVEL,
+            },
             Kernel::LIST_ENTRY,
         },
     },
@@ -33,7 +35,8 @@ pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_FORMAT_WHISTLER: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_INCLUDES_BASE_NAME: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_OMITS_ASSEMBLY_ROOT: u32 = 2;
 pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_EXPAND: u32 = 4;
-pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SYSTEM_DEFAULT_REDIRECTED_SYSTEM32_DLL: u32 = 8;
+pub const ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SYSTEM_DEFAULT_REDIRECTED_SYSTEM32_DLL: u32 =
+    8;
 pub const ACTIVATION_CONTEXT_DATA_WINDOW_CLASS_REDIRECTION_FORMAT_WHISTLER: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_FORMAT_WHISTLER: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_THREADING_MODEL_INVALID: u32 = 0;
@@ -57,14 +60,22 @@ pub const ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION_FORMAT_WHISTLER: 
 pub const ACTIVATION_CONTEXT_DATA_COM_PROGID_REDIRECTION_FORMAT_WHISTLER: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_CLR_SURROGATE_FORMAT_WHISTLER: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_APPLICATION_SETTINGS_FORMAT_LONGHORN: u32 = 1;
-pub const SXS_WINDOWS_SETTINGS_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2005/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2011_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2011/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2013_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2013/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2014_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2014/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2016_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2016/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2017_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2017/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2019_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2019/WindowsSettings\0";
-pub const SXS_WINDOWS_SETTINGS_2020_NAMESPACE: &[u8; 54] = b"http://schemas.microsoft.com/SMI/2020/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_NAMESPACE: &[u8; 54] =
+    b"http://schemas.microsoft.com/SMI/2005/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2011_NAMESPACE: &[u8; 54] =
+    b"http://schemas.microsoft.com/SMI/2011/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2013_NAMESPACE: &[u8; 54] =
+    b"http://schemas.microsoft.com/SMI/2013/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2014_NAMESPACE: &[u8; 54] =
+    b"http://schemas.microsoft.com/SMI/2014/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2016_NAMESPACE: &[u8; 54] =
+    b"http://schemas.microsoft.com/SMI/2016/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2017_NAMESPACE: &[u8; 54] =
+    b"http://schemas.microsoft.com/SMI/2017/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2019_NAMESPACE: &[u8; 54] =
+    b"http://schemas.microsoft.com/SMI/2019/WindowsSettings\0";
+pub const SXS_WINDOWS_SETTINGS_2020_NAMESPACE: &[u8; 54] =
+    b"http://schemas.microsoft.com/SMI/2020/WindowsSettings\0";
 pub const ASSEMBLY_STORAGE_MAP_ASSEMBLY_ARRAY_IS_HEAP_ALLOCATED: u32 = 1;
 pub const ACTIVATION_CONTEXT_NOTIFICATION_DESTROY: u32 = 1;
 pub const ACTIVATION_CONTEXT_NOTIFICATION_ZOMBIFY: u32 = 2;
@@ -78,6 +89,7 @@ pub const ACTIVATION_CONTEXT_STACK_FLAG_QUERIES_DISABLED: u32 = 1;
 pub const ACTIVATION_CONTEXT_DATA_MAGIC: &[u8; 4] = b"xtcA";
 pub const ACTIVATION_CONTEXT_STRING_SECTION_MAGIC: &[u8; 4] = b"dHsS";
 pub const ACTIVATION_CONTEXT_GUID_SECTION_MAGIC: &[u8; 4] = b"dHsG";
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA {
     pub Magic: u32,
@@ -89,16 +101,19 @@ pub struct ACTIVATION_CONTEXT_DATA {
     pub AssemblyRosterOffset: u32,
     pub Flags: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_TOC_HEADER {
     pub HeaderSize: u32,
@@ -106,16 +121,19 @@ pub struct ACTIVATION_CONTEXT_DATA_TOC_HEADER {
     pub FirstEntryOffset: u32,
     pub Flags: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_TOC_HEADER {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_TOC_HEADER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_TOC_HEADER {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_TOC_ENTRY {
     pub Id: u32,
@@ -123,16 +141,19 @@ pub struct ACTIVATION_CONTEXT_DATA_TOC_ENTRY {
     pub Length: u32,
     pub Format: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_TOC_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_TOC_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_TOC_ENTRY {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_EXTENDED_TOC_HEADER {
     pub HeaderSize: u32,
@@ -140,32 +161,38 @@ pub struct ACTIVATION_CONTEXT_DATA_EXTENDED_TOC_HEADER {
     pub FirstEntryOffset: u32,
     pub Flags: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_EXTENDED_TOC_HEADER {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_EXTENDED_TOC_HEADER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_EXTENDED_TOC_HEADER {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_EXTENDED_TOC_ENTRY {
     pub ExtensionGuid: GUID,
     pub TocOffset: u32,
     pub Length: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_EXTENDED_TOC_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_EXTENDED_TOC_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_EXTENDED_TOC_ENTRY {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_ASSEMBLY_ROSTER_HEADER {
     pub HeaderSize: u32,
@@ -174,16 +201,19 @@ pub struct ACTIVATION_CONTEXT_DATA_ASSEMBLY_ROSTER_HEADER {
     pub FirstEntryOffset: u32,
     pub AssemblyInformationSectionOffset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_ASSEMBLY_ROSTER_HEADER {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_ASSEMBLY_ROSTER_HEADER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_ASSEMBLY_ROSTER_HEADER {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_ASSEMBLY_ROSTER_ENTRY {
     pub Flags: u32,
@@ -193,16 +223,19 @@ pub struct ACTIVATION_CONTEXT_DATA_ASSEMBLY_ROSTER_ENTRY {
     pub AssemblyInformationOffset: u32,
     pub AssemblyInformationLength: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_ASSEMBLY_ROSTER_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_ASSEMBLY_ROSTER_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_ASSEMBLY_ROSTER_ENTRY {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_STRING_SECTION_HEADER {
     pub Magic: u32,
@@ -217,16 +250,19 @@ pub struct ACTIVATION_CONTEXT_STRING_SECTION_HEADER {
     pub UserDataOffset: u32,
     pub UserDataSize: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_STRING_SECTION_HEADER {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_STRING_SECTION_HEADER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_STRING_SECTION_HEADER {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_STRING_SECTION_ENTRY {
     pub PseudoKey: u32,
@@ -236,46 +272,55 @@ pub struct ACTIVATION_CONTEXT_STRING_SECTION_ENTRY {
     pub Length: u32,
     pub AssemblyRosterIndex: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_STRING_SECTION_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_STRING_SECTION_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_STRING_SECTION_ENTRY {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_STRING_SECTION_HASH_TABLE {
     pub BucketTableEntryCount: u32,
     pub BucketTableOffset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_STRING_SECTION_HASH_TABLE {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_STRING_SECTION_HASH_TABLE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_STRING_SECTION_HASH_TABLE {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_STRING_SECTION_HASH_BUCKET {
     pub ChainCount: u32,
     pub ChainOffset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_STRING_SECTION_HASH_BUCKET {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_STRING_SECTION_HASH_BUCKET {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_STRING_SECTION_HASH_BUCKET {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_GUID_SECTION_HEADER {
     pub Magic: u32,
@@ -289,16 +334,19 @@ pub struct ACTIVATION_CONTEXT_GUID_SECTION_HEADER {
     pub UserDataOffset: u32,
     pub UserDataSize: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_GUID_SECTION_HEADER {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_GUID_SECTION_HEADER {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_GUID_SECTION_HEADER {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_GUID_SECTION_ENTRY {
     pub Guid: GUID,
@@ -306,46 +354,55 @@ pub struct ACTIVATION_CONTEXT_GUID_SECTION_ENTRY {
     pub Length: u32,
     pub AssemblyRosterIndex: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_GUID_SECTION_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_GUID_SECTION_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_GUID_SECTION_ENTRY {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_GUID_SECTION_HASH_TABLE {
     pub BucketTableEntryCount: u32,
     pub BucketTableOffset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_GUID_SECTION_HASH_TABLE {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_GUID_SECTION_HASH_TABLE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_GUID_SECTION_HASH_TABLE {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_GUID_SECTION_HASH_BUCKET {
     pub ChainCount: u32,
     pub ChainOffset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_GUID_SECTION_HASH_BUCKET {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_GUID_SECTION_HASH_BUCKET {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_GUID_SECTION_HASH_BUCKET {{  }}")
     }
 }
+
 #[repr(C, packed(4))]
 pub struct ACTIVATION_CONTEXT_DATA_ASSEMBLY_INFORMATION {
     pub Size: u32,
@@ -374,16 +431,19 @@ pub struct ACTIVATION_CONTEXT_DATA_ASSEMBLY_INFORMATION {
     pub RunLevel: ACTCTX_REQUESTED_RUN_LEVEL,
     pub UiAccess: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_ASSEMBLY_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_ASSEMBLY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_ASSEMBLY_INFORMATION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_ASSEMBLY_GLOBAL_INFORMATION {
     pub Size: u32,
@@ -395,16 +455,22 @@ pub struct ACTIVATION_CONTEXT_DATA_ASSEMBLY_GLOBAL_INFORMATION {
     pub ApplicationDirectoryOffset: u32,
     pub ResourceName: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_ASSEMBLY_GLOBAL_INFORMATION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_ASSEMBLY_GLOBAL_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ACTIVATION_CONTEXT_DATA_ASSEMBLY_GLOBAL_INFORMATION {{  }}")
+        write!(
+            f,
+            "ACTIVATION_CONTEXT_DATA_ASSEMBLY_GLOBAL_INFORMATION {{  }}"
+        )
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION {
     pub Size: u32,
@@ -413,31 +479,40 @@ pub struct ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION {
     pub PathSegmentCount: u32,
     pub PathSegmentOffset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SEGMENT {
     pub Length: u32,
     pub Offset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SEGMENT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SEGMENT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SEGMENT {{  }}")
+        write!(
+            f,
+            "ACTIVATION_CONTEXT_DATA_DLL_REDIRECTION_PATH_SEGMENT {{  }}"
+        )
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_WINDOW_CLASS_REDIRECTION {
     pub Size: u32,
@@ -447,16 +522,19 @@ pub struct ACTIVATION_CONTEXT_DATA_WINDOW_CLASS_REDIRECTION {
     pub DllNameLength: u32,
     pub DllNameOffset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_WINDOW_CLASS_REDIRECTION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_WINDOW_CLASS_REDIRECTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_WINDOW_CLASS_REDIRECTION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION {
     pub Size: u32,
@@ -478,16 +556,19 @@ pub struct ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION {
     pub MiscStatusIcon: u32,
     pub MiscStatusDocPrint: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_SHIM {
     pub Size: u32,
@@ -502,16 +583,22 @@ pub struct ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_SHIM {
     pub DataLength: u32,
     pub DataOffset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_SHIM {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_SHIM {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_SHIM {{  }}")
+        write!(
+            f,
+            "ACTIVATION_CONTEXT_DATA_COM_SERVER_REDIRECTION_SHIM {{  }}"
+        )
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_COM_INTERFACE_REDIRECTION {
     pub Size: u32,
@@ -523,31 +610,40 @@ pub struct ACTIVATION_CONTEXT_DATA_COM_INTERFACE_REDIRECTION {
     pub NameLength: u32,
     pub NameOffset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_COM_INTERFACE_REDIRECTION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_COM_INTERFACE_REDIRECTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ACTIVATION_CONTEXT_DATA_COM_INTERFACE_REDIRECTION {{  }}")
+        write!(
+            f,
+            "ACTIVATION_CONTEXT_DATA_COM_INTERFACE_REDIRECTION {{  }}"
+        )
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_TYPE_LIBRARY_VERSION {
     pub Major: u16,
     pub Minor: u16,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_TYPE_LIBRARY_VERSION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_TYPE_LIBRARY_VERSION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_TYPE_LIBRARY_VERSION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION {
     pub Size: u32,
@@ -560,32 +656,42 @@ pub struct ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION {
     pub HelpDirOffset: u32,
     pub Version: ACTIVATION_CONTEXT_DATA_TYPE_LIBRARY_VERSION,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION {{ Version: {:?} }}", self.Version)
+        write!(
+            f,
+            "ACTIVATION_CONTEXT_DATA_COM_TYPE_LIBRARY_REDIRECTION {{ Version: {:?} }}",
+            self.Version
+        )
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_COM_PROGID_REDIRECTION {
     pub Size: u32,
     pub Flags: u32,
     pub ConfiguredClsidOffset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_COM_PROGID_REDIRECTION {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_COM_PROGID_REDIRECTION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_COM_PROGID_REDIRECTION {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_CLR_SURROGATE {
     pub Size: u32,
@@ -596,16 +702,19 @@ pub struct ACTIVATION_CONTEXT_DATA_CLR_SURROGATE {
     pub TypeNameOffset: u32,
     pub TypeNameLength: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_CLR_SURROGATE {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_CLR_SURROGATE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_CLR_SURROGATE {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_DATA_APPLICATION_SETTINGS {
     pub Size: u32,
@@ -617,79 +726,112 @@ pub struct ACTIVATION_CONTEXT_DATA_APPLICATION_SETTINGS {
     pub SettingValueLength: u32,
     pub SettingValueOffset: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_DATA_APPLICATION_SETTINGS {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_DATA_APPLICATION_SETTINGS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ACTIVATION_CONTEXT_DATA_APPLICATION_SETTINGS {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct COMPATIBILITY_CONTEXT_ELEMENT_LEGACY {
     pub Id: GUID,
     pub Type: ACTCTX_COMPATIBILITY_ELEMENT_TYPE,
 }
+
 impl Default for COMPATIBILITY_CONTEXT_ELEMENT_LEGACY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for COMPATIBILITY_CONTEXT_ELEMENT_LEGACY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "COMPATIBILITY_CONTEXT_ELEMENT_LEGACY {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION_LEGACY {
     pub ElementCount: u32,
     pub Elements: [COMPATIBILITY_CONTEXT_ELEMENT_LEGACY; 1],
 }
+
 impl Default for ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION_LEGACY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION_LEGACY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION_LEGACY {{ Elements: {:?} }}", self.Elements)
+        write!(
+            f,
+            "ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION_LEGACY {{ Elements: {:?} }}",
+            self.Elements
+        )
     }
 }
+
 #[repr(C)]
 pub struct ASSEMBLY_STORAGE_MAP_ENTRY {
     pub Flags: u32,
     pub DosPath: UNICODE_STRING,
     pub Handle: HANDLE,
 }
+
 impl Default for ASSEMBLY_STORAGE_MAP_ENTRY {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ASSEMBLY_STORAGE_MAP_ENTRY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ASSEMBLY_STORAGE_MAP_ENTRY {{  }}")
     }
 }
+
 #[repr(C)]
 pub struct ASSEMBLY_STORAGE_MAP {
     pub Flags: u32,
     pub AssemblyCount: u32,
     pub AssemblyArray: *mut *mut ASSEMBLY_STORAGE_MAP_ENTRY,
 }
+
 impl Default for ASSEMBLY_STORAGE_MAP {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ASSEMBLY_STORAGE_MAP {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ASSEMBLY_STORAGE_MAP {{ AssemblyArray: {:?} }}", self.AssemblyArray)
+        write!(
+            f,
+            "ASSEMBLY_STORAGE_MAP {{ AssemblyArray: {:?} }}",
+            self.AssemblyArray
+        )
     }
 }
-pub type PACTIVATION_CONTEXT_NOTIFY_ROUTINE = std::option::Option<unsafe extern "system" fn(NotificationType: u32, ActivationContext: *mut ACTIVATION_CONTEXT, ActivationContextData: *mut ACTIVATION_CONTEXT_DATA, NotificationContext: *mut std::ffi::c_void, NotificationData: *mut std::ffi::c_void, DisableThisNotification: *mut BOOLEAN)>;
+
+pub type PACTIVATION_CONTEXT_NOTIFY_ROUTINE = std::option::Option<
+    unsafe extern "system" fn(
+        NotificationType: u32,
+        ActivationContext: *mut ACTIVATION_CONTEXT,
+        ActivationContextData: *mut ACTIVATION_CONTEXT_DATA,
+        NotificationContext: *mut std::ffi::c_void,
+        NotificationData: *mut std::ffi::c_void,
+        DisableThisNotification: *mut BOOLEAN,
+    ),
+>;
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT {
     pub RefCount: i32,
@@ -702,32 +844,51 @@ pub struct ACTIVATION_CONTEXT {
     pub StorageMap: ASSEMBLY_STORAGE_MAP,
     pub InlineStorageMapEntries: [*mut ASSEMBLY_STORAGE_MAP_ENTRY; 32],
 }
+
 impl Default for ACTIVATION_CONTEXT {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ACTIVATION_CONTEXT {{ ActivationContextData: {:?}, NotificationRoutine: {:?}, SentNotifications: {:?}, DisabledNotifications: {:?}, StorageMap: {:?}, InlineStorageMapEntries: {:?} }}", self.ActivationContextData, self.NotificationRoutine, self.SentNotifications, self.DisabledNotifications, self.StorageMap, self.InlineStorageMapEntries)
+        write!(
+            f,
+            "ACTIVATION_CONTEXT {{ ActivationContextData: {:?}, NotificationRoutine: {:?}, SentNotifications: {:?}, DisabledNotifications: {:?}, StorageMap: {:?}, InlineStorageMapEntries: {:?} }}",
+            self.ActivationContextData,
+            self.NotificationRoutine,
+            self.SentNotifications,
+            self.DisabledNotifications,
+            self.StorageMap,
+            self.InlineStorageMapEntries
+        )
     }
 }
+
 #[repr(C)]
 pub struct RTL_ACTIVATION_CONTEXT_STACK_FRAME {
     pub Previous: *mut RTL_ACTIVATION_CONTEXT_STACK_FRAME,
     pub ActivationContext: *mut ACTIVATION_CONTEXT,
     pub Flags: u32,
 }
+
 impl Default for RTL_ACTIVATION_CONTEXT_STACK_FRAME {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for RTL_ACTIVATION_CONTEXT_STACK_FRAME {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_ACTIVATION_CONTEXT_STACK_FRAME {{ Previous: {:?} }}", self.Previous)
+        write!(
+            f,
+            "RTL_ACTIVATION_CONTEXT_STACK_FRAME {{ Previous: {:?} }}",
+            self.Previous
+        )
     }
 }
+
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_STACK {
     pub ActiveFrame: *mut RTL_ACTIVATION_CONTEXT_STACK_FRAME,
@@ -736,13 +897,19 @@ pub struct ACTIVATION_CONTEXT_STACK {
     pub NextCookieSequenceNumber: u32,
     pub StackId: u32,
 }
+
 impl Default for ACTIVATION_CONTEXT_STACK {
     fn default() -> Self {
         unsafe { std::mem::zeroed() }
     }
 }
+
 impl std::fmt::Debug for ACTIVATION_CONTEXT_STACK {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ACTIVATION_CONTEXT_STACK {{ ActiveFrame: {:?} }}", self.ActiveFrame)
+        write!(
+            f,
+            "ACTIVATION_CONTEXT_STACK {{ ActiveFrame: {:?} }}",
+            self.ActiveFrame
+        )
     }
 }

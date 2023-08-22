@@ -15,7 +15,9 @@ pub enum KTHREAD_STATE {
     WaitingForProcessInSwap = 9,
     MaximumThreadState = 10,
 }
+
 impl KHETERO_CPU_POLICY {}
+
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum KHETERO_CPU_POLICY {
@@ -30,23 +32,37 @@ pub enum KHETERO_CPU_POLICY {
     KHeteroCpuPolicyDefault = 8,
     KHeteroCpuPolicyMax = 9,
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCallbackReturn(OutputBuffer: *mut std::ffi::c_void, OutputLength: u32, Status: NTSTATUS) -> NTSTATUS;
+    pub fn NtCallbackReturn(
+        OutputBuffer: *mut std::ffi::c_void,
+        OutputLength: u32,
+        Status: NTSTATUS,
+    ) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtFlushProcessWriteBuffers() -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryDebugFilterState(ComponentId: u32, Level: u32) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtSetDebugFilterState(ComponentId: u32, Level: u32, State: BOOLEAN) -> NTSTATUS;
+
 }
+
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtYieldExecution() -> NTSTATUS;
+
 }
