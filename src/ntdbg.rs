@@ -6,7 +6,7 @@ use windows::{
         System::{
             Diagnostics::{
                 Debug::{DEBUG_EVENT, EXCEPTION_RECORD},
-                Etw::EVENT_FILTER_DESCRIPTOR,
+                Etw::PENABLECALLBACK,
             },
             WindowsProgramming::CLIENT_ID,
         },
@@ -199,7 +199,7 @@ pub struct DBGUI_WAIT_STATE_CHANGE_1 {
     pub ExitProcess: UnionField<DBGKM_EXIT_PROCESS>,
     pub LoadDll: UnionField<DBGKM_LOAD_DLL>,
     pub UnloadDll: UnionField<DBGKM_UNLOAD_DLL>,
-    pub union_field: [u64; 20usize],
+    pub union_field: [u64; 20],
 }
 impl Default for DBGUI_WAIT_STATE_CHANGE_1 {
     fn default() -> Self {
@@ -296,7 +296,6 @@ extern "system" {
 extern "system" {
     pub fn DbgUiConvertStateChangeStructureEx(StateChange: *mut DBGUI_WAIT_STATE_CHANGE, DebugEvent: *mut DEBUG_EVENT) -> NTSTATUS;
 }
-pub type PENABLECALLBACK = std::option::Option<unsafe extern "system" fn(SourceId: *const GUID, IsEnabled: u32, Level: u8, MatchAnyKeyword: u64, MatchAllKeyword: u64, FilterData: *mut EVENT_FILTER_DESCRIPTOR, CallbackContext: *mut std::ffi::c_void)>;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn EtwEventRegister(ProviderId: *const GUID, EnableCallback: PENABLECALLBACK, CallbackContext: *mut std::ffi::c_void, RegHandle: PREGHANDLE) -> NTSTATUS;

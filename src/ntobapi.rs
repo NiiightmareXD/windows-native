@@ -1,5 +1,5 @@
 use windows::{
-    Wdk::Foundation::OBJECT_ATTRIBUTES,
+    Wdk::Foundation::{OBJECT_ATTRIBUTES, OBJECT_INFORMATION_CLASS},
     Win32::{
         Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
         Security::GENERIC_MAPPING,
@@ -21,18 +21,6 @@ pub const ObjectTypesInformation: u32 = 3;
 pub const ObjectHandleFlagInformation: u32 = 4;
 pub const ObjectSessionInformation: u32 = 5;
 pub const ObjectSessionObjectInformation: u32 = 6;
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum OBJECT_INFORMATION_CLASS {
-    ObjectBasicInformation = 0,
-    ObjectNameInformation = 1,
-    ObjectTypeInformation = 2,
-    ObjectTypesInformation = 3,
-    ObjectHandleFlagInformation = 4,
-    ObjectSessionInformation = 5,
-    ObjectSessionObjectInformation = 6,
-    MaxObjectInfoClass = 7,
-}
 #[repr(C)]
 pub struct OBJECT_BASIC_INFORMATION {
     pub Attributes: u32,
@@ -41,7 +29,7 @@ pub struct OBJECT_BASIC_INFORMATION {
     pub PointerCount: u32,
     pub PagedPoolCharge: u32,
     pub NonPagedPoolCharge: u32,
-    pub Reserved: [u32; 3usize],
+    pub Reserved: [u32; 3],
     pub NameInfoSize: u32,
     pub TypeInfoSize: u32,
     pub SecurityDescriptorSize: u32,
@@ -55,20 +43,6 @@ impl Default for OBJECT_BASIC_INFORMATION {
 impl std::fmt::Debug for OBJECT_BASIC_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "OBJECT_BASIC_INFORMATION {{ Reserved: {:?} }}", self.Reserved)
-    }
-}
-#[repr(C)]
-pub struct OBJECT_NAME_INFORMATION {
-    pub Name: UNICODE_STRING,
-}
-impl Default for OBJECT_NAME_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for OBJECT_NAME_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "OBJECT_NAME_INFORMATION {{  }}")
     }
 }
 #[repr(C)]
@@ -239,7 +213,7 @@ pub struct OBJECT_BOUNDARY_DESCRIPTOR_1 {
 #[repr(align(4))]
 pub struct OBJECT_BOUNDARY_DESCRIPTOR_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for OBJECT_BOUNDARY_DESCRIPTOR_1_1 {
     fn default() -> Self {
@@ -269,8 +243,8 @@ impl OBJECT_BOUNDARY_DESCRIPTOR_1_1 {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(AddAppContainerSid: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(AddAppContainerSid: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, AddAppContainerSid as u64);
         bitfield_unit.set(1usize, 31u8, Reserved as u64);
         bitfield_unit

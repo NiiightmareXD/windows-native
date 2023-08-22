@@ -16,7 +16,7 @@ pub const IMAGE_DYNAMIC_RELOCATION_KI_USER_SHARED_DATA64: u64 = 1844673472786071
 pub struct IMAGE_DEBUG_POGO_ENTRY {
     pub Rva: u32,
     pub Size: u32,
-    pub Name: [i8; 1usize],
+    pub Name: [i8; 1],
 }
 impl Default for IMAGE_DEBUG_POGO_ENTRY {
     fn default() -> Self {
@@ -46,7 +46,7 @@ impl std::fmt::Debug for IMAGE_DEBUG_POGO_SIGNATURE {
 #[repr(align(2))]
 pub struct IMAGE_RELOCATION_RECORD {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 2usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 2]>,
 }
 impl Default for IMAGE_RELOCATION_RECORD {
     fn default() -> Self {
@@ -76,8 +76,8 @@ impl IMAGE_RELOCATION_RECORD {
         self._bitfield_1.set(12usize, 4u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Offset: u16, Type: u16) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(Offset: u16, Type: u16) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 12u8, Offset as u64);
         bitfield_unit.set(12usize, 4u8, Type as u64);
         bitfield_unit
@@ -123,7 +123,7 @@ pub struct IMAGE_CHPE_RANGE_ENTRY_1 {
 #[repr(align(4))]
 pub struct IMAGE_CHPE_RANGE_ENTRY_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for IMAGE_CHPE_RANGE_ENTRY_1_1 {
     fn default() -> Self {
@@ -153,8 +153,8 @@ impl IMAGE_CHPE_RANGE_ENTRY_1_1 {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(NativeCode: u32, AddressBits: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(NativeCode: u32, AddressBits: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, NativeCode as u64);
         bitfield_unit.set(1usize, 31u8, AddressBits as u64);
         bitfield_unit
@@ -248,7 +248,7 @@ impl std::fmt::Debug for IMAGE_ARM64EC_CODE_RANGE_ENTRY_POINT {
 #[repr(align(2))]
 pub struct IMAGE_DVRT_ARM64X_FIXUP_RECORD {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 2usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 2]>,
 }
 impl Default for IMAGE_DVRT_ARM64X_FIXUP_RECORD {
     fn default() -> Self {
@@ -286,8 +286,8 @@ impl IMAGE_DVRT_ARM64X_FIXUP_RECORD {
         self._bitfield_1.set(14usize, 2u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Offset: u16, Type: u16, Size: u16) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(Offset: u16, Type: u16, Size: u16) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 12u8, Offset as u64);
         bitfield_unit.set(12usize, 2u8, Type as u64);
         bitfield_unit.set(14usize, 2u8, Size as u64);
@@ -298,7 +298,7 @@ impl IMAGE_DVRT_ARM64X_FIXUP_RECORD {
 #[repr(align(2))]
 pub struct IMAGE_DVRT_ARM64X_DELTA_FIXUP_RECORD {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 2usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 2]>,
 }
 impl Default for IMAGE_DVRT_ARM64X_DELTA_FIXUP_RECORD {
     fn default() -> Self {
@@ -344,8 +344,8 @@ impl IMAGE_DVRT_ARM64X_DELTA_FIXUP_RECORD {
         self._bitfield_1.set(15usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Offset: u16, Type: u16, Sign: u16, Scale: u16) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(Offset: u16, Type: u16, Sign: u16, Scale: u16) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 12u8, Offset as u64);
         bitfield_unit.set(12usize, 2u8, Type as u64);
         bitfield_unit.set(14usize, 1u8, Sign as u64);

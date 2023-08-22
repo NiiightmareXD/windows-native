@@ -68,12 +68,12 @@ impl std::fmt::Debug for PF_TRACE_LIMITS {
 }
 #[repr(C)]
 pub struct PF_SYSTEM_PREFETCH_PARAMETERS {
-    pub EnableStatus: [PF_ENABLE_STATUS; 2usize],
-    pub TraceLimits: [PF_TRACE_LIMITS; 2usize],
+    pub EnableStatus: [PF_ENABLE_STATUS; 2],
+    pub TraceLimits: [PF_TRACE_LIMITS; 2],
     pub MaxNumActiveTraces: u32,
     pub MaxNumSavedTraces: u32,
-    pub RootDirPath: [u16; 32usize],
-    pub HostingApplicationList: [u16; 128usize],
+    pub RootDirPath: [u16; 32],
+    pub HostingApplicationList: [u16; 128],
 }
 impl Default for PF_SYSTEM_PREFETCH_PARAMETERS {
     fn default() -> Self {
@@ -82,11 +82,7 @@ impl Default for PF_SYSTEM_PREFETCH_PARAMETERS {
 }
 impl std::fmt::Debug for PF_SYSTEM_PREFETCH_PARAMETERS {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_SYSTEM_PREFETCH_PARAMETERS {{ EnableStatus: {:?}, TraceLimits: {:?}, RootDirPath: {:?}, HostingApplicationList: {:?} }}",
-            self.EnableStatus, self.TraceLimits, self.RootDirPath, self.HostingApplicationList
-        )
+        write!(f, "PF_SYSTEM_PREFETCH_PARAMETERS {{ EnableStatus: {:?}, TraceLimits: {:?}, RootDirPath: {:?}, HostingApplicationList: {:?} }}", self.EnableStatus, self.TraceLimits, self.RootDirPath, self.HostingApplicationList)
     }
 }
 #[repr(C)]
@@ -132,11 +128,7 @@ impl Default for PREFETCHER_INFORMATION {
 }
 impl std::fmt::Debug for PREFETCHER_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PREFETCHER_INFORMATION {{ PrefetcherInformationClass: {:?} }}",
-            self.PrefetcherInformationClass
-        )
+        write!(f, "PREFETCHER_INFORMATION {{ PrefetcherInformationClass: {:?} }}", self.PrefetcherInformationClass)
     }
 }
 #[repr(C)]
@@ -200,7 +192,7 @@ pub enum PF_EVENT_TYPE {
 #[repr(C)]
 pub struct PF_LOG_EVENT_DATA {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub EventData: *mut std::ffi::c_void,
 }
 impl Default for PF_LOG_EVENT_DATA {
@@ -210,13 +202,7 @@ impl Default for PF_LOG_EVENT_DATA {
 }
 impl std::fmt::Debug for PF_LOG_EVENT_DATA {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_LOG_EVENT_DATA {{ EventType : {:?}, Flags : {:?}, DataSize : {:?} }}",
-            self.EventType(),
-            self.Flags(),
-            self.DataSize()
-        )
+        write!(f, "PF_LOG_EVENT_DATA {{ EventType : {:?}, Flags : {:?}, DataSize : {:?} }}", self.EventType(), self.Flags(), self.DataSize())
     }
 }
 impl PF_LOG_EVENT_DATA {
@@ -245,8 +231,8 @@ impl PF_LOG_EVENT_DATA {
         self._bitfield_1.set(7usize, 25u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(EventType: u32, Flags: u32, DataSize: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(EventType: u32, Flags: u32, DataSize: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 5u8, EventType as u64);
         bitfield_unit.set(5usize, 2u8, Flags as u64);
         bitfield_unit.set(7usize, 25u8, DataSize as u64);
@@ -259,7 +245,7 @@ pub struct PF_PFN_PRIO_REQUEST {
     pub RequestFlags: u32,
     pub PfnCount: usize,
     pub MemInfo: SYSTEM_MEMORY_LIST_INFORMATION,
-    pub PageData: [MMPFN_IDENTITY; 256usize],
+    pub PageData: [MMPFN_IDENTITY; 256],
 }
 impl Default for PF_PFN_PRIO_REQUEST {
     fn default() -> Self {
@@ -309,11 +295,7 @@ impl Default for PFS_PRIVATE_PAGE_SOURCE {
 }
 impl std::fmt::Debug for PFS_PRIVATE_PAGE_SOURCE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PFS_PRIVATE_PAGE_SOURCE {{ Type: {:?}, Anonymous1: {:?} }}",
-            self.Type, self.Anonymous1
-        )
+        write!(f, "PFS_PRIVATE_PAGE_SOURCE {{ Type: {:?}, Anonymous1: {:?} }}", self.Type, self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -323,12 +305,12 @@ pub struct PF_PRIVSOURCE_INFO {
     pub WsPrivatePages: usize,
     pub TotalPrivatePages: usize,
     pub SessionID: u32,
-    pub ImageName: [i8; 16usize],
+    pub ImageName: [i8; 16],
     pub Anonymous1: PF_PRIVSOURCE_INFO_1,
     pub WsTotalPages: usize,
     pub DeepFreezeTimeMs: u32,
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 #[repr(C)]
 pub struct PF_PRIVSOURCE_INFO_1 {
@@ -354,18 +336,7 @@ impl Default for PF_PRIVSOURCE_INFO {
 }
 impl std::fmt::Debug for PF_PRIVSOURCE_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_PRIVSOURCE_INFO {{ DbInfo: {:?}, ImageName: {:?}, Anonymous1: {:?}, ModernApp : {:?}, DeepFrozen : {:?}, Foreground : {:?}, PerProcessStore : {:?}, Spare : {:?} }}",
-            self.DbInfo,
-            self.ImageName,
-            self.Anonymous1,
-            self.ModernApp(),
-            self.DeepFrozen(),
-            self.Foreground(),
-            self.PerProcessStore(),
-            self.Spare()
-        )
+        write!(f, "PF_PRIVSOURCE_INFO {{ DbInfo: {:?}, ImageName: {:?}, Anonymous1: {:?}, ModernApp : {:?}, DeepFrozen : {:?}, Foreground : {:?}, PerProcessStore : {:?}, Spare : {:?} }}", self.DbInfo, self.ImageName, self.Anonymous1, self.ModernApp(), self.DeepFrozen(), self.Foreground(), self.PerProcessStore(), self.Spare())
     }
 }
 impl PF_PRIVSOURCE_INFO {
@@ -410,14 +381,8 @@ impl PF_PRIVSOURCE_INFO {
         self._bitfield_1.set(4usize, 28u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        ModernApp: u32,
-        DeepFrozen: u32,
-        Foreground: u32,
-        PerProcessStore: u32,
-        Spare: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(ModernApp: u32, DeepFrozen: u32, Foreground: u32, PerProcessStore: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ModernApp as u64);
         bitfield_unit.set(1usize, 1u8, DeepFrozen as u64);
         bitfield_unit.set(2usize, 1u8, Foreground as u64);
@@ -431,7 +396,7 @@ pub struct PF_PRIVSOURCE_QUERY_REQUEST {
     pub Version: u32,
     pub Flags: u32,
     pub InfoCount: u32,
-    pub InfoArray: [PF_PRIVSOURCE_INFO; 1usize],
+    pub InfoArray: [PF_PRIVSOURCE_INFO; 1],
 }
 impl Default for PF_PRIVSOURCE_QUERY_REQUEST {
     fn default() -> Self {
@@ -440,11 +405,7 @@ impl Default for PF_PRIVSOURCE_QUERY_REQUEST {
 }
 impl std::fmt::Debug for PF_PRIVSOURCE_QUERY_REQUEST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_PRIVSOURCE_QUERY_REQUEST {{ InfoArray: {:?} }}",
-            self.InfoArray
-        )
+        write!(f, "PF_PRIVSOURCE_QUERY_REQUEST {{ InfoArray: {:?} }}", self.InfoArray)
     }
 }
 #[repr(i32)]
@@ -472,17 +433,13 @@ impl Default for PF_SCENARIO_PHASE_INFO {
 }
 impl std::fmt::Debug for PF_SCENARIO_PHASE_INFO {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_SCENARIO_PHASE_INFO {{ ScenType: {:?} }}",
-            self.ScenType
-        )
+        write!(f, "PF_SCENARIO_PHASE_INFO {{ ScenType: {:?} }}", self.ScenType)
     }
 }
 #[repr(C)]
 pub struct PF_MEMORY_LIST_NODE {
     _bitfield_align_1: [u64; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
     pub StandbyLowPageCount: u64,
     pub StandbyMediumPageCount: u64,
     pub StandbyHighPageCount: u64,
@@ -496,12 +453,7 @@ impl Default for PF_MEMORY_LIST_NODE {
 }
 impl std::fmt::Debug for PF_MEMORY_LIST_NODE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_MEMORY_LIST_NODE {{ Node : {:?}, Spare : {:?} }}",
-            self.Node(),
-            self.Spare()
-        )
+        write!(f, "PF_MEMORY_LIST_NODE {{ Node : {:?}, Spare : {:?} }}", self.Node(), self.Spare())
     }
 }
 impl PF_MEMORY_LIST_NODE {
@@ -522,8 +474,8 @@ impl PF_MEMORY_LIST_NODE {
         self._bitfield_1.set(8usize, 56u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(Node: u64, Spare: u64) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(Node: u64, Spare: u64) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Node);
         bitfield_unit.set(8usize, 56u8, Spare);
         bitfield_unit
@@ -576,8 +528,8 @@ pub struct PF_ROBUSTNESS_CONTROL {
     pub ExemptProcessCount: u32,
     pub DeprioFileCount: u32,
     pub ExemptFileCount: u32,
-    pub ProcessEntries: [PF_ROBUST_PROCESS_ENTRY; 1usize],
-    pub FileEntries: [PF_ROBUST_FILE_ENTRY; 1usize],
+    pub ProcessEntries: [PF_ROBUST_PROCESS_ENTRY; 1],
+    pub FileEntries: [PF_ROBUST_FILE_ENTRY; 1],
 }
 impl Default for PF_ROBUSTNESS_CONTROL {
     fn default() -> Self {
@@ -586,11 +538,7 @@ impl Default for PF_ROBUSTNESS_CONTROL {
 }
 impl std::fmt::Debug for PF_ROBUSTNESS_CONTROL {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_ROBUSTNESS_CONTROL {{ Command: {:?}, ProcessEntries: {:?}, FileEntries: {:?} }}",
-            self.Command, self.ProcessEntries, self.FileEntries
-        )
+        write!(f, "PF_ROBUSTNESS_CONTROL {{ Command: {:?}, ProcessEntries: {:?}, FileEntries: {:?} }}", self.Command, self.ProcessEntries, self.FileEntries)
     }
 }
 #[repr(C)]
@@ -612,7 +560,7 @@ pub struct PF_MEMORY_LIST_INFO {
     pub Version: u32,
     pub Size: u32,
     pub NodeCount: u32,
-    pub Nodes: [PF_MEMORY_LIST_NODE; 1usize],
+    pub Nodes: [PF_MEMORY_LIST_NODE; 1],
 }
 impl Default for PF_MEMORY_LIST_INFO {
     fn default() -> Self {
@@ -643,7 +591,7 @@ impl std::fmt::Debug for PF_PHYSICAL_MEMORY_RANGE {
 pub struct PF_PHYSICAL_MEMORY_RANGE_INFO_V1 {
     pub Version: u32,
     pub RangeCount: u32,
-    pub Ranges: [PF_PHYSICAL_MEMORY_RANGE; 1usize],
+    pub Ranges: [PF_PHYSICAL_MEMORY_RANGE; 1],
 }
 impl Default for PF_PHYSICAL_MEMORY_RANGE_INFO_V1 {
     fn default() -> Self {
@@ -652,11 +600,7 @@ impl Default for PF_PHYSICAL_MEMORY_RANGE_INFO_V1 {
 }
 impl std::fmt::Debug for PF_PHYSICAL_MEMORY_RANGE_INFO_V1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_PHYSICAL_MEMORY_RANGE_INFO_V1 {{ Ranges: {:?} }}",
-            self.Ranges
-        )
+        write!(f, "PF_PHYSICAL_MEMORY_RANGE_INFO_V1 {{ Ranges: {:?} }}", self.Ranges)
     }
 }
 #[repr(C)]
@@ -664,7 +608,7 @@ pub struct PF_PHYSICAL_MEMORY_RANGE_INFO_V2 {
     pub Version: u32,
     pub Flags: u32,
     pub RangeCount: u32,
-    pub Ranges: [PF_PHYSICAL_MEMORY_RANGE; 1usize],
+    pub Ranges: [PF_PHYSICAL_MEMORY_RANGE; 1],
 }
 impl Default for PF_PHYSICAL_MEMORY_RANGE_INFO_V2 {
     fn default() -> Self {
@@ -673,11 +617,7 @@ impl Default for PF_PHYSICAL_MEMORY_RANGE_INFO_V2 {
 }
 impl std::fmt::Debug for PF_PHYSICAL_MEMORY_RANGE_INFO_V2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_PHYSICAL_MEMORY_RANGE_INFO_V2 {{ Ranges: {:?} }}",
-            self.Ranges
-        )
+        write!(f, "PF_PHYSICAL_MEMORY_RANGE_INFO_V2 {{ Ranges: {:?} }}", self.Ranges)
     }
 }
 #[repr(C)]
@@ -713,7 +653,7 @@ pub struct PF_VIRTUAL_QUERY_1 {
 #[repr(align(4))]
 pub struct PF_VIRTUAL_QUERY_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PF_VIRTUAL_QUERY_1_1 {
     fn default() -> Self {
@@ -722,13 +662,7 @@ impl Default for PF_VIRTUAL_QUERY_1_1 {
 }
 impl std::fmt::Debug for PF_VIRTUAL_QUERY_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_VIRTUAL_QUERY_1_1 {{ FaultInPageTables : {:?}, ReportPageTables : {:?}, Spare : {:?} }}",
-            self.FaultInPageTables(),
-            self.ReportPageTables(),
-            self.Spare()
-        )
+        write!(f, "PF_VIRTUAL_QUERY_1_1 {{ FaultInPageTables : {:?}, ReportPageTables : {:?}, Spare : {:?} }}", self.FaultInPageTables(), self.ReportPageTables(), self.Spare())
     }
 }
 impl PF_VIRTUAL_QUERY_1_1 {
@@ -757,12 +691,8 @@ impl PF_VIRTUAL_QUERY_1_1 {
         self._bitfield_1.set(2usize, 30u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        FaultInPageTables: u32,
-        ReportPageTables: u32,
-        Spare: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(FaultInPageTables: u32, ReportPageTables: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, FaultInPageTables as u64);
         bitfield_unit.set(1usize, 1u8, ReportPageTables as u64);
         bitfield_unit.set(2usize, 30u8, Spare as u64);
@@ -786,11 +716,7 @@ impl Default for PF_VIRTUAL_QUERY {
 }
 impl std::fmt::Debug for PF_VIRTUAL_QUERY {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_VIRTUAL_QUERY {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "PF_VIRTUAL_QUERY {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -824,7 +750,7 @@ pub struct PF_DEPRIORITIZE_OLD_PAGES_1 {
 #[repr(align(4))]
 pub struct PF_DEPRIORITIZE_OLD_PAGES_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PF_DEPRIORITIZE_OLD_PAGES_1_1 {
     fn default() -> Self {
@@ -833,13 +759,7 @@ impl Default for PF_DEPRIORITIZE_OLD_PAGES_1_1 {
 }
 impl std::fmt::Debug for PF_DEPRIORITIZE_OLD_PAGES_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_DEPRIORITIZE_OLD_PAGES_1_1 {{ TargetPriority : {:?}, TrimPages : {:?}, Spare : {:?} }}",
-            self.TargetPriority(),
-            self.TrimPages(),
-            self.Spare()
-        )
+        write!(f, "PF_DEPRIORITIZE_OLD_PAGES_1_1 {{ TargetPriority : {:?}, TrimPages : {:?}, Spare : {:?} }}", self.TargetPriority(), self.TrimPages(), self.Spare())
     }
 }
 impl PF_DEPRIORITIZE_OLD_PAGES_1_1 {
@@ -868,12 +788,8 @@ impl PF_DEPRIORITIZE_OLD_PAGES_1_1 {
         self._bitfield_1.set(6usize, 26u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        TargetPriority: u32,
-        TrimPages: u32,
-        Spare: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(TargetPriority: u32, TrimPages: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 4u8, TargetPriority as u64);
         bitfield_unit.set(4usize, 2u8, TrimPages as u64);
         bitfield_unit.set(6usize, 26u8, Spare as u64);
@@ -897,11 +813,7 @@ impl Default for PF_DEPRIORITIZE_OLD_PAGES {
 }
 impl std::fmt::Debug for PF_DEPRIORITIZE_OLD_PAGES {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PF_DEPRIORITIZE_OLD_PAGES {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "PF_DEPRIORITIZE_OLD_PAGES {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -969,10 +881,6 @@ impl Default for SUPERFETCH_INFORMATION {
 }
 impl std::fmt::Debug for SUPERFETCH_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "SUPERFETCH_INFORMATION {{ SuperfetchInformationClass: {:?} }}",
-            self.SuperfetchInformationClass
-        )
+        write!(f, "SUPERFETCH_INFORMATION {{ SuperfetchInformationClass: {:?} }}", self.SuperfetchInformationClass)
     }
 }

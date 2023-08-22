@@ -122,7 +122,7 @@ pub enum WINSTATIONSTATECLASS {
 #[repr(C)]
 pub struct SESSIONIDW {
     pub Anonymous1: SESSIONIDW_1,
-    pub WinStationName: [u16; 33usize],
+    pub WinStationName: [u16; 33],
     pub State: WINSTATIONSTATECLASS,
 }
 #[repr(C)]
@@ -200,7 +200,7 @@ pub enum WINSTATIONINFOCLASS {
 #[repr(C)]
 pub struct WINSTATIONCREATE {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
     pub MaxInstanceCount: u32,
 }
 impl Default for WINSTATIONCREATE {
@@ -223,16 +223,16 @@ impl WINSTATIONCREATE {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(fEnableWinStation: u32) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(fEnableWinStation: u32) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, fEnableWinStation as u64);
         bitfield_unit
     }
 }
 #[repr(C)]
 pub struct WINSTACONFIGWIRE {
-    pub Comment: [u16; 61usize],
-    pub OEMId: [i8; 4usize],
+    pub Comment: [u16; 61],
+    pub OEMId: [i8; 4],
     pub UserConfig: VARDATA_WIRE,
     pub NewFields: VARDATA_WIRE,
 }
@@ -265,14 +265,14 @@ pub enum SHADOWCLASS {
 #[repr(C)]
 pub struct USERCONFIG {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 6usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 6]>,
     pub padding_0: u16,
-    pub UserName: [u16; 21usize],
-    pub Domain: [u16; 18usize],
-    pub Password: [u16; 15usize],
-    pub WorkDirectory: [u16; 257usize],
-    pub InitialProgram: [u16; 257usize],
-    pub CallbackNumber: [u16; 51usize],
+    pub UserName: [u16; 21],
+    pub Domain: [u16; 18],
+    pub Password: [u16; 15],
+    pub WorkDirectory: [u16; 257],
+    pub InitialProgram: [u16; 257],
+    pub CallbackNumber: [u16; 51],
     pub Callback: CALLBACKCLASS,
     pub Shadow: SHADOWCLASS,
     pub MaxConnectionTime: u32,
@@ -280,11 +280,11 @@ pub struct USERCONFIG {
     pub MaxIdleTime: u32,
     pub KeyboardLayout: u32,
     pub MinEncryptionLevel: u8,
-    pub NWLogonServer: [u16; 48usize],
-    pub PublishedName: [u16; 65usize],
-    pub WFProfilePath: [u16; 257usize],
-    pub WFHomeDir: [u16; 257usize],
-    pub WFHomeDirDrive: [u16; 4usize],
+    pub NWLogonServer: [u16; 48],
+    pub PublishedName: [u16; 65],
+    pub WFProfilePath: [u16; 257],
+    pub WFHomeDir: [u16; 257],
+    pub WFHomeDirDrive: [u16; 4],
 }
 impl Default for USERCONFIG {
     fn default() -> Self {
@@ -735,8 +735,8 @@ impl USERCONFIG {
         fErrorInvalidProfile: u32,
         fPasswordIsScPin: u32,
         fDisablePNPRedir: u32,
-    ) -> BitfieldUnit<[u8; 6usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 6usize]> = Default::default();
+    ) -> BitfieldUnit<[u8; 6]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 6]> = Default::default();
         bitfield_unit.set(0usize, 1u8, fInheritAutoLogon as u64);
         bitfield_unit.set(1usize, 1u8, fInheritResetBroken as u64);
         bitfield_unit.set(2usize, 1u8, fInheritReconnectSame as u64);
@@ -791,18 +791,18 @@ pub enum SDCLASS {
     SdAsync = 3,
     SdOemTransport = 4,
 }
-pub type DEVICENAME = [u16; 129usize];
-pub type MODEMNAME = [u16; 129usize];
-pub type NASISPECIFICNAME = [u16; 15usize];
-pub type NASIUSERNAME = [u16; 48usize];
-pub type NASIPASSWORD = [u16; 25usize];
-pub type NASISESIONNAME = [u16; 17usize];
-pub type NASIFILESERVER = [u16; 48usize];
-pub type WDNAME = [u16; 33usize];
-pub type WDPREFIX = [u16; 13usize];
-pub type CDNAME = [u16; 33usize];
-pub type DLLNAME = [u16; 33usize];
-pub type PDNAME = [u16; 33usize];
+pub type DEVICENAME = [u16; 129];
+pub type MODEMNAME = [u16; 129];
+pub type NASISPECIFICNAME = [u16; 15];
+pub type NASIUSERNAME = [u16; 48];
+pub type NASIPASSWORD = [u16; 25];
+pub type NASISESIONNAME = [u16; 17];
+pub type NASIFILESERVER = [u16; 48];
+pub type WDNAME = [u16; 33];
+pub type WDPREFIX = [u16; 13];
+pub type CDNAME = [u16; 33];
+pub type DLLNAME = [u16; 33];
+pub type PDNAME = [u16; 33];
 #[repr(C)]
 pub struct NETWORKCONFIG {
     pub LanAdapter: i32,
@@ -853,8 +853,8 @@ pub enum ASYNCCONNECTCLASS {
 #[repr(C)]
 pub struct FLOWCONTROLCONFIG {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
-    pub padding_0: [u8; 3usize],
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
+    pub padding_0: [u8; 3],
     pub XonChar: i8,
     pub XoffChar: i8,
     pub Type: FLOWCONTROLCLASS,
@@ -905,8 +905,8 @@ impl FLOWCONTROLCONFIG {
         self._bitfield_1.set(3usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(fEnableSoftwareTx: u32, fEnableSoftwareRx: u32, fEnableDTR: u32, fEnableRTS: u32) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(fEnableSoftwareTx: u32, fEnableSoftwareRx: u32, fEnableDTR: u32, fEnableRTS: u32) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, fEnableSoftwareTx as u64);
         bitfield_unit.set(1usize, 1u8, fEnableSoftwareRx as u64);
         bitfield_unit.set(2usize, 1u8, fEnableDTR as u64);
@@ -918,8 +918,8 @@ impl FLOWCONTROLCONFIG {
 pub struct CONNECTCONFIG {
     pub Type: ASYNCCONNECTCLASS,
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
-    pub padding_0: [u8; 3usize],
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
+    pub padding_0: [u8; 3],
 }
 impl Default for CONNECTCONFIG {
     fn default() -> Self {
@@ -941,8 +941,8 @@ impl CONNECTCONFIG {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(fEnableBreakDisconnect: u32) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(fEnableBreakDisconnect: u32) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, fEnableBreakDisconnect as u64);
         bitfield_unit
     }
@@ -956,7 +956,7 @@ pub struct ASYNCCONFIG {
     pub StopBits: u32,
     pub ByteSize: u32,
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
     pub FlowControl: FLOWCONTROLCONFIG,
     pub Connect: CONNECTCONFIG,
 }
@@ -988,8 +988,8 @@ impl ASYNCCONFIG {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(fEnableDsrSensitivity: u32, fConnectionDriver: u32) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(fEnableDsrSensitivity: u32, fConnectionDriver: u32) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, fEnableDsrSensitivity as u64);
         bitfield_unit.set(1usize, 1u8, fConnectionDriver as u64);
         bitfield_unit
@@ -1041,7 +1041,7 @@ pub struct PDPARAMS_1 {
     pub Async: UnionField<ASYNCCONFIG>,
     pub Nasi: UnionField<NASICONFIG>,
     pub OemTd: UnionField<OEMTDCONFIG>,
-    pub union_field: [u32; 141usize],
+    pub union_field: [u32; 141],
 }
 impl Default for PDPARAMS_1 {
     fn default() -> Self {
@@ -1109,18 +1109,18 @@ impl std::fmt::Debug for PDCONFIG2 {
 #[repr(C)]
 pub struct WINSTATIONCLIENT {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 2usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 2]>,
     pub padding_0: u16,
-    pub ClientName: [u16; 21usize],
-    pub Domain: [u16; 18usize],
-    pub UserName: [u16; 21usize],
-    pub Password: [u16; 15usize],
-    pub WorkDirectory: [u16; 257usize],
-    pub InitialProgram: [u16; 257usize],
+    pub ClientName: [u16; 21],
+    pub Domain: [u16; 18],
+    pub UserName: [u16; 21],
+    pub Password: [u16; 15],
+    pub WorkDirectory: [u16; 257],
+    pub InitialProgram: [u16; 257],
     pub SerialNumber: u32,
     pub EncryptionLevel: u8,
     pub ClientAddressFamily: u32,
-    pub ClientAddress: [u16; 31usize],
+    pub ClientAddress: [u16; 31],
     pub HRes: u16,
     pub VRes: u16,
     pub ColorDepth: u16,
@@ -1129,20 +1129,20 @@ pub struct WINSTATIONCLIENT {
     pub KeyboardType: u32,
     pub KeyboardSubType: u32,
     pub KeyboardFunctionKey: u32,
-    pub ImeFileName: [u16; 33usize],
-    pub ClientDirectory: [u16; 257usize],
-    pub ClientLicense: [u16; 33usize],
-    pub ClientModem: [u16; 41usize],
+    pub ImeFileName: [u16; 33],
+    pub ClientDirectory: [u16; 257],
+    pub ClientLicense: [u16; 33],
+    pub ClientModem: [u16; 41],
     pub ClientBuildNumber: u32,
     pub ClientHardwareId: u32,
     pub ClientProductId: u16,
     pub OutBufCountHost: u16,
     pub OutBufCountClient: u16,
     pub OutBufLength: u16,
-    pub AudioDriverName: [u16; 9usize],
+    pub AudioDriverName: [u16; 9],
     pub ClientTimeZone: RTL_TIME_ZONE_INFORMATION,
     pub ClientSessionId: u32,
-    pub ClientDigProductId: [u16; 32usize],
+    pub ClientDigProductId: [u16; 32],
     pub PerformanceFlags: u32,
     pub ActiveInputLocale: u32,
 }
@@ -1282,8 +1282,8 @@ impl WINSTATIONCLIENT {
         self._bitfield_1.set(11usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(fTextOnly: u32, fDisableCtrlAltDel: u32, fMouse: u32, fDoubleClickDetect: u32, fINetClient: u32, fPromptForPassword: u32, fMaximizeShell: u32, fEnableWindowsKey: u32, fRemoteConsoleAudio: u32, fPasswordIsScPin: u32, fNoAudioPlayback: u32, fUsingSavedCreds: u32) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(fTextOnly: u32, fDisableCtrlAltDel: u32, fMouse: u32, fDoubleClickDetect: u32, fINetClient: u32, fPromptForPassword: u32, fMaximizeShell: u32, fEnableWindowsKey: u32, fRemoteConsoleAudio: u32, fPasswordIsScPin: u32, fNoAudioPlayback: u32, fUsingSavedCreds: u32) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 1u8, fTextOnly as u64);
         bitfield_unit.set(1usize, 1u8, fDisableCtrlAltDel as u64);
         bitfield_unit.set(2usize, 1u8, fMouse as u64);
@@ -1336,8 +1336,8 @@ pub struct PROTOCOLCOUNTERS {
 #[repr(C)]
 pub struct PROTOCOLCOUNTERS_1 {
     pub TShareCounters: UnionField<TSHARE_COUNTERS>,
-    pub Reserved: UnionField<[u32; 100usize]>,
-    pub union_field: [u32; 100usize],
+    pub Reserved: UnionField<[u32; 100]>,
+    pub union_field: [u32; 100],
 }
 impl Default for PROTOCOLCOUNTERS_1 {
     fn default() -> Self {
@@ -1376,7 +1376,7 @@ impl std::fmt::Debug for THINWIRECACHE {
 }
 #[repr(C)]
 pub struct RESERVED_CACHE {
-    pub ThinWireCache: [THINWIRECACHE; 4usize],
+    pub ThinWireCache: [THINWIRECACHE; 4],
 }
 impl Default for RESERVED_CACHE {
     fn default() -> Self {
@@ -1412,8 +1412,8 @@ pub struct CACHE_STATISTICS {
 pub struct CACHE_STATISTICS_1 {
     pub ReservedCacheStats: UnionField<RESERVED_CACHE>,
     pub TShareCacheStats: UnionField<TSHARE_CACHE>,
-    pub Reserved: UnionField<[u32; 20usize]>,
-    pub union_field: [u32; 20usize],
+    pub Reserved: UnionField<[u32; 20]>,
+    pub union_field: [u32; 20],
 }
 impl Default for CACHE_STATISTICS_1 {
     fn default() -> Self {
@@ -1457,15 +1457,15 @@ impl std::fmt::Debug for PROTOCOLSTATUS {
 #[repr(C)]
 pub struct WINSTATIONINFORMATION {
     pub ConnectState: WINSTATIONSTATECLASS,
-    pub WinStationName: [u16; 33usize],
+    pub WinStationName: [u16; 33],
     pub LogonId: u32,
     pub ConnectTime: i64,
     pub DisconnectTime: i64,
     pub LastInputTime: i64,
     pub LogonTime: i64,
     pub Status: PROTOCOLSTATUS,
-    pub Domain: [u16; 18usize],
-    pub UserName: [u16; 21usize],
+    pub Domain: [u16; 18],
+    pub UserName: [u16; 21],
     pub CurrentTime: i64,
 }
 impl Default for WINSTATIONINFORMATION {
@@ -1534,7 +1534,7 @@ impl std::fmt::Debug for CDCONFIG {
         write!(f, "CDCONFIG {{ CdClass: {:?}, CdName: {:?}, CdDLL: {:?} }}", self.CdClass, self.CdName, self.CdDLL)
     }
 }
-pub type CLIENTDATANAME = [i8; 8usize];
+pub type CLIENTDATANAME = [i8; 8];
 pub type PCLIENTDATANAME = *mut i8;
 #[repr(C)]
 pub struct WINSTATIONCLIENTDATA {
@@ -1570,7 +1570,7 @@ pub struct WINSTATIONLOADINDICATORDATA {
     pub IdleCPU: i64,
     pub TotalCPU: i64,
     pub RawSessionCapacity: u32,
-    pub reserved: [u32; 9usize],
+    pub reserved: [u32; 9],
 }
 impl Default for WINSTATIONLOADINDICATORDATA {
     fn default() -> Self {
@@ -1608,9 +1608,9 @@ impl std::fmt::Debug for WINSTATIONSHADOW {
 }
 #[repr(C)]
 pub struct WINSTATIONPRODID {
-    pub DigProductId: [u16; 32usize],
-    pub ClientDigProductId: [u16; 32usize],
-    pub OuterMostDigProductId: [u16; 32usize],
+    pub DigProductId: [u16; 32],
+    pub ClientDigProductId: [u16; 32],
+    pub OuterMostDigProductId: [u16; 32],
     pub CurrentSessionId: u32,
     pub ClientSessionId: u32,
     pub OuterMostSessionId: u32,
@@ -1634,13 +1634,13 @@ pub struct WINSTATIONREMOTEADDRESS {
 pub struct WINSTATIONREMOTEADDRESS_1 {
     pub ipv4: UnionField<WINSTATIONREMOTEADDRESS_1_1>,
     pub ipv6: UnionField<WINSTATIONREMOTEADDRESS_1_2>,
-    pub union_field: [u32; 7usize],
+    pub union_field: [u32; 7],
 }
 #[repr(C)]
 pub struct WINSTATIONREMOTEADDRESS_1_1 {
     pub sin_port: u16,
     pub sin_addr: u32,
-    pub sin_zero: [u8; 8usize],
+    pub sin_zero: [u8; 8],
 }
 impl Default for WINSTATIONREMOTEADDRESS_1_1 {
     fn default() -> Self {
@@ -1656,7 +1656,7 @@ impl std::fmt::Debug for WINSTATIONREMOTEADDRESS_1_1 {
 pub struct WINSTATIONREMOTEADDRESS_1_2 {
     pub sin6_port: u16,
     pub sin6_flowinfo: u32,
-    pub sin6_addr: [u16; 8usize],
+    pub sin6_addr: [u16; 8],
     pub sin6_scope_id: u32,
 }
 impl Default for WINSTATIONREMOTEADDRESS_1_2 {
@@ -1694,9 +1694,9 @@ pub struct WINSTATIONINFORMATIONEX_LEVEL1 {
     pub SessionId: u32,
     pub SessionState: WINSTATIONSTATECLASS,
     pub SessionFlags: i32,
-    pub WinStationName: [u16; 33usize],
-    pub UserName: [u16; 21usize],
-    pub DomainName: [u16; 18usize],
+    pub WinStationName: [u16; 33],
+    pub UserName: [u16; 21],
+    pub DomainName: [u16; 18],
     pub LogonTime: i64,
     pub ConnectTime: i64,
     pub DisconnectTime: i64,
@@ -1719,17 +1719,17 @@ pub struct WINSTATIONINFORMATIONEX_LEVEL2 {
     pub SessionId: u32,
     pub SessionState: WINSTATIONSTATECLASS,
     pub SessionFlags: i32,
-    pub WinStationName: [u16; 33usize],
-    pub SamCompatibleUserName: [u16; 21usize],
-    pub SamCompatibleDomainName: [u16; 18usize],
+    pub WinStationName: [u16; 33],
+    pub SamCompatibleUserName: [u16; 21],
+    pub SamCompatibleDomainName: [u16; 18],
     pub LogonTime: i64,
     pub ConnectTime: i64,
     pub DisconnectTime: i64,
     pub LastInputTime: i64,
     pub CurrentTime: i64,
     pub ProtocolStatus: PROTOCOLSTATUS,
-    pub UserName: [u16; 257usize],
-    pub DomainName: [u16; 256usize],
+    pub UserName: [u16; 257],
+    pub DomainName: [u16; 256],
 }
 impl Default for WINSTATIONINFORMATIONEX_LEVEL2 {
     fn default() -> Self {
@@ -1745,7 +1745,7 @@ impl std::fmt::Debug for WINSTATIONINFORMATIONEX_LEVEL2 {
 pub struct WINSTATIONINFORMATIONEX_LEVEL {
     pub WinStationInfoExLevel1: UnionField<WINSTATIONINFORMATIONEX_LEVEL1>,
     pub WinStationInfoExLevel2: UnionField<WINSTATIONINFORMATIONEX_LEVEL2>,
-    pub union_field: [u64; 280usize],
+    pub union_field: [u64; 280],
 }
 impl Default for WINSTATIONINFORMATIONEX_LEVEL {
     fn default() -> Self {

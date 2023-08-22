@@ -1,5 +1,8 @@
 use windows::{
-    Wdk::Foundation::OBJECT_ATTRIBUTES,
+    Wdk::{
+        Foundation::OBJECT_ATTRIBUTES,
+        System::SystemServices::{KEY_INFORMATION_CLASS, KEY_VALUE_INFORMATION_CLASS},
+    },
     Win32::{
         Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
         System::IO::{IO_STATUS_BLOCK, PIO_APC_ROUTINE},
@@ -36,118 +39,6 @@ pub const IOCTL_VR_UNLOAD_DYNAMICALLY_LOADED_HIVES: u32 = 2228248;
 pub const IOCTL_VR_GET_VIRTUAL_ROOT_KEY: u32 = 2228252;
 pub const IOCTL_VR_LOAD_DIFFERENCING_HIVE_FOR_HOST: u32 = 2228256;
 pub const IOCTL_VR_UNLOAD_DIFFERENCING_HIVE_FOR_HOST: u32 = 2228260;
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum KEY_INFORMATION_CLASS {
-    KeyBasicInformation = 0,
-    KeyNodeInformation = 1,
-    KeyFullInformation = 2,
-    KeyNameInformation = 3,
-    KeyCachedInformation = 4,
-    KeyFlagsInformation = 5,
-    KeyVirtualizationInformation = 6,
-    KeyHandleTagsInformation = 7,
-    KeyTrustInformation = 8,
-    KeyLayerInformation = 9,
-    MaxKeyInfoClass = 10,
-}
-#[repr(C)]
-pub struct KEY_BASIC_INFORMATION {
-    pub LastWriteTime: i64,
-    pub TitleIndex: u32,
-    pub NameLength: u32,
-    pub Name: [u16; 1usize],
-}
-impl Default for KEY_BASIC_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_BASIC_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_BASIC_INFORMATION {{ Name: {:?} }}", self.Name)
-    }
-}
-#[repr(C)]
-pub struct KEY_NODE_INFORMATION {
-    pub LastWriteTime: i64,
-    pub TitleIndex: u32,
-    pub ClassOffset: u32,
-    pub ClassLength: u32,
-    pub NameLength: u32,
-    pub Name: [u16; 1usize],
-}
-impl Default for KEY_NODE_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_NODE_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_NODE_INFORMATION {{ Name: {:?} }}", self.Name)
-    }
-}
-#[repr(C)]
-pub struct KEY_FULL_INFORMATION {
-    pub LastWriteTime: i64,
-    pub TitleIndex: u32,
-    pub ClassOffset: u32,
-    pub ClassLength: u32,
-    pub SubKeys: u32,
-    pub MaxNameLength: u32,
-    pub MaxClassLength: u32,
-    pub Values: u32,
-    pub MaxValueNameLength: u32,
-    pub MaxValueDataLength: u32,
-    pub Class: [u16; 1usize],
-}
-impl Default for KEY_FULL_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_FULL_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_FULL_INFORMATION {{ Class: {:?} }}", self.Class)
-    }
-}
-#[repr(C)]
-pub struct KEY_NAME_INFORMATION {
-    pub NameLength: u32,
-    pub Name: [u16; 1usize],
-}
-impl Default for KEY_NAME_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_NAME_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_NAME_INFORMATION {{ Name: {:?} }}", self.Name)
-    }
-}
-#[repr(C)]
-pub struct KEY_CACHED_INFORMATION {
-    pub LastWriteTime: i64,
-    pub TitleIndex: u32,
-    pub SubKeys: u32,
-    pub MaxNameLength: u32,
-    pub Values: u32,
-    pub MaxValueNameLength: u32,
-    pub MaxValueDataLength: u32,
-    pub NameLength: u32,
-    pub Name: [u16; 1usize],
-}
-impl Default for KEY_CACHED_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_CACHED_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_CACHED_INFORMATION {{ Name: {:?} }}", self.Name)
-    }
-}
 #[repr(C)]
 pub struct KEY_FLAGS_INFORMATION {
     pub Wow64Flags: u32,
@@ -162,232 +53,6 @@ impl Default for KEY_FLAGS_INFORMATION {
 impl std::fmt::Debug for KEY_FLAGS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "KEY_FLAGS_INFORMATION {{  }}")
-    }
-}
-#[repr(C)]
-#[repr(align(4))]
-pub struct KEY_VIRTUALIZATION_INFORMATION {
-    _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
-}
-impl Default for KEY_VIRTUALIZATION_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_VIRTUALIZATION_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_VIRTUALIZATION_INFORMATION {{ VirtualizationCandidate : {:?}, VirtualizationEnabled : {:?}, VirtualTarget : {:?}, VirtualStore : {:?}, VirtualSource : {:?}, Reserved : {:?} }}", self.VirtualizationCandidate(), self.VirtualizationEnabled(), self.VirtualTarget(), self.VirtualStore(), self.VirtualSource(), self.Reserved())
-    }
-}
-impl KEY_VIRTUALIZATION_INFORMATION {
-    #[inline]
-    pub fn VirtualizationCandidate(&self) -> u32 {
-        self._bitfield_1.get(0usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_VirtualizationCandidate(&mut self, val: u32) {
-        self._bitfield_1.set(0usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn VirtualizationEnabled(&self) -> u32 {
-        self._bitfield_1.get(1usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_VirtualizationEnabled(&mut self, val: u32) {
-        self._bitfield_1.set(1usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn VirtualTarget(&self) -> u32 {
-        self._bitfield_1.get(2usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_VirtualTarget(&mut self, val: u32) {
-        self._bitfield_1.set(2usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn VirtualStore(&self) -> u32 {
-        self._bitfield_1.get(3usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_VirtualStore(&mut self, val: u32) {
-        self._bitfield_1.set(3usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn VirtualSource(&self) -> u32 {
-        self._bitfield_1.get(4usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_VirtualSource(&mut self, val: u32) {
-        self._bitfield_1.set(4usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn Reserved(&self) -> u32 {
-        self._bitfield_1.get(5usize, 27u8) as u32
-    }
-    #[inline]
-    pub fn set_Reserved(&mut self, val: u32) {
-        self._bitfield_1.set(5usize, 27u8, val as u64)
-    }
-    #[inline]
-    pub fn new_bitfield_1(VirtualizationCandidate: u32, VirtualizationEnabled: u32, VirtualTarget: u32, VirtualStore: u32, VirtualSource: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
-        bitfield_unit.set(0usize, 1u8, VirtualizationCandidate as u64);
-        bitfield_unit.set(1usize, 1u8, VirtualizationEnabled as u64);
-        bitfield_unit.set(2usize, 1u8, VirtualTarget as u64);
-        bitfield_unit.set(3usize, 1u8, VirtualStore as u64);
-        bitfield_unit.set(4usize, 1u8, VirtualSource as u64);
-        bitfield_unit.set(5usize, 27u8, Reserved as u64);
-        bitfield_unit
-    }
-}
-#[repr(C)]
-#[repr(align(4))]
-pub struct KEY_TRUST_INFORMATION {
-    _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
-}
-impl Default for KEY_TRUST_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_TRUST_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_TRUST_INFORMATION {{ TrustedKey : {:?}, Reserved : {:?} }}", self.TrustedKey(), self.Reserved())
-    }
-}
-impl KEY_TRUST_INFORMATION {
-    #[inline]
-    pub fn TrustedKey(&self) -> u32 {
-        self._bitfield_1.get(0usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_TrustedKey(&mut self, val: u32) {
-        self._bitfield_1.set(0usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn Reserved(&self) -> u32 {
-        self._bitfield_1.get(1usize, 31u8) as u32
-    }
-    #[inline]
-    pub fn set_Reserved(&mut self, val: u32) {
-        self._bitfield_1.set(1usize, 31u8, val as u64)
-    }
-    #[inline]
-    pub fn new_bitfield_1(TrustedKey: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
-        bitfield_unit.set(0usize, 1u8, TrustedKey as u64);
-        bitfield_unit.set(1usize, 31u8, Reserved as u64);
-        bitfield_unit
-    }
-}
-#[repr(C)]
-#[repr(align(4))]
-pub struct KEY_LAYER_INFORMATION {
-    _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
-}
-impl Default for KEY_LAYER_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_LAYER_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_LAYER_INFORMATION {{ IsTombstone : {:?}, IsSupersedeLocal : {:?}, IsSupersedeTree : {:?}, ClassIsInherited : {:?}, Reserved : {:?} }}", self.IsTombstone(), self.IsSupersedeLocal(), self.IsSupersedeTree(), self.ClassIsInherited(), self.Reserved())
-    }
-}
-impl KEY_LAYER_INFORMATION {
-    #[inline]
-    pub fn IsTombstone(&self) -> u32 {
-        self._bitfield_1.get(0usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsTombstone(&mut self, val: u32) {
-        self._bitfield_1.set(0usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn IsSupersedeLocal(&self) -> u32 {
-        self._bitfield_1.get(1usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsSupersedeLocal(&mut self, val: u32) {
-        self._bitfield_1.set(1usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn IsSupersedeTree(&self) -> u32 {
-        self._bitfield_1.get(2usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsSupersedeTree(&mut self, val: u32) {
-        self._bitfield_1.set(2usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn ClassIsInherited(&self) -> u32 {
-        self._bitfield_1.get(3usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_ClassIsInherited(&mut self, val: u32) {
-        self._bitfield_1.set(3usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn Reserved(&self) -> u32 {
-        self._bitfield_1.get(4usize, 28u8) as u32
-    }
-    #[inline]
-    pub fn set_Reserved(&mut self, val: u32) {
-        self._bitfield_1.set(4usize, 28u8, val as u64)
-    }
-    #[inline]
-    pub fn new_bitfield_1(IsTombstone: u32, IsSupersedeLocal: u32, IsSupersedeTree: u32, ClassIsInherited: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
-        bitfield_unit.set(0usize, 1u8, IsTombstone as u64);
-        bitfield_unit.set(1usize, 1u8, IsSupersedeLocal as u64);
-        bitfield_unit.set(2usize, 1u8, IsSupersedeTree as u64);
-        bitfield_unit.set(3usize, 1u8, ClassIsInherited as u64);
-        bitfield_unit.set(4usize, 28u8, Reserved as u64);
-        bitfield_unit
-    }
-}
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum KEY_SET_INFORMATION_CLASS {
-    KeyWriteTimeInformation = 0,
-    KeyWow64FlagsInformation = 1,
-    KeyControlFlagsInformation = 2,
-    KeySetVirtualizationInformation = 3,
-    KeySetDebugInformation = 4,
-    KeySetHandleTagsInformation = 5,
-    KeySetLayerInformation = 6,
-    MaxKeySetInfoClass = 7,
-}
-#[repr(C)]
-pub struct KEY_WRITE_TIME_INFORMATION {
-    pub LastWriteTime: i64,
-}
-impl Default for KEY_WRITE_TIME_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_WRITE_TIME_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_WRITE_TIME_INFORMATION {{  }}")
-    }
-}
-#[repr(C)]
-pub struct KEY_WOW64_FLAGS_INFORMATION {
-    pub UserFlags: u32,
-}
-impl Default for KEY_WOW64_FLAGS_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_WOW64_FLAGS_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_WOW64_FLAGS_INFORMATION {{  }}")
     }
 }
 #[repr(C)]
@@ -408,7 +73,7 @@ impl std::fmt::Debug for KEY_HANDLE_TAGS_INFORMATION {
 #[repr(align(4))]
 pub struct KEY_SET_LAYER_INFORMATION {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for KEY_SET_LAYER_INFORMATION {
     fn default() -> Self {
@@ -462,207 +127,13 @@ impl KEY_SET_LAYER_INFORMATION {
         self._bitfield_1.set(4usize, 28u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(IsTombstone: u32, IsSupersedeLocal: u32, IsSupersedeTree: u32, ClassIsInherited: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(IsTombstone: u32, IsSupersedeLocal: u32, IsSupersedeTree: u32, ClassIsInherited: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, IsTombstone as u64);
         bitfield_unit.set(1usize, 1u8, IsSupersedeLocal as u64);
         bitfield_unit.set(2usize, 1u8, IsSupersedeTree as u64);
         bitfield_unit.set(3usize, 1u8, ClassIsInherited as u64);
         bitfield_unit.set(4usize, 28u8, Reserved as u64);
-        bitfield_unit
-    }
-}
-#[repr(C)]
-pub struct KEY_CONTROL_FLAGS_INFORMATION {
-    pub ControlFlags: u32,
-}
-impl Default for KEY_CONTROL_FLAGS_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_CONTROL_FLAGS_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_CONTROL_FLAGS_INFORMATION {{  }}")
-    }
-}
-#[repr(C)]
-#[repr(align(4))]
-pub struct KEY_SET_VIRTUALIZATION_INFORMATION {
-    _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
-}
-impl Default for KEY_SET_VIRTUALIZATION_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_SET_VIRTUALIZATION_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_SET_VIRTUALIZATION_INFORMATION {{ VirtualTarget : {:?}, VirtualStore : {:?}, VirtualSource : {:?}, Reserved : {:?} }}", self.VirtualTarget(), self.VirtualStore(), self.VirtualSource(), self.Reserved())
-    }
-}
-impl KEY_SET_VIRTUALIZATION_INFORMATION {
-    #[inline]
-    pub fn VirtualTarget(&self) -> u32 {
-        self._bitfield_1.get(0usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_VirtualTarget(&mut self, val: u32) {
-        self._bitfield_1.set(0usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn VirtualStore(&self) -> u32 {
-        self._bitfield_1.get(1usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_VirtualStore(&mut self, val: u32) {
-        self._bitfield_1.set(1usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn VirtualSource(&self) -> u32 {
-        self._bitfield_1.get(2usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_VirtualSource(&mut self, val: u32) {
-        self._bitfield_1.set(2usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn Reserved(&self) -> u32 {
-        self._bitfield_1.get(3usize, 29u8) as u32
-    }
-    #[inline]
-    pub fn set_Reserved(&mut self, val: u32) {
-        self._bitfield_1.set(3usize, 29u8, val as u64)
-    }
-    #[inline]
-    pub fn new_bitfield_1(VirtualTarget: u32, VirtualStore: u32, VirtualSource: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
-        bitfield_unit.set(0usize, 1u8, VirtualTarget as u64);
-        bitfield_unit.set(1usize, 1u8, VirtualStore as u64);
-        bitfield_unit.set(2usize, 1u8, VirtualSource as u64);
-        bitfield_unit.set(3usize, 29u8, Reserved as u64);
-        bitfield_unit
-    }
-}
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum KEY_VALUE_INFORMATION_CLASS {
-    KeyValueBasicInformation = 0,
-    KeyValueFullInformation = 1,
-    KeyValuePartialInformation = 2,
-    KeyValueFullInformationAlign64 = 3,
-    KeyValuePartialInformationAlign64 = 4,
-    KeyValueLayerInformation = 5,
-    MaxKeyValueInfoClass = 6,
-}
-#[repr(C)]
-pub struct KEY_VALUE_BASIC_INFORMATION {
-    pub TitleIndex: u32,
-    pub Type: u32,
-    pub NameLength: u32,
-    pub Name: [u16; 1usize],
-}
-impl Default for KEY_VALUE_BASIC_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_VALUE_BASIC_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_VALUE_BASIC_INFORMATION {{ Name: {:?} }}", self.Name)
-    }
-}
-#[repr(C)]
-pub struct KEY_VALUE_FULL_INFORMATION {
-    pub TitleIndex: u32,
-    pub Type: u32,
-    pub DataOffset: u32,
-    pub DataLength: u32,
-    pub NameLength: u32,
-    pub Name: [u16; 1usize],
-}
-impl Default for KEY_VALUE_FULL_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_VALUE_FULL_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_VALUE_FULL_INFORMATION {{ Name: {:?} }}", self.Name)
-    }
-}
-#[repr(C)]
-pub struct KEY_VALUE_PARTIAL_INFORMATION {
-    pub TitleIndex: u32,
-    pub Type: u32,
-    pub DataLength: u32,
-    pub Data: [u8; 1usize],
-}
-impl Default for KEY_VALUE_PARTIAL_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_VALUE_PARTIAL_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_VALUE_PARTIAL_INFORMATION {{ Data: {:?} }}", self.Data)
-    }
-}
-#[repr(C)]
-pub struct KEY_VALUE_PARTIAL_INFORMATION_ALIGN64 {
-    pub Type: u32,
-    pub DataLength: u32,
-    pub Data: [u8; 1usize],
-}
-impl Default for KEY_VALUE_PARTIAL_INFORMATION_ALIGN64 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_VALUE_PARTIAL_INFORMATION_ALIGN64 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_VALUE_PARTIAL_INFORMATION_ALIGN64 {{ Data: {:?} }}", self.Data)
-    }
-}
-#[repr(C)]
-#[repr(align(4))]
-pub struct KEY_VALUE_LAYER_INFORMATION {
-    _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
-}
-impl Default for KEY_VALUE_LAYER_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_VALUE_LAYER_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_VALUE_LAYER_INFORMATION {{ IsTombstone : {:?}, Reserved : {:?} }}", self.IsTombstone(), self.Reserved())
-    }
-}
-impl KEY_VALUE_LAYER_INFORMATION {
-    #[inline]
-    pub fn IsTombstone(&self) -> u32 {
-        self._bitfield_1.get(0usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsTombstone(&mut self, val: u32) {
-        self._bitfield_1.set(0usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn Reserved(&self) -> u32 {
-        self._bitfield_1.get(1usize, 31u8) as u32
-    }
-    #[inline]
-    pub fn set_Reserved(&mut self, val: u32) {
-        self._bitfield_1.set(1usize, 31u8, val as u64)
-    }
-    #[inline]
-    pub fn new_bitfield_1(IsTombstone: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
-        bitfield_unit.set(0usize, 1u8, IsTombstone as u64);
-        bitfield_unit.set(1usize, 31u8, Reserved as u64);
         bitfield_unit
     }
 }
@@ -684,7 +155,7 @@ pub struct CM_EXTENDED_PARAMETER {
 #[repr(align(8))]
 pub struct CM_EXTENDED_PARAMETER_1 {
     _bitfield_align_1: [u64; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for CM_EXTENDED_PARAMETER_1 {
     fn default() -> Self {
@@ -714,8 +185,8 @@ impl CM_EXTENDED_PARAMETER_1 {
         self._bitfield_1.set(8usize, 56u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(Type: u64, Reserved: u64) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(Type: u64, Reserved: u64) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Type);
         bitfield_unit.set(8usize, 56u8, Reserved);
         bitfield_unit
@@ -751,23 +222,6 @@ impl std::fmt::Debug for CM_EXTENDED_PARAMETER {
         write!(f, "CM_EXTENDED_PARAMETER {{ Anonymous1: {:?}, Anonymous2: {:?} }}", self.Anonymous1, self.Anonymous2)
     }
 }
-#[repr(C)]
-pub struct KEY_VALUE_ENTRY {
-    pub ValueName: *mut UNICODE_STRING,
-    pub DataLength: u32,
-    pub DataOffset: u32,
-    pub Type: u32,
-}
-impl Default for KEY_VALUE_ENTRY {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KEY_VALUE_ENTRY {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KEY_VALUE_ENTRY {{  }}")
-    }
-}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum REG_ACTION {
@@ -780,7 +234,7 @@ pub struct REG_NOTIFY_INFORMATION {
     pub NextEntryOffset: u32,
     pub Action: REG_ACTION,
     pub KeyLength: u32,
-    pub Key: [u16; 1usize],
+    pub Key: [u16; 1],
 }
 impl Default for REG_NOTIFY_INFORMATION {
     fn default() -> Self {
@@ -810,7 +264,7 @@ impl std::fmt::Debug for KEY_PID_ARRAY {
 #[repr(C)]
 pub struct KEY_OPEN_SUBKEYS_INFORMATION {
     pub Count: u32,
-    pub KeyArray: [KEY_PID_ARRAY; 1usize],
+    pub KeyArray: [KEY_PID_ARRAY; 1],
 }
 impl Default for KEY_OPEN_SUBKEYS_INFORMATION {
     fn default() -> Self {
@@ -846,7 +300,7 @@ pub struct VR_LOAD_DIFFERENCING_HIVE {
     pub HivePathLength: u16,
     pub NextLayerKeyPathLength: u16,
     pub FileAccessToken: HANDLE,
-    pub Strings: [u16; 1usize],
+    pub Strings: [u16; 1],
 }
 impl Default for VR_LOAD_DIFFERENCING_HIVE {
     fn default() -> Self {
@@ -865,7 +319,7 @@ pub struct VR_CREATE_NAMESPACE_NODE {
     pub HostPathLength: u16,
     pub Flags: u32,
     pub AccessMask: u32,
-    pub Strings: [u16; 1usize],
+    pub Strings: [u16; 1],
 }
 impl Default for VR_CREATE_NAMESPACE_NODE {
     fn default() -> Self {
@@ -899,7 +353,7 @@ pub struct NAMESPACE_NODE_DATA {
     pub ContainerPathLength: u16,
     pub HostPathLength: u16,
     pub Flags: u32,
-    pub Strings: [u16; 1usize],
+    pub Strings: [u16; 1],
 }
 impl Default for NAMESPACE_NODE_DATA {
     fn default() -> Self {
@@ -915,7 +369,7 @@ impl std::fmt::Debug for NAMESPACE_NODE_DATA {
 pub struct VR_CREATE_MULTIPLE_NAMESPACE_NODES {
     pub Job: HANDLE,
     pub NumNewKeys: u32,
-    pub Keys: [NAMESPACE_NODE_DATA; 1usize],
+    pub Keys: [NAMESPACE_NODE_DATA; 1],
 }
 impl Default for VR_CREATE_MULTIPLE_NAMESPACE_NODES {
     fn default() -> Self {
@@ -978,7 +432,7 @@ pub struct VR_LOAD_DIFFERENCING_HIVE_FOR_HOST {
     pub HivePathLength: u16,
     pub NextLayerKeyPathLength: u16,
     pub FileAccessToken: HANDLE,
-    pub Strings: [u16; 1usize],
+    pub Strings: [u16; 1],
 }
 impl Default for VR_LOAD_DIFFERENCING_HIVE_FOR_HOST {
     fn default() -> Self {
@@ -994,7 +448,7 @@ impl std::fmt::Debug for VR_LOAD_DIFFERENCING_HIVE_FOR_HOST {
 pub struct VR_UNLOAD_DIFFERENCING_HIVE_FOR_HOST {
     pub Reserved: u32,
     pub TargetKeyPathLength: u16,
-    pub TargetKeyPath: [u16; 1usize],
+    pub TargetKeyPath: [u16; 1],
 }
 impl Default for VR_UNLOAD_DIFFERENCING_HIVE_FOR_HOST {
     fn default() -> Self {

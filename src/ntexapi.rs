@@ -2,7 +2,7 @@ use windows::{
     core::{GUID, PWSTR},
     Wdk::{
         Foundation::{DEVICE_OBJECT, FILE_OBJECT, IRP, OBJECT_ATTRIBUTES},
-        System::SystemServices::{KUSER_SHARED_DATA, SYSTEM_FIRMWARE_TABLE_INFORMATION},
+        System::SystemServices::{BUS_DATA_TYPE, INTERFACE_TYPE, KPROFILE_SOURCE, KUSER_SHARED_DATA, KWAIT_REASON, PTIMER_APC_ROUTINE, RTL_BITMAP, TIMER_SET_INFORMATION_CLASS},
     },
     Win32::{
         Foundation::{BOOLEAN, HANDLE, LUID, NTSTATUS, UNICODE_STRING},
@@ -19,12 +19,12 @@ use windows::{
 
 use crate::{
     bitfield::{BitfieldUnit, UnionField},
-    ntioapi::{BUS_DATA_TYPE, FILE_IO_COMPLETION_INFORMATION, INTERFACE_TYPE},
-    ntkeapi::{KPROFILE_SOURCE, KTHREAD_STATE, KWAIT_REASON},
+    ntioapi::FILE_IO_COMPLETION_INFORMATION,
+    ntkeapi::KTHREAD_STATE,
     ntldr::RTL_PROCESS_MODULE_INFORMATION_EX,
     ntlpcapi::PORT_MESSAGE,
     ntpebteb::TEB,
-    ntrtl::{RTL_BITMAP, RTL_FEATURE_CONFIGURATION},
+    ntrtl::RTL_FEATURE_CONFIGURATION,
     phnt_ntdef::TRACEHANDLE,
 };
 
@@ -892,7 +892,7 @@ pub enum SYSTEM_ENVIRONMENT_INFORMATION_CLASS {
 pub struct VARIABLE_NAME {
     pub NextEntryOffset: u32,
     pub VendorGuid: GUID,
-    pub Name: [u16; 1usize],
+    pub Name: [u16; 1],
 }
 impl Default for VARIABLE_NAME {
     fn default() -> Self {
@@ -911,7 +911,7 @@ pub struct VARIABLE_NAME_AND_VALUE {
     pub ValueLength: u32,
     pub Attributes: u32,
     pub VendorGuid: GUID,
-    pub Name: [u16; 1usize],
+    pub Name: [u16; 1],
 }
 impl Default for VARIABLE_NAME_AND_VALUE {
     fn default() -> Self {
@@ -936,7 +936,7 @@ pub struct BOOT_ENTRY {
     pub FriendlyNameOffset: u32,
     pub BootFilePathOffset: u32,
     pub OsOptionsLength: u32,
-    pub OsOptions: [u8; 1usize],
+    pub OsOptions: [u8; 1],
 }
 impl Default for BOOT_ENTRY {
     fn default() -> Self {
@@ -970,7 +970,7 @@ pub struct BOOT_OPTIONS {
     pub Timeout: u32,
     pub CurrentBootEntryId: u32,
     pub NextBootEntryId: u32,
-    pub HeadlessRedirection: [u16; 1usize],
+    pub HeadlessRedirection: [u16; 1],
 }
 impl Default for BOOT_OPTIONS {
     fn default() -> Self {
@@ -987,7 +987,7 @@ pub struct FILE_PATH {
     pub Version: u32,
     pub Length: u32,
     pub Type: u32,
-    pub FilePath: [u8; 1usize],
+    pub FilePath: [u8; 1],
 }
 impl Default for FILE_PATH {
     fn default() -> Self {
@@ -1295,13 +1295,6 @@ impl std::fmt::Debug for TIMER_BASIC_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "TIMER_BASIC_INFORMATION {{  }}")
     }
-}
-pub type PTIMER_APC_ROUTINE = std::option::Option<unsafe extern "system" fn(TimerContext: *mut std::ffi::c_void, TimerLowValue: u32, TimerHighValue: i32)>;
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum TIMER_SET_INFORMATION_CLASS {
-    TimerSetCoalescableTimer = 0,
-    MaxTimerInfoClass = 1,
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -2119,7 +2112,7 @@ pub struct SYSTEM_PROCESS_INFORMATION {
     pub ReadTransferCount: i64,
     pub WriteTransferCount: i64,
     pub OtherTransferCount: i64,
-    pub Threads: [SYSTEM_THREAD_INFORMATION; 1usize],
+    pub Threads: [SYSTEM_THREAD_INFORMATION; 1],
 }
 impl Default for SYSTEM_PROCESS_INFORMATION {
     fn default() -> Self {
@@ -2202,7 +2195,7 @@ impl std::fmt::Debug for SYSTEM_FLAGS_INFORMATION {
 pub struct SYSTEM_CALL_TIME_INFORMATION {
     pub Length: u32,
     pub TotalCalls: u32,
-    pub TimeOfCalls: [i64; 1usize],
+    pub TimeOfCalls: [i64; 1],
 }
 impl Default for SYSTEM_CALL_TIME_INFORMATION {
     fn default() -> Self {
@@ -2240,7 +2233,7 @@ impl std::fmt::Debug for RTL_PROCESS_LOCK_INFORMATION {
 #[repr(C)]
 pub struct RTL_PROCESS_LOCKS {
     pub NumberOfLocks: u32,
-    pub Locks: [RTL_PROCESS_LOCK_INFORMATION; 1usize],
+    pub Locks: [RTL_PROCESS_LOCK_INFORMATION; 1],
 }
 impl Default for RTL_PROCESS_LOCKS {
     fn default() -> Self {
@@ -2258,7 +2251,7 @@ pub struct RTL_PROCESS_BACKTRACE_INFORMATION {
     pub TraceCount: u32,
     pub Index: u16,
     pub Depth: u16,
-    pub BackTrace: [*mut std::ffi::c_void; 32usize],
+    pub BackTrace: [*mut std::ffi::c_void; 32],
 }
 impl Default for RTL_PROCESS_BACKTRACE_INFORMATION {
     fn default() -> Self {
@@ -2276,7 +2269,7 @@ pub struct RTL_PROCESS_BACKTRACES {
     pub ReservedMemory: u32,
     pub NumberOfBackTraceLookups: u32,
     pub NumberOfBackTraces: u32,
-    pub BackTraces: [RTL_PROCESS_BACKTRACE_INFORMATION; 1usize],
+    pub BackTraces: [RTL_PROCESS_BACKTRACE_INFORMATION; 1],
 }
 impl Default for RTL_PROCESS_BACKTRACES {
     fn default() -> Self {
@@ -2311,7 +2304,7 @@ impl std::fmt::Debug for SYSTEM_HANDLE_TABLE_ENTRY_INFO {
 #[repr(C)]
 pub struct SYSTEM_HANDLE_INFORMATION {
     pub NumberOfHandles: u32,
-    pub Handles: [SYSTEM_HANDLE_TABLE_ENTRY_INFO; 1usize],
+    pub Handles: [SYSTEM_HANDLE_TABLE_ENTRY_INFO; 1],
 }
 impl Default for SYSTEM_HANDLE_INFORMATION {
     fn default() -> Self {
@@ -2487,7 +2480,7 @@ pub struct SYSTEM_POOLTAG {
 }
 #[repr(C)]
 pub struct SYSTEM_POOLTAG_1 {
-    pub Tag: UnionField<[u8; 4usize]>,
+    pub Tag: UnionField<[u8; 4]>,
     pub TagUlong: UnionField<u32>,
     pub union_field: u32,
 }
@@ -2514,7 +2507,7 @@ impl std::fmt::Debug for SYSTEM_POOLTAG {
 #[repr(C)]
 pub struct SYSTEM_POOLTAG_INFORMATION {
     pub Count: u32,
-    pub TagInfo: [SYSTEM_POOLTAG; 1usize],
+    pub TagInfo: [SYSTEM_POOLTAG; 1],
 }
 impl Default for SYSTEM_POOLTAG_INFORMATION {
     fn default() -> Self {
@@ -2720,7 +2713,7 @@ impl std::fmt::Debug for ETW_STACK_CACHING_CONFIG {
 }
 #[repr(C)]
 pub struct PERFINFO_GROUPMASK {
-    pub Masks: [u32; 8usize],
+    pub Masks: [u32; 8],
 }
 impl Default for PERFINFO_GROUPMASK {
     fn default() -> Self {
@@ -2798,7 +2791,7 @@ pub struct EVENT_TRACE_SESSION_SECURITY_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub SecurityInformation: u32,
     pub TraceHandle: TRACEHANDLE,
-    pub SecurityDescriptor: [u8; 1usize],
+    pub SecurityDescriptor: [u8; 1],
 }
 impl Default for EVENT_TRACE_SESSION_SECURITY_INFORMATION {
     fn default() -> Self {
@@ -2832,7 +2825,7 @@ impl std::fmt::Debug for EVENT_TRACE_SPINLOCK_INFORMATION {
 pub struct EVENT_TRACE_SYSTEM_EVENT_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub TraceHandle: TRACEHANDLE,
-    pub HookId: [u32; 1usize],
+    pub HookId: [u32; 1],
 }
 impl Default for EVENT_TRACE_SYSTEM_EVENT_INFORMATION {
     fn default() -> Self {
@@ -2864,7 +2857,7 @@ impl std::fmt::Debug for EVENT_TRACE_EXECUTIVE_RESOURCE_INFORMATION {
 #[repr(C)]
 pub struct EVENT_TRACE_HEAP_TRACING_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
-    pub ProcessId: [u32; 1usize],
+    pub ProcessId: [u32; 1],
 }
 impl Default for EVENT_TRACE_HEAP_TRACING_INFORMATION {
     fn default() -> Self {
@@ -2880,7 +2873,7 @@ impl std::fmt::Debug for EVENT_TRACE_HEAP_TRACING_INFORMATION {
 pub struct EVENT_TRACE_TAG_FILTER_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub TraceHandle: TRACEHANDLE,
-    pub Filter: [u32; 1usize],
+    pub Filter: [u32; 1],
 }
 impl Default for EVENT_TRACE_TAG_FILTER_INFORMATION {
     fn default() -> Self {
@@ -2896,7 +2889,7 @@ impl std::fmt::Debug for EVENT_TRACE_TAG_FILTER_INFORMATION {
 pub struct EVENT_TRACE_PROFILE_COUNTER_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub TraceHandle: TRACEHANDLE,
-    pub ProfileSource: [u32; 1usize],
+    pub ProfileSource: [u32; 1],
 }
 impl Default for EVENT_TRACE_PROFILE_COUNTER_INFORMATION {
     fn default() -> Self {
@@ -2912,7 +2905,7 @@ impl std::fmt::Debug for EVENT_TRACE_PROFILE_COUNTER_INFORMATION {
 pub struct EVENT_TRACE_PROFILE_LIST_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub Spare: u32,
-    pub Profile: [*mut PROFILE_SOURCE_INFO; 1usize],
+    pub Profile: [*mut PROFILE_SOURCE_INFO; 1],
 }
 impl Default for EVENT_TRACE_PROFILE_LIST_INFORMATION {
     fn default() -> Self {
@@ -2929,7 +2922,7 @@ pub struct EVENT_TRACE_STACK_CACHING_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub TraceHandle: TRACEHANDLE,
     pub Enabled: BOOLEAN,
-    pub Reserved: [u8; 3usize],
+    pub Reserved: [u8; 3],
     pub CacheSize: u32,
     pub BucketCount: u32,
 }
@@ -2948,7 +2941,7 @@ pub struct EVENT_TRACE_SOFT_RESTART_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub TraceHandle: TRACEHANDLE,
     pub PersistTraceBuffers: BOOLEAN,
-    pub FileName: [u16; 1usize],
+    pub FileName: [u16; 1],
 }
 impl Default for EVENT_TRACE_SOFT_RESTART_INFORMATION {
     fn default() -> Self {
@@ -2966,11 +2959,11 @@ pub struct EVENT_TRACE_PROFILE_ADD_INFORMATION {
     pub PerfEvtEventSelect: BOOLEAN,
     pub PerfEvtUnitSelect: BOOLEAN,
     pub PerfEvtType: u32,
-    pub CpuInfoHierarchy: [u32; 3usize],
+    pub CpuInfoHierarchy: [u32; 3],
     pub InitialInterval: u32,
     pub AllowsHalt: BOOLEAN,
     pub Persist: BOOLEAN,
-    pub ProfileSourceDescription: [u16; 1usize],
+    pub ProfileSourceDescription: [u16; 1],
 }
 impl Default for EVENT_TRACE_PROFILE_ADD_INFORMATION {
     fn default() -> Self {
@@ -2986,7 +2979,7 @@ impl std::fmt::Debug for EVENT_TRACE_PROFILE_ADD_INFORMATION {
 pub struct EVENT_TRACE_PROFILE_REMOVE_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub ProfileSource: KPROFILE_SOURCE,
-    pub CpuInfoHierarchy: [u32; 3usize],
+    pub CpuInfoHierarchy: [u32; 3],
 }
 impl Default for EVENT_TRACE_PROFILE_REMOVE_INFORMATION {
     fn default() -> Self {
@@ -3221,7 +3214,7 @@ impl std::fmt::Debug for SYSTEM_VERIFIER_INFORMATION_LEGACY {
 pub struct SYSTEM_VERIFIER_INFORMATION {
     pub NextEntryOffset: u32,
     pub Level: u32,
-    pub RuleClasses: [u32; 2usize],
+    pub RuleClasses: [u32; 2],
     pub TriageContext: u32,
     pub AreAllDriversBeingVerified: u32,
     pub DriverName: UNICODE_STRING,
@@ -3301,10 +3294,10 @@ pub struct SYSTEM_NUMA_INFORMATION {
 }
 #[repr(C)]
 pub struct SYSTEM_NUMA_INFORMATION_1 {
-    pub ActiveProcessorsGroupAffinity: UnionField<[GROUP_AFFINITY; 64usize]>,
-    pub AvailableMemory: UnionField<[u64; 64usize]>,
-    pub Pad: UnionField<[u64; 128usize]>,
-    pub union_field: [u64; 128usize],
+    pub ActiveProcessorsGroupAffinity: UnionField<[GROUP_AFFINITY; 64]>,
+    pub AvailableMemory: UnionField<[u64; 64]>,
+    pub Pad: UnionField<[u64; 128]>,
+    pub union_field: [u64; 128],
 }
 impl Default for SYSTEM_NUMA_INFORMATION_1 {
     fn default() -> Self {
@@ -3384,7 +3377,7 @@ impl std::fmt::Debug for SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX {
 pub struct SYSTEM_HANDLE_INFORMATION_EX {
     pub NumberOfHandles: usize,
     pub Reserved: usize,
-    pub Handles: [SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX; 1usize],
+    pub Handles: [SYSTEM_HANDLE_TABLE_ENTRY_INFO_EX; 1],
 }
 impl Default for SYSTEM_HANDLE_INFORMATION_EX {
     fn default() -> Self {
@@ -3406,7 +3399,7 @@ pub struct SYSTEM_BIGPOOL_ENTRY {
 pub struct SYSTEM_BIGPOOL_ENTRY_1 {
     pub VirtualAddress: UnionField<*mut std::ffi::c_void>,
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: UnionField<BitfieldUnit<[u8; 1usize]>>,
+    _bitfield_1: UnionField<BitfieldUnit<[u8; 1]>>,
     pub union_field: u64,
 }
 impl Default for SYSTEM_BIGPOOL_ENTRY_1 {
@@ -3432,8 +3425,8 @@ impl SYSTEM_BIGPOOL_ENTRY_1 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(NonPaged: usize) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(NonPaged: usize) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let NonPaged: u64 = unsafe { std::mem::transmute(NonPaged) };
             NonPaged as u64
@@ -3443,7 +3436,7 @@ impl SYSTEM_BIGPOOL_ENTRY_1 {
 }
 #[repr(C)]
 pub struct SYSTEM_BIGPOOL_ENTRY_2 {
-    pub Tag: UnionField<[u8; 4usize]>,
+    pub Tag: UnionField<[u8; 4]>,
     pub TagUlong: UnionField<u32>,
     pub union_field: u32,
 }
@@ -3470,7 +3463,7 @@ impl std::fmt::Debug for SYSTEM_BIGPOOL_ENTRY {
 #[repr(C)]
 pub struct SYSTEM_BIGPOOL_INFORMATION {
     pub Count: u32,
-    pub AllocatedInfo: [SYSTEM_BIGPOOL_ENTRY; 1usize],
+    pub AllocatedInfo: [SYSTEM_BIGPOOL_ENTRY; 1],
 }
 impl Default for SYSTEM_BIGPOOL_INFORMATION {
     fn default() -> Self {
@@ -3492,7 +3485,7 @@ pub struct SYSTEM_POOL_ENTRY {
 }
 #[repr(C)]
 pub struct SYSTEM_POOL_ENTRY_1 {
-    pub Tag: UnionField<[u8; 4usize]>,
+    pub Tag: UnionField<[u8; 4]>,
     pub TagUlong: UnionField<u32>,
     pub ProcessChargedQuota: UnionField<*mut std::ffi::c_void>,
     pub union_field: u64,
@@ -3525,7 +3518,7 @@ pub struct SYSTEM_POOL_INFORMATION {
     pub PoolTagPresent: BOOLEAN,
     pub Spare0: BOOLEAN,
     pub NumberOfEntries: u32,
-    pub Entries: [SYSTEM_POOL_ENTRY; 1usize],
+    pub Entries: [SYSTEM_POOL_ENTRY; 1],
 }
 impl Default for SYSTEM_POOL_INFORMATION {
     fn default() -> Self {
@@ -3542,7 +3535,7 @@ pub struct SYSTEM_SESSION_POOLTAG_INFORMATION {
     pub NextEntryOffset: usize,
     pub SessionId: u32,
     pub Count: u32,
-    pub TagInfo: [SYSTEM_POOLTAG; 1usize],
+    pub TagInfo: [SYSTEM_POOLTAG; 1],
 }
 impl Default for SYSTEM_SESSION_POOLTAG_INFORMATION {
     fn default() -> Self {
@@ -3636,7 +3629,6 @@ pub enum SYSTEM_FIRMWARE_TABLE_ACTION {
     SystemFirmwareTableGet = 1,
     SystemFirmwareTableMax = 2,
 }
-pub type PFNFTH = std::option::Option<unsafe extern "system" fn(SystemFirmwareTableInfo: *mut SYSTEM_FIRMWARE_TABLE_INFORMATION) -> NTSTATUS>;
 #[repr(C)]
 pub struct SYSTEM_MEMORY_LIST_INFORMATION {
     pub ZeroPageCount: usize,
@@ -3644,8 +3636,8 @@ pub struct SYSTEM_MEMORY_LIST_INFORMATION {
     pub ModifiedPageCount: usize,
     pub ModifiedNoWritePageCount: usize,
     pub BadPageCount: usize,
-    pub PageCountByPriority: [usize; 8usize],
-    pub RepurposedPagesByPriority: [usize; 8usize],
+    pub PageCountByPriority: [usize; 8],
+    pub RepurposedPagesByPriority: [usize; 8],
     pub ModifiedPageCountPageFile: usize,
 }
 impl Default for SYSTEM_MEMORY_LIST_INFORMATION {
@@ -3702,7 +3694,7 @@ impl std::fmt::Debug for SYSTEM_PROCESSOR_IDLE_CYCLE_TIME_INFORMATION {
 pub struct SYSTEM_VERIFIER_ISSUE {
     pub IssueType: u64,
     pub Address: *mut std::ffi::c_void,
-    pub Parameters: [u64; 2usize],
+    pub Parameters: [u64; 2],
 }
 impl Default for SYSTEM_VERIFIER_ISSUE {
     fn default() -> Self {
@@ -3721,7 +3713,7 @@ pub struct SYSTEM_VERIFIER_CANCELLATION_INFORMATION {
     pub CompletionThreshold: u32,
     pub CancellationVerifierDisabled: u32,
     pub AvailableIssues: u32,
-    pub Issues: [SYSTEM_VERIFIER_ISSUE; 128usize],
+    pub Issues: [SYSTEM_VERIFIER_ISSUE; 128],
 }
 impl Default for SYSTEM_VERIFIER_CANCELLATION_INFORMATION {
     fn default() -> Self {
@@ -3785,7 +3777,7 @@ pub struct SYSTEM_HYPERVISOR_QUERY_INFORMATION {
     pub HypervisorConnected: BOOLEAN,
     pub HypervisorDebuggingEnabled: BOOLEAN,
     pub HypervisorPresent: BOOLEAN,
-    pub Spare0: [BOOLEAN; 5usize],
+    pub Spare0: [BOOLEAN; 5],
     pub EnabledEnlightenments: u64,
 }
 impl Default for SYSTEM_HYPERVISOR_QUERY_INFORMATION {
@@ -3814,8 +3806,8 @@ pub struct SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1 {
 #[repr(align(8))]
 pub struct SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 2usize]>,
-    pub padding_0: [u16; 3usize],
+    _bitfield_1: BitfieldUnit<[u8; 2]>,
+    pub padding_0: [u16; 3],
 }
 impl Default for SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1_1 {
     fn default() -> Self {
@@ -3904,8 +3896,8 @@ impl SYSTEM_BOOT_ENVIRONMENT_INFORMATION_1_1 {
         self._bitfield_1.set(7usize, 7u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(DbgMenuOsSelection: u64, DbgHiberBoot: u64, DbgSoftBoot: u64, DbgMeasuredLaunch: u64, DbgMeasuredLaunchCapable: u64, DbgSystemHiveReplace: u64, DbgMeasuredLaunchSmmProtections: u64, DbgMeasuredLaunchSmmLevel: u64) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(DbgMenuOsSelection: u64, DbgHiberBoot: u64, DbgSoftBoot: u64, DbgMeasuredLaunch: u64, DbgMeasuredLaunchCapable: u64, DbgSystemHiveReplace: u64, DbgMeasuredLaunchSmmProtections: u64, DbgMeasuredLaunchSmmLevel: u64) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 1u8, DbgMenuOsSelection);
         bitfield_unit.set(1usize, 1u8, DbgHiberBoot);
         bitfield_unit.set(2usize, 1u8, DbgSoftBoot);
@@ -3966,9 +3958,9 @@ pub struct COVERAGE_MODULE_REQUEST {
 }
 #[repr(C)]
 pub struct COVERAGE_MODULE_REQUEST_1 {
-    pub MD5Hash: UnionField<[u8; 16usize]>,
+    pub MD5Hash: UnionField<[u8; 16]>,
     pub ModuleName: UnionField<UNICODE_STRING>,
-    pub union_field: [u64; 2usize],
+    pub union_field: [u64; 2],
 }
 impl Default for COVERAGE_MODULE_REQUEST_1 {
     fn default() -> Self {
@@ -3996,7 +3988,7 @@ pub struct COVERAGE_MODULE_INFO {
     pub IsBinaryLoaded: u32,
     pub ModulePathName: UNICODE_STRING,
     pub CoverageSectionSize: u32,
-    pub CoverageSection: [u8; 1usize],
+    pub CoverageSection: [u8; 1],
 }
 impl Default for COVERAGE_MODULE_INFO {
     fn default() -> Self {
@@ -4013,7 +4005,7 @@ pub struct COVERAGE_MODULES {
     pub ListAndReset: u32,
     pub NumberOfModules: u32,
     pub ModuleRequestInfo: COVERAGE_MODULE_REQUEST,
-    pub Modules: [COVERAGE_MODULE_INFO; 1usize],
+    pub Modules: [COVERAGE_MODULE_INFO; 1],
 }
 impl Default for COVERAGE_MODULES {
     fn default() -> Self {
@@ -4063,7 +4055,7 @@ pub struct SYSTEM_VERIFIER_INFORMATION_EX {
     pub PreviousBucketName: UNICODE_STRING,
     pub IrpCancelTimeoutMsec: u32,
     pub VerifierExtensionEnabled: u32,
-    pub Reserved: [u32; 1usize],
+    pub Reserved: [u32; 1],
 }
 impl Default for SYSTEM_VERIFIER_INFORMATION_EX {
     fn default() -> Self {
@@ -4152,7 +4144,7 @@ impl std::fmt::Debug for SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT_WIN8 {
 pub struct SYSTEM_PROCESSOR_PERFORMANCE_STATE_DISTRIBUTION {
     pub ProcessorNumber: u32,
     pub StateCount: u32,
-    pub States: [SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT; 1usize],
+    pub States: [SYSTEM_PROCESSOR_PERFORMANCE_HITCOUNT; 1],
 }
 impl Default for SYSTEM_PROCESSOR_PERFORMANCE_STATE_DISTRIBUTION {
     fn default() -> Self {
@@ -4167,7 +4159,7 @@ impl std::fmt::Debug for SYSTEM_PROCESSOR_PERFORMANCE_STATE_DISTRIBUTION {
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_PERFORMANCE_DISTRIBUTION {
     pub ProcessorCount: u32,
-    pub Offsets: [u32; 1usize],
+    pub Offsets: [u32; 1],
 }
 impl Default for SYSTEM_PROCESSOR_PERFORMANCE_DISTRIBUTION {
     fn default() -> Self {
@@ -4278,7 +4270,7 @@ pub enum ST_STATS_LEVEL {
 #[repr(C)]
 pub struct SM_STATS_REQUEST {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub BufferSize: u32,
     pub Buffer: *mut std::ffi::c_void,
 }
@@ -4318,8 +4310,8 @@ impl SM_STATS_REQUEST {
         self._bitfield_1.set(16usize, 16u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, DetailLevel: u32, StoreId: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, DetailLevel: u32, StoreId: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 8u8, DetailLevel as u64);
         bitfield_unit.set(16usize, 16u8, StoreId as u64);
@@ -4332,7 +4324,7 @@ pub struct ST_DATA_MGR_STATS {
     pub PagesStored: u32,
     pub UniquePagesStored: u32,
     pub LazyCleanupRegionCount: u32,
-    pub Space: [ST_DATA_MGR_STATS_1; 8usize],
+    pub Space: [ST_DATA_MGR_STATS_1; 8],
 }
 #[repr(C)]
 pub struct ST_DATA_MGR_STATS_1 {
@@ -4361,7 +4353,7 @@ impl std::fmt::Debug for ST_DATA_MGR_STATS {
 }
 #[repr(C)]
 pub struct ST_IO_STATS_PERIOD {
-    pub PageCounts: [u32; 5usize],
+    pub PageCounts: [u32; 5],
 }
 impl Default for ST_IO_STATS_PERIOD {
     fn default() -> Self {
@@ -4376,7 +4368,7 @@ impl std::fmt::Debug for ST_IO_STATS_PERIOD {
 #[repr(C)]
 pub struct ST_IO_STATS {
     pub PeriodCount: u32,
-    pub Periods: [ST_IO_STATS_PERIOD; 64usize],
+    pub Periods: [ST_IO_STATS_PERIOD; 64],
 }
 impl Default for ST_IO_STATS {
     fn default() -> Self {
@@ -4405,7 +4397,7 @@ impl std::fmt::Debug for ST_READ_LATENCY_BUCKET {
 }
 #[repr(C)]
 pub struct ST_READ_LATENCY_STATS {
-    pub Buckets: [ST_READ_LATENCY_BUCKET; 8usize],
+    pub Buckets: [ST_READ_LATENCY_BUCKET; 8],
 }
 impl Default for ST_READ_LATENCY_STATS {
     fn default() -> Self {
@@ -4437,7 +4429,7 @@ impl std::fmt::Debug for ST_STATS_REGION_INFO {
 pub struct ST_STATS_SPACE_BITMAP {
     pub CompressedBytes: usize,
     pub BytesPerBit: u32,
-    pub StoreBitmap: [u8; 1usize],
+    pub StoreBitmap: [u8; 1],
 }
 impl Default for ST_STATS_SPACE_BITMAP {
     fn default() -> Self {
@@ -4452,7 +4444,7 @@ impl std::fmt::Debug for ST_STATS_SPACE_BITMAP {
 #[repr(C)]
 pub struct ST_STATS {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub Size: u32,
     pub CompressionFormat: u16,
     pub Spare: u16,
@@ -4569,8 +4561,8 @@ impl ST_STATS {
         self._bitfield_1.set(31usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, Level: u32, StoreType: u32, NoDuplication: u32, NoCompression: u32, EncryptionStrength: u32, VirtualRegions: u32, Spare0: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, Level: u32, StoreType: u32, NoDuplication: u32, NoCompression: u32, EncryptionStrength: u32, VirtualRegions: u32, Spare0: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 4u8, Level as u64);
         bitfield_unit.set(12usize, 4u8, StoreType as u64);
@@ -4606,7 +4598,7 @@ pub struct SM_STORE_BASIC_PARAMS_1 {
 #[repr(align(4))]
 pub struct SM_STORE_BASIC_PARAMS_1_1 {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SM_STORE_BASIC_PARAMS_1_1 {
     fn default() -> Self {
@@ -4740,8 +4732,8 @@ impl SM_STORE_BASIC_PARAMS_1_1 {
         self._bitfield_1.set(19usize, 13u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(StoreType: u32, NoDuplication: u32, FailNoCompression: u32, NoCompression: u32, NoEncryption: u32, NoEvictOnAdd: u32, PerformsFileIo: u32, VdlNotSet: u32, UseIntermediateAddBuffer: u32, CompressNoHuff: u32, LockActiveRegions: u32, VirtualRegions: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(StoreType: u32, NoDuplication: u32, FailNoCompression: u32, NoCompression: u32, NoEncryption: u32, NoEvictOnAdd: u32, PerformsFileIo: u32, VdlNotSet: u32, UseIntermediateAddBuffer: u32, CompressNoHuff: u32, LockActiveRegions: u32, VirtualRegions: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, StoreType as u64);
         bitfield_unit.set(8usize, 1u8, NoDuplication as u64);
         bitfield_unit.set(9usize, 1u8, FailNoCompression as u64);
@@ -4853,7 +4845,7 @@ impl std::fmt::Debug for SM_STORE_PARAMETERS {
 #[repr(C)]
 pub struct SM_CREATE_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub Params: SM_STORE_PARAMETERS,
     pub StoreId: u32,
 }
@@ -4901,8 +4893,8 @@ impl SM_CREATE_REQUEST {
         self._bitfield_1.set(10usize, 22u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, AcquireReference: u32, KeyedStore: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, AcquireReference: u32, KeyedStore: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 1u8, AcquireReference as u64);
         bitfield_unit.set(9usize, 1u8, KeyedStore as u64);
@@ -4913,7 +4905,7 @@ impl SM_CREATE_REQUEST {
 #[repr(C)]
 pub struct SM_DELETE_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub StoreId: u32,
 }
 impl Default for SM_DELETE_REQUEST {
@@ -4944,8 +4936,8 @@ impl SM_DELETE_REQUEST {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 24u8, Spare as u64);
         bitfield_unit
@@ -4954,8 +4946,8 @@ impl SM_DELETE_REQUEST {
 #[repr(C)]
 pub struct SM_STORE_LIST_REQUEST {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
-    pub StoreId: [u32; 32usize],
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
+    pub StoreId: [u32; 32],
 }
 impl Default for SM_STORE_LIST_REQUEST {
     fn default() -> Self {
@@ -5001,8 +4993,8 @@ impl SM_STORE_LIST_REQUEST {
         self._bitfield_1.set(17usize, 15u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, StoreCount: u32, ExtendedRequest: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, StoreCount: u32, ExtendedRequest: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 8u8, StoreCount as u64);
         bitfield_unit.set(16usize, 1u8, ExtendedRequest as u64);
@@ -5013,7 +5005,7 @@ impl SM_STORE_LIST_REQUEST {
 #[repr(C)]
 pub struct SM_STORE_LIST_REQUEST_EX {
     pub Request: SM_STORE_LIST_REQUEST,
-    pub NameBuffer: [[u16; 64usize]; 32usize],
+    pub NameBuffer: [[u16; 64]; 32],
 }
 impl Default for SM_STORE_LIST_REQUEST_EX {
     fn default() -> Self {
@@ -5028,8 +5020,8 @@ impl std::fmt::Debug for SM_STORE_LIST_REQUEST_EX {
 #[repr(C)]
 pub struct SMC_CACHE_LIST_REQUEST {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
-    pub CacheId: [u32; 16usize],
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
+    pub CacheId: [u32; 16],
 }
 impl Default for SMC_CACHE_LIST_REQUEST {
     fn default() -> Self {
@@ -5067,8 +5059,8 @@ impl SMC_CACHE_LIST_REQUEST {
         self._bitfield_1.set(16usize, 16u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, CacheCount: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, CacheCount: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 8u8, CacheCount as u64);
         bitfield_unit.set(16usize, 16u8, Spare as u64);
@@ -5080,7 +5072,7 @@ pub struct SMC_CACHE_PARAMETERS {
     pub CacheFileSize: usize,
     pub StoreAlignment: u32,
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub CacheFlags: u32,
     pub Priority: u32,
 }
@@ -5120,8 +5112,8 @@ impl SMC_CACHE_PARAMETERS {
         self._bitfield_1.set(2usize, 30u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(PerformsFileIo: u32, VdlNotSet: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(PerformsFileIo: u32, VdlNotSet: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, PerformsFileIo as u64);
         bitfield_unit.set(1usize, 1u8, VdlNotSet as u64);
         bitfield_unit.set(2usize, 30u8, Spare as u64);
@@ -5131,7 +5123,7 @@ impl SMC_CACHE_PARAMETERS {
 #[repr(C)]
 pub struct SMC_CACHE_CREATE_PARAMETERS {
     pub CacheParameters: SMC_CACHE_PARAMETERS,
-    pub TemplateFilePath: [u16; 512usize],
+    pub TemplateFilePath: [u16; 512],
 }
 impl Default for SMC_CACHE_CREATE_PARAMETERS {
     fn default() -> Self {
@@ -5146,7 +5138,7 @@ impl std::fmt::Debug for SMC_CACHE_CREATE_PARAMETERS {
 #[repr(C)]
 pub struct SMC_CACHE_CREATE_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub CacheId: u32,
     pub CacheCreateParams: SMC_CACHE_CREATE_PARAMETERS,
 }
@@ -5178,8 +5170,8 @@ impl SMC_CACHE_CREATE_REQUEST {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 24u8, Spare as u64);
         bitfield_unit
@@ -5188,7 +5180,7 @@ impl SMC_CACHE_CREATE_REQUEST {
 #[repr(C)]
 pub struct SMC_CACHE_DELETE_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub CacheId: u32,
 }
 impl Default for SMC_CACHE_DELETE_REQUEST {
@@ -5219,8 +5211,8 @@ impl SMC_CACHE_DELETE_REQUEST {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 24u8, Spare as u64);
         bitfield_unit
@@ -5236,7 +5228,7 @@ pub enum SM_STORE_MANAGER_TYPE {
 #[repr(C)]
 pub struct SMC_STORE_CREATE_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub StoreParams: SM_STORE_BASIC_PARAMS,
     pub CacheId: u32,
     pub StoreManagerType: SM_STORE_MANAGER_TYPE,
@@ -5270,8 +5262,8 @@ impl SMC_STORE_CREATE_REQUEST {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 24u8, Spare as u64);
         bitfield_unit
@@ -5280,7 +5272,7 @@ impl SMC_STORE_CREATE_REQUEST {
 #[repr(C)]
 pub struct SMC_STORE_DELETE_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub CacheId: u32,
     pub StoreManagerType: SM_STORE_MANAGER_TYPE,
     pub StoreId: u32,
@@ -5313,8 +5305,8 @@ impl SMC_STORE_DELETE_REQUEST {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 24u8, Spare as u64);
         bitfield_unit
@@ -5327,11 +5319,11 @@ pub struct SMC_CACHE_STATS {
     pub RegionCount: u32,
     pub RegionSizeBytes: u32,
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
-    pub StoreIds: [u32; 16usize],
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
+    pub StoreIds: [u32; 16],
     pub PhysicalStoreBitmap: u32,
     pub Priority: u32,
-    pub TemplateFilePath: [u16; 512usize],
+    pub TemplateFilePath: [u16; 512],
 }
 impl Default for SMC_CACHE_STATS {
     fn default() -> Self {
@@ -5369,8 +5361,8 @@ impl SMC_CACHE_STATS {
         self._bitfield_1.set(7usize, 25u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(FileCount: u32, PerformsFileIo: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(FileCount: u32, PerformsFileIo: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 6u8, FileCount as u64);
         bitfield_unit.set(6usize, 1u8, PerformsFileIo as u64);
         bitfield_unit.set(7usize, 25u8, Spare as u64);
@@ -5380,7 +5372,7 @@ impl SMC_CACHE_STATS {
 #[repr(C)]
 pub struct SMC_CACHE_STATS_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub CacheId: u32,
     pub CacheStats: SMC_CACHE_STATS,
 }
@@ -5420,8 +5412,8 @@ impl SMC_CACHE_STATS_REQUEST {
         self._bitfield_1.set(9usize, 23u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, NoFilePath: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, NoFilePath: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 1u8, NoFilePath as u64);
         bitfield_unit.set(9usize, 23u8, Spare as u64);
@@ -5445,7 +5437,7 @@ impl std::fmt::Debug for SM_REGISTRATION_INFO {
 #[repr(C)]
 pub struct SM_REGISTRATION_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub RegInfo: SM_REGISTRATION_INFO,
 }
 impl Default for SM_REGISTRATION_REQUEST {
@@ -5476,8 +5468,8 @@ impl SM_REGISTRATION_REQUEST {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 24u8, Spare as u64);
         bitfield_unit
@@ -5486,7 +5478,7 @@ impl SM_REGISTRATION_REQUEST {
 #[repr(C)]
 pub struct SM_STORE_RESIZE_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub StoreId: u32,
     pub NumberOfRegions: u32,
     pub RegionBitmap: *mut RTL_BITMAP,
@@ -5527,8 +5519,8 @@ impl SM_STORE_RESIZE_REQUEST {
         self._bitfield_1.set(9usize, 23u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, AddRegions: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, AddRegions: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 1u8, AddRegions as u64);
         bitfield_unit.set(9usize, 23u8, Spare as u64);
@@ -5538,7 +5530,7 @@ impl SM_STORE_RESIZE_REQUEST {
 #[repr(C)]
 pub struct SMC_STORE_RESIZE_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub CacheId: u32,
     pub StoreId: u32,
     pub StoreManagerType: SM_STORE_MANAGER_TYPE,
@@ -5580,8 +5572,8 @@ impl SMC_STORE_RESIZE_REQUEST {
         self._bitfield_1.set(9usize, 23u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, AddRegions: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, AddRegions: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 1u8, AddRegions as u64);
         bitfield_unit.set(9usize, 23u8, Spare as u64);
@@ -5599,7 +5591,7 @@ pub enum SM_CONFIG_TYPE {
 #[repr(C)]
 pub struct SM_CONFIG_REQUEST {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub ConfigValue: u32,
 }
 impl Default for SM_CONFIG_REQUEST {
@@ -5638,8 +5630,8 @@ impl SM_CONFIG_REQUEST {
         self._bitfield_1.set(24usize, 8u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, Spare: u32, ConfigType: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, Spare: u32, ConfigType: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 16u8, Spare as u64);
         bitfield_unit.set(24usize, 8u8, ConfigType as u64);
@@ -5649,7 +5641,7 @@ impl SM_CONFIG_REQUEST {
 #[repr(C)]
 pub struct SM_STORE_HIGH_MEM_PRIORITY_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub ProcessHandle: HANDLE,
 }
 impl Default for SM_STORE_HIGH_MEM_PRIORITY_REQUEST {
@@ -5688,8 +5680,8 @@ impl SM_STORE_HIGH_MEM_PRIORITY_REQUEST {
         self._bitfield_1.set(9usize, 23u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, SetHighMemoryPriority: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, SetHighMemoryPriority: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 1u8, SetHighMemoryPriority as u64);
         bitfield_unit.set(9usize, 23u8, Spare as u64);
@@ -5699,7 +5691,7 @@ impl SM_STORE_HIGH_MEM_PRIORITY_REQUEST {
 #[repr(C)]
 pub struct SM_SYSTEM_STORE_TRIM_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub PagesToTrim: usize,
 }
 impl Default for SM_SYSTEM_STORE_TRIM_REQUEST {
@@ -5730,8 +5722,8 @@ impl SM_SYSTEM_STORE_TRIM_REQUEST {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 24u8, Spare as u64);
         bitfield_unit
@@ -5740,7 +5732,7 @@ impl SM_SYSTEM_STORE_TRIM_REQUEST {
 #[repr(C)]
 pub struct SM_MEM_COMPRESSION_INFO_REQUEST {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub CompressionPid: u32,
     pub WorkingSetSize: u32,
     pub TotalDataCompressed: usize,
@@ -5775,8 +5767,8 @@ impl SM_MEM_COMPRESSION_INFO_REQUEST {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 24u8, Spare as u64);
         bitfield_unit
@@ -5809,7 +5801,7 @@ impl std::fmt::Debug for SYSTEM_REGISTRY_APPEND_STRING_PARAMETERS {
 pub struct SYSTEM_VHD_BOOT_INFORMATION {
     pub OsDiskIsVhd: BOOLEAN,
     pub OsVhdFilePathOffset: u32,
-    pub OsVhdParentVolume: [u16; 1usize],
+    pub OsVhdParentVolume: [u16; 1],
 }
 impl Default for SYSTEM_VHD_BOOT_INFORMATION {
     fn default() -> Self {
@@ -5839,7 +5831,7 @@ impl std::fmt::Debug for PS_CPU_QUOTA_QUERY_ENTRY {
 #[repr(C)]
 pub struct PS_CPU_QUOTA_QUERY_INFORMATION {
     pub SessionCount: u32,
-    pub SessionInformation: [PS_CPU_QUOTA_QUERY_ENTRY; 1usize],
+    pub SessionInformation: [PS_CPU_QUOTA_QUERY_ENTRY; 1],
 }
 impl Default for PS_CPU_QUOTA_QUERY_INFORMATION {
     fn default() -> Self {
@@ -5905,7 +5897,7 @@ pub struct TPM_BOOT_ENTROPY_NT_RESULT {
     pub ResultStatus: NTSTATUS,
     pub Time: u64,
     pub EntropyLength: u32,
-    pub EntropyData: [u8; 40usize],
+    pub EntropyData: [u8; 40],
 }
 impl Default for TPM_BOOT_ENTROPY_NT_RESULT {
     fn default() -> Self {
@@ -5958,8 +5950,8 @@ impl std::fmt::Debug for SYSTEM_VERIFIER_COUNTERS_INFORMATION {
 pub struct SYSTEM_ACPI_AUDIT_INFORMATION {
     pub RsdpCount: u32,
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
-    pub padding_0: [u8; 3usize],
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
+    pub padding_0: [u8; 3],
 }
 impl Default for SYSTEM_ACPI_AUDIT_INFORMATION {
     fn default() -> Self {
@@ -5997,8 +5989,8 @@ impl SYSTEM_ACPI_AUDIT_INFORMATION {
         self._bitfield_1.set(2usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(SameRsdt: u32, SlicPresent: u32, SlicDifferent: u32) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(SameRsdt: u32, SlicPresent: u32, SlicDifferent: u32) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, SameRsdt as u64);
         bitfield_unit.set(1usize, 1u8, SlicPresent as u64);
         bitfield_unit.set(2usize, 1u8, SlicDifferent as u64);
@@ -6036,7 +6028,7 @@ pub struct QUERY_PERFORMANCE_COUNTER_FLAGS_1 {
 #[repr(align(4))]
 pub struct QUERY_PERFORMANCE_COUNTER_FLAGS_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for QUERY_PERFORMANCE_COUNTER_FLAGS_1_1 {
     fn default() -> Self {
@@ -6066,8 +6058,8 @@ impl QUERY_PERFORMANCE_COUNTER_FLAGS_1_1 {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(KernelTransition: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(KernelTransition: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, KernelTransition as u64);
         bitfield_unit.set(1usize, 31u8, Reserved as u64);
         bitfield_unit
@@ -6163,8 +6155,8 @@ pub struct PEBS_DS_SAVE_AREA32 {
     pub PebsIndex: u32,
     pub PebsAbsoluteMaximum: u32,
     pub PebsInterruptThreshold: u32,
-    pub PebsGpCounterReset: [u32; 8usize],
-    pub PebsFixedCounterReset: [u32; 4usize],
+    pub PebsGpCounterReset: [u32; 8],
+    pub PebsFixedCounterReset: [u32; 4],
 }
 impl Default for PEBS_DS_SAVE_AREA32 {
     fn default() -> Self {
@@ -6186,8 +6178,8 @@ pub struct PEBS_DS_SAVE_AREA64 {
     pub PebsIndex: u64,
     pub PebsAbsoluteMaximum: u64,
     pub PebsInterruptThreshold: u64,
-    pub PebsGpCounterReset: [u64; 8usize],
-    pub PebsFixedCounterReset: [u64; 4usize],
+    pub PebsGpCounterReset: [u64; 8],
+    pub PebsFixedCounterReset: [u64; 4],
 }
 impl Default for PEBS_DS_SAVE_AREA64 {
     fn default() -> Self {
@@ -6203,7 +6195,7 @@ impl std::fmt::Debug for PEBS_DS_SAVE_AREA64 {
 pub struct PEBS_DS_SAVE_AREA {
     pub As32Bit: UnionField<PEBS_DS_SAVE_AREA32>,
     pub As64Bit: UnionField<PEBS_DS_SAVE_AREA64>,
-    pub union_field: [u64; 20usize],
+    pub union_field: [u64; 20],
 }
 impl Default for PEBS_DS_SAVE_AREA {
     fn default() -> Self {
@@ -6312,7 +6304,7 @@ impl std::fmt::Debug for SYSTEM_ENTROPY_TIMING_INFORMATION {
 #[repr(align(4))]
 pub struct SYSTEM_CONSOLE_INFORMATION {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSTEM_CONSOLE_INFORMATION {
     fn default() -> Self {
@@ -6342,8 +6334,8 @@ impl SYSTEM_CONSOLE_INFORMATION {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(DriverLoaded: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(DriverLoaded: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, DriverLoaded as u64);
         bitfield_unit.set(1usize, 31u8, Spare as u64);
         bitfield_unit
@@ -6441,7 +6433,7 @@ pub struct SYSTEM_MEMORY_TOPOLOGY_INFORMATION {
     pub NumberOfRuns: u64,
     pub NumberOfNodes: u32,
     pub NumberOfChannels: u32,
-    pub Run: [PHYSICAL_CHANNEL_RUN; 1usize],
+    pub Run: [PHYSICAL_CHANNEL_RUN; 1],
 }
 impl Default for SYSTEM_MEMORY_TOPOLOGY_INFORMATION {
     fn default() -> Self {
@@ -6536,7 +6528,7 @@ pub struct SYSTEM_PAGEFILE_INFORMATION_EX {
 pub struct SYSTEM_PAGEFILE_INFORMATION_EX_1 {
     pub Info: UnionField<SYSTEM_PAGEFILE_INFORMATION>,
     pub Anonymous1: UnionField<SYSTEM_PAGEFILE_INFORMATION_EX_1_1>,
-    pub union_field: [u64; 4usize],
+    pub union_field: [u64; 4],
 }
 #[repr(C)]
 pub struct SYSTEM_PAGEFILE_INFORMATION_EX_1_1 {
@@ -6619,7 +6611,7 @@ pub struct ENERGY_STATE_DURATION {
 pub struct ENERGY_STATE_DURATION_1 {
     pub LastChangeTime: u32,
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for ENERGY_STATE_DURATION_1 {
     fn default() -> Self {
@@ -6649,8 +6641,8 @@ impl ENERGY_STATE_DURATION_1 {
         self._bitfield_1.set(31usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Duration: u32, IsInState: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Duration: u32, IsInState: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 31u8, Duration as u64);
         bitfield_unit.set(31usize, 1u8, IsInState as u64);
         bitfield_unit
@@ -6668,7 +6660,7 @@ impl std::fmt::Debug for ENERGY_STATE_DURATION {
 }
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES {
-    pub Cycles: [[u64; 2usize]; 4usize],
+    pub Cycles: [[u64; 2]; 4],
     pub DiskEnergy: u64,
     pub NetworkTailEnergy: u64,
     pub MBBTailEnergy: u64,
@@ -6679,14 +6671,14 @@ pub struct PROCESS_ENERGY_VALUES {
     pub CompositionDirtyGenerated: u32,
     pub CompositionDirtyPropagated: u32,
     pub Reserved1: u32,
-    pub AttributedCycles: [[u64; 2usize]; 4usize],
-    pub WorkOnBehalfCycles: [[u64; 2usize]; 4usize],
+    pub AttributedCycles: [[u64; 2]; 4],
+    pub WorkOnBehalfCycles: [[u64; 2]; 4],
 }
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_1 {
-    pub Durations: UnionField<[ENERGY_STATE_DURATION; 3usize]>,
+    pub Durations: UnionField<[ENERGY_STATE_DURATION; 3]>,
     pub Anonymous1: UnionField<PROCESS_ENERGY_VALUES_1_1>,
-    pub union_field: [u64; 3usize],
+    pub union_field: [u64; 3],
 }
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_1_1 {
@@ -6764,9 +6756,9 @@ pub struct PROCESS_ENERGY_VALUES_EXTENSION {
 }
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_EXTENSION_1 {
-    pub Timelines: UnionField<[TIMELINE_BITMAP; 14usize]>,
+    pub Timelines: UnionField<[TIMELINE_BITMAP; 14]>,
     pub Anonymous1: UnionField<PROCESS_ENERGY_VALUES_EXTENSION_1_1>,
-    pub union_field: [u64; 14usize],
+    pub union_field: [u64; 14],
 }
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_EXTENSION_1_1 {
@@ -6811,9 +6803,9 @@ impl std::fmt::Debug for PROCESS_ENERGY_VALUES_EXTENSION_1 {
 }
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_EXTENSION_2 {
-    pub Durations: UnionField<[ENERGY_STATE_DURATION; 5usize]>,
+    pub Durations: UnionField<[ENERGY_STATE_DURATION; 5]>,
     pub Anonymous1: UnionField<PROCESS_ENERGY_VALUES_EXTENSION_2_1>,
-    pub union_field: [u64; 5usize],
+    pub union_field: [u64; 5],
 }
 #[repr(C)]
 pub struct PROCESS_ENERGY_VALUES_EXTENSION_2_1 {
@@ -6902,7 +6894,7 @@ pub struct SYSTEM_PROCESS_INFORMATION_EXTENSION_1 {
 #[repr(align(4))]
 pub struct SYSTEM_PROCESS_INFORMATION_EXTENSION_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSTEM_PROCESS_INFORMATION_EXTENSION_1_1 {
     fn default() -> Self {
@@ -6948,8 +6940,8 @@ impl SYSTEM_PROCESS_INFORMATION_EXTENSION_1_1 {
         self._bitfield_1.set(6usize, 26u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(HasStrongId: u32, Classification: u32, BackgroundActivityModerated: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(HasStrongId: u32, Classification: u32, BackgroundActivityModerated: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, HasStrongId as u64);
         bitfield_unit.set(1usize, 4u8, Classification as u64);
         bitfield_unit.set(5usize, 1u8, BackgroundActivityModerated as u64);
@@ -7058,7 +7050,7 @@ impl std::fmt::Debug for OFFLINE_CRASHDUMP_CONFIGURATION_TABLE_V1 {
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_FEATURES_INFORMATION {
     pub ProcessorFeatureBits: u64,
-    pub Reserved: [u64; 3usize],
+    pub Reserved: [u64; 3],
 }
 impl Default for SYSTEM_PROCESSOR_FEATURES_INFORMATION {
     fn default() -> Self {
@@ -7072,7 +7064,7 @@ impl std::fmt::Debug for SYSTEM_PROCESSOR_FEATURES_INFORMATION {
 }
 #[repr(C)]
 pub struct SYSTEM_EDID_INFORMATION {
-    pub Edid: [u8; 128usize],
+    pub Edid: [u8; 128],
 }
 impl Default for SYSTEM_EDID_INFORMATION {
     fn default() -> Self {
@@ -7115,7 +7107,7 @@ impl std::fmt::Debug for SYSTEM_ENERGY_ESTIMATION_CONFIG_INFORMATION {
 }
 #[repr(C)]
 pub struct HV_DETAILS {
-    pub Data: [u32; 4usize],
+    pub Data: [u32; 4],
 }
 impl Default for HV_DETAILS {
     fn default() -> Self {
@@ -7149,7 +7141,7 @@ impl std::fmt::Debug for SYSTEM_HYPERVISOR_DETAIL_INFORMATION {
 }
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_CYCLE_STATS_INFORMATION {
-    pub Cycles: [[u64; 2usize]; 4usize],
+    pub Cycles: [[u64; 2]; 4],
 }
 impl Default for SYSTEM_PROCESSOR_CYCLE_STATS_INFORMATION {
     fn default() -> Self {
@@ -7226,8 +7218,8 @@ impl std::fmt::Debug for SYSTEM_CODEINTEGRITYPOLICY_INFORMATION {
 #[repr(C)]
 pub struct SYSTEM_ISOLATED_USER_MODE_INFORMATION {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 2usize]>,
-    pub Spare0: [BOOLEAN; 6usize],
+    _bitfield_1: BitfieldUnit<[u8; 2]>,
+    pub Spare0: [BOOLEAN; 6],
     pub Spare1: u64,
 }
 impl Default for SYSTEM_ISOLATED_USER_MODE_INFORMATION {
@@ -7366,8 +7358,8 @@ impl SYSTEM_ISOLATED_USER_MODE_INFORMATION {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(SecureKernelRunning: BOOLEAN, HvciEnabled: BOOLEAN, HvciStrictMode: BOOLEAN, DebugEnabled: BOOLEAN, FirmwarePageProtection: BOOLEAN, EncryptionKeyAvailable: BOOLEAN, SpareFlags: BOOLEAN, TrustletRunning: BOOLEAN, HvciDisableAllowed: BOOLEAN, SpareFlags2: BOOLEAN) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(SecureKernelRunning: BOOLEAN, HvciEnabled: BOOLEAN, HvciStrictMode: BOOLEAN, DebugEnabled: BOOLEAN, FirmwarePageProtection: BOOLEAN, EncryptionKeyAvailable: BOOLEAN, SpareFlags: BOOLEAN, TrustletRunning: BOOLEAN, HvciDisableAllowed: BOOLEAN, SpareFlags2: BOOLEAN) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let SecureKernelRunning: u8 = unsafe { std::mem::transmute(SecureKernelRunning) };
             SecureKernelRunning as u64
@@ -7446,7 +7438,7 @@ impl std::fmt::Debug for SYSTEM_INTERRUPT_CPU_SET_INFORMATION {
 pub struct SYSTEM_SECUREBOOT_POLICY_FULL_INFORMATION {
     pub PolicyInformation: SYSTEM_SECUREBOOT_POLICY_INFORMATION,
     pub PolicySize: u32,
-    pub Policy: [u8; 1usize],
+    pub Policy: [u8; 1],
 }
 impl Default for SYSTEM_SECUREBOOT_POLICY_FULL_INFORMATION {
     fn default() -> Self {
@@ -7461,7 +7453,7 @@ impl std::fmt::Debug for SYSTEM_SECUREBOOT_POLICY_FULL_INFORMATION {
 #[repr(C)]
 pub struct SYSTEM_ROOT_SILO_INFORMATION {
     pub NumberOfSilos: u32,
-    pub SiloIdList: [u32; 1usize],
+    pub SiloIdList: [u32; 1],
 }
 impl Default for SYSTEM_ROOT_SILO_INFORMATION {
     fn default() -> Self {
@@ -7476,7 +7468,7 @@ impl std::fmt::Debug for SYSTEM_ROOT_SILO_INFORMATION {
 #[repr(C)]
 pub struct SYSTEM_CPU_SET_TAG_INFORMATION {
     pub Tag: u64,
-    pub CpuSets: [u64; 1usize],
+    pub CpuSets: [u64; 1],
 }
 impl Default for SYSTEM_CPU_SET_TAG_INFORMATION {
     fn default() -> Self {
@@ -7528,7 +7520,7 @@ impl std::fmt::Debug for SYSTEM_SECURE_KERNEL_HYPERGUARD_PROFILE_INFORMATION {
 #[repr(C)]
 pub struct SYSTEM_SECUREBOOT_PLATFORM_MANIFEST_INFORMATION {
     pub PlatformManifestSize: u32,
-    pub PlatformManifest: [u8; 1usize],
+    pub PlatformManifest: [u8; 1],
 }
 impl Default for SYSTEM_SECUREBOOT_PLATFORM_MANIFEST_INFORMATION {
     fn default() -> Self {
@@ -7568,7 +7560,7 @@ pub struct SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT {
 #[repr(align(4))]
 pub struct SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT_1 {
     fn default() -> Self {
@@ -7598,8 +7590,8 @@ impl SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT_1 {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Enabled: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Enabled: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, Enabled as u64);
         bitfield_unit.set(1usize, 31u8, Reserved as u64);
         bitfield_unit
@@ -7613,83 +7605,6 @@ impl Default for SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT {
 impl std::fmt::Debug for SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_INTERRUPT_STEERING_INFORMATION_OUTPUT {{ union }}")
-    }
-}
-#[repr(C)]
-#[repr(align(4))]
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
-pub struct SYSTEM_SUPPORTED_PROCESSOR_ARCHITECTURES_INFORMATION {
-    _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
-}
-impl SYSTEM_SUPPORTED_PROCESSOR_ARCHITECTURES_INFORMATION {
-    #[inline]
-    pub fn Machine(&self) -> u32 {
-        self._bitfield_1.get(0usize, 16u8) as u32
-    }
-    #[inline]
-    pub fn set_Machine(&mut self, val: u32) {
-        self._bitfield_1.set(0usize, 16u8, val as u64)
-    }
-    #[inline]
-    pub fn KernelMode(&self) -> u32 {
-        self._bitfield_1.get(16usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_KernelMode(&mut self, val: u32) {
-        self._bitfield_1.set(16usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn UserMode(&self) -> u32 {
-        self._bitfield_1.get(17usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_UserMode(&mut self, val: u32) {
-        self._bitfield_1.set(17usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn Native(&self) -> u32 {
-        self._bitfield_1.get(18usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_Native(&mut self, val: u32) {
-        self._bitfield_1.set(18usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn Process(&self) -> u32 {
-        self._bitfield_1.get(19usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_Process(&mut self, val: u32) {
-        self._bitfield_1.set(19usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn WoW64Container(&self) -> u32 {
-        self._bitfield_1.get(20usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_WoW64Container(&mut self, val: u32) {
-        self._bitfield_1.set(20usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn ReservedZero0(&self) -> u32 {
-        self._bitfield_1.get(21usize, 11u8) as u32
-    }
-    #[inline]
-    pub fn set_ReservedZero0(&mut self, val: u32) {
-        self._bitfield_1.set(21usize, 11u8, val as u64)
-    }
-    #[inline]
-    pub fn new_bitfield_1(Machine: u32, KernelMode: u32, UserMode: u32, Native: u32, Process: u32, WoW64Container: u32, ReservedZero0: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
-        bitfield_unit.set(0usize, 16u8, Machine as u64);
-        bitfield_unit.set(16usize, 1u8, KernelMode as u64);
-        bitfield_unit.set(17usize, 1u8, UserMode as u64);
-        bitfield_unit.set(18usize, 1u8, Native as u64);
-        bitfield_unit.set(19usize, 1u8, Process as u64);
-        bitfield_unit.set(20usize, 1u8, WoW64Container as u64);
-        bitfield_unit.set(21usize, 11u8, ReservedZero0 as u64);
-        bitfield_unit
     }
 }
 #[repr(C)]
@@ -7806,7 +7721,7 @@ impl std::fmt::Debug for SYSTEM_ACTIVITY_MODERATION_USER_SETTINGS {
 #[repr(C)]
 pub struct SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION {
     pub Anonymous1: SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1,
-    pub UnlockId: [u8; 32usize],
+    pub UnlockId: [u8; 32],
 }
 #[repr(C)]
 pub struct SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1 {
@@ -7818,7 +7733,7 @@ pub struct SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1 {
 #[repr(align(4))]
 pub struct SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1_1 {
     fn default() -> Self {
@@ -7864,8 +7779,8 @@ impl SYSTEM_CODEINTEGRITY_UNLOCK_INFORMATION_1_1 {
         self._bitfield_1.set(3usize, 29u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Locked: u32, UnlockApplied: u32, UnlockIdValid: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Locked: u32, UnlockApplied: u32, UnlockIdValid: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, Locked as u64);
         bitfield_unit.set(1usize, 1u8, UnlockApplied as u64);
         bitfield_unit.set(2usize, 1u8, UnlockIdValid as u64);
@@ -7898,7 +7813,7 @@ pub struct SYSTEM_FLUSH_INFORMATION {
     pub SupportedFlushMethods: u32,
     pub ProcessorCacheFlushSize: u32,
     pub SystemFlushCapabilities: u64,
-    pub Reserved: [u64; 2usize],
+    pub Reserved: [u64; 2],
 }
 impl Default for SYSTEM_FLUSH_INFORMATION {
     fn default() -> Self {
@@ -7939,7 +7854,7 @@ pub struct SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1 {
 #[repr(align(4))]
 pub struct SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1_1 {
     fn default() -> Self {
@@ -8046,8 +7961,8 @@ impl SYSTEM_KERNEL_VA_SHADOW_INFORMATION_1_1 {
         self._bitfield_1.set(14usize, 18u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(KvaShadowEnabled: u32, KvaShadowUserGlobal: u32, KvaShadowPcid: u32, KvaShadowInvpcid: u32, KvaShadowRequired: u32, KvaShadowRequiredAvailable: u32, InvalidPteBit: u32, L1DataCacheFlushSupported: u32, L1TerminalFaultMitigationPresent: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(KvaShadowEnabled: u32, KvaShadowUserGlobal: u32, KvaShadowPcid: u32, KvaShadowInvpcid: u32, KvaShadowRequired: u32, KvaShadowRequiredAvailable: u32, InvalidPteBit: u32, L1DataCacheFlushSupported: u32, L1TerminalFaultMitigationPresent: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, KvaShadowEnabled as u64);
         bitfield_unit.set(1usize, 1u8, KvaShadowUserGlobal as u64);
         bitfield_unit.set(2usize, 1u8, KvaShadowPcid as u64);
@@ -8140,7 +8055,7 @@ pub struct SYSTEM_SPECULATION_CONTROL_INFORMATION_1 {
 #[repr(align(4))]
 pub struct SYSTEM_SPECULATION_CONTROL_INFORMATION_1_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSTEM_SPECULATION_CONTROL_INFORMATION_1_1 {
     fn default() -> Self {
@@ -8448,8 +8363,8 @@ impl SYSTEM_SPECULATION_CONTROL_INFORMATION_1_1 {
         MbClearReported: u32,
         ReservedTaa: u32,
         Reserved: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    ) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, BpbEnabled as u64);
         bitfield_unit.set(1usize, 1u8, BpbDisabledSystemPolicy as u64);
         bitfield_unit.set(2usize, 1u8, BpbDisabledNoHardwareSupport as u64);
@@ -8502,7 +8417,7 @@ pub struct SYSTEM_SPECULATION_CONTROL_INFORMATION_2 {
 #[repr(align(4))]
 pub struct SYSTEM_SPECULATION_CONTROL_INFORMATION_2_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSTEM_SPECULATION_CONTROL_INFORMATION_2_1 {
     fn default() -> Self {
@@ -8580,8 +8495,8 @@ impl SYSTEM_SPECULATION_CONTROL_INFORMATION_2_1 {
         self._bitfield_1.set(13usize, 19u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Reserved1: u32, BhbEnabled: u32, BhbDisabledSystemPolicy: u32, BhbDisabledNoHardwareSupport: u32, Reserved2: u32, RdclHardwareProtectedReported: u32, RdclHardwareProtected: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Reserved1: u32, BhbEnabled: u32, BhbDisabledSystemPolicy: u32, BhbDisabledNoHardwareSupport: u32, Reserved2: u32, RdclHardwareProtectedReported: u32, RdclHardwareProtected: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 5u8, Reserved1 as u64);
         bitfield_unit.set(5usize, 1u8, BhbEnabled as u64);
         bitfield_unit.set(6usize, 1u8, BhbDisabledSystemPolicy as u64);
@@ -8629,7 +8544,7 @@ impl std::fmt::Debug for SYSTEM_DMA_GUARD_POLICY_INFORMATION {
 }
 #[repr(C)]
 pub struct SYSTEM_ENCLAVE_LAUNCH_CONTROL_INFORMATION {
-    pub EnclaveLaunchSigner: [u8; 32usize],
+    pub EnclaveLaunchSigner: [u8; 32],
 }
 impl Default for SYSTEM_ENCLAVE_LAUNCH_CONTROL_INFORMATION {
     fn default() -> Self {
@@ -8644,7 +8559,7 @@ impl std::fmt::Debug for SYSTEM_ENCLAVE_LAUNCH_CONTROL_INFORMATION {
 #[repr(C)]
 pub struct SYSTEM_WORKLOAD_ALLOWED_CPU_SET_INFORMATION {
     pub WorkloadClass: u64,
-    pub CpuSets: [u64; 1usize],
+    pub CpuSets: [u64; 1],
 }
 impl Default for SYSTEM_WORKLOAD_ALLOWED_CPU_SET_INFORMATION {
     fn default() -> Self {
@@ -8670,7 +8585,7 @@ pub struct SYSTEM_SECURITY_MODEL_INFORMATION_1 {
 #[repr(align(4))]
 pub struct SYSTEM_SECURITY_MODEL_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSTEM_SECURITY_MODEL_INFORMATION_1_1 {
     fn default() -> Self {
@@ -8708,8 +8623,8 @@ impl SYSTEM_SECURITY_MODEL_INFORMATION_1_1 {
         self._bitfield_1.set(2usize, 30u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(SModeAdminlessEnabled: u32, AllowDeviceOwnerProtectionDowngrade: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(SModeAdminlessEnabled: u32, AllowDeviceOwnerProtectionDowngrade: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, SModeAdminlessEnabled as u64);
         bitfield_unit.set(1usize, 1u8, AllowDeviceOwnerProtectionDowngrade as u64);
         bitfield_unit.set(2usize, 30u8, Reserved as u64);
@@ -8770,7 +8685,7 @@ impl std::fmt::Debug for SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION_ENTRY
 #[repr(C)]
 pub struct SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION {
     pub OverallChangeStamp: u64,
-    pub Descriptors: [SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION_ENTRY; 3usize],
+    pub Descriptors: [SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION_ENTRY; 3],
 }
 impl Default for SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION {
     fn default() -> Self {
@@ -8784,7 +8699,7 @@ impl std::fmt::Debug for SYSTEM_FEATURE_CONFIGURATION_SECTIONS_INFORMATION {
 }
 #[repr(C)]
 pub struct RTL_FEATURE_USAGE_SUBSCRIPTION_TARGET {
-    pub Data: [u32; 2usize],
+    pub Data: [u32; 2],
 }
 impl Default for RTL_FEATURE_USAGE_SUBSCRIPTION_TARGET {
     fn default() -> Self {
@@ -8817,7 +8732,7 @@ impl std::fmt::Debug for SYSTEM_FEATURE_USAGE_SUBSCRIPTION_DETAILS {
 #[repr(align(1))]
 pub union SECURE_SPECULATION_CONTROL_INFORMATION {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SECURE_SPECULATION_CONTROL_INFORMATION {
     fn default() -> Self {
@@ -8968,8 +8883,8 @@ impl SECURE_SPECULATION_CONTROL_INFORMATION {
     }
 }
 #[inline]
-pub fn new_bitfield_1(KvaShadowSupported: u32, KvaShadowEnabled: u32, KvaShadowUserGlobal: u32, KvaShadowPcid: u32, MbClearEnabled: u32, L1TFMitigated: u32, BpbEnabled: u32, IbrsPresent: u32, EnhancedIbrs: u32, StibpPresent: u32, SsbdSupported: u32, SsbdRequired: u32, BpbKernelToUser: u32, BpbUserToKernel: u32, ReturnSpeculate: u32, BranchConfusionSafe: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-    let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+pub fn new_bitfield_1(KvaShadowSupported: u32, KvaShadowEnabled: u32, KvaShadowUserGlobal: u32, KvaShadowPcid: u32, MbClearEnabled: u32, L1TFMitigated: u32, BpbEnabled: u32, IbrsPresent: u32, EnhancedIbrs: u32, StibpPresent: u32, SsbdSupported: u32, SsbdRequired: u32, BpbKernelToUser: u32, BpbUserToKernel: u32, ReturnSpeculate: u32, BranchConfusionSafe: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+    let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
     bitfield_unit.set(0usize, 1u8, KvaShadowSupported as u64);
     bitfield_unit.set(1usize, 1u8, KvaShadowEnabled as u64);
     bitfield_unit.set(2usize, 1u8, KvaShadowUserGlobal as u64);
@@ -9020,7 +8935,7 @@ pub struct SYSTEM_SHADOW_STACK_INFORMATION_1 {
 #[repr(align(4))]
 pub struct SYSTEM_SHADOW_STACK_INFORMATION_1_1 {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSTEM_SHADOW_STACK_INFORMATION_1_1 {
     fn default() -> Self {
@@ -9090,8 +9005,8 @@ impl SYSTEM_SHADOW_STACK_INFORMATION_1_1 {
         self._bitfield_1.set(16usize, 16u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(CetCapable: u32, UserCetAllowed: u32, ReservedForUserCet: u32, KernelCetEnabled: u32, KernelCetAuditModeEnabled: u32, ReservedForKernelCet: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(CetCapable: u32, UserCetAllowed: u32, ReservedForUserCet: u32, KernelCetEnabled: u32, KernelCetAuditModeEnabled: u32, ReservedForKernelCet: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, CetCapable as u64);
         bitfield_unit.set(1usize, 1u8, UserCetAllowed as u64);
         bitfield_unit.set(2usize, 6u8, ReservedForUserCet as u64);
@@ -9132,8 +9047,8 @@ pub struct SYSTEM_BUILD_VERSION_INFORMATION_FLAGS {
 #[repr(align(4))]
 pub struct SYSTEM_BUILD_VERSION_INFORMATION_FLAGS_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
-    pub padding_0: [u8; 3usize],
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
+    pub padding_0: [u8; 3],
 }
 impl Default for SYSTEM_BUILD_VERSION_INFORMATION_FLAGS_1 {
     fn default() -> Self {
@@ -9163,8 +9078,8 @@ impl SYSTEM_BUILD_VERSION_INFORMATION_FLAGS_1 {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(IsTopLevel: u32, IsChecked: u32) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(IsTopLevel: u32, IsChecked: u32) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, IsTopLevel as u64);
         bitfield_unit.set(1usize, 1u8, IsChecked as u64);
         bitfield_unit
@@ -9188,12 +9103,12 @@ pub struct SYSTEM_BUILD_VERSION_INFORMATION {
     pub OsMinorVersion: u32,
     pub NtBuildNumber: u32,
     pub NtBuildQfe: u32,
-    pub LayerName: [u8; 128usize],
-    pub NtBuildBranch: [u8; 128usize],
-    pub NtBuildLab: [u8; 128usize],
-    pub NtBuildLabEx: [u8; 128usize],
-    pub NtBuildStamp: [u8; 26usize],
-    pub NtBuildArch: [u8; 16usize],
+    pub LayerName: [u8; 128],
+    pub NtBuildBranch: [u8; 128],
+    pub NtBuildLab: [u8; 128],
+    pub NtBuildLabEx: [u8; 128],
+    pub NtBuildStamp: [u8; 26],
+    pub NtBuildArch: [u8; 16],
     pub Flags: SYSTEM_BUILD_VERSION_INFORMATION_FLAGS,
 }
 impl Default for SYSTEM_BUILD_VERSION_INFORMATION {
@@ -9224,7 +9139,7 @@ impl std::fmt::Debug for SYSTEM_POOL_LIMIT_MEM_INFO {
 #[repr(C)]
 pub struct SYSTEM_POOL_LIMIT_INFO {
     pub PoolTag: u32,
-    pub MemLimits: [SYSTEM_POOL_LIMIT_MEM_INFO; 2usize],
+    pub MemLimits: [SYSTEM_POOL_LIMIT_MEM_INFO; 2],
     pub NotificationHandle: WNF_STATE_NAME,
 }
 impl Default for SYSTEM_POOL_LIMIT_INFO {
@@ -9241,7 +9156,7 @@ impl std::fmt::Debug for SYSTEM_POOL_LIMIT_INFO {
 pub struct SYSTEM_POOL_LIMIT_INFORMATION {
     pub Version: u32,
     pub EntryCount: u32,
-    pub LimitEntries: [SYSTEM_POOL_LIMIT_INFO; 1usize],
+    pub LimitEntries: [SYSTEM_POOL_LIMIT_INFO; 1],
 }
 impl Default for SYSTEM_POOL_LIMIT_INFORMATION {
     fn default() -> Self {
@@ -9256,7 +9171,7 @@ impl std::fmt::Debug for SYSTEM_POOL_LIMIT_INFORMATION {
 #[repr(C)]
 pub struct HV_MINROOT_NUMA_LPS {
     pub NodeIndex: u32,
-    pub Mask: [usize; 16usize],
+    pub Mask: [usize; 16],
 }
 impl Default for HV_MINROOT_NUMA_LPS {
     fn default() -> Self {
@@ -9311,11 +9226,11 @@ pub struct SYSTEM_HYPERVISOR_MINROOT_INFORMATION {
     pub NumProc: u32,
     pub RootProc: u32,
     pub RootProcNumaNodesSpecified: u32,
-    pub RootProcNumaNodes: [u16; 64usize],
+    pub RootProcNumaNodes: [u16; 64],
     pub RootProcPerCore: u32,
     pub RootProcPerNode: u32,
     pub RootProcNumaNodesLpsSpecified: u32,
-    pub RootProcNumaNodeLps: [HV_MINROOT_NUMA_LPS; 64usize],
+    pub RootProcNumaNodeLps: [HV_MINROOT_NUMA_LPS; 64],
 }
 impl Default for SYSTEM_HYPERVISOR_MINROOT_INFORMATION {
     fn default() -> Self {
@@ -9330,7 +9245,7 @@ impl std::fmt::Debug for SYSTEM_HYPERVISOR_MINROOT_INFORMATION {
 #[repr(C)]
 pub struct SYSTEM_HYPERVISOR_BOOT_PAGES_INFORMATION {
     pub RangeCount: u32,
-    pub RangeArray: [usize; 1usize],
+    pub RangeArray: [usize; 1],
 }
 impl Default for SYSTEM_HYPERVISOR_BOOT_PAGES_INFORMATION {
     fn default() -> Self {
@@ -9357,7 +9272,7 @@ pub struct SYSTEM_POINTER_AUTH_INFORMATION_1 {
 #[repr(align(2))]
 pub struct SYSTEM_POINTER_AUTH_INFORMATION_1_1 {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 2usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 2]>,
 }
 impl Default for SYSTEM_POINTER_AUTH_INFORMATION_1_1 {
     fn default() -> Self {
@@ -9411,8 +9326,8 @@ impl SYSTEM_POINTER_AUTH_INFORMATION_1_1 {
         self._bitfield_1.set(4usize, 12u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(AddressAuthSupported: u16, AddressAuthQarma: u16, GenericAuthSupported: u16, GenericAuthQarma: u16, SupportedReserved: u16) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(AddressAuthSupported: u16, AddressAuthQarma: u16, GenericAuthSupported: u16, GenericAuthQarma: u16, SupportedReserved: u16) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 1u8, AddressAuthSupported as u64);
         bitfield_unit.set(1usize, 1u8, AddressAuthQarma as u64);
         bitfield_unit.set(2usize, 1u8, GenericAuthSupported as u64);
@@ -9441,7 +9356,7 @@ pub struct SYSTEM_POINTER_AUTH_INFORMATION_2 {
 #[repr(align(2))]
 pub struct SYSTEM_POINTER_AUTH_INFORMATION_2_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 2usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 2]>,
 }
 impl Default for SYSTEM_POINTER_AUTH_INFORMATION_2_1 {
     fn default() -> Self {
@@ -9495,8 +9410,8 @@ impl SYSTEM_POINTER_AUTH_INFORMATION_2_1 {
         self._bitfield_1.set(9usize, 7u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(UserPerProcessIpAuthEnabled: u16, UserGlobalIpAuthEnabled: u16, UserEnabledReserved: u16, KernelIpAuthEnabled: u16, KernelEnabledReserved: u16) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(UserPerProcessIpAuthEnabled: u16, UserGlobalIpAuthEnabled: u16, UserEnabledReserved: u16, KernelIpAuthEnabled: u16, KernelEnabledReserved: u16) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 1u8, UserPerProcessIpAuthEnabled as u64);
         bitfield_unit.set(1usize, 1u8, UserGlobalIpAuthEnabled as u64);
         bitfield_unit.set(2usize, 6u8, UserEnabledReserved as u64);
@@ -9742,7 +9657,7 @@ pub struct SYSDBG_LIVEDUMP_CONTROL_FLAGS {
 #[repr(align(4))]
 pub struct SYSDBG_LIVEDUMP_CONTROL_FLAGS_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSDBG_LIVEDUMP_CONTROL_FLAGS_1 {
     fn default() -> Self {
@@ -9804,8 +9719,8 @@ impl SYSDBG_LIVEDUMP_CONTROL_FLAGS_1 {
         self._bitfield_1.set(5usize, 27u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(UseDumpStorageStack: u32, CompressMemoryPagesData: u32, IncludeUserSpaceMemoryPages: u32, AbortIfMemoryPressure: u32, SelectiveDump: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(UseDumpStorageStack: u32, CompressMemoryPagesData: u32, IncludeUserSpaceMemoryPages: u32, AbortIfMemoryPressure: u32, SelectiveDump: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, UseDumpStorageStack as u64);
         bitfield_unit.set(1usize, 1u8, CompressMemoryPagesData as u64);
         bitfield_unit.set(2usize, 1u8, IncludeUserSpaceMemoryPages as u64);
@@ -9835,7 +9750,7 @@ pub struct SYSDBG_LIVEDUMP_CONTROL_ADDPAGES {
 #[repr(align(4))]
 pub struct SYSDBG_LIVEDUMP_CONTROL_ADDPAGES_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSDBG_LIVEDUMP_CONTROL_ADDPAGES_1 {
     fn default() -> Self {
@@ -9873,8 +9788,8 @@ impl SYSDBG_LIVEDUMP_CONTROL_ADDPAGES_1 {
         self._bitfield_1.set(2usize, 30u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(HypervisorPages: u32, NonEssentialHypervisorPages: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(HypervisorPages: u32, NonEssentialHypervisorPages: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, HypervisorPages as u64);
         bitfield_unit.set(1usize, 1u8, NonEssentialHypervisorPages as u64);
         bitfield_unit.set(2usize, 30u8, Reserved as u64);
@@ -9896,7 +9811,7 @@ pub struct SYSDBG_LIVEDUMP_SELECTIVE_CONTROL {
     pub Version: u32,
     pub Size: u32,
     pub Anonymous1: SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1,
-    pub Reserved: [u64; 4usize],
+    pub Reserved: [u64; 4],
 }
 #[repr(C)]
 pub struct SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1 {
@@ -9908,7 +9823,7 @@ pub struct SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1 {
 #[repr(align(8))]
 pub struct SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1_1 {
     _bitfield_align_1: [u64; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1_1 {
     fn default() -> Self {
@@ -9938,8 +9853,8 @@ impl SYSDBG_LIVEDUMP_SELECTIVE_CONTROL_1_1 {
         self._bitfield_1.set(1usize, 63u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(ThreadKernelStacks: u64, ReservedFlags: u64) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(ThreadKernelStacks: u64, ReservedFlags: u64) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ThreadKernelStacks);
         bitfield_unit.set(1usize, 63u8, ReservedFlags);
         bitfield_unit
@@ -10117,7 +10032,7 @@ pub struct ATOM_BASIC_INFORMATION {
     pub UsageCount: u16,
     pub Flags: u16,
     pub NameLength: u16,
-    pub Name: [u16; 1usize],
+    pub Name: [u16; 1],
 }
 impl Default for ATOM_BASIC_INFORMATION {
     fn default() -> Self {
@@ -10132,7 +10047,7 @@ impl std::fmt::Debug for ATOM_BASIC_INFORMATION {
 #[repr(C)]
 pub struct ATOM_TABLE_INFORMATION {
     pub NumberOfAtoms: u32,
-    pub Atoms: [u16; 1usize],
+    pub Atoms: [u16; 1],
 }
 impl Default for ATOM_TABLE_INFORMATION {
     fn default() -> Self {

@@ -1,5 +1,5 @@
 use windows::{
-    Wdk::Foundation::OBJECT_ATTRIBUTES,
+    Wdk::{Foundation::OBJECT_ATTRIBUTES, System::SystemServices::SECTION_INHERIT},
     Win32::{
         Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
         System::{
@@ -105,7 +105,7 @@ pub enum MEMORY_INFORMATION_CLASS {
 #[repr(align(8))]
 pub struct MEMORY_WORKING_SET_BLOCK {
     _bitfield_align_1: [u64; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for MEMORY_WORKING_SET_BLOCK {
     fn default() -> Self {
@@ -174,8 +174,8 @@ impl MEMORY_WORKING_SET_BLOCK {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(Protection: usize, ShareCount: usize, Shared: usize, Node: usize, VirtualPage: usize) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(Protection: usize, ShareCount: usize, Shared: usize, Node: usize, VirtualPage: usize) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 5u8, {
             let Protection: u64 = unsafe { std::mem::transmute(Protection) };
             Protection as u64
@@ -202,7 +202,7 @@ impl MEMORY_WORKING_SET_BLOCK {
 #[repr(C)]
 pub struct MEMORY_WORKING_SET_INFORMATION {
     pub NumberOfEntries: usize,
-    pub WorkingSetInfo: [MEMORY_WORKING_SET_BLOCK; 1usize],
+    pub WorkingSetInfo: [MEMORY_WORKING_SET_BLOCK; 1],
 }
 impl Default for MEMORY_WORKING_SET_INFORMATION {
     fn default() -> Self {
@@ -234,7 +234,7 @@ pub struct MEMORY_REGION_INFORMATION_1 {
 #[repr(align(4))]
 pub struct MEMORY_REGION_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for MEMORY_REGION_INFORMATION_1_1 {
     fn default() -> Self {
@@ -377,8 +377,8 @@ impl MEMORY_REGION_INFORMATION_1_1 {
         self._bitfield_1.set(13usize, 19u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Private: u32, MappedDataFile: u32, MappedImage: u32, MappedPageFile: u32, MappedPhysical: u32, DirectMapped: u32, SoftwareEnclave: u32, PageSize64K: u32, PlaceholderReservation: u32, MappedAwe: u32, MappedWriteWatch: u32, PageSizeLarge: u32, PageSizeHuge: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Private: u32, MappedDataFile: u32, MappedImage: u32, MappedPageFile: u32, MappedPhysical: u32, DirectMapped: u32, SoftwareEnclave: u32, PageSize64K: u32, PlaceholderReservation: u32, MappedAwe: u32, MappedWriteWatch: u32, PageSizeLarge: u32, PageSizeHuge: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, Private as u64);
         bitfield_unit.set(1usize, 1u8, MappedDataFile as u64);
         bitfield_unit.set(2usize, 1u8, MappedImage as u64);
@@ -438,7 +438,7 @@ pub struct MEMORY_WORKING_SET_EX_BLOCK_1 {
 #[repr(align(8))]
 pub struct MEMORY_WORKING_SET_EX_BLOCK_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for MEMORY_WORKING_SET_EX_BLOCK_1_1 {
     fn default() -> Self {
@@ -611,8 +611,8 @@ impl MEMORY_WORKING_SET_EX_BLOCK_1_1 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(Valid: usize, ShareCount: usize, Win32Protection: usize, Shared: usize, Node: usize, Locked: usize, LargePage: usize, Priority: usize, Reserved: usize, SharedOriginal: usize, Bad: usize, Win32GraphicsProtection: usize, ReservedUlong: usize) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(Valid: usize, ShareCount: usize, Win32Protection: usize, Shared: usize, Node: usize, Locked: usize, LargePage: usize, Priority: usize, Reserved: usize, SharedOriginal: usize, Bad: usize, Win32GraphicsProtection: usize, ReservedUlong: usize) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let Valid: u64 = unsafe { std::mem::transmute(Valid) };
             Valid as u64
@@ -672,7 +672,7 @@ impl MEMORY_WORKING_SET_EX_BLOCK_1_1 {
 #[repr(align(8))]
 pub struct MEMORY_WORKING_SET_EX_BLOCK_1_2 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for MEMORY_WORKING_SET_EX_BLOCK_1_2 {
     fn default() -> Self {
@@ -818,8 +818,8 @@ impl MEMORY_WORKING_SET_EX_BLOCK_1_2 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(Valid: usize, Reserved0: usize, Shared: usize, Reserved1: usize, PageTable: usize, Location: usize, Priority: usize, ModifiedList: usize, Reserved2: usize, SharedOriginal: usize, Bad: usize, ReservedUlong: usize) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(Valid: usize, Reserved0: usize, Shared: usize, Reserved1: usize, PageTable: usize, Location: usize, Priority: usize, ModifiedList: usize, Reserved2: usize, SharedOriginal: usize, Bad: usize, ReservedUlong: usize) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let Valid: u64 = unsafe { std::mem::transmute(Valid) };
             Valid as u64
@@ -952,7 +952,7 @@ pub struct MEMORY_IMAGE_INFORMATION_1 {
 #[repr(align(4))]
 pub struct MEMORY_IMAGE_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for MEMORY_IMAGE_INFORMATION_1_1 {
     fn default() -> Self {
@@ -998,8 +998,8 @@ impl MEMORY_IMAGE_INFORMATION_1_1 {
         self._bitfield_1.set(6usize, 26u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(ImagePartialMap: u32, ImageNotExecutable: u32, ImageSigningLevel: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(ImagePartialMap: u32, ImageNotExecutable: u32, ImageSigningLevel: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ImagePartialMap as u64);
         bitfield_unit.set(1usize, 1u8, ImageNotExecutable as u64);
         bitfield_unit.set(2usize, 4u8, ImageSigningLevel as u64);
@@ -1030,8 +1030,8 @@ impl std::fmt::Debug for MEMORY_IMAGE_INFORMATION {
 #[repr(C)]
 pub struct MEMORY_ENCLAVE_IMAGE_INFORMATION {
     pub ImageInfo: MEMORY_IMAGE_INFORMATION,
-    pub UniqueID: [u8; 32usize],
-    pub AuthorID: [u8; 32usize],
+    pub UniqueID: [u8; 32],
+    pub AuthorID: [u8; 32],
 }
 impl Default for MEMORY_ENCLAVE_IMAGE_INFORMATION {
     fn default() -> Self {
@@ -1066,7 +1066,7 @@ pub struct MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1 {
 #[repr(align(4))]
 pub struct MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1_1 {
     fn default() -> Self {
@@ -1096,8 +1096,8 @@ impl MEMORY_PHYSICAL_CONTIGUITY_UNIT_INFORMATION_1_1 {
         self._bitfield_1.set(2usize, 30u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(State: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(State: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 2u8, State as u64);
         bitfield_unit.set(2usize, 30u8, Reserved as u64);
         bitfield_unit
@@ -1145,7 +1145,7 @@ impl std::fmt::Debug for MEMORY_PHYSICAL_CONTIGUITY_INFORMATION {
 #[repr(align(8))]
 pub struct MEMORY_FRAME_INFORMATION {
     _bitfield_align_1: [u64; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for MEMORY_FRAME_INFORMATION {
     fn default() -> Self {
@@ -1223,8 +1223,8 @@ impl MEMORY_FRAME_INFORMATION {
         self._bitfield_1.set(61usize, 3u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(UseDescription: u64, ListDescription: u64, Cold: u64, Pinned: u64, DontUse: u64, Priority: u64, NonTradeable: u64, Reserved: u64) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(UseDescription: u64, ListDescription: u64, Cold: u64, Pinned: u64, DontUse: u64, Priority: u64, NonTradeable: u64, Reserved: u64) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 4u8, UseDescription);
         bitfield_unit.set(4usize, 3u8, ListDescription);
         bitfield_unit.set(7usize, 1u8, Cold);
@@ -1240,7 +1240,7 @@ impl MEMORY_FRAME_INFORMATION {
 #[repr(align(8))]
 pub struct FILEOFFSET_INFORMATION {
     _bitfield_align_1: [u64; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for FILEOFFSET_INFORMATION {
     fn default() -> Self {
@@ -1278,8 +1278,8 @@ impl FILEOFFSET_INFORMATION {
         self._bitfield_1.set(57usize, 7u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(DontUse: u64, Offset: u64, Reserved: u64) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(DontUse: u64, Offset: u64, Reserved: u64) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 9u8, DontUse);
         bitfield_unit.set(9usize, 48u8, Offset);
         bitfield_unit.set(57usize, 7u8, Reserved);
@@ -1290,7 +1290,7 @@ impl FILEOFFSET_INFORMATION {
 #[repr(align(8))]
 pub struct PAGEDIR_INFORMATION {
     _bitfield_align_1: [u64; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for PAGEDIR_INFORMATION {
     fn default() -> Self {
@@ -1328,8 +1328,8 @@ impl PAGEDIR_INFORMATION {
         self._bitfield_1.set(57usize, 7u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(DontUse: u64, PageDirectoryBase: u64, Reserved: u64) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(DontUse: u64, PageDirectoryBase: u64, Reserved: u64) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 9u8, DontUse);
         bitfield_unit.set(9usize, 48u8, PageDirectoryBase);
         bitfield_unit.set(57usize, 7u8, Reserved);
@@ -1340,7 +1340,7 @@ impl PAGEDIR_INFORMATION {
 #[repr(align(8))]
 pub struct UNIQUE_PROCESS_INFORMATION {
     _bitfield_align_1: [u64; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for UNIQUE_PROCESS_INFORMATION {
     fn default() -> Self {
@@ -1378,8 +1378,8 @@ impl UNIQUE_PROCESS_INFORMATION {
         self._bitfield_1.set(57usize, 7u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(DontUse: u64, UniqueProcessKey: u64, Reserved: u64) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(DontUse: u64, UniqueProcessKey: u64, Reserved: u64) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 9u8, DontUse);
         bitfield_unit.set(9usize, 48u8, UniqueProcessKey);
         bitfield_unit.set(57usize, 7u8, Reserved);
@@ -1424,8 +1424,8 @@ pub struct MMPFN_IDENTITY_2 {
 #[repr(align(8))]
 pub struct MMPFN_IDENTITY_2_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
-    pub padding_0: [u8; 7usize],
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
+    pub padding_0: [u8; 7],
 }
 impl Default for MMPFN_IDENTITY_2_1 {
     fn default() -> Self {
@@ -1461,8 +1461,8 @@ impl MMPFN_IDENTITY_2_1 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(Image: usize, Mismatch: usize) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(Image: usize, Mismatch: usize) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let Image: u64 = unsafe { std::mem::transmute(Image) };
             Image as u64
@@ -1638,7 +1638,7 @@ pub struct SECTION_IMAGE_INFORMATION_3 {
 #[repr(C, packed)]
 pub struct SECTION_IMAGE_INFORMATION_3_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
 }
 impl Default for SECTION_IMAGE_INFORMATION_3_1 {
     fn default() -> Self {
@@ -1708,8 +1708,8 @@ impl SECTION_IMAGE_INFORMATION_3_1 {
         self._bitfield_1.set(6usize, 2u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(ComPlusNativeReady: u8, ComPlusILOnly: u8, ImageDynamicallyRelocated: u8, ImageMappedFlat: u8, BaseBelow4gb: u8, ComPlusPrefer32bit: u8, Reserved: u8) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(ComPlusNativeReady: u8, ComPlusILOnly: u8, ImageDynamicallyRelocated: u8, ImageMappedFlat: u8, BaseBelow4gb: u8, ComPlusPrefer32bit: u8, Reserved: u8) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ComPlusNativeReady as u64);
         bitfield_unit.set(1usize, 1u8, ComPlusILOnly as u64);
         bitfield_unit.set(2usize, 1u8, ImageDynamicallyRelocated as u64);
@@ -1755,7 +1755,7 @@ pub struct SECTION_INTERNAL_IMAGE_INFORMATION_1 {
 #[repr(align(4))]
 pub struct SECTION_INTERNAL_IMAGE_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SECTION_INTERNAL_IMAGE_INFORMATION_1_1 {
     fn default() -> Self {
@@ -1853,8 +1853,8 @@ impl SECTION_INTERNAL_IMAGE_INFORMATION_1_1 {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(ImageExportSuppressionEnabled: u32, ImageCetShadowStacksReady: u32, ImageXfgEnabled: u32, ImageCetShadowStacksStrictMode: u32, ImageCetSetContextIpValidationRelaxedMode: u32, ImageCetDynamicApisAllowInProc: u32, ImageCetDowngradeReserved1: u32, ImageCetDowngradeReserved2: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(ImageExportSuppressionEnabled: u32, ImageCetShadowStacksReady: u32, ImageXfgEnabled: u32, ImageCetShadowStacksStrictMode: u32, ImageCetSetContextIpValidationRelaxedMode: u32, ImageCetDynamicApisAllowInProc: u32, ImageCetDowngradeReserved1: u32, ImageCetDowngradeReserved2: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ImageExportSuppressionEnabled as u64);
         bitfield_unit.set(1usize, 1u8, ImageCetShadowStacksReady as u64);
         bitfield_unit.set(2usize, 1u8, ImageXfgEnabled as u64);
@@ -1887,12 +1887,6 @@ impl std::fmt::Debug for SECTION_INTERNAL_IMAGE_INFORMATION {
         write!(f, "SECTION_INTERNAL_IMAGE_INFORMATION {{ SectionInformation: {:?}, Anonymous1: {:?} }}", self.SectionInformation, self.Anonymous1)
     }
 }
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum SECTION_INHERIT {
-    ViewShare = 1,
-    ViewUnmap = 2,
-}
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtAllocateVirtualMemoryEx(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, AllocationType: u32, PageProtection: u32, ExtendedParameters: *mut MEM_EXTENDED_PARAMETER, ExtendedParameterCount: u32) -> NTSTATUS;
@@ -1916,34 +1910,6 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtFlushVirtualMemory(ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, IoStatus: *mut IO_STATUS_BLOCK) -> NTSTATUS;
-}
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum VIRTUAL_MEMORY_INFORMATION_CLASS {
-    VmPrefetchInformation = 0,
-    VmPagePriorityInformation = 1,
-    VmCfgCallTargetInformation = 2,
-    VmPageDirtyStateInformation = 3,
-    VmImageHotPatchInformation = 4,
-    VmPhysicalContiguityInformation = 5,
-    VmVirtualMachinePrepopulateInformation = 6,
-    VmRemoveFromWorkingSetInformation = 7,
-    MaxVmInfoClass = 8,
-}
-#[repr(C)]
-pub struct MEMORY_RANGE_ENTRY {
-    pub VirtualAddress: *mut std::ffi::c_void,
-    pub NumberOfBytes: usize,
-}
-impl Default for MEMORY_RANGE_ENTRY {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for MEMORY_RANGE_ENTRY {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "MEMORY_RANGE_ENTRY {{  }}")
-    }
 }
 #[repr(C)]
 pub struct CFG_CALL_TARGET_LIST_INFORMATION {
@@ -2004,25 +1970,6 @@ extern "system" {
 extern "system" {
     pub fn NtAreMappedFilesTheSame(File1MappedAsAnImage: *mut std::ffi::c_void, File2MappedAsFile: *mut std::ffi::c_void) -> NTSTATUS;
 }
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum PARTITION_INFORMATION_CLASS {
-    SystemMemoryPartitionInformation = 0,
-    SystemMemoryPartitionMoveMemory = 1,
-    SystemMemoryPartitionAddPagefile = 2,
-    SystemMemoryPartitionCombineMemory = 3,
-    SystemMemoryPartitionInitialAddMemory = 4,
-    SystemMemoryPartitionGetMemoryEvents = 5,
-    SystemMemoryPartitionSetAttributes = 6,
-    SystemMemoryPartitionNodeInformation = 7,
-    SystemMemoryPartitionCreateLargePages = 8,
-    SystemMemoryPartitionDedicatedMemoryInformation = 9,
-    SystemMemoryPartitionOpenDedicatedMemory = 10,
-    SystemMemoryPartitionMemoryChargeAttributes = 11,
-    SystemMemoryPartitionClearAttributes = 12,
-    SystemMemoryPartitionSetMemoryThresholds = 13,
-    SystemMemoryPartitionMax = 14,
-}
 #[repr(C)]
 pub struct MEMORY_PARTITION_CONFIGURATION_INFORMATION {
     pub Flags: u32,
@@ -2038,8 +1985,8 @@ pub struct MEMORY_PARTITION_CONFIGURATION_INFORMATION {
     pub ZeroPages: usize,
     pub FreePages: usize,
     pub StandbyPages: usize,
-    pub StandbyPageCountByPriority: [usize; 8usize],
-    pub RepurposedPagesByPriority: [usize; 8usize],
+    pub StandbyPageCountByPriority: [usize; 8],
+    pub RepurposedPagesByPriority: [usize; 8],
     pub MaximumCommitLimit: usize,
     pub Reserved: usize,
     pub PartitionId: u32,
@@ -2123,7 +2070,7 @@ pub struct MEMORY_PARTITION_INITIAL_ADD_INFORMATION {
     pub Flags: u32,
     pub NumberOfRanges: u32,
     pub NumberOfPagesAdded: usize,
-    pub PartitionRanges: [MEMORY_PARTITION_PAGE_RANGE; 1usize],
+    pub PartitionRanges: [MEMORY_PARTITION_PAGE_RANGE; 1],
 }
 impl Default for MEMORY_PARTITION_INITIAL_ADD_INFORMATION {
     fn default() -> Self {
@@ -2154,7 +2101,7 @@ pub struct MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1 {
 #[repr(align(4))]
 pub struct MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1_1 {
     fn default() -> Self {
@@ -2184,8 +2131,8 @@ impl MEMORY_PARTITION_MEMORY_EVENTS_INFORMATION_1_1 {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(CommitEvents: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(CommitEvents: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, CommitEvents as u64);
         bitfield_unit.set(1usize, 31u8, Spare as u64);
         bitfield_unit

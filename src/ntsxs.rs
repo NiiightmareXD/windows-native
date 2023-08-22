@@ -645,7 +645,7 @@ impl std::fmt::Debug for COMPATIBILITY_CONTEXT_ELEMENT_LEGACY {
 #[repr(C)]
 pub struct ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION_LEGACY {
     pub ElementCount: u32,
-    pub Elements: [COMPATIBILITY_CONTEXT_ELEMENT_LEGACY; 1usize],
+    pub Elements: [COMPATIBILITY_CONTEXT_ELEMENT_LEGACY; 1],
 }
 impl Default for ACTIVATION_CONTEXT_COMPATIBILITY_INFORMATION_LEGACY {
     fn default() -> Self {
@@ -697,10 +697,10 @@ pub struct ACTIVATION_CONTEXT {
     pub ActivationContextData: *mut ACTIVATION_CONTEXT_DATA,
     pub NotificationRoutine: PACTIVATION_CONTEXT_NOTIFY_ROUTINE,
     pub NotificationContext: *mut std::ffi::c_void,
-    pub SentNotifications: [u32; 8usize],
-    pub DisabledNotifications: [u32; 8usize],
+    pub SentNotifications: [u32; 8],
+    pub DisabledNotifications: [u32; 8],
     pub StorageMap: ASSEMBLY_STORAGE_MAP,
-    pub InlineStorageMapEntries: [*mut ASSEMBLY_STORAGE_MAP_ENTRY; 32usize],
+    pub InlineStorageMapEntries: [*mut ASSEMBLY_STORAGE_MAP_ENTRY; 32],
 }
 impl Default for ACTIVATION_CONTEXT {
     fn default() -> Self {

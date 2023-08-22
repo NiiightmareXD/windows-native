@@ -6,7 +6,7 @@ use windows::{
         System::{
             Kernel::{LIST_ENTRY, RTL_BALANCED_NODE, SINGLE_LIST_ENTRY, STRING},
             SystemServices::{IMAGE_BASE_RELOCATION, IMAGE_RESOURCE_DATA_ENTRY, IMAGE_RESOURCE_DIRECTORY, IMAGE_RESOURCE_DIRECTORY_STRING},
-            WindowsProgramming::{IMAGE_DELAYLOAD_DESCRIPTOR, IMAGE_THUNK_DATA64},
+            WindowsProgramming::{IMAGE_DELAYLOAD_DESCRIPTOR, IMAGE_THUNK_DATA64, PDELAYLOAD_FAILURE_DLL_CALLBACK},
         },
     },
 };
@@ -237,7 +237,7 @@ pub struct LDR_DATA_TABLE_ENTRY {
 pub struct LDR_DATA_TABLE_ENTRY_1 {
     pub InInitializationOrderLinks: UnionField<LIST_ENTRY>,
     pub InProgressLinks: UnionField<LIST_ENTRY>,
-    pub union_field: [u64; 2usize],
+    pub union_field: [u64; 2],
 }
 impl Default for LDR_DATA_TABLE_ENTRY_1 {
     fn default() -> Self {
@@ -251,7 +251,7 @@ impl std::fmt::Debug for LDR_DATA_TABLE_ENTRY_1 {
 }
 #[repr(C)]
 pub struct LDR_DATA_TABLE_ENTRY_2 {
-    pub FlagGroup: UnionField<[u8; 4usize]>,
+    pub FlagGroup: UnionField<[u8; 4]>,
     pub Flags: UnionField<u32>,
     pub Anonymous1: UnionField<LDR_DATA_TABLE_ENTRY_2_1>,
     pub union_field: u32,
@@ -260,7 +260,7 @@ pub struct LDR_DATA_TABLE_ENTRY_2 {
 #[repr(align(4))]
 pub struct LDR_DATA_TABLE_ENTRY_2_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for LDR_DATA_TABLE_ENTRY_2_1 {
     fn default() -> Self {
@@ -538,8 +538,8 @@ impl LDR_DATA_TABLE_ENTRY_2_1 {
         self._bitfield_1.set(31usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(PackagedBinary: u32, MarkedForRemoval: u32, ImageDll: u32, LoadNotificationsSent: u32, TelemetryEntryProcessed: u32, ProcessStaticImport: u32, InLegacyLists: u32, InIndexes: u32, ShimDll: u32, InExceptionTable: u32, ReservedFlags1: u32, LoadInProgress: u32, LoadConfigProcessed: u32, EntryProcessed: u32, ProtectDelayLoad: u32, ReservedFlags3: u32, DontCallForThreads: u32, ProcessAttachCalled: u32, ProcessAttachFailed: u32, CorDeferredValidate: u32, CorImage: u32, DontRelocate: u32, CorILOnly: u32, ChpeImage: u32, ChpeEmulatorImage: u32, ReservedFlags5: u32, Redirected: u32, ReservedFlags6: u32, CompatDatabaseProcessed: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(PackagedBinary: u32, MarkedForRemoval: u32, ImageDll: u32, LoadNotificationsSent: u32, TelemetryEntryProcessed: u32, ProcessStaticImport: u32, InLegacyLists: u32, InIndexes: u32, ShimDll: u32, InExceptionTable: u32, ReservedFlags1: u32, LoadInProgress: u32, LoadConfigProcessed: u32, EntryProcessed: u32, ProtectDelayLoad: u32, ReservedFlags3: u32, DontCallForThreads: u32, ProcessAttachCalled: u32, ProcessAttachFailed: u32, CorDeferredValidate: u32, CorImage: u32, DontRelocate: u32, CorILOnly: u32, ChpeImage: u32, ChpeEmulatorImage: u32, ReservedFlags5: u32, Redirected: u32, ReservedFlags6: u32, CompatDatabaseProcessed: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, PackagedBinary as u64);
         bitfield_unit.set(1usize, 1u8, MarkedForRemoval as u64);
         bitfield_unit.set(2usize, 1u8, ImageDll as u64);
@@ -784,7 +784,7 @@ impl std::fmt::Debug for LDR_DLL_UNLOADED_NOTIFICATION_DATA {
 pub struct LDR_DLL_NOTIFICATION_DATA {
     pub Loaded: UnionField<LDR_DLL_LOADED_NOTIFICATION_DATA>,
     pub Unloaded: UnionField<LDR_DLL_UNLOADED_NOTIFICATION_DATA>,
-    pub union_field: [u64; 5usize],
+    pub union_field: [u64; 5],
 }
 impl Default for LDR_DLL_NOTIFICATION_DATA {
     fn default() -> Self {
@@ -812,8 +812,8 @@ extern "system" {
 #[repr(C)]
 pub struct LDR_FAILURE_DATA {
     pub Status: NTSTATUS,
-    pub DllName: [u16; 32usize],
-    pub AdditionalInfo: [u16; 32usize],
+    pub DllName: [u16; 32],
+    pub AdditionalInfo: [u16; 32],
 }
 impl Default for LDR_FAILURE_DATA {
     fn default() -> Self {
@@ -831,7 +831,7 @@ extern "system" {
 }
 #[repr(C)]
 pub struct PS_MITIGATION_OPTIONS_MAP {
-    pub Map: [usize; 3usize],
+    pub Map: [usize; 3],
 }
 impl Default for PS_MITIGATION_OPTIONS_MAP {
     fn default() -> Self {
@@ -845,7 +845,7 @@ impl std::fmt::Debug for PS_MITIGATION_OPTIONS_MAP {
 }
 #[repr(C)]
 pub struct PS_MITIGATION_AUDIT_OPTIONS_MAP {
-    pub Map: [usize; 3usize],
+    pub Map: [usize; 3],
 }
 impl Default for PS_MITIGATION_AUDIT_OPTIONS_MAP {
     fn default() -> Self {
@@ -862,7 +862,7 @@ pub struct PS_SYSTEM_DLL_INIT_BLOCK {
     pub Size: u32,
     pub SystemDllWowRelocation: usize,
     pub SystemDllNativeRelocation: usize,
-    pub Wow64SharedInformation: [usize; 16usize],
+    pub Wow64SharedInformation: [usize; 16],
     pub RngData: u32,
     pub Anonymous1: PS_SYSTEM_DLL_INIT_BLOCK_1,
     pub MitigationOptionsMap: PS_MITIGATION_OPTIONS_MAP,
@@ -882,7 +882,7 @@ pub struct PS_SYSTEM_DLL_INIT_BLOCK_1 {
 #[repr(align(4))]
 pub struct PS_SYSTEM_DLL_INIT_BLOCK_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PS_SYSTEM_DLL_INIT_BLOCK_1_1 {
     fn default() -> Self {
@@ -912,8 +912,8 @@ impl PS_SYSTEM_DLL_INIT_BLOCK_1_1 {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(CfgOverride: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(CfgOverride: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, CfgOverride as u64);
         bitfield_unit.set(1usize, 31u8, Reserved as u64);
         bitfield_unit
@@ -993,7 +993,7 @@ extern "system" {
 }
 #[repr(C)]
 pub struct LDR_ENUM_RESOURCE_ENTRY {
-    pub Path: [LDR_ENUM_RESOURCE_ENTRY_1; 3usize],
+    pub Path: [LDR_ENUM_RESOURCE_ENTRY_1; 3],
     pub Data: *mut std::ffi::c_void,
     pub Size: u32,
     pub Reserved: u32,
@@ -1075,7 +1075,7 @@ pub struct RTL_PROCESS_MODULE_INFORMATION {
     pub InitOrderIndex: u16,
     pub LoadCount: u16,
     pub OffsetToFileName: u16,
-    pub FullPathName: [u8; 256usize],
+    pub FullPathName: [u8; 256],
 }
 impl Default for RTL_PROCESS_MODULE_INFORMATION {
     fn default() -> Self {
@@ -1090,7 +1090,7 @@ impl std::fmt::Debug for RTL_PROCESS_MODULE_INFORMATION {
 #[repr(C)]
 pub struct RTL_PROCESS_MODULES {
     pub NumberOfModules: u32,
-    pub Modules: [RTL_PROCESS_MODULE_INFORMATION; 1usize],
+    pub Modules: [RTL_PROCESS_MODULE_INFORMATION; 1],
 }
 impl Default for RTL_PROCESS_MODULES {
     fn default() -> Self {
@@ -1145,59 +1145,6 @@ extern "system" {
 extern "system" {
     pub fn LdrQueryImageFileExecutionOptionsEx(SubKey: *mut UNICODE_STRING, ValueName: PCWSTR, Type: u32, Buffer: *mut std::ffi::c_void, BufferSize: u32, ReturnedLength: *mut u32, Wow64: BOOLEAN) -> NTSTATUS;
 }
-#[repr(C)]
-pub struct DELAYLOAD_PROC_DESCRIPTOR {
-    pub ImportDescribedByName: u32,
-    pub Description: DELAYLOAD_PROC_DESCRIPTOR_1,
-}
-#[repr(C)]
-pub struct DELAYLOAD_PROC_DESCRIPTOR_1 {
-    pub Name: UnionField<*mut i8>,
-    pub Ordinal: UnionField<u32>,
-    pub union_field: u64,
-}
-impl Default for DELAYLOAD_PROC_DESCRIPTOR_1 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for DELAYLOAD_PROC_DESCRIPTOR_1 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "DELAYLOAD_PROC_DESCRIPTOR_1 {{ union }}")
-    }
-}
-impl Default for DELAYLOAD_PROC_DESCRIPTOR {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for DELAYLOAD_PROC_DESCRIPTOR {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "DELAYLOAD_PROC_DESCRIPTOR {{ Description: {:?} }}", self.Description)
-    }
-}
-#[repr(C)]
-pub struct DELAYLOAD_INFO {
-    pub Size: u32,
-    pub DelayloadDescriptor: *const IMAGE_DELAYLOAD_DESCRIPTOR,
-    pub ThunkAddress: *mut IMAGE_THUNK_DATA64,
-    pub TargetDllName: *mut i8,
-    pub TargetApiDescriptor: DELAYLOAD_PROC_DESCRIPTOR,
-    pub TargetModuleBase: *mut std::ffi::c_void,
-    pub Unused: *mut std::ffi::c_void,
-    pub LastError: u32,
-}
-impl Default for DELAYLOAD_INFO {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for DELAYLOAD_INFO {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "DELAYLOAD_INFO {{ TargetApiDescriptor: {:?} }}", self.TargetApiDescriptor)
-    }
-}
-pub type PDELAYLOAD_FAILURE_DLL_CALLBACK = std::option::Option<unsafe extern "system" fn(NotificationReason: u32, DelayloadInfo: *mut DELAYLOAD_INFO) -> *mut std::ffi::c_void>;
 pub type PDELAYLOAD_FAILURE_SYSTEM_ROUTINE = std::option::Option<unsafe extern "system" fn(DllName: *mut i8, ProcedureName: *mut i8) -> *mut std::ffi::c_void>;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

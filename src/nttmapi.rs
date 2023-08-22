@@ -1,8 +1,4 @@
-use windows::{
-    Win32::{
-        Foundation::{NTSTATUS},
-    },
-};
+use windows::Win32::Foundation::NTSTATUS;
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

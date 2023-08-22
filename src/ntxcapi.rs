@@ -30,7 +30,7 @@ pub enum KCONTINUE_TYPE {
 pub struct KCONTINUE_ARGUMENT {
     pub ContinueType: KCONTINUE_TYPE,
     pub ContinueFlags: u32,
-    pub Reserved: [u64; 2usize],
+    pub Reserved: [u64; 2],
 }
 impl Default for KCONTINUE_ARGUMENT {
     fn default() -> Self {

@@ -44,12 +44,12 @@ pub struct PLUGPLAY_EVENT_BLOCK_1 {
     pub VetoNotification: UnionField<PLUGPLAY_EVENT_BLOCK_1_7>,
     pub BlockedDriverNotification: UnionField<PLUGPLAY_EVENT_BLOCK_1_8>,
     pub InvalidIDNotification: UnionField<PLUGPLAY_EVENT_BLOCK_1_9>,
-    pub union_field: [u64; 3usize],
+    pub union_field: [u64; 3],
 }
 #[repr(C)]
 pub struct PLUGPLAY_EVENT_BLOCK_1_1 {
     pub ClassGuid: GUID,
-    pub SymbolicLinkName: [u16; 1usize],
+    pub SymbolicLinkName: [u16; 1],
 }
 impl Default for PLUGPLAY_EVENT_BLOCK_1_1 {
     fn default() -> Self {
@@ -58,16 +58,12 @@ impl Default for PLUGPLAY_EVENT_BLOCK_1_1 {
 }
 impl std::fmt::Debug for PLUGPLAY_EVENT_BLOCK_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PLUGPLAY_EVENT_BLOCK_1_1 {{ SymbolicLinkName: {:?} }}",
-            self.SymbolicLinkName
-        )
+        write!(f, "PLUGPLAY_EVENT_BLOCK_1_1 {{ SymbolicLinkName: {:?} }}", self.SymbolicLinkName)
     }
 }
 #[repr(C)]
 pub struct PLUGPLAY_EVENT_BLOCK_1_2 {
-    pub DeviceIds: [u16; 1usize],
+    pub DeviceIds: [u16; 1],
 }
 impl Default for PLUGPLAY_EVENT_BLOCK_1_2 {
     fn default() -> Self {
@@ -76,16 +72,12 @@ impl Default for PLUGPLAY_EVENT_BLOCK_1_2 {
 }
 impl std::fmt::Debug for PLUGPLAY_EVENT_BLOCK_1_2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PLUGPLAY_EVENT_BLOCK_1_2 {{ DeviceIds: {:?} }}",
-            self.DeviceIds
-        )
+        write!(f, "PLUGPLAY_EVENT_BLOCK_1_2 {{ DeviceIds: {:?} }}", self.DeviceIds)
     }
 }
 #[repr(C)]
 pub struct PLUGPLAY_EVENT_BLOCK_1_3 {
-    pub DeviceId: [u16; 1usize],
+    pub DeviceId: [u16; 1],
 }
 impl Default for PLUGPLAY_EVENT_BLOCK_1_3 {
     fn default() -> Self {
@@ -94,17 +86,13 @@ impl Default for PLUGPLAY_EVENT_BLOCK_1_3 {
 }
 impl std::fmt::Debug for PLUGPLAY_EVENT_BLOCK_1_3 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PLUGPLAY_EVENT_BLOCK_1_3 {{ DeviceId: {:?} }}",
-            self.DeviceId
-        )
+        write!(f, "PLUGPLAY_EVENT_BLOCK_1_3 {{ DeviceId: {:?} }}", self.DeviceId)
     }
 }
 #[repr(C)]
 pub struct PLUGPLAY_EVENT_BLOCK_1_4 {
     pub NotificationStructure: *mut std::ffi::c_void,
-    pub DeviceIds: [u16; 1usize],
+    pub DeviceIds: [u16; 1],
 }
 impl Default for PLUGPLAY_EVENT_BLOCK_1_4 {
     fn default() -> Self {
@@ -113,11 +101,7 @@ impl Default for PLUGPLAY_EVENT_BLOCK_1_4 {
 }
 impl std::fmt::Debug for PLUGPLAY_EVENT_BLOCK_1_4 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PLUGPLAY_EVENT_BLOCK_1_4 {{ DeviceIds: {:?} }}",
-            self.DeviceIds
-        )
+        write!(f, "PLUGPLAY_EVENT_BLOCK_1_4 {{ DeviceIds: {:?} }}", self.DeviceIds)
     }
 }
 #[repr(C)]
@@ -152,7 +136,7 @@ impl std::fmt::Debug for PLUGPLAY_EVENT_BLOCK_1_6 {
 #[repr(C)]
 pub struct PLUGPLAY_EVENT_BLOCK_1_7 {
     pub VetoType: PNP_VETO_TYPE,
-    pub DeviceIdVetoNameBuffer: [u16; 1usize],
+    pub DeviceIdVetoNameBuffer: [u16; 1],
 }
 impl Default for PLUGPLAY_EVENT_BLOCK_1_7 {
     fn default() -> Self {
@@ -161,11 +145,7 @@ impl Default for PLUGPLAY_EVENT_BLOCK_1_7 {
 }
 impl std::fmt::Debug for PLUGPLAY_EVENT_BLOCK_1_7 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PLUGPLAY_EVENT_BLOCK_1_7 {{ DeviceIdVetoNameBuffer: {:?} }}",
-            self.DeviceIdVetoNameBuffer
-        )
+        write!(f, "PLUGPLAY_EVENT_BLOCK_1_7 {{ DeviceIdVetoNameBuffer: {:?} }}", self.DeviceIdVetoNameBuffer)
     }
 }
 #[repr(C)]
@@ -184,7 +164,7 @@ impl std::fmt::Debug for PLUGPLAY_EVENT_BLOCK_1_8 {
 }
 #[repr(C)]
 pub struct PLUGPLAY_EVENT_BLOCK_1_9 {
-    pub ParentId: [u16; 1usize],
+    pub ParentId: [u16; 1],
 }
 impl Default for PLUGPLAY_EVENT_BLOCK_1_9 {
     fn default() -> Self {
@@ -193,11 +173,7 @@ impl Default for PLUGPLAY_EVENT_BLOCK_1_9 {
 }
 impl std::fmt::Debug for PLUGPLAY_EVENT_BLOCK_1_9 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PLUGPLAY_EVENT_BLOCK_1_9 {{ ParentId: {:?} }}",
-            self.ParentId
-        )
+        write!(f, "PLUGPLAY_EVENT_BLOCK_1_9 {{ ParentId: {:?} }}", self.ParentId)
     }
 }
 impl Default for PLUGPLAY_EVENT_BLOCK_1 {
@@ -217,11 +193,7 @@ impl Default for PLUGPLAY_EVENT_BLOCK {
 }
 impl std::fmt::Debug for PLUGPLAY_EVENT_BLOCK {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PLUGPLAY_EVENT_BLOCK {{ EventCategory: {:?}, u: {:?} }}",
-            self.EventCategory, self.u
-        )
+        write!(f, "PLUGPLAY_EVENT_BLOCK {{ EventCategory: {:?}, u: {:?} }}", self.EventCategory, self.u)
     }
 }
 #[repr(i32)]
@@ -255,11 +227,7 @@ pub enum PLUGPLAY_CONTROL_CLASS {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtPlugPlayControl(
-        PnPControlClass: PLUGPLAY_CONTROL_CLASS,
-        PnPControlData: *mut std::ffi::c_void,
-        PnPControlDataLength: u32,
-    ) -> NTSTATUS;
+    pub fn NtPlugPlayControl(PnPControlClass: PLUGPLAY_CONTROL_CLASS, PnPControlData: *mut std::ffi::c_void, PnPControlDataLength: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -275,9 +243,5 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtReplacePartitionUnit(
-        TargetInstancePath: *mut UNICODE_STRING,
-        SpareInstancePath: *mut UNICODE_STRING,
-        Flags: u32,
-    ) -> NTSTATUS;
+    pub fn NtReplacePartitionUnit(TargetInstancePath: *mut UNICODE_STRING, SpareInstancePath: *mut UNICODE_STRING, Flags: u32) -> NTSTATUS;
 }

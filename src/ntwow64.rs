@@ -50,9 +50,9 @@ pub struct RTL_BALANCED_NODE32 {
 }
 #[repr(C)]
 pub struct RTL_BALANCED_NODE32_1 {
-    pub Children: UnionField<[u32; 2usize]>,
+    pub Children: UnionField<[u32; 2]>,
     pub Anonymous1: UnionField<RTL_BALANCED_NODE32_1_1>,
-    pub union_field: [u32; 2usize],
+    pub union_field: [u32; 2],
 }
 #[repr(C)]
 pub struct RTL_BALANCED_NODE32_1_1 {
@@ -82,7 +82,7 @@ impl std::fmt::Debug for RTL_BALANCED_NODE32_1 {
 #[repr(C)]
 pub struct RTL_BALANCED_NODE32_2 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: UnionField<BitfieldUnit<[u8; 1usize]>>,
+    _bitfield_1: UnionField<BitfieldUnit<[u8; 1]>>,
     pub ParentValue: UnionField<u32>,
     pub union_field: u32,
 }
@@ -114,8 +114,8 @@ impl RTL_BALANCED_NODE32_2 {
         unsafe { self._bitfield_1.as_mut().set(1usize, 2u8, val as u64) }
     }
     #[inline]
-    pub fn new_bitfield_1(Red: u32, Balance: u32) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(Red: u32, Balance: u32) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, Red as u64);
         bitfield_unit.set(1usize, 2u8, Balance as u64);
         bitfield_unit
@@ -276,7 +276,7 @@ pub struct LDR_DATA_TABLE_ENTRY32 {
 pub struct LDR_DATA_TABLE_ENTRY32_1 {
     pub InInitializationOrderLinks: UnionField<LIST_ENTRY32>,
     pub InProgressLinks: UnionField<LIST_ENTRY32>,
-    pub union_field: [u32; 2usize],
+    pub union_field: [u32; 2],
 }
 impl Default for LDR_DATA_TABLE_ENTRY32_1 {
     fn default() -> Self {
@@ -290,7 +290,7 @@ impl std::fmt::Debug for LDR_DATA_TABLE_ENTRY32_1 {
 }
 #[repr(C)]
 pub struct LDR_DATA_TABLE_ENTRY32_2 {
-    pub FlagGroup: UnionField<[u8; 4usize]>,
+    pub FlagGroup: UnionField<[u8; 4]>,
     pub Flags: UnionField<u32>,
     pub Anonymous1: UnionField<LDR_DATA_TABLE_ENTRY32_2_1>,
     pub union_field: u32,
@@ -299,7 +299,7 @@ pub struct LDR_DATA_TABLE_ENTRY32_2 {
 #[repr(align(4))]
 pub struct LDR_DATA_TABLE_ENTRY32_2_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for LDR_DATA_TABLE_ENTRY32_2_1 {
     fn default() -> Self {
@@ -568,8 +568,8 @@ impl LDR_DATA_TABLE_ENTRY32_2_1 {
         self._bitfield_1.set(31usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(PackagedBinary: u32, MarkedForRemoval: u32, ImageDll: u32, LoadNotificationsSent: u32, TelemetryEntryProcessed: u32, ProcessStaticImport: u32, InLegacyLists: u32, InIndexes: u32, ShimDll: u32, InExceptionTable: u32, ReservedFlags1: u32, LoadInProgress: u32, LoadConfigProcessed: u32, EntryProcessed: u32, ProtectDelayLoad: u32, ReservedFlags3: u32, DontCallForThreads: u32, ProcessAttachCalled: u32, ProcessAttachFailed: u32, CorDeferredValidate: u32, CorImage: u32, DontRelocate: u32, CorILOnly: u32, ChpeImage: u32, ReservedFlags5: u32, Redirected: u32, ReservedFlags6: u32, CompatDatabaseProcessed: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(PackagedBinary: u32, MarkedForRemoval: u32, ImageDll: u32, LoadNotificationsSent: u32, TelemetryEntryProcessed: u32, ProcessStaticImport: u32, InLegacyLists: u32, InIndexes: u32, ShimDll: u32, InExceptionTable: u32, ReservedFlags1: u32, LoadInProgress: u32, LoadConfigProcessed: u32, EntryProcessed: u32, ProtectDelayLoad: u32, ReservedFlags3: u32, DontCallForThreads: u32, ProcessAttachCalled: u32, ProcessAttachFailed: u32, CorDeferredValidate: u32, CorImage: u32, DontRelocate: u32, CorILOnly: u32, ChpeImage: u32, ReservedFlags5: u32, Redirected: u32, ReservedFlags6: u32, CompatDatabaseProcessed: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, PackagedBinary as u64);
         bitfield_unit.set(1usize, 1u8, MarkedForRemoval as u64);
         bitfield_unit.set(2usize, 1u8, ImageDll as u64);
@@ -682,7 +682,7 @@ pub struct RTL_USER_PROCESS_PARAMETERS32 {
     pub DesktopInfo: STRING32,
     pub ShellInfo: STRING32,
     pub RuntimeData: STRING32,
-    pub CurrentDirectories: [RTL_DRIVE_LETTER_CURDIR32; 32usize],
+    pub CurrentDirectories: [RTL_DRIVE_LETTER_CURDIR32; 32],
     pub EnvironmentSize: u32,
     pub EnvironmentVersion: u32,
     pub PackageDependencyData: u32,
@@ -726,7 +726,7 @@ pub struct PEB32 {
     pub ApiSetMap: u32,
     pub TlsExpansionCounter: u32,
     pub TlsBitmap: u32,
-    pub TlsBitmapBits: [u32; 2usize],
+    pub TlsBitmapBits: [u32; 2],
     pub ReadOnlySharedMemoryBase: u32,
     pub HotpatchInformation: u32,
     pub ReadOnlyStaticServerData: u32,
@@ -756,10 +756,10 @@ pub struct PEB32 {
     pub ImageSubsystemMajorVersion: u32,
     pub ImageSubsystemMinorVersion: u32,
     pub ActiveProcessAffinityMask: u32,
-    pub GdiHandleBuffer: [u32; 34usize],
+    pub GdiHandleBuffer: [u32; 34],
     pub PostProcessInitRoutine: u32,
     pub TlsExpansionBitmap: u32,
-    pub TlsExpansionBitmapBits: [u32; 32usize],
+    pub TlsExpansionBitmapBits: [u32; 32],
     pub SessionId: u32,
     pub AppCompatFlags: u64,
     pub AppCompatFlagsUser: u64,
@@ -771,11 +771,11 @@ pub struct PEB32 {
     pub SystemDefaultActivationContextData: u32,
     pub SystemAssemblyStorageMap: u32,
     pub MinimumStackCommit: u32,
-    pub SparePointers: [u32; 2usize],
+    pub SparePointers: [u32; 2],
     pub PatchLoaderData: u32,
     pub ChpeV2ProcessInfo: u32,
     pub AppModelFeatureState: u32,
-    pub SpareUlongs: [u32; 2usize],
+    pub SpareUlongs: [u32; 2],
     pub ActiveCodePage: u16,
     pub OemCodePage: u16,
     pub UseCaseMapping: u16,
@@ -788,12 +788,12 @@ pub struct PEB32 {
     pub CsrServerReadOnlySharedMemoryBase: u64,
     pub TppWorkerpListLock: u32,
     pub TppWorkerpList: LIST_ENTRY32,
-    pub WaitOnAddressHashTable: [u32; 128usize],
+    pub WaitOnAddressHashTable: [u32; 128],
     pub TelemetryCoverageHeader: u32,
     pub CloudFileFlags: u32,
     pub CloudFileDiagFlags: u32,
     pub PlaceholderCompatibilityMode: i8,
-    pub PlaceholderCompatibilityModeReserved: [i8; 7usize],
+    pub PlaceholderCompatibilityModeReserved: [i8; 7],
     pub LeapSecondData: u32,
     pub Anonymous6: PEB32_6,
     pub NtGlobalFlag2: u32,
@@ -808,7 +808,7 @@ pub struct PEB32_1 {
 #[repr(C, packed)]
 pub struct PEB32_1_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
 }
 impl Default for PEB32_1_1 {
     fn default() -> Self {
@@ -921,8 +921,8 @@ impl PEB32_1_1 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(ImageUsesLargePages: BOOLEAN, IsProtectedProcess: BOOLEAN, IsImageDynamicallyRelocated: BOOLEAN, SkipPatchingUser32Forwarders: BOOLEAN, IsPackagedProcess: BOOLEAN, IsAppContainer: BOOLEAN, IsProtectedProcessLight: BOOLEAN, IsLongPathAwareProcess: BOOLEAN) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(ImageUsesLargePages: BOOLEAN, IsProtectedProcess: BOOLEAN, IsImageDynamicallyRelocated: BOOLEAN, SkipPatchingUser32Forwarders: BOOLEAN, IsPackagedProcess: BOOLEAN, IsAppContainer: BOOLEAN, IsProtectedProcessLight: BOOLEAN, IsLongPathAwareProcess: BOOLEAN) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let ImageUsesLargePages: u8 = unsafe { std::mem::transmute(ImageUsesLargePages) };
             ImageUsesLargePages as u64
@@ -978,7 +978,7 @@ pub struct PEB32_2 {
 #[repr(align(4))]
 pub struct PEB32_2_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PEB32_2_1 {
     fn default() -> Self {
@@ -1040,8 +1040,8 @@ impl PEB32_2_1 {
         self._bitfield_1.set(5usize, 27u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(ProcessInJob: u32, ProcessInitializing: u32, ProcessUsingVEH: u32, ProcessUsingVCH: u32, ProcessUsingFTH: u32, ReservedBits0: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(ProcessInJob: u32, ProcessInitializing: u32, ProcessUsingVEH: u32, ProcessUsingVCH: u32, ProcessUsingFTH: u32, ReservedBits0: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ProcessInJob as u64);
         bitfield_unit.set(1usize, 1u8, ProcessInitializing as u64);
         bitfield_unit.set(2usize, 1u8, ProcessUsingVEH as u64);
@@ -1104,7 +1104,7 @@ pub struct PEB32_5 {
 #[repr(align(4))]
 pub struct PEB32_5_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PEB32_5_1 {
     fn default() -> Self {
@@ -1150,8 +1150,8 @@ impl PEB32_5_1 {
         self._bitfield_1.set(3usize, 29u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(HeapTracingEnabled: u32, CritSecTracingEnabled: u32, LibLoaderTracingEnabled: u32, SpareTracingBits: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(HeapTracingEnabled: u32, CritSecTracingEnabled: u32, LibLoaderTracingEnabled: u32, SpareTracingBits: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, HeapTracingEnabled as u64);
         bitfield_unit.set(1usize, 1u8, CritSecTracingEnabled as u64);
         bitfield_unit.set(2usize, 1u8, LibLoaderTracingEnabled as u64);
@@ -1179,7 +1179,7 @@ pub struct PEB32_6 {
 #[repr(align(4))]
 pub struct PEB32_6_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PEB32_6_1 {
     fn default() -> Self {
@@ -1209,8 +1209,8 @@ impl PEB32_6_1 {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(SixtySecondEnabled: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(SixtySecondEnabled: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, SixtySecondEnabled as u64);
         bitfield_unit.set(1usize, 31u8, Reserved as u64);
         bitfield_unit
@@ -1244,7 +1244,7 @@ impl std::fmt::Debug for PEB32 {
 pub struct GDI_TEB_BATCH32 {
     pub Offset: u32,
     pub HDC: u32,
-    pub Buffer: [u32; 310usize],
+    pub Buffer: [u32; 310],
 }
 impl Default for GDI_TEB_BATCH32 {
     fn default() -> Self {
@@ -1268,21 +1268,21 @@ pub struct TEB32 {
     pub CountOfOwnedCriticalSections: u32,
     pub CsrClientThread: u32,
     pub Win32ThreadInfo: u32,
-    pub User32Reserved: [u32; 26usize],
-    pub UserReserved: [u32; 5usize],
+    pub User32Reserved: [u32; 26],
+    pub UserReserved: [u32; 5],
     pub WOW32Reserved: u32,
     pub CurrentLocale: u32,
     pub FpSoftwareStatusRegister: u32,
-    pub ReservedForDebuggerInstrumentation: [u32; 16usize],
-    pub SystemReserved1: [u32; 36usize],
-    pub WorkingOnBehalfTicket: [u8; 8usize],
+    pub ReservedForDebuggerInstrumentation: [u32; 16],
+    pub SystemReserved1: [u32; 36],
+    pub WorkingOnBehalfTicket: [u8; 8],
     pub ExceptionCode: NTSTATUS,
     pub ActivationContextStackPointer: u32,
     pub InstrumentationCallbackSp: u32,
     pub InstrumentationCallbackPreviousPc: u32,
     pub InstrumentationCallbackPreviousSp: u32,
     pub InstrumentationCallbackDisabled: BOOLEAN,
-    pub SpareBytes: [u8; 23usize],
+    pub SpareBytes: [u8; 23],
     pub TxFsContext: u32,
     pub GdiTebBatch: GDI_TEB_BATCH32,
     pub RealClientId: CLIENT_ID,
@@ -1290,9 +1290,9 @@ pub struct TEB32 {
     pub GdiClientPID: u32,
     pub GdiClientTID: u32,
     pub GdiThreadLocalInfo: u32,
-    pub Win32ClientInfo: [u32; 62usize],
-    pub glDispatchTable: [u32; 233usize],
-    pub glReserved1: [u32; 29usize],
+    pub Win32ClientInfo: [u32; 62],
+    pub glDispatchTable: [u32; 233],
+    pub glReserved1: [u32; 29],
     pub glReserved2: u32,
     pub glSectionInfo: u32,
     pub glSection: u32,
@@ -1301,15 +1301,15 @@ pub struct TEB32 {
     pub glContext: u32,
     pub LastStatusValue: NTSTATUS,
     pub StaticUnicodeString: STRING32,
-    pub StaticUnicodeBuffer: [u16; 261usize],
+    pub StaticUnicodeBuffer: [u16; 261],
     pub DeallocationStack: u32,
-    pub TlsSlots: [u32; 64usize],
+    pub TlsSlots: [u32; 64],
     pub TlsLinks: LIST_ENTRY32,
     pub Vdm: u32,
     pub ReservedForNtRpc: u32,
-    pub DbgSsReserved: [u32; 2usize],
+    pub DbgSsReserved: [u32; 2],
     pub HardErrorMode: u32,
-    pub Instrumentation: [u32; 9usize],
+    pub Instrumentation: [u32; 9],
     pub ActivityId: GUID,
     pub SubProcessTag: u32,
     pub PerflibData: u32,
@@ -1388,7 +1388,7 @@ impl std::fmt::Debug for TEB32_1 {
 pub struct TEB32_2 {
     pub CrossTebFlags: UnionField<u16>,
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: UnionField<BitfieldUnit<[u8; 2usize]>>,
+    _bitfield_1: UnionField<BitfieldUnit<[u8; 2]>>,
     pub union_field: u16,
 }
 impl Default for TEB32_2 {
@@ -1411,8 +1411,8 @@ impl TEB32_2 {
         unsafe { self._bitfield_1.as_mut().set(0usize, 16u8, val as u64) }
     }
     #[inline]
-    pub fn new_bitfield_1(SpareCrossTebBits: u16) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(SpareCrossTebBits: u16) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 16u8, SpareCrossTebBits as u64);
         bitfield_unit
     }
@@ -1427,7 +1427,7 @@ pub struct TEB32_3 {
 #[repr(align(2))]
 pub struct TEB32_3_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 2usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 2]>,
 }
 impl Default for TEB32_3_1 {
     fn default() -> Self {
@@ -1579,8 +1579,8 @@ impl TEB32_3_1 {
         self._bitfield_1.set(14usize, 2u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(SafeThunkCall: u16, InDebugPrint: u16, HasFiberData: u16, SkipThreadAttach: u16, WerInShipAssertCode: u16, RanProcessInit: u16, ClonedThread: u16, SuppressDebugMsg: u16, DisableUserStackWalk: u16, RtlExceptionAttached: u16, InitialThread: u16, SessionAware: u16, LoadOwner: u16, LoaderWorker: u16, SpareSameTebBits: u16) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(SafeThunkCall: u16, InDebugPrint: u16, HasFiberData: u16, SkipThreadAttach: u16, WerInShipAssertCode: u16, RanProcessInit: u16, ClonedThread: u16, SuppressDebugMsg: u16, DisableUserStackWalk: u16, RtlExceptionAttached: u16, InitialThread: u16, SessionAware: u16, LoadOwner: u16, LoaderWorker: u16, SpareSameTebBits: u16) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 1u8, SafeThunkCall as u64);
         bitfield_unit.set(1usize, 1u8, InDebugPrint as u64);
         bitfield_unit.set(2usize, 1u8, HasFiberData as u64);
@@ -1633,7 +1633,7 @@ pub struct WOW64_EXECUTE_OPTIONS {
 #[repr(align(4))]
 pub struct WOW64_EXECUTE_OPTIONS_1 {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for WOW64_EXECUTE_OPTIONS_1 {
     fn default() -> Self {
@@ -1727,8 +1727,8 @@ impl WOW64_EXECUTE_OPTIONS_1 {
         self._bitfield_1.set(31usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(StackReserveSize: u32, StackCommitSize: u32, Deprecated0: u32, DisableWowAssert: u32, DisableTurboDispatch: u32, Unused: u32, Reserved0: u32, Reserved1: u32, Reserved2: u32, Reserved3: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(StackReserveSize: u32, StackCommitSize: u32, Deprecated0: u32, DisableWowAssert: u32, DisableTurboDispatch: u32, Unused: u32, Reserved0: u32, Reserved1: u32, Reserved2: u32, Reserved3: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, StackReserveSize as u64);
         bitfield_unit.set(8usize, 4u8, StackCommitSize as u64);
         bitfield_unit.set(12usize, 1u8, Deprecated0 as u64);

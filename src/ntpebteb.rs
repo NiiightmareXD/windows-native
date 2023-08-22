@@ -117,7 +117,7 @@ pub struct PEB {
     pub ApiSetMap: *mut API_SET_NAMESPACE,
     pub TlsExpansionCounter: u32,
     pub TlsBitmap: *mut std::ffi::c_void,
-    pub TlsBitmapBits: [u32; 2usize],
+    pub TlsBitmapBits: [u32; 2],
     pub ReadOnlySharedMemoryBase: *mut std::ffi::c_void,
     pub SharedData: *mut SILO_USER_SHARED_DATA,
     pub ReadOnlyStaticServerData: *mut *mut std::ffi::c_void,
@@ -147,10 +147,10 @@ pub struct PEB {
     pub ImageSubsystemMajorVersion: u32,
     pub ImageSubsystemMinorVersion: u32,
     pub ActiveProcessAffinityMask: usize,
-    pub GdiHandleBuffer: [u32; 60usize],
+    pub GdiHandleBuffer: [u32; 60],
     pub PostProcessInitRoutine: *mut std::ffi::c_void,
     pub TlsExpansionBitmap: *mut std::ffi::c_void,
-    pub TlsExpansionBitmapBits: [u32; 32usize],
+    pub TlsExpansionBitmapBits: [u32; 32],
     pub SessionId: u32,
     pub AppCompatFlags: u64,
     pub AppCompatFlagsUser: u64,
@@ -162,11 +162,11 @@ pub struct PEB {
     pub SystemDefaultActivationContextData: *mut ACTIVATION_CONTEXT_DATA,
     pub SystemAssemblyStorageMap: *mut ASSEMBLY_STORAGE_MAP,
     pub MinimumStackCommit: usize,
-    pub SparePointers: [*mut std::ffi::c_void; 2usize],
+    pub SparePointers: [*mut std::ffi::c_void; 2],
     pub PatchLoaderData: *mut std::ffi::c_void,
     pub ChpeV2ProcessInfo: *mut std::ffi::c_void,
     pub AppModelFeatureState: u32,
-    pub SpareUlongs: [u32; 2usize],
+    pub SpareUlongs: [u32; 2],
     pub ActiveCodePage: u16,
     pub OemCodePage: u16,
     pub UseCaseMapping: u16,
@@ -179,12 +179,12 @@ pub struct PEB {
     pub CsrServerReadOnlySharedMemoryBase: u64,
     pub TppWorkerpListLock: *mut CRITICAL_SECTION,
     pub TppWorkerpList: LIST_ENTRY,
-    pub WaitOnAddressHashTable: [*mut std::ffi::c_void; 128usize],
+    pub WaitOnAddressHashTable: [*mut std::ffi::c_void; 128],
     pub TelemetryCoverageHeader: *mut std::ffi::c_void,
     pub CloudFileFlags: u32,
     pub CloudFileDiagFlags: u32,
     pub PlaceholderCompatibilityMode: i8,
-    pub PlaceholderCompatibilityModeReserved: [i8; 7usize],
+    pub PlaceholderCompatibilityModeReserved: [i8; 7],
     pub LeapSecondData: *mut LEAP_SECOND_DATA,
     pub Anonymous6: PEB_6,
     pub NtGlobalFlag2: u32,
@@ -199,7 +199,7 @@ pub struct PEB_1 {
 #[repr(C, packed)]
 pub struct PEB_1_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
 }
 impl Default for PEB_1_1 {
     fn default() -> Self {
@@ -312,17 +312,8 @@ impl PEB_1_1 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(
-        ImageUsesLargePages: BOOLEAN,
-        IsProtectedProcess: BOOLEAN,
-        IsImageDynamicallyRelocated: BOOLEAN,
-        SkipPatchingUser32Forwarders: BOOLEAN,
-        IsPackagedProcess: BOOLEAN,
-        IsAppContainer: BOOLEAN,
-        IsProtectedProcessLight: BOOLEAN,
-        IsLongPathAwareProcess: BOOLEAN,
-    ) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(ImageUsesLargePages: BOOLEAN, IsProtectedProcess: BOOLEAN, IsImageDynamicallyRelocated: BOOLEAN, SkipPatchingUser32Forwarders: BOOLEAN, IsPackagedProcess: BOOLEAN, IsAppContainer: BOOLEAN, IsProtectedProcessLight: BOOLEAN, IsLongPathAwareProcess: BOOLEAN) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let ImageUsesLargePages: u8 = unsafe { std::mem::transmute(ImageUsesLargePages) };
             ImageUsesLargePages as u64
@@ -332,13 +323,11 @@ impl PEB_1_1 {
             IsProtectedProcess as u64
         });
         bitfield_unit.set(2usize, 1u8, {
-            let IsImageDynamicallyRelocated: u8 =
-                unsafe { std::mem::transmute(IsImageDynamicallyRelocated) };
+            let IsImageDynamicallyRelocated: u8 = unsafe { std::mem::transmute(IsImageDynamicallyRelocated) };
             IsImageDynamicallyRelocated as u64
         });
         bitfield_unit.set(3usize, 1u8, {
-            let SkipPatchingUser32Forwarders: u8 =
-                unsafe { std::mem::transmute(SkipPatchingUser32Forwarders) };
+            let SkipPatchingUser32Forwarders: u8 = unsafe { std::mem::transmute(SkipPatchingUser32Forwarders) };
             SkipPatchingUser32Forwarders as u64
         });
         bitfield_unit.set(4usize, 1u8, {
@@ -350,8 +339,7 @@ impl PEB_1_1 {
             IsAppContainer as u64
         });
         bitfield_unit.set(6usize, 1u8, {
-            let IsProtectedProcessLight: u8 =
-                unsafe { std::mem::transmute(IsProtectedProcessLight) };
+            let IsProtectedProcessLight: u8 = unsafe { std::mem::transmute(IsProtectedProcessLight) };
             IsProtectedProcessLight as u64
         });
         bitfield_unit.set(7usize, 1u8, {
@@ -381,7 +369,7 @@ pub struct PEB_2 {
 #[repr(align(4))]
 pub struct PEB_2_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PEB_2_1 {
     fn default() -> Self {
@@ -479,18 +467,8 @@ impl PEB_2_1 {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        ProcessInJob: u32,
-        ProcessInitializing: u32,
-        ProcessUsingVEH: u32,
-        ProcessUsingVCH: u32,
-        ProcessUsingFTH: u32,
-        ProcessPreviouslyThrottled: u32,
-        ProcessCurrentlyThrottled: u32,
-        ProcessImagesHotPatched: u32,
-        ReservedBits0: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(ProcessInJob: u32, ProcessInitializing: u32, ProcessUsingVEH: u32, ProcessUsingVCH: u32, ProcessUsingFTH: u32, ProcessPreviouslyThrottled: u32, ProcessCurrentlyThrottled: u32, ProcessImagesHotPatched: u32, ReservedBits0: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ProcessInJob as u64);
         bitfield_unit.set(1usize, 1u8, ProcessInitializing as u64);
         bitfield_unit.set(2usize, 1u8, ProcessUsingVEH as u64);
@@ -556,7 +534,7 @@ pub struct PEB_5 {
 #[repr(align(4))]
 pub struct PEB_5_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PEB_5_1 {
     fn default() -> Self {
@@ -565,14 +543,7 @@ impl Default for PEB_5_1 {
 }
 impl std::fmt::Debug for PEB_5_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PEB_5_1 {{ HeapTracingEnabled : {:?}, CritSecTracingEnabled : {:?}, LibLoaderTracingEnabled : {:?}, SpareTracingBits : {:?} }}",
-            self.HeapTracingEnabled(),
-            self.CritSecTracingEnabled(),
-            self.LibLoaderTracingEnabled(),
-            self.SpareTracingBits()
-        )
+        write!(f, "PEB_5_1 {{ HeapTracingEnabled : {:?}, CritSecTracingEnabled : {:?}, LibLoaderTracingEnabled : {:?}, SpareTracingBits : {:?} }}", self.HeapTracingEnabled(), self.CritSecTracingEnabled(), self.LibLoaderTracingEnabled(), self.SpareTracingBits())
     }
 }
 impl PEB_5_1 {
@@ -609,13 +580,8 @@ impl PEB_5_1 {
         self._bitfield_1.set(3usize, 29u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        HeapTracingEnabled: u32,
-        CritSecTracingEnabled: u32,
-        LibLoaderTracingEnabled: u32,
-        SpareTracingBits: u32,
-    ) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(HeapTracingEnabled: u32, CritSecTracingEnabled: u32, LibLoaderTracingEnabled: u32, SpareTracingBits: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, HeapTracingEnabled as u64);
         bitfield_unit.set(1usize, 1u8, CritSecTracingEnabled as u64);
         bitfield_unit.set(2usize, 1u8, LibLoaderTracingEnabled as u64);
@@ -643,7 +609,7 @@ pub struct PEB_6 {
 #[repr(align(4))]
 pub struct PEB_6_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PEB_6_1 {
     fn default() -> Self {
@@ -652,12 +618,7 @@ impl Default for PEB_6_1 {
 }
 impl std::fmt::Debug for PEB_6_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PEB_6_1 {{ SixtySecondEnabled : {:?}, Reserved : {:?} }}",
-            self.SixtySecondEnabled(),
-            self.Reserved()
-        )
+        write!(f, "PEB_6_1 {{ SixtySecondEnabled : {:?}, Reserved : {:?} }}", self.SixtySecondEnabled(), self.Reserved())
     }
 }
 impl PEB_6_1 {
@@ -678,8 +639,8 @@ impl PEB_6_1 {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(SixtySecondEnabled: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(SixtySecondEnabled: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, SixtySecondEnabled as u64);
         bitfield_unit.set(1usize, 31u8, Reserved as u64);
         bitfield_unit
@@ -705,24 +666,7 @@ impl std::fmt::Debug for PEB {
         write!(
             f,
             "PEB {{ Anonymous1: {:?}, ProcessParameters: {:?}, Anonymous2: {:?}, Anonymous3: {:?}, ApiSetMap: {:?}, TlsBitmapBits: {:?}, SharedData: {:?}, ReadOnlyStaticServerData: {:?}, ProcessHeaps: {:?}, TlsExpansionBitmapBits: {:?}, SparePointers: {:?}, SpareUlongs: {:?}, Anonymous4: {:?}, Anonymous5: {:?}, WaitOnAddressHashTable: {:?}, PlaceholderCompatibilityModeReserved: {:?}, LeapSecondData: {:?}, Anonymous6: {:?} }}",
-            self.Anonymous1,
-            self.ProcessParameters,
-            self.Anonymous2,
-            self.Anonymous3,
-            self.ApiSetMap,
-            self.TlsBitmapBits,
-            self.SharedData,
-            self.ReadOnlyStaticServerData,
-            self.ProcessHeaps,
-            self.TlsExpansionBitmapBits,
-            self.SparePointers,
-            self.SpareUlongs,
-            self.Anonymous4,
-            self.Anonymous5,
-            self.WaitOnAddressHashTable,
-            self.PlaceholderCompatibilityModeReserved,
-            self.LeapSecondData,
-            self.Anonymous6
+            self.Anonymous1, self.ProcessParameters, self.Anonymous2, self.Anonymous3, self.ApiSetMap, self.TlsBitmapBits, self.SharedData, self.ReadOnlyStaticServerData, self.ProcessHeaps, self.TlsExpansionBitmapBits, self.SparePointers, self.SpareUlongs, self.Anonymous4, self.Anonymous5, self.WaitOnAddressHashTable, self.PlaceholderCompatibilityModeReserved, self.LeapSecondData, self.Anonymous6
         )
     }
 }
@@ -730,7 +674,7 @@ impl std::fmt::Debug for PEB {
 pub struct GDI_TEB_BATCH {
     pub Offset: u32,
     pub HDC: usize,
-    pub Buffer: [u32; 310usize],
+    pub Buffer: [u32; 310],
 }
 impl Default for GDI_TEB_BATCH {
     fn default() -> Self {
@@ -770,11 +714,7 @@ impl Default for TEB_ACTIVE_FRAME {
 }
 impl std::fmt::Debug for TEB_ACTIVE_FRAME {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "TEB_ACTIVE_FRAME {{ Previous: {:?}, Context: {:?} }}",
-            self.Previous, self.Context
-        )
+        write!(f, "TEB_ACTIVE_FRAME {{ Previous: {:?}, Context: {:?} }}", self.Previous, self.Context)
     }
 }
 #[repr(C)]
@@ -789,19 +729,19 @@ pub struct TEB {
     pub CountOfOwnedCriticalSections: u32,
     pub CsrClientThread: *mut std::ffi::c_void,
     pub Win32ThreadInfo: *mut std::ffi::c_void,
-    pub User32Reserved: [u32; 26usize],
-    pub UserReserved: [u32; 5usize],
+    pub User32Reserved: [u32; 26],
+    pub UserReserved: [u32; 5],
     pub WOW32Reserved: *mut std::ffi::c_void,
     pub CurrentLocale: u32,
     pub FpSoftwareStatusRegister: u32,
-    pub ReservedForDebuggerInstrumentation: [*mut std::ffi::c_void; 16usize],
-    pub SystemReserved1: [*mut std::ffi::c_void; 30usize],
+    pub ReservedForDebuggerInstrumentation: [*mut std::ffi::c_void; 16],
+    pub SystemReserved1: [*mut std::ffi::c_void; 30],
     pub PlaceholderCompatibilityMode: i8,
     pub PlaceholderHydrationAlwaysExplicit: BOOLEAN,
-    pub PlaceholderReserved: [i8; 10usize],
+    pub PlaceholderReserved: [i8; 10],
     pub ProxiedProcessId: u32,
     pub ActivationStack: ACTIVATION_CONTEXT_STACK,
-    pub WorkingOnBehalfTicket: [u8; 8usize],
+    pub WorkingOnBehalfTicket: [u8; 8],
     pub ExceptionCode: NTSTATUS,
     pub ActivationContextStackPointer: *mut ACTIVATION_CONTEXT_STACK,
     pub InstrumentationCallbackSp: usize,
@@ -816,9 +756,9 @@ pub struct TEB {
     pub GdiClientPID: u32,
     pub GdiClientTID: u32,
     pub GdiThreadLocalInfo: *mut std::ffi::c_void,
-    pub Win32ClientInfo: [usize; 62usize],
-    pub glDispatchTable: [*mut std::ffi::c_void; 233usize],
-    pub glReserved1: [usize; 29usize],
+    pub Win32ClientInfo: [usize; 62],
+    pub glDispatchTable: [*mut std::ffi::c_void; 233],
+    pub glReserved1: [usize; 29],
     pub glReserved2: *mut std::ffi::c_void,
     pub glSectionInfo: *mut std::ffi::c_void,
     pub glSection: *mut std::ffi::c_void,
@@ -827,15 +767,15 @@ pub struct TEB {
     pub glContext: *mut std::ffi::c_void,
     pub LastStatusValue: NTSTATUS,
     pub StaticUnicodeString: UNICODE_STRING,
-    pub StaticUnicodeBuffer: [u16; 261usize],
+    pub StaticUnicodeBuffer: [u16; 261],
     pub DeallocationStack: *mut std::ffi::c_void,
-    pub TlsSlots: [*mut std::ffi::c_void; 64usize],
+    pub TlsSlots: [*mut std::ffi::c_void; 64],
     pub TlsLinks: LIST_ENTRY,
     pub Vdm: *mut std::ffi::c_void,
     pub ReservedForNtRpc: *mut std::ffi::c_void,
-    pub DbgSsReserved: [*mut std::ffi::c_void; 2usize],
+    pub DbgSsReserved: [*mut std::ffi::c_void; 2],
     pub HardErrorMode: u32,
-    pub Instrumentation: [*mut std::ffi::c_void; 11usize],
+    pub Instrumentation: [*mut std::ffi::c_void; 11],
     pub ActivityId: GUID,
     pub SubProcessTag: *mut std::ffi::c_void,
     pub PerflibData: *mut std::ffi::c_void,
@@ -918,7 +858,7 @@ impl std::fmt::Debug for TEB_1 {
 pub struct TEB_2 {
     pub CrossTebFlags: UnionField<u16>,
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: UnionField<BitfieldUnit<[u8; 2usize]>>,
+    _bitfield_1: UnionField<BitfieldUnit<[u8; 2]>>,
     pub union_field: u16,
 }
 impl Default for TEB_2 {
@@ -941,8 +881,8 @@ impl TEB_2 {
         unsafe { self._bitfield_1.as_mut().set(0usize, 16u8, val as u64) }
     }
     #[inline]
-    pub fn new_bitfield_1(SpareCrossTebBits: u16) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(SpareCrossTebBits: u16) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 16u8, SpareCrossTebBits as u64);
         bitfield_unit
     }
@@ -957,7 +897,7 @@ pub struct TEB_3 {
 #[repr(align(2))]
 pub struct TEB_3_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 2usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 2]>,
 }
 impl Default for TEB_3_1 {
     fn default() -> Self {
@@ -1118,25 +1058,8 @@ impl TEB_3_1 {
         self._bitfield_1.set(15usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        SafeThunkCall: u16,
-        InDebugPrint: u16,
-        HasFiberData: u16,
-        SkipThreadAttach: u16,
-        WerInShipAssertCode: u16,
-        RanProcessInit: u16,
-        ClonedThread: u16,
-        SuppressDebugMsg: u16,
-        DisableUserStackWalk: u16,
-        RtlExceptionAttached: u16,
-        InitialThread: u16,
-        SessionAware: u16,
-        LoadOwner: u16,
-        LoaderWorker: u16,
-        SkipLoaderInit: u16,
-        SkipFileAPIBrokering: u16,
-    ) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(SafeThunkCall: u16, InDebugPrint: u16, HasFiberData: u16, SkipThreadAttach: u16, WerInShipAssertCode: u16, RanProcessInit: u16, ClonedThread: u16, SuppressDebugMsg: u16, DisableUserStackWalk: u16, RtlExceptionAttached: u16, InitialThread: u16, SessionAware: u16, LoadOwner: u16, LoaderWorker: u16, SkipLoaderInit: u16, SkipFileAPIBrokering: u16) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 1u8, SafeThunkCall as u64);
         bitfield_unit.set(1usize, 1u8, InDebugPrint as u64);
         bitfield_unit.set(2usize, 1u8, HasFiberData as u64);
@@ -1176,26 +1099,7 @@ impl std::fmt::Debug for TEB {
         write!(
             f,
             "TEB {{ ProcessEnvironmentBlock: {:?}, User32Reserved: {:?}, UserReserved: {:?}, ReservedForDebuggerInstrumentation: {:?}, SystemReserved1: {:?}, PlaceholderReserved: {:?}, WorkingOnBehalfTicket: {:?}, GdiTebBatch: {:?}, Win32ClientInfo: {:?}, glDispatchTable: {:?}, glReserved1: {:?}, StaticUnicodeBuffer: {:?}, TlsSlots: {:?}, DbgSsReserved: {:?}, Instrumentation: {:?}, Anonymous1: {:?}, TlsExpansionSlots: {:?}, ActiveFrame: {:?}, Anonymous2: {:?}, Anonymous3: {:?} }}",
-            self.ProcessEnvironmentBlock,
-            self.User32Reserved,
-            self.UserReserved,
-            self.ReservedForDebuggerInstrumentation,
-            self.SystemReserved1,
-            self.PlaceholderReserved,
-            self.WorkingOnBehalfTicket,
-            self.GdiTebBatch,
-            self.Win32ClientInfo,
-            self.glDispatchTable,
-            self.glReserved1,
-            self.StaticUnicodeBuffer,
-            self.TlsSlots,
-            self.DbgSsReserved,
-            self.Instrumentation,
-            self.Anonymous1,
-            self.TlsExpansionSlots,
-            self.ActiveFrame,
-            self.Anonymous2,
-            self.Anonymous3
+            self.ProcessEnvironmentBlock, self.User32Reserved, self.UserReserved, self.ReservedForDebuggerInstrumentation, self.SystemReserved1, self.PlaceholderReserved, self.WorkingOnBehalfTicket, self.GdiTebBatch, self.Win32ClientInfo, self.glDispatchTable, self.glReserved1, self.StaticUnicodeBuffer, self.TlsSlots, self.DbgSsReserved, self.Instrumentation, self.Anonymous1, self.TlsExpansionSlots, self.ActiveFrame, self.Anonymous2, self.Anonymous3
         )
     }
 }

@@ -1,6 +1,9 @@
 use windows::{
     core::{w, GUID, PCWSTR, PSTR, PWSTR},
-    Wdk::System::SystemServices::KSYSTEM_TIME,
+    Wdk::{
+        Storage::FileSystem::{NLSTABLEINFO},
+        System::SystemServices::{KSYSTEM_TIME, RTL_BITMAP, RTL_QUERY_REGISTRY_TABLE, TIME_FIELDS},
+    },
     Win32::{
         Foundation::{BOOL, BOOLEAN, HANDLE, LUID, NTSTATUS, PSID, UNICODE_STRING},
         Security::{ACE_HEADER, ACL, ACL_INFORMATION_CLASS, CLAIM_SECURITY_ATTRIBUTES_INFORMATION, GENERIC_MAPPING, LUID_AND_ATTRIBUTES, SECURITY_DESCRIPTOR, SECURITY_DESCRIPTOR_CONTROL, SECURITY_IMPERSONATION_LEVEL, SID_AND_ATTRIBUTES, SID_AND_ATTRIBUTES_HASH},
@@ -8,7 +11,7 @@ use windows::{
             ApplicationInstallationAndServicing::{ACTCTX_SECTION_KEYED_DATA, ACTIVATION_CONTEXT_QUERY_INDEX},
             Diagnostics::Debug::{CONTEXT, EXCEPTION_POINTERS, EXCEPTION_RECORD, IMAGE_NT_HEADERS64, IMAGE_RUNTIME_FUNCTION_ENTRY, IMAGE_SECTION_HEADER, PGET_RUNTIME_FUNCTION_CALLBACK, PVECTORED_EXCEPTION_HANDLER, WOW64_CONTEXT, XSAVE_AREA_HEADER},
             Kernel::{LIST_ENTRY, PROCESSOR_NUMBER, RTL_BALANCED_NODE, STRING, WNF_STATE_NAME},
-            Memory::{HEAP_INFORMATION_CLASS, MEM_EXTENDED_PARAMETER},
+            Memory::HEAP_INFORMATION_CLASS,
             Performance::HardwareCounterProfiling::PERFORMANCE_DATA,
             SystemServices::ACTIVATION_CONTEXT_INFO_CLASS,
             Threading::{APC_CALLBACK_FUNCTION, CONDITION_VARIABLE, CRITICAL_SECTION, CRITICAL_SECTION_DEBUG, LPTHREAD_START_ROUTINE, PFLS_CALLBACK_FUNCTION, SRWLOCK, SYNCHRONIZATION_BARRIER, WORKERCALLBACKFUNC},
@@ -24,7 +27,6 @@ use crate::{
     ntexapi::{RTL_PROCESS_BACKTRACES, RTL_PROCESS_LOCKS, WNF_TYPE_ID},
     ntldr::{RTL_PROCESS_MODULES, RTL_PROCESS_MODULE_INFORMATION_EX},
     ntmmapi::SECTION_IMAGE_INFORMATION,
-    ntnls::NLSTABLEINFO,
     ntobapi::OBJECT_BOUNDARY_DESCRIPTOR,
     ntpebteb::{PEB, TEB, TEB_ACTIVE_FRAME},
     ntpsapi::{INITIAL_TEB, PPS_APC_ROUTINE, PS_PROTECTION, PUSER_THREAD_START_ROUTINE, THREAD_STATE_CHANGE_TYPE},
@@ -192,85 +194,6 @@ pub const RtlWin32NtRoot: UNICODE_STRING = UNICODE_STRING { Length: 3, MaximumLe
 pub const RtlWin32NtUncRoot: UNICODE_STRING = UNICODE_STRING { Length: 7, MaximumLength: 7, Buffer: PWSTR(w!("\\\\?\\UNC").as_ptr() as *mut u16) };
 pub const RtlWin32NtUncRootSlash: UNICODE_STRING = UNICODE_STRING { Length: 8, MaximumLength: 8, Buffer: PWSTR(w!("\\\\?\\UNC\\").as_ptr() as *mut u16) };
 pub const RtlDefaultExtension: UNICODE_STRING = UNICODE_STRING { Length: 4, MaximumLength: 4, Buffer: PWSTR(w!(".DLL").as_ptr() as *mut u16) };
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum TABLE_SEARCH_RESULT {
-    TableEmptyTree = 0,
-    TableFoundNode = 1,
-    TableInsertAsLeft = 2,
-    TableInsertAsRight = 3,
-}
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum RTL_GENERIC_COMPARE_RESULTS {
-    GenericLessThan = 0,
-    GenericGreaterThan = 1,
-    GenericEqual = 2,
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct RTL_AVL_TABLE {
-    _unused: [u8; 0],
-}
-pub type PRTL_AVL_COMPARE_ROUTINE = std::option::Option<unsafe extern "system" fn(Table: *mut RTL_AVL_TABLE, FirstStruct: *mut std::ffi::c_void, SecondStruct: *mut std::ffi::c_void) -> RTL_GENERIC_COMPARE_RESULTS>;
-pub type PRTL_AVL_ALLOCATE_ROUTINE = std::option::Option<unsafe extern "system" fn(Table: *mut RTL_AVL_TABLE, ByteSize: u32) -> *mut std::ffi::c_void>;
-pub type PRTL_AVL_FREE_ROUTINE = std::option::Option<unsafe extern "system" fn(Table: *mut RTL_AVL_TABLE, Buffer: *mut std::ffi::c_void)>;
-pub type PRTL_AVL_MATCH_FUNCTION = std::option::Option<unsafe extern "system" fn(Table: *mut RTL_AVL_TABLE, UserData: *mut std::ffi::c_void, MatchData: *mut std::ffi::c_void) -> NTSTATUS>;
-#[repr(C)]
-pub struct RTL_BALANCED_LINKS {
-    pub Parent: *mut RTL_BALANCED_LINKS,
-    pub LeftChild: *mut RTL_BALANCED_LINKS,
-    pub RightChild: *mut RTL_BALANCED_LINKS,
-    pub Balance: i8,
-    pub Reserved: [u8; 3usize],
-}
-impl Default for RTL_BALANCED_LINKS {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_BALANCED_LINKS {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_BALANCED_LINKS {{ Parent: {:?}, LeftChild: {:?}, RightChild: {:?}, Reserved: {:?} }}", self.Parent, self.LeftChild, self.RightChild, self.Reserved)
-    }
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct RTL_SPLAY_LINKS {
-    pub Parent: *mut RTL_SPLAY_LINKS,
-    pub LeftChild: *mut RTL_SPLAY_LINKS,
-    pub RightChild: *mut RTL_SPLAY_LINKS,
-}
-impl Default for RTL_SPLAY_LINKS {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-pub type PRTL_GENERIC_COMPARE_ROUTINE = std::option::Option<unsafe extern "system" fn(Table: *mut RTL_GENERIC_TABLE, FirstStruct: *mut std::ffi::c_void, SecondStruct: *mut std::ffi::c_void) -> RTL_GENERIC_COMPARE_RESULTS>;
-pub type PRTL_GENERIC_ALLOCATE_ROUTINE = std::option::Option<unsafe extern "system" fn(Table: *mut RTL_GENERIC_TABLE, ByteSize: u32) -> *mut std::ffi::c_void>;
-pub type PRTL_GENERIC_FREE_ROUTINE = std::option::Option<unsafe extern "system" fn(Table: *mut RTL_GENERIC_TABLE, Buffer: *mut std::ffi::c_void)>;
-#[repr(C)]
-pub struct RTL_GENERIC_TABLE {
-    pub TableRoot: *mut RTL_SPLAY_LINKS,
-    pub InsertOrderList: LIST_ENTRY,
-    pub OrderedPointer: *mut LIST_ENTRY,
-    pub WhichOrderedElement: u32,
-    pub NumberGenericTableElements: u32,
-    pub CompareRoutine: PRTL_GENERIC_COMPARE_ROUTINE,
-    pub AllocateRoutine: PRTL_GENERIC_ALLOCATE_ROUTINE,
-    pub FreeRoutine: PRTL_GENERIC_FREE_ROUTINE,
-    pub TableContext: *mut std::ffi::c_void,
-}
-impl Default for RTL_GENERIC_TABLE {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_GENERIC_TABLE {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_GENERIC_TABLE {{ TableRoot: {:?}, CompareRoutine: {:?}, AllocateRoutine: {:?}, FreeRoutine: {:?} }}", self.TableRoot, self.CompareRoutine, self.AllocateRoutine, self.FreeRoutine)
-    }
-}
 #[repr(C)]
 pub struct RTL_RB_TREE {
     pub Root: *mut RTL_BALANCED_NODE,
@@ -293,75 +216,6 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlRbRemoveNode(Tree: *mut RTL_RB_TREE, Node: *mut RTL_BALANCED_NODE) -> BOOLEAN;
-}
-#[repr(C)]
-pub struct RTL_DYNAMIC_HASH_TABLE_ENTRY {
-    pub Linkage: LIST_ENTRY,
-    pub Signature: usize,
-}
-impl Default for RTL_DYNAMIC_HASH_TABLE_ENTRY {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_DYNAMIC_HASH_TABLE_ENTRY {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_DYNAMIC_HASH_TABLE_ENTRY {{  }}")
-    }
-}
-#[repr(C)]
-pub struct RTL_DYNAMIC_HASH_TABLE_CONTEXT {
-    pub ChainHead: *mut LIST_ENTRY,
-    pub PrevLinkage: *mut LIST_ENTRY,
-    pub Signature: usize,
-}
-impl Default for RTL_DYNAMIC_HASH_TABLE_CONTEXT {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_DYNAMIC_HASH_TABLE_CONTEXT {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_DYNAMIC_HASH_TABLE_CONTEXT {{  }}")
-    }
-}
-#[repr(C)]
-pub struct RTL_DYNAMIC_HASH_TABLE_ENUMERATOR {
-    pub HashEntry: RTL_DYNAMIC_HASH_TABLE_ENTRY,
-    pub ChainHead: *mut LIST_ENTRY,
-    pub BucketIndex: u32,
-}
-impl Default for RTL_DYNAMIC_HASH_TABLE_ENUMERATOR {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_DYNAMIC_HASH_TABLE_ENUMERATOR {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_DYNAMIC_HASH_TABLE_ENUMERATOR {{ HashEntry: {:?} }}", self.HashEntry)
-    }
-}
-#[repr(C)]
-pub struct RTL_DYNAMIC_HASH_TABLE {
-    pub Flags: u32,
-    pub Shift: u32,
-    pub TableSize: u32,
-    pub Pivot: u32,
-    pub DivisorMask: u32,
-    pub NumEntries: u32,
-    pub NonEmptyBuckets: u32,
-    pub NumEnumerators: u32,
-    pub Directory: *mut std::ffi::c_void,
-}
-impl Default for RTL_DYNAMIC_HASH_TABLE {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_DYNAMIC_HASH_TABLE {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_DYNAMIC_HASH_TABLE {{  }}")
-    }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -633,96 +487,6 @@ extern "system" {
 extern "system" {
     pub fn RtlStringFromGUIDEx(Guid: *mut GUID, GuidString: *mut UNICODE_STRING, AllocateGuidString: BOOLEAN) -> NTSTATUS;
 }
-#[repr(C)]
-pub struct PREFIX_TABLE_ENTRY {
-    pub NodeTypeCode: i16,
-    pub NameLength: i16,
-    pub NextPrefixTree: *mut PREFIX_TABLE_ENTRY,
-    pub Links: RTL_SPLAY_LINKS,
-    pub Prefix: *mut STRING,
-}
-impl Default for PREFIX_TABLE_ENTRY {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PREFIX_TABLE_ENTRY {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PREFIX_TABLE_ENTRY {{ NextPrefixTree: {:?}, Links: {:?} }}", self.NextPrefixTree, self.Links)
-    }
-}
-#[repr(C)]
-pub struct PREFIX_TABLE {
-    pub NodeTypeCode: i16,
-    pub NameLength: i16,
-    pub NextPrefixTree: *mut PREFIX_TABLE_ENTRY,
-}
-impl Default for PREFIX_TABLE {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PREFIX_TABLE {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PREFIX_TABLE {{ NextPrefixTree: {:?} }}", self.NextPrefixTree)
-    }
-}
-#[repr(C)]
-pub struct UNICODE_PREFIX_TABLE_ENTRY {
-    pub NodeTypeCode: i16,
-    pub NameLength: i16,
-    pub NextPrefixTree: *mut UNICODE_PREFIX_TABLE_ENTRY,
-    pub CaseMatch: *mut UNICODE_PREFIX_TABLE_ENTRY,
-    pub Links: RTL_SPLAY_LINKS,
-    pub Prefix: *mut UNICODE_STRING,
-}
-impl Default for UNICODE_PREFIX_TABLE_ENTRY {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for UNICODE_PREFIX_TABLE_ENTRY {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "UNICODE_PREFIX_TABLE_ENTRY {{ NextPrefixTree: {:?}, CaseMatch: {:?}, Links: {:?} }}", self.NextPrefixTree, self.CaseMatch, self.Links)
-    }
-}
-#[repr(C)]
-pub struct UNICODE_PREFIX_TABLE {
-    pub NodeTypeCode: i16,
-    pub NameLength: i16,
-    pub NextPrefixTree: *mut UNICODE_PREFIX_TABLE_ENTRY,
-    pub LastNextEntry: *mut UNICODE_PREFIX_TABLE_ENTRY,
-}
-impl Default for UNICODE_PREFIX_TABLE {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for UNICODE_PREFIX_TABLE {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "UNICODE_PREFIX_TABLE {{ NextPrefixTree: {:?}, LastNextEntry: {:?} }}", self.NextPrefixTree, self.LastNextEntry)
-    }
-}
-#[repr(C)]
-pub struct COMPRESSED_DATA_INFO {
-    pub CompressionFormatAndEngine: u16,
-    pub CompressionUnitShift: u8,
-    pub ChunkShift: u8,
-    pub ClusterShift: u8,
-    pub Reserved: u8,
-    pub NumberOfChunks: u16,
-    pub CompressedChunkSizes: [u32; 1usize],
-}
-impl Default for COMPRESSED_DATA_INFO {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for COMPRESSED_DATA_INFO {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "COMPRESSED_DATA_INFO {{ CompressedChunkSizes: {:?} }}", self.CompressedChunkSizes)
-    }
-}
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlConvertLCIDToString(LcidValue: u32, Base: u32, Padding: u32, pResultBuf: PWSTR, Size: u32) -> NTSTATUS;
@@ -844,7 +608,7 @@ pub struct RTL_USER_PROCESS_PARAMETERS {
     pub DesktopInfo: UNICODE_STRING,
     pub ShellInfo: UNICODE_STRING,
     pub RuntimeData: UNICODE_STRING,
-    pub CurrentDirectories: [RTL_DRIVE_LETTER_CURDIR; 32usize],
+    pub CurrentDirectories: [RTL_DRIVE_LETTER_CURDIR; 32],
     pub EnvironmentSize: usize,
     pub EnvironmentVersion: usize,
     pub PackageDependencyData: *mut std::ffi::c_void,
@@ -966,7 +730,6 @@ impl std::fmt::Debug for RTLP_PROCESS_REFLECTION_REFLECTION_INFORMATION {
         write!(f, "RTLP_PROCESS_REFLECTION_REFLECTION_INFORMATION {{  }}")
     }
 }
-pub type PROCESS_REFLECTION_INFORMATION = RTLP_PROCESS_REFLECTION_REFLECTION_INFORMATION;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCreateProcessReflection(ProcessHandle: HANDLE, Flags: u32, StartRoutine: *mut std::ffi::c_void, StartContext: *mut std::ffi::c_void, EventHandle: HANDLE, ReflectionInformation: *mut RTLP_PROCESS_REFLECTION_REFLECTION_INFORMATION) -> NTSTATUS;
@@ -1406,7 +1169,7 @@ impl std::fmt::Debug for RTL_BUFFER {
 pub struct RTL_UNICODE_STRING_BUFFER {
     pub String: UNICODE_STRING,
     pub ByteBuffer: RTL_BUFFER,
-    pub MinimumStaticBufferForTerminalNul: [u8; 2usize],
+    pub MinimumStaticBufferForTerminalNul: [u8; 2],
 }
 impl Default for RTL_UNICODE_STRING_BUFFER {
     fn default() -> Self {
@@ -1474,26 +1237,6 @@ extern "system" {
 extern "system" {
     pub fn RtlGetLengthWithoutTrailingPathSeperators(Flags: u32, PathString: *mut UNICODE_STRING, Length: *mut u32) -> NTSTATUS;
 }
-#[repr(C)]
-pub struct GENERATE_NAME_CONTEXT {
-    pub Checksum: u16,
-    pub CheckSumInserted: BOOLEAN,
-    pub NameLength: u8,
-    pub NameBuffer: [u16; 8usize],
-    pub ExtensionLength: u32,
-    pub ExtensionBuffer: [u16; 4usize],
-    pub LastIndexValue: u32,
-}
-impl Default for GENERATE_NAME_CONTEXT {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for GENERATE_NAME_CONTEXT {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "GENERATE_NAME_CONTEXT {{ NameBuffer: {:?}, ExtensionBuffer: {:?} }}", self.NameBuffer, self.ExtensionBuffer)
-    }
-}
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlComputePrivatizedDllName_U(DllName: *mut UNICODE_STRING, RealName: *mut UNICODE_STRING, LocalName: *mut UNICODE_STRING) -> NTSTATUS;
@@ -1549,7 +1292,7 @@ pub struct RTL_HEAP_ENTRY {
 pub struct RTL_HEAP_ENTRY_1 {
     pub s1: UnionField<RTL_HEAP_ENTRY_1_1>,
     pub s2: UnionField<RTL_HEAP_ENTRY_1_2>,
-    pub union_field: [u64; 2usize],
+    pub union_field: [u64; 2],
 }
 #[repr(C)]
 pub struct RTL_HEAP_ENTRY_1_1 {
@@ -1608,7 +1351,7 @@ pub struct RTL_HEAP_TAG {
     pub BytesAllocated: usize,
     pub TagIndex: u16,
     pub CreatorBackTraceIndex: u16,
-    pub TagName: [u16; 24usize],
+    pub TagName: [u16; 24],
 }
 impl Default for RTL_HEAP_TAG {
     fn default() -> Self {
@@ -1632,7 +1375,7 @@ pub struct RTL_HEAP_INFORMATION_V1 {
     pub NumberOfEntries: u32,
     pub NumberOfPseudoTags: u32,
     pub PseudoTagGranularity: u32,
-    pub Reserved: [u32; 5usize],
+    pub Reserved: [u32; 5],
     pub Tags: *mut RTL_HEAP_TAG,
     pub Entries: *mut RTL_HEAP_ENTRY,
 }
@@ -1658,7 +1401,7 @@ pub struct RTL_HEAP_INFORMATION_V2 {
     pub NumberOfEntries: u32,
     pub NumberOfPseudoTags: u32,
     pub PseudoTagGranularity: u32,
-    pub Reserved: [u32; 5usize],
+    pub Reserved: [u32; 5],
     pub Tags: *mut RTL_HEAP_TAG,
     pub Entries: *mut RTL_HEAP_ENTRY,
     pub HeapTag: u64,
@@ -1676,7 +1419,7 @@ impl std::fmt::Debug for RTL_HEAP_INFORMATION_V2 {
 #[repr(C)]
 pub struct RTL_PROCESS_HEAPS_V1 {
     pub NumberOfHeaps: u32,
-    pub Heaps: [RTL_HEAP_INFORMATION_V1; 1usize],
+    pub Heaps: [RTL_HEAP_INFORMATION_V1; 1],
 }
 impl Default for RTL_PROCESS_HEAPS_V1 {
     fn default() -> Self {
@@ -1691,7 +1434,7 @@ impl std::fmt::Debug for RTL_PROCESS_HEAPS_V1 {
 #[repr(C)]
 pub struct RTL_PROCESS_HEAPS_V2 {
     pub NumberOfHeaps: u32,
-    pub Heaps: [RTL_HEAP_INFORMATION_V2; 1usize],
+    pub Heaps: [RTL_HEAP_INFORMATION_V2; 1],
 }
 impl Default for RTL_PROCESS_HEAPS_V2 {
     fn default() -> Self {
@@ -1701,122 +1444,6 @@ impl Default for RTL_PROCESS_HEAPS_V2 {
 impl std::fmt::Debug for RTL_PROCESS_HEAPS_V2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "RTL_PROCESS_HEAPS_V2 {{ Heaps: {:?} }}", self.Heaps)
-    }
-}
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum RTL_MEMORY_TYPE {
-    MemoryTypePaged = 0,
-    MemoryTypeNonPaged = 1,
-    MemoryType64KPage = 2,
-    MemoryTypeLargePage = 3,
-    MemoryTypeHugePage = 4,
-    MemoryTypeCustom = 5,
-    MemoryTypeMax = 6,
-}
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum HEAP_MEMORY_INFO_CLASS {
-    HeapMemoryBasicInformation = 0,
-}
-pub type ALLOCATE_VIRTUAL_MEMORY_EX_CALLBACK = std::option::Option<unsafe extern "system" fn(CallbackContext: HANDLE, ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, AllocationType: u32, PageProtection: u32, ExtendedParameters: *mut MEM_EXTENDED_PARAMETER, ExtendedParameterCount: u32) -> NTSTATUS>;
-pub type PALLOCATE_VIRTUAL_MEMORY_EX_CALLBACK = ALLOCATE_VIRTUAL_MEMORY_EX_CALLBACK;
-pub type FREE_VIRTUAL_MEMORY_EX_CALLBACK = std::option::Option<unsafe extern "system" fn(CallbackContext: HANDLE, ProcessHandle: HANDLE, BaseAddress: *mut *mut std::ffi::c_void, RegionSize: *mut usize, FreeType: u32) -> NTSTATUS>;
-pub type PFREE_VIRTUAL_MEMORY_EX_CALLBACK = FREE_VIRTUAL_MEMORY_EX_CALLBACK;
-pub type QUERY_VIRTUAL_MEMORY_CALLBACK = std::option::Option<unsafe extern "system" fn(CallbackContext: HANDLE, ProcessHandle: HANDLE, BaseAddress: *mut std::ffi::c_void, MemoryInformationClass: HEAP_MEMORY_INFO_CLASS, MemoryInformation: *mut std::ffi::c_void, MemoryInformationLength: usize, ReturnLength: *mut usize) -> NTSTATUS>;
-pub type PQUERY_VIRTUAL_MEMORY_CALLBACK = QUERY_VIRTUAL_MEMORY_CALLBACK;
-#[repr(C)]
-pub struct RTL_SEGMENT_HEAP_VA_CALLBACKS {
-    pub CallbackContext: HANDLE,
-    pub AllocateVirtualMemory: PALLOCATE_VIRTUAL_MEMORY_EX_CALLBACK,
-    pub FreeVirtualMemory: PFREE_VIRTUAL_MEMORY_EX_CALLBACK,
-    pub QueryVirtualMemory: PQUERY_VIRTUAL_MEMORY_CALLBACK,
-}
-impl Default for RTL_SEGMENT_HEAP_VA_CALLBACKS {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_SEGMENT_HEAP_VA_CALLBACKS {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_SEGMENT_HEAP_VA_CALLBACKS {{ AllocateVirtualMemory: {:?}, FreeVirtualMemory: {:?}, QueryVirtualMemory: {:?} }}", self.AllocateVirtualMemory, self.FreeVirtualMemory, self.QueryVirtualMemory)
-    }
-}
-#[repr(C)]
-pub struct RTL_SEGMENT_HEAP_MEMORY_SOURCE {
-    pub Flags: u32,
-    pub MemoryTypeMask: u32,
-    pub NumaNode: u32,
-    pub Anonymous1: RTL_SEGMENT_HEAP_MEMORY_SOURCE_1,
-    pub Reserved: [usize; 2usize],
-}
-#[repr(C)]
-pub struct RTL_SEGMENT_HEAP_MEMORY_SOURCE_1 {
-    pub PartitionHandle: UnionField<HANDLE>,
-    pub Callbacks: UnionField<*mut RTL_SEGMENT_HEAP_VA_CALLBACKS>,
-    pub union_field: u64,
-}
-impl Default for RTL_SEGMENT_HEAP_MEMORY_SOURCE_1 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_SEGMENT_HEAP_MEMORY_SOURCE_1 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_SEGMENT_HEAP_MEMORY_SOURCE_1 {{ union }}")
-    }
-}
-impl Default for RTL_SEGMENT_HEAP_MEMORY_SOURCE {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_SEGMENT_HEAP_MEMORY_SOURCE {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_SEGMENT_HEAP_MEMORY_SOURCE {{ Anonymous1: {:?}, Reserved: {:?} }}", self.Anonymous1, self.Reserved)
-    }
-}
-#[repr(C)]
-pub struct RTL_SEGMENT_HEAP_PARAMETERS {
-    pub Version: u16,
-    pub Size: u16,
-    pub Flags: u32,
-    pub MemorySource: RTL_SEGMENT_HEAP_MEMORY_SOURCE,
-    pub Reserved: [usize; 4usize],
-}
-impl Default for RTL_SEGMENT_HEAP_PARAMETERS {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_SEGMENT_HEAP_PARAMETERS {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_SEGMENT_HEAP_PARAMETERS {{ MemorySource: {:?}, Reserved: {:?} }}", self.MemorySource, self.Reserved)
-    }
-}
-pub type PRTL_HEAP_COMMIT_ROUTINE = std::option::Option<unsafe extern "system" fn(arg1: *mut std::ffi::c_void, arg2: *mut *mut std::ffi::c_void, arg3: *mut usize) -> NTSTATUS>;
-#[repr(C)]
-pub struct RTL_HEAP_PARAMETERS {
-    pub Length: u32,
-    pub SegmentReserve: usize,
-    pub SegmentCommit: usize,
-    pub DeCommitFreeBlockThreshold: usize,
-    pub DeCommitTotalFreeThreshold: usize,
-    pub MaximumAllocationSize: usize,
-    pub VirtualMemoryThreshold: usize,
-    pub InitialCommit: usize,
-    pub InitialReserve: usize,
-    pub CommitRoutine: PRTL_HEAP_COMMIT_ROUTINE,
-    pub Reserved: [usize; 2usize],
-}
-impl Default for RTL_HEAP_PARAMETERS {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_HEAP_PARAMETERS {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_HEAP_PARAMETERS {{ CommitRoutine: {:?}, Reserved: {:?} }}", self.CommitRoutine, self.Reserved)
     }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1932,7 +1559,7 @@ pub struct RTL_HEAP_USAGE {
     pub Entries: *mut RTL_HEAP_USAGE_ENTRY,
     pub AddedEntries: *mut RTL_HEAP_USAGE_ENTRY,
     pub RemovedEntries: *mut RTL_HEAP_USAGE_ENTRY,
-    pub Reserved: [usize; 8usize],
+    pub Reserved: [usize; 8],
 }
 impl Default for RTL_HEAP_USAGE {
     fn default() -> Self {
@@ -1961,14 +1588,14 @@ pub struct RTL_HEAP_WALK_ENTRY {
 pub struct RTL_HEAP_WALK_ENTRY_1 {
     pub Block: UnionField<RTL_HEAP_WALK_ENTRY_1_1>,
     pub Segment: UnionField<RTL_HEAP_WALK_ENTRY_1_2>,
-    pub union_field: [u64; 3usize],
+    pub union_field: [u64; 3],
 }
 #[repr(C)]
 pub struct RTL_HEAP_WALK_ENTRY_1_1 {
     pub Settable: usize,
     pub TagIndex: u16,
     pub AllocatorBackTraceIndex: u16,
-    pub Reserved: [u32; 2usize],
+    pub Reserved: [u32; 2],
 }
 impl Default for RTL_HEAP_WALK_ENTRY_1_1 {
     fn default() -> Self {
@@ -2049,7 +1676,7 @@ pub struct RTLP_HEAP_TAGGING_INFO {
     pub Flags: u16,
     pub ProcessHandle: *mut std::ffi::c_void,
     pub EntriesCount: usize,
-    pub Entries: [RTLP_TAG_INFO; 1usize],
+    pub Entries: [RTLP_TAG_INFO; 1],
 }
 impl Default for RTLP_HEAP_TAGGING_INFO {
     fn default() -> Self {
@@ -2217,7 +1844,7 @@ pub struct HEAP_INFORMATION_ITEM_1 {
     pub HeapBlockInformation: UnionField<HEAP_BLOCK_INFORMATION>,
     pub HeapPerfInformation: UnionField<HEAP_PERFORMANCE_COUNTERS_INFORMATION>,
     pub DynamicStart: UnionField<usize>,
-    pub union_field: [u64; 19usize],
+    pub union_field: [u64; 19],
 }
 impl Default for HEAP_INFORMATION_ITEM_1 {
     fn default() -> Self {
@@ -2253,7 +1880,7 @@ pub struct HEAP_EXTENDED_INFORMATION {
 pub struct HEAP_EXTENDED_INFORMATION_1 {
     pub ProcessHeapInformation: UnionField<PROCESS_HEAP_INFORMATION>,
     pub HeapInformation: UnionField<HEAP_INFORMATION>,
-    pub union_field: [u64; 6usize],
+    pub union_field: [u64; 6],
 }
 impl Default for HEAP_EXTENDED_INFORMATION_1 {
     fn default() -> Self {
@@ -2328,7 +1955,7 @@ impl std::fmt::Debug for RTLP_HEAP_STACK_TRACE_SERIALIZATION_ALLOCATION {
 }
 #[repr(C)]
 pub struct RTLP_HEAP_STACK_TRACE_SERIALIZATION_STACKFRAME {
-    pub StackFrame: [*mut std::ffi::c_void; 8usize],
+    pub StackFrame: [*mut std::ffi::c_void; 8],
 }
 impl Default for RTLP_HEAP_STACK_TRACE_SERIALIZATION_STACKFRAME {
     fn default() -> Self {
@@ -2539,7 +2166,7 @@ extern "system" {
 pub struct RTL_PROCESS_VERIFIER_OPTIONS {
     pub SizeStruct: u32,
     pub Option: u32,
-    pub OptionData: [u8; 1usize],
+    pub OptionData: [u8; 1],
 }
 impl Default for RTL_PROCESS_VERIFIER_OPTIONS {
     fn default() -> Self {
@@ -2575,7 +2202,7 @@ pub struct RTL_DEBUG_INFORMATION {
     pub ProcessHeap: *mut std::ffi::c_void,
     pub CriticalSectionHandle: HANDLE,
     pub CriticalSectionOwnerThread: HANDLE,
-    pub Reserved: [*mut std::ffi::c_void; 4usize],
+    pub Reserved: [*mut std::ffi::c_void; 4],
 }
 #[repr(C)]
 pub struct RTL_DEBUG_INFORMATION_1 {
@@ -2725,39 +2352,19 @@ extern "system" {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct in_addr {
-    _unused: [u8; 0],
+    pub s_addr: u32,
 }
 pub type IN_ADDR = in_addr;
 pub type PIN_ADDR = *mut in_addr;
 #[repr(C)]
+#[repr(align(4))]
 #[derive(Debug, Copy, Clone)]
 pub struct in6_addr {
-    _unused: [u8; 0],
+    pub s6_addr: [u8; 16],
 }
 pub type IN6_ADDR = in6_addr;
 pub type PCIN_ADDR = *const IN_ADDR;
 pub type PCIN6_ADDR = *const IN6_ADDR;
-#[repr(C)]
-pub struct TIME_FIELDS {
-    pub Year: i16,
-    pub Month: i16,
-    pub Day: i16,
-    pub Hour: i16,
-    pub Minute: i16,
-    pub Second: i16,
-    pub Milliseconds: i16,
-    pub Weekday: i16,
-}
-impl Default for TIME_FIELDS {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for TIME_FIELDS {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "TIME_FIELDS {{  }}")
-    }
-}
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCutoverTimeToSystemTime(CutoverTime: *mut TIME_FIELDS, SystemTime: *mut i64, CurrentSystemTime: *mut i64, ThisYear: BOOLEAN) -> BOOLEAN;
@@ -2789,10 +2396,10 @@ extern "system" {
 #[repr(C)]
 pub struct RTL_TIME_ZONE_INFORMATION {
     pub Bias: i32,
-    pub StandardName: [u16; 32usize],
+    pub StandardName: [u16; 32],
     pub StandardStart: TIME_FIELDS,
     pub StandardBias: i32,
-    pub DaylightName: [u16; 32usize],
+    pub DaylightName: [u16; 32],
     pub DaylightStart: TIME_FIELDS,
     pub DaylightBias: i32,
 }
@@ -2813,36 +2420,6 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetTimeZoneInformation(TimeZoneInformation: *mut RTL_TIME_ZONE_INFORMATION) -> NTSTATUS;
-}
-#[repr(C)]
-pub struct RTL_BITMAP {
-    pub SizeOfBitMap: u32,
-    pub Buffer: *mut u32,
-}
-impl Default for RTL_BITMAP {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_BITMAP {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_BITMAP {{  }}")
-    }
-}
-#[repr(C)]
-pub struct RTL_BITMAP_RUN {
-    pub StartingIndex: u32,
-    pub NumberOfBits: u32,
-}
-impl Default for RTL_BITMAP_RUN {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_BITMAP_RUN {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_BITMAP_RUN {{  }}")
-    }
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -2929,7 +2506,7 @@ impl std::fmt::Debug for RTL_HANDLE_TABLE_ENTRY {
 pub struct RTL_HANDLE_TABLE {
     pub MaximumNumberOfHandles: u32,
     pub SizeOfHandleTableEntry: u32,
-    pub Reserved: [u32; 2usize],
+    pub Reserved: [u32; 2],
     pub FreeHandles: *mut RTL_HANDLE_TABLE_ENTRY,
     pub CommittedHandles: *mut RTL_HANDLE_TABLE_ENTRY,
     pub UnCommittedHandles: *mut RTL_HANDLE_TABLE_ENTRY,
@@ -3346,27 +2923,6 @@ extern "system" {
 extern "system" {
     pub fn RtlOpenCurrentUser(DesiredAccess: u32, CurrentUserKey: *mut HANDLE) -> NTSTATUS;
 }
-pub type PRTL_QUERY_REGISTRY_ROUTINE = std::option::Option<unsafe extern "system" fn(arg1: PWSTR, arg2: u32, arg3: *mut std::ffi::c_void, arg4: u32, arg5: *mut std::ffi::c_void, arg6: *mut std::ffi::c_void) -> NTSTATUS>;
-#[repr(C)]
-pub struct RTL_QUERY_REGISTRY_TABLE {
-    pub QueryRoutine: PRTL_QUERY_REGISTRY_ROUTINE,
-    pub Flags: u32,
-    pub Name: PWSTR,
-    pub EntryContext: *mut std::ffi::c_void,
-    pub DefaultType: u32,
-    pub DefaultData: *mut std::ffi::c_void,
-    pub DefaultLength: u32,
-}
-impl Default for RTL_QUERY_REGISTRY_TABLE {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for RTL_QUERY_REGISTRY_TABLE {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RTL_QUERY_REGISTRY_TABLE {{ QueryRoutine: {:?} }}", self.QueryRoutine)
-    }
-}
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlQueryRegistryValuesEx(RelativeTo: u32, Path: PCWSTR, QueryTable: *mut RTL_QUERY_REGISTRY_TABLE, Context: *mut std::ffi::c_void, Environment: *mut std::ffi::c_void) -> NTSTATUS;
@@ -3473,7 +3029,7 @@ pub struct RTL_ELEVATION_FLAGS {
 #[repr(align(4))]
 pub struct RTL_ELEVATION_FLAGS_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for RTL_ELEVATION_FLAGS_1 {
     fn default() -> Self {
@@ -3519,8 +3075,8 @@ impl RTL_ELEVATION_FLAGS_1 {
         self._bitfield_1.set(3usize, 29u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(ElevationEnabled: u32, VirtualizationEnabled: u32, InstallerDetectEnabled: u32, ReservedBits: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(ElevationEnabled: u32, VirtualizationEnabled: u32, InstallerDetectEnabled: u32, ReservedBits: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ElevationEnabled as u64);
         bitfield_unit.set(1usize, 1u8, VirtualizationEnabled as u64);
         bitfield_unit.set(2usize, 1u8, InstallerDetectEnabled as u64);
@@ -3569,8 +3125,8 @@ pub struct RTL_UNLOAD_EVENT_TRACE {
     pub Sequence: u32,
     pub TimeDateStamp: u32,
     pub CheckSum: u32,
-    pub ImageName: [u16; 32usize],
-    pub Version: [u32; 2usize],
+    pub ImageName: [u16; 32],
+    pub Version: [u32; 2],
 }
 impl Default for RTL_UNLOAD_EVENT_TRACE {
     fn default() -> Self {
@@ -3589,8 +3145,8 @@ pub struct RTL_UNLOAD_EVENT_TRACE32 {
     pub Sequence: u32,
     pub TimeDateStamp: u32,
     pub CheckSum: u32,
-    pub ImageName: [u16; 32usize],
-    pub Version: [u32; 2usize],
+    pub ImageName: [u16; 32],
+    pub Version: [u32; 2],
 }
 impl Default for RTL_UNLOAD_EVENT_TRACE32 {
     fn default() -> Self {
@@ -3651,7 +3207,7 @@ pub struct RTL_IMAGE_MITIGATION_POLICY {
 #[repr(align(8))]
 pub struct RTL_IMAGE_MITIGATION_POLICY_1 {
     _bitfield_align_1: [u64; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for RTL_IMAGE_MITIGATION_POLICY_1 {
     fn default() -> Self {
@@ -3697,8 +3253,8 @@ impl RTL_IMAGE_MITIGATION_POLICY_1 {
         self._bitfield_1.set(4usize, 60u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(AuditState: u64, AuditFlag: u64, EnableAdditionalAuditingOption: u64, Reserved: u64) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(AuditState: u64, AuditFlag: u64, EnableAdditionalAuditingOption: u64, Reserved: u64) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 2u8, AuditState);
         bitfield_unit.set(2usize, 1u8, AuditFlag);
         bitfield_unit.set(3usize, 1u8, EnableAdditionalAuditingOption);
@@ -3710,7 +3266,7 @@ impl RTL_IMAGE_MITIGATION_POLICY_1 {
 #[repr(align(8))]
 pub struct RTL_IMAGE_MITIGATION_POLICY_2 {
     _bitfield_align_1: [u64; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for RTL_IMAGE_MITIGATION_POLICY_2 {
     fn default() -> Self {
@@ -3756,8 +3312,8 @@ impl RTL_IMAGE_MITIGATION_POLICY_2 {
         self._bitfield_1.set(4usize, 60u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(PolicyState: u64, AlwaysInherit: u64, EnableAdditionalPolicyOption: u64, AuditReserved: u64) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(PolicyState: u64, AlwaysInherit: u64, EnableAdditionalPolicyOption: u64, AuditReserved: u64) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 2u8, PolicyState);
         bitfield_unit.set(2usize, 1u8, AlwaysInherit);
         bitfield_unit.set(3usize, 1u8, EnableAdditionalPolicyOption);
@@ -3929,7 +3485,7 @@ pub struct RTL_IMAGE_MITIGATION_PAYLOAD_RESTRICTION_POLICY {
     pub EnableRopStackPivot: RTL_IMAGE_MITIGATION_POLICY,
     pub EnableRopCallerCheck: RTL_IMAGE_MITIGATION_POLICY,
     pub EnableRopSimExec: RTL_IMAGE_MITIGATION_POLICY,
-    pub EafPlusModuleList: [u16; 512usize],
+    pub EafPlusModuleList: [u16; 512],
 }
 impl Default for RTL_IMAGE_MITIGATION_PAYLOAD_RESTRICTION_POLICY {
     fn default() -> Self {
@@ -4129,13 +3685,6 @@ extern "system" {
 extern "system" {
     pub fn RtlFlsSetValue(FlsIndex: u32, FlsData: *mut std::ffi::c_void) -> NTSTATUS;
 }
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum STATE_LOCATION_TYPE {
-    LocationTypeRegistry = 0,
-    LocationTypeFileSystem = 1,
-    LocationTypeMaximum = 2,
-}
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlAppxIsFileOwnedByTrustedInstaller(FileHandle: HANDLE, IsFileOwnedByTrustedInstaller: *mut BOOLEAN) -> NTSTATUS;
@@ -4209,7 +3758,7 @@ pub struct RTL_BSD_DATA_POWER_TRANSITION {
 #[repr(C, packed)]
 pub struct RTL_BSD_DATA_POWER_TRANSITION_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
 }
 impl Default for RTL_BSD_DATA_POWER_TRANSITION_1 {
     fn default() -> Self {
@@ -4278,8 +3827,8 @@ impl RTL_BSD_DATA_POWER_TRANSITION_1 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(SystemRunning: BOOLEAN, ConnectedStandbyInProgress: BOOLEAN, UserShutdownInProgress: BOOLEAN, SystemShutdownInProgress: BOOLEAN, SleepInProgress: BOOLEAN) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(SystemRunning: BOOLEAN, ConnectedStandbyInProgress: BOOLEAN, UserShutdownInProgress: BOOLEAN, SystemShutdownInProgress: BOOLEAN, SleepInProgress: BOOLEAN) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let SystemRunning: u8 = unsafe { std::mem::transmute(SystemRunning) };
             SystemRunning as u64
@@ -4350,7 +3899,7 @@ pub struct RTL_BSD_POWER_BUTTON_PRESS_INFO {
 #[repr(C, packed)]
 pub struct RTL_BSD_POWER_BUTTON_PRESS_INFO_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
 }
 impl Default for RTL_BSD_POWER_BUTTON_PRESS_INFO_1 {
     fn default() -> Self {
@@ -4380,8 +3929,8 @@ impl RTL_BSD_POWER_BUTTON_PRESS_INFO_1 {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(WatchdogArmed: u8, ShutdownInProgress: u8) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(WatchdogArmed: u8, ShutdownInProgress: u8) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, WatchdogArmed as u64);
         bitfield_unit.set(1usize, 1u8, ShutdownInProgress as u64);
         bitfield_unit
@@ -4513,7 +4062,7 @@ pub struct RTL_FEATURE_CONFIGURATION_1 {
 #[repr(align(4))]
 pub struct RTL_FEATURE_CONFIGURATION_1_1 {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for RTL_FEATURE_CONFIGURATION_1_1 {
     fn default() -> Self {
@@ -4583,8 +4132,8 @@ impl RTL_FEATURE_CONFIGURATION_1_1 {
         self._bitfield_1.set(16usize, 16u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Priority: u32, EnabledState: u32, IsWexpConfiguration: u32, HasSubscriptions: u32, Variant: u32, VariantPayloadKind: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Priority: u32, EnabledState: u32, IsWexpConfiguration: u32, HasSubscriptions: u32, Variant: u32, VariantPayloadKind: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 4u8, Priority as u64);
         bitfield_unit.set(4usize, 2u8, EnabledState as u64);
         bitfield_unit.set(6usize, 1u8, IsWexpConfiguration as u64);

@@ -8,138 +8,28 @@ use crate::bitfield::{BitfieldUnit, UnionField};
 pub const BCD_OBJECT_DESCRIPTION_VERSION: u32 = 1;
 pub const BCD_ELEMENT_DESCRIPTION_VERSION: u32 = 1;
 pub const BCD_OBJECT_OSLOADER_TYPE: u32 = 270532611;
-pub const GUID_BAD_MEMORY_GROUP: GUID = GUID::from_values(
-    0x5189B25C,
-    0x5558,
-    0x4BF2,
-    [0xBC, 0xA4, 0x28, 0x9B, 0x11, 0xBD, 0x29, 0xE2],
-);
-pub const GUID_BOOT_LOADER_SETTINGS_GROUP: GUID = GUID::from_values(
-    0x6EFB52BF,
-    0x1766,
-    0x41DB,
-    [0xA6, 0xB3, 0x0E, 0xE5, 0xEF, 0xF7, 0x2B, 0xD7],
-);
-pub const GUID_CURRENT_BOOT_ENTRY: GUID = GUID::from_values(
-    0xFA926493,
-    0x6F1C,
-    0x4193,
-    [0xA4, 0x14, 0x58, 0xF0, 0xB2, 0x45, 0x6D, 0x1E],
-);
-pub const GUID_DEBUGGER_SETTINGS_GROUP: GUID = GUID::from_values(
-    0x4636856E,
-    0x540F,
-    0x4170,
-    [0xA1, 0x30, 0xA8, 0x47, 0x76, 0xF4, 0xC6, 0x54],
-);
-pub const GUID_DEFAULT_BOOT_ENTRY: GUID = GUID::from_values(
-    0x1CAE1EB7,
-    0xA0DF,
-    0x4D4D,
-    [0x98, 0x51, 0x48, 0x60, 0xE3, 0x4E, 0xF5, 0x35],
-);
-pub const GUID_EMS_SETTINGS_GROUP: GUID = GUID::from_values(
-    0x0CE4991B,
-    0xE6B3,
-    0x4B16,
-    [0xB2, 0x3C, 0x5E, 0x0D, 0x92, 0x50, 0xE5, 0xD9],
-);
-pub const GUID_FIRMWARE_BOOTMGR: GUID = GUID::from_values(
-    0xA5A30FA2,
-    0x3D06,
-    0x4E9F,
-    [0xB5, 0xF4, 0xA0, 0x1D, 0xF9, 0xD1, 0xFC, 0xBA],
-);
-pub const GUID_GLOBAL_SETTINGS_GROUP: GUID = GUID::from_values(
-    0x7EA2E1AC,
-    0x2E61,
-    0x4728,
-    [0xAA, 0xA3, 0x89, 0x6D, 0x9D, 0x0A, 0x9F, 0x0E],
-);
-pub const GUID_HYPERVISOR_SETTINGS_GROUP: GUID = GUID::from_values(
-    0x7FF607E0,
-    0x4395,
-    0x11DB,
-    [0xB0, 0xDE, 0x08, 0x00, 0x20, 0x0C, 0x9A, 0x66],
-);
-pub const GUID_KERNEL_DEBUGGER_SETTINGS_GROUP: GUID = GUID::from_values(
-    0x313E8EED,
-    0x7098,
-    0x4586,
-    [0xA9, 0xBF, 0x30, 0x9C, 0x61, 0xF8, 0xD4, 0x49],
-);
-pub const GUID_RESUME_LOADER_SETTINGS_GROUP: GUID = GUID::from_values(
-    0x1AFA9C49,
-    0x16AB,
-    0x4A5C,
-    [0x4A, 0x90, 0x21, 0x28, 0x02, 0xDA, 0x94, 0x60],
-);
-pub const GUID_WINDOWS_BOOTMGR: GUID = GUID::from_values(
-    0x9DEA862C,
-    0x5CDD,
-    0x4E70,
-    [0xAC, 0xC1, 0xF3, 0x2B, 0x34, 0x4D, 0x47, 0x95],
-);
-pub const GUID_WINDOWS_LEGACY_NTLDR: GUID = GUID::from_values(
-    0x466F5A88,
-    0x0AF2,
-    0x4F76,
-    [0x90, 0x38, 0x09, 0x5B, 0x17, 0x0D, 0xC2, 0x1C],
-);
-pub const GUID_WINDOWS_MEMORY_TESTER: GUID = GUID::from_values(
-    0xB2721D73,
-    0x1DB4,
-    0x4C62,
-    [0xBF, 0x78, 0xC5, 0x48, 0xA8, 0x80, 0x14, 0x2D],
-);
-pub const GUID_WINDOWS_OS_TARGET_TEMPLATE_EFI: GUID = GUID::from_values(
-    0xB012B84D,
-    0xC47C,
-    0x4ED5,
-    [0xB7, 0x22, 0xC0, 0xC4, 0x21, 0x63, 0xE5, 0x69],
-);
-pub const GUID_WINDOWS_OS_TARGET_TEMPLATE_PCAT: GUID = GUID::from_values(
-    0xA1943BBC,
-    0xEA85,
-    0x487C,
-    [0x97, 0xC7, 0xC9, 0xED, 0xE9, 0x08, 0xA3, 0x8A],
-);
-pub const GUID_WINDOWS_RESUME_TARGET_TEMPLATE_EFI: GUID = GUID::from_values(
-    0x0C334284,
-    0x9A41,
-    0x4DE1,
-    [0x99, 0xB3, 0xA7, 0xE8, 0x7E, 0x8F, 0xF0, 0x7E],
-);
-pub const GUID_WINDOWS_RESUME_TARGET_TEMPLATE_PCAT: GUID = GUID::from_values(
-    0x98B02A23,
-    0x0674,
-    0x4CE7,
-    [0xBD, 0xAD, 0xE0, 0xA1, 0x5A, 0x8F, 0xF9, 0x7B],
-);
-pub const GUID_WINDOWS_SETUP_EFI: GUID = GUID::from_values(
-    0x7254A080,
-    0x1510,
-    0x4E85,
-    [0xAC, 0x0F, 0xE7, 0xFB, 0x3D, 0x44, 0x47, 0x36],
-);
-pub const GUID_WINDOWS_SETUP_PCAT: GUID = GUID::from_values(
-    0xCBD971BF,
-    0xB7B8,
-    0x4885,
-    [0x95, 0x1A, 0xFA, 0x03, 0x04, 0x4F, 0x5D, 0x71],
-);
-pub const GUID_WINDOWS_SETUP_RAMDISK_OPTIONS: GUID = GUID::from_values(
-    0xAE5534E0,
-    0xA924,
-    0x466C,
-    [0xB8, 0x36, 0x75, 0x85, 0x39, 0xA3, 0xEE, 0x3A],
-);
-pub const GUID_WINDOWS_SETUP_BOOT_ENTRY: GUID = GUID::from_values(
-    0x7619dcc9,
-    0xfafe,
-    0x11d9,
-    [0xb4, 0x11, 0x00, 0x04, 0x76, 0xeb, 0xa2, 0x5f],
-);
+pub const GUID_BAD_MEMORY_GROUP: GUID = GUID::from_values(0x5189B25C, 0x5558, 0x4BF2, [0xBC, 0xA4, 0x28, 0x9B, 0x11, 0xBD, 0x29, 0xE2]);
+pub const GUID_BOOT_LOADER_SETTINGS_GROUP: GUID = GUID::from_values(0x6EFB52BF, 0x1766, 0x41DB, [0xA6, 0xB3, 0x0E, 0xE5, 0xEF, 0xF7, 0x2B, 0xD7]);
+pub const GUID_CURRENT_BOOT_ENTRY: GUID = GUID::from_values(0xFA926493, 0x6F1C, 0x4193, [0xA4, 0x14, 0x58, 0xF0, 0xB2, 0x45, 0x6D, 0x1E]);
+pub const GUID_DEBUGGER_SETTINGS_GROUP: GUID = GUID::from_values(0x4636856E, 0x540F, 0x4170, [0xA1, 0x30, 0xA8, 0x47, 0x76, 0xF4, 0xC6, 0x54]);
+pub const GUID_DEFAULT_BOOT_ENTRY: GUID = GUID::from_values(0x1CAE1EB7, 0xA0DF, 0x4D4D, [0x98, 0x51, 0x48, 0x60, 0xE3, 0x4E, 0xF5, 0x35]);
+pub const GUID_EMS_SETTINGS_GROUP: GUID = GUID::from_values(0x0CE4991B, 0xE6B3, 0x4B16, [0xB2, 0x3C, 0x5E, 0x0D, 0x92, 0x50, 0xE5, 0xD9]);
+pub const GUID_FIRMWARE_BOOTMGR: GUID = GUID::from_values(0xA5A30FA2, 0x3D06, 0x4E9F, [0xB5, 0xF4, 0xA0, 0x1D, 0xF9, 0xD1, 0xFC, 0xBA]);
+pub const GUID_GLOBAL_SETTINGS_GROUP: GUID = GUID::from_values(0x7EA2E1AC, 0x2E61, 0x4728, [0xAA, 0xA3, 0x89, 0x6D, 0x9D, 0x0A, 0x9F, 0x0E]);
+pub const GUID_HYPERVISOR_SETTINGS_GROUP: GUID = GUID::from_values(0x7FF607E0, 0x4395, 0x11DB, [0xB0, 0xDE, 0x08, 0x00, 0x20, 0x0C, 0x9A, 0x66]);
+pub const GUID_KERNEL_DEBUGGER_SETTINGS_GROUP: GUID = GUID::from_values(0x313E8EED, 0x7098, 0x4586, [0xA9, 0xBF, 0x30, 0x9C, 0x61, 0xF8, 0xD4, 0x49]);
+pub const GUID_RESUME_LOADER_SETTINGS_GROUP: GUID = GUID::from_values(0x1AFA9C49, 0x16AB, 0x4A5C, [0x4A, 0x90, 0x21, 0x28, 0x02, 0xDA, 0x94, 0x60]);
+pub const GUID_WINDOWS_BOOTMGR: GUID = GUID::from_values(0x9DEA862C, 0x5CDD, 0x4E70, [0xAC, 0xC1, 0xF3, 0x2B, 0x34, 0x4D, 0x47, 0x95]);
+pub const GUID_WINDOWS_LEGACY_NTLDR: GUID = GUID::from_values(0x466F5A88, 0x0AF2, 0x4F76, [0x90, 0x38, 0x09, 0x5B, 0x17, 0x0D, 0xC2, 0x1C]);
+pub const GUID_WINDOWS_MEMORY_TESTER: GUID = GUID::from_values(0xB2721D73, 0x1DB4, 0x4C62, [0xBF, 0x78, 0xC5, 0x48, 0xA8, 0x80, 0x14, 0x2D]);
+pub const GUID_WINDOWS_OS_TARGET_TEMPLATE_EFI: GUID = GUID::from_values(0xB012B84D, 0xC47C, 0x4ED5, [0xB7, 0x22, 0xC0, 0xC4, 0x21, 0x63, 0xE5, 0x69]);
+pub const GUID_WINDOWS_OS_TARGET_TEMPLATE_PCAT: GUID = GUID::from_values(0xA1943BBC, 0xEA85, 0x487C, [0x97, 0xC7, 0xC9, 0xED, 0xE9, 0x08, 0xA3, 0x8A]);
+pub const GUID_WINDOWS_RESUME_TARGET_TEMPLATE_EFI: GUID = GUID::from_values(0x0C334284, 0x9A41, 0x4DE1, [0x99, 0xB3, 0xA7, 0xE8, 0x7E, 0x8F, 0xF0, 0x7E]);
+pub const GUID_WINDOWS_RESUME_TARGET_TEMPLATE_PCAT: GUID = GUID::from_values(0x98B02A23, 0x0674, 0x4CE7, [0xBD, 0xAD, 0xE0, 0xA1, 0x5A, 0x8F, 0xF9, 0x7B]);
+pub const GUID_WINDOWS_SETUP_EFI: GUID = GUID::from_values(0x7254A080, 0x1510, 0x4E85, [0xAC, 0x0F, 0xE7, 0xFB, 0x3D, 0x44, 0x47, 0x36]);
+pub const GUID_WINDOWS_SETUP_PCAT: GUID = GUID::from_values(0xCBD971BF, 0xB7B8, 0x4885, [0x95, 0x1A, 0xFA, 0x03, 0x04, 0x4F, 0x5D, 0x71]);
+pub const GUID_WINDOWS_SETUP_RAMDISK_OPTIONS: GUID = GUID::from_values(0xAE5534E0, 0xA924, 0x466C, [0xB8, 0x36, 0x75, 0x85, 0x39, 0xA3, 0xEE, 0x3A]);
+pub const GUID_WINDOWS_SETUP_BOOT_ENTRY: GUID = GUID::from_values(0x7619dcc9, 0xfafe, 0x11d9, [0xb4, 0x11, 0x00, 0x04, 0x76, 0xeb, 0xa2, 0x5f]);
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum BCD_MESSAGE_TYPE {
@@ -150,14 +40,10 @@ pub enum BCD_MESSAGE_TYPE {
     BCD_MESSAGE_TYPE_ERROR = 4,
     BCD_MESSAGE_TYPE_MAXIMUM = 5,
 }
-pub type BCD_MESSAGE_CALLBACK =
-    std::option::Option<unsafe extern "system" fn(type_: BCD_MESSAGE_TYPE, Message: PWSTR)>;
+pub type BCD_MESSAGE_CALLBACK = std::option::Option<unsafe extern "system" fn(type_: BCD_MESSAGE_TYPE, Message: PWSTR)>;
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdSetLogging(
-        BcdLoggingLevel: BCD_MESSAGE_TYPE,
-        BcdMessageCallbackRoutine: BCD_MESSAGE_CALLBACK,
-    ) -> NTSTATUS;
+    pub fn BcdSetLogging(BcdLoggingLevel: BCD_MESSAGE_TYPE, BcdMessageCallbackRoutine: BCD_MESSAGE_CALLBACK) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -177,10 +63,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdOpenStoreFromFile(
-        BcdFilePath: UNICODE_STRING,
-        BcdStoreHandle: *mut HANDLE,
-    ) -> NTSTATUS;
+    pub fn BcdOpenStoreFromFile(BcdFilePath: UNICODE_STRING, BcdStoreHandle: *mut HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -192,11 +75,7 @@ extern "system" {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdExportStoreEx(
-        BcdStoreHandle: HANDLE,
-        Flags: u32,
-        BcdFilePath: UNICODE_STRING,
-    ) -> NTSTATUS;
+    pub fn BcdExportStoreEx(BcdStoreHandle: HANDLE, Flags: u32, BcdFilePath: UNICODE_STRING) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -210,10 +89,7 @@ pub enum BCD_IMPORT_FLAGS {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdImportStoreWithFlags(
-        BcdFilePath: UNICODE_STRING,
-        BcdImportFlags: BCD_IMPORT_FLAGS,
-    ) -> NTSTATUS;
+    pub fn BcdImportStoreWithFlags(BcdFilePath: UNICODE_STRING, BcdImportFlags: BCD_IMPORT_FLAGS) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -232,11 +108,7 @@ pub enum BCD_OPEN_FLAGS {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdOpenStore(
-        BcdFilePath: UNICODE_STRING,
-        BcdOpenFlags: BCD_OPEN_FLAGS,
-        BcdStoreHandle: *mut HANDLE,
-    ) -> NTSTATUS;
+    pub fn BcdOpenStore(BcdFilePath: UNICODE_STRING, BcdOpenFlags: BCD_OPEN_FLAGS, BcdStoreHandle: *mut HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -313,7 +185,7 @@ pub struct BCD_OBJECT_DATATYPE_1 {
 #[repr(align(4))]
 pub struct BCD_OBJECT_DATATYPE_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for BCD_OBJECT_DATATYPE_1_1 {
     fn default() -> Self {
@@ -322,12 +194,7 @@ impl Default for BCD_OBJECT_DATATYPE_1_1 {
 }
 impl std::fmt::Debug for BCD_OBJECT_DATATYPE_1_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "BCD_OBJECT_DATATYPE_1_1 {{ Reserved : {:?}, ObjectType : {:?} }}",
-            self.Reserved(),
-            self.ObjectType()
-        )
+        write!(f, "BCD_OBJECT_DATATYPE_1_1 {{ Reserved : {:?}, ObjectType : {:?} }}", self.Reserved(), self.ObjectType())
     }
 }
 impl BCD_OBJECT_DATATYPE_1_1 {
@@ -348,11 +215,8 @@ impl BCD_OBJECT_DATATYPE_1_1 {
         self._bitfield_1.set(28usize, 4u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(
-        Reserved: u32,
-        ObjectType: BCD_OBJECT_TYPE,
-    ) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Reserved: u32, ObjectType: BCD_OBJECT_TYPE) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 28u8, Reserved as u64);
         bitfield_unit.set(28usize, 4u8, {
             let ObjectType: u32 = unsafe { std::mem::transmute(ObjectType) };
@@ -365,7 +229,7 @@ impl BCD_OBJECT_DATATYPE_1_1 {
 #[repr(align(4))]
 pub struct BCD_OBJECT_DATATYPE_1_2 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for BCD_OBJECT_DATATYPE_1_2 {
     fn default() -> Self {
@@ -374,14 +238,7 @@ impl Default for BCD_OBJECT_DATATYPE_1_2 {
 }
 impl std::fmt::Debug for BCD_OBJECT_DATATYPE_1_2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "BCD_OBJECT_DATATYPE_1_2 {{ ApplicationType : {:?}, ImageType : {:?}, Reserved : {:?}, ObjectType : {:?} }}",
-            self.ApplicationType(),
-            self.ImageType(),
-            self.Reserved(),
-            self.ObjectType()
-        )
+        write!(f, "BCD_OBJECT_DATATYPE_1_2 {{ ApplicationType : {:?}, ImageType : {:?}, Reserved : {:?}, ObjectType : {:?} }}", self.ApplicationType(), self.ImageType(), self.Reserved(), self.ObjectType())
     }
 }
 impl BCD_OBJECT_DATATYPE_1_2 {
@@ -427,13 +284,8 @@ impl BCD_OBJECT_DATATYPE_1_2 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(
-        ApplicationType: BCD_APPLICATION_OBJECT_TYPE,
-        ImageType: BCD_APPLICATION_IMAGE_TYPE,
-        Reserved: u32,
-        ObjectType: BCD_OBJECT_TYPE,
-    ) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(ApplicationType: BCD_APPLICATION_OBJECT_TYPE, ImageType: BCD_APPLICATION_IMAGE_TYPE, Reserved: u32, ObjectType: BCD_OBJECT_TYPE) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 20u8, {
             let ApplicationType: u32 = unsafe { std::mem::transmute(ApplicationType) };
             ApplicationType as u64
@@ -454,7 +306,7 @@ impl BCD_OBJECT_DATATYPE_1_2 {
 #[repr(align(4))]
 pub struct BCD_OBJECT_DATATYPE_1_3 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for BCD_OBJECT_DATATYPE_1_3 {
     fn default() -> Self {
@@ -463,14 +315,7 @@ impl Default for BCD_OBJECT_DATATYPE_1_3 {
 }
 impl std::fmt::Debug for BCD_OBJECT_DATATYPE_1_3 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "BCD_OBJECT_DATATYPE_1_3 {{ Value : {:?}, Class : {:?}, Reserved : {:?}, ObjectType : {:?} }}",
-            self.Value(),
-            self.Class(),
-            self.Reserved(),
-            self.ObjectType()
-        )
+        write!(f, "BCD_OBJECT_DATATYPE_1_3 {{ Value : {:?}, Class : {:?}, Reserved : {:?}, ObjectType : {:?} }}", self.Value(), self.Class(), self.Reserved(), self.ObjectType())
     }
 }
 impl BCD_OBJECT_DATATYPE_1_3 {
@@ -513,13 +358,8 @@ impl BCD_OBJECT_DATATYPE_1_3 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(
-        Value: u32,
-        Class: BCD_INHERITED_CLASS_TYPE,
-        Reserved: u32,
-        ObjectType: BCD_OBJECT_TYPE,
-    ) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Value: u32, Class: BCD_INHERITED_CLASS_TYPE, Reserved: u32, ObjectType: BCD_OBJECT_TYPE) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 20u8, Value as u64);
         bitfield_unit.set(20usize, 4u8, {
             let Class: u32 = unsafe { std::mem::transmute(Class) };
@@ -537,7 +377,7 @@ impl BCD_OBJECT_DATATYPE_1_3 {
 #[repr(align(4))]
 pub struct BCD_OBJECT_DATATYPE_1_4 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for BCD_OBJECT_DATATYPE_1_4 {
     fn default() -> Self {
@@ -546,12 +386,7 @@ impl Default for BCD_OBJECT_DATATYPE_1_4 {
 }
 impl std::fmt::Debug for BCD_OBJECT_DATATYPE_1_4 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "BCD_OBJECT_DATATYPE_1_4 {{ Reserved : {:?}, ObjectType : {:?} }}",
-            self.Reserved(),
-            self.ObjectType()
-        )
+        write!(f, "BCD_OBJECT_DATATYPE_1_4 {{ Reserved : {:?}, ObjectType : {:?} }}", self.Reserved(), self.ObjectType())
     }
 }
 impl BCD_OBJECT_DATATYPE_1_4 {
@@ -575,11 +410,8 @@ impl BCD_OBJECT_DATATYPE_1_4 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(
-        Reserved: u32,
-        ObjectType: BCD_OBJECT_TYPE,
-    ) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Reserved: u32, ObjectType: BCD_OBJECT_TYPE) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 28u8, Reserved as u64);
         bitfield_unit.set(28usize, 4u8, {
             let ObjectType: u32 = unsafe { std::mem::transmute(ObjectType) };
@@ -640,30 +472,15 @@ impl std::fmt::Debug for BCD_OBJECT {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdEnumerateObjects(
-        BcdStoreHandle: HANDLE,
-        BcdEnumDescriptor: *mut BCD_OBJECT_DESCRIPTION,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: *mut u32,
-        ObjectCount: *mut u32,
-    ) -> NTSTATUS;
+    pub fn BcdEnumerateObjects(BcdStoreHandle: HANDLE, BcdEnumDescriptor: *mut BCD_OBJECT_DESCRIPTION, Buffer: *mut std::ffi::c_void, BufferSize: *mut u32, ObjectCount: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdOpenObject(
-        BcdStoreHandle: HANDLE,
-        Identifier: *const GUID,
-        BcdObjectHandle: *mut HANDLE,
-    ) -> NTSTATUS;
+    pub fn BcdOpenObject(BcdStoreHandle: HANDLE, Identifier: *const GUID, BcdObjectHandle: *mut HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdCreateObject(
-        BcdStoreHandle: HANDLE,
-        Identifier: *mut GUID,
-        Description: *mut BCD_OBJECT_DESCRIPTION,
-        BcdObjectHandle: *mut HANDLE,
-    ) -> NTSTATUS;
+    pub fn BcdCreateObject(BcdStoreHandle: HANDLE, Identifier: *mut GUID, Description: *mut BCD_OBJECT_DESCRIPTION, BcdObjectHandle: *mut HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -686,50 +503,23 @@ pub enum BCD_COPY_FLAGS {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdCopyObject(
-        BcdStoreHandle: HANDLE,
-        BcdObjectHandle: HANDLE,
-        BcdCopyFlags: BCD_COPY_FLAGS,
-        TargetStoreHandle: HANDLE,
-        TargetObjectHandle: *mut HANDLE,
-    ) -> NTSTATUS;
+    pub fn BcdCopyObject(BcdStoreHandle: HANDLE, BcdObjectHandle: HANDLE, BcdCopyFlags: BCD_COPY_FLAGS, TargetStoreHandle: HANDLE, TargetObjectHandle: *mut HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdCopyObjectEx(
-        BcdStoreHandle: HANDLE,
-        BcdObjectHandle: HANDLE,
-        BcdCopyFlags: BCD_COPY_FLAGS,
-        TargetStoreHandle: HANDLE,
-        TargetObjectId: *mut GUID,
-        TargetObjectHandle: *mut HANDLE,
-    ) -> NTSTATUS;
+    pub fn BcdCopyObjectEx(BcdStoreHandle: HANDLE, BcdObjectHandle: HANDLE, BcdCopyFlags: BCD_COPY_FLAGS, TargetStoreHandle: HANDLE, TargetObjectId: *mut GUID, TargetObjectHandle: *mut HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdCopyObjects(
-        BcdStoreHandle: HANDLE,
-        Characteristics: BCD_OBJECT_DESCRIPTION,
-        BcdCopyFlags: BCD_COPY_FLAGS,
-        TargetStoreHandle: HANDLE,
-    ) -> NTSTATUS;
+    pub fn BcdCopyObjects(BcdStoreHandle: HANDLE, Characteristics: BCD_OBJECT_DESCRIPTION, BcdCopyFlags: BCD_COPY_FLAGS, TargetStoreHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdMigrateObjectElementValues(
-        TemplateObjectHandle: HANDLE,
-        SourceObjectHandle: HANDLE,
-        TargetObjectHandle: HANDLE,
-    ) -> NTSTATUS;
+    pub fn BcdMigrateObjectElementValues(TemplateObjectHandle: HANDLE, SourceObjectHandle: HANDLE, TargetObjectHandle: HANDLE) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdQueryObject(
-        BcdObjectHandle: HANDLE,
-        BcdVersion: u32,
-        Description: BCD_OBJECT_DESCRIPTION,
-        Identifier: *mut GUID,
-    ) -> NTSTATUS;
+    pub fn BcdQueryObject(BcdObjectHandle: HANDLE, BcdVersion: u32, Description: BCD_OBJECT_DESCRIPTION, Identifier: *mut GUID) -> NTSTATUS;
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -779,7 +569,7 @@ pub struct BCD_ELEMENT_DATATYPE {
 #[repr(align(4))]
 pub struct BCD_ELEMENT_DATATYPE_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for BCD_ELEMENT_DATATYPE_1 {
     fn default() -> Self {
@@ -788,13 +578,7 @@ impl Default for BCD_ELEMENT_DATATYPE_1 {
 }
 impl std::fmt::Debug for BCD_ELEMENT_DATATYPE_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "BCD_ELEMENT_DATATYPE_1 {{ SubType : {:?}, Format : {:?}, Class : {:?} }}",
-            self.SubType(),
-            self.Format(),
-            self.Class()
-        )
+        write!(f, "BCD_ELEMENT_DATATYPE_1 {{ SubType : {:?}, Format : {:?}, Class : {:?} }}", self.SubType(), self.Format(), self.Class())
     }
 }
 impl BCD_ELEMENT_DATATYPE_1 {
@@ -829,12 +613,8 @@ impl BCD_ELEMENT_DATATYPE_1 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(
-        SubType: u32,
-        Format: BCD_ELEMENT_DATATYPE_FORMAT,
-        Class: BCD_ELEMENT_DATATYPE_CLASS,
-    ) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(SubType: u32, Format: BCD_ELEMENT_DATATYPE_FORMAT, Class: BCD_ELEMENT_DATATYPE_CLASS) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 24u8, SubType as u64);
         bitfield_unit.set(24usize, 4u8, {
             let Format: u32 = unsafe { std::mem::transmute(Format) };
@@ -859,12 +639,7 @@ impl std::fmt::Debug for BCD_ELEMENT_DATATYPE {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdEnumerateElementTypes(
-        BcdObjectHandle: HANDLE,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: *mut u32,
-        ElementCount: *mut u32,
-    ) -> NTSTATUS;
+    pub fn BcdEnumerateElementTypes(BcdObjectHandle: HANDLE, Buffer: *mut std::ffi::c_void, BufferSize: *mut u32, ElementCount: *mut u32) -> NTSTATUS;
 }
 #[repr(C)]
 pub struct BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION {
@@ -897,7 +672,7 @@ impl std::fmt::Debug for BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION_1_1 {
 pub struct BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION_1_2 {
     pub DiskSignature: UnionField<GUID>,
     pub PartitionSignature: UnionField<GUID>,
-    pub union_field: [u32; 4usize],
+    pub union_field: [u32; 4],
 }
 impl Default for BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION_1_2 {
     fn default() -> Self {
@@ -916,11 +691,7 @@ impl Default for BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION_1 {
 }
 impl std::fmt::Debug for BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION_1 {{ Mbr: {:?}, Gpt: {:?} }}",
-            self.Mbr, self.Gpt
-        )
+        write!(f, "BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION_1 {{ Mbr: {:?}, Gpt: {:?} }}", self.Mbr, self.Gpt)
     }
 }
 impl Default for BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION {
@@ -930,11 +701,7 @@ impl Default for BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION {
 }
 impl std::fmt::Debug for BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "BCD_ELEMENT_DEVICE_QUALIFIED_PARTITION {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(C)]
@@ -955,7 +722,7 @@ pub struct BCD_ELEMENT_DEVICE_1 {
 #[repr(C)]
 pub struct BCD_ELEMENT_DEVICE_1_1 {
     pub ParentOffset: UnionField<u32>,
-    pub Path: UnionField<[u16; 1usize]>,
+    pub Path: UnionField<[u16; 1]>,
     pub union_field: u32,
 }
 impl Default for BCD_ELEMENT_DEVICE_1_1 {
@@ -970,7 +737,7 @@ impl std::fmt::Debug for BCD_ELEMENT_DEVICE_1_1 {
 }
 #[repr(C)]
 pub struct BCD_ELEMENT_DEVICE_1_2 {
-    pub Path: UnionField<[u16; 1usize]>,
+    pub Path: UnionField<[u16; 1]>,
     pub union_field: u16,
 }
 impl Default for BCD_ELEMENT_DEVICE_1_2 {
@@ -988,7 +755,7 @@ pub struct BCD_ELEMENT_DEVICE_1_3 {
     pub Type: UnionField<u32>,
     pub ParentOffset: UnionField<u32>,
     pub ElementType: UnionField<u32>,
-    pub Path: UnionField<[u16; 1usize]>,
+    pub Path: UnionField<[u16; 1]>,
     pub union_field: u32,
 }
 impl Default for BCD_ELEMENT_DEVICE_1_3 {
@@ -1004,7 +771,7 @@ impl std::fmt::Debug for BCD_ELEMENT_DEVICE_1_3 {
 #[repr(C)]
 pub struct BCD_ELEMENT_DEVICE_1_4 {
     pub InterfaceInstance: UnionField<GUID>,
-    pub union_field: [u32; 4usize],
+    pub union_field: [u32; 4],
 }
 impl Default for BCD_ELEMENT_DEVICE_1_4 {
     fn default() -> Self {
@@ -1018,7 +785,7 @@ impl std::fmt::Debug for BCD_ELEMENT_DEVICE_1_4 {
 }
 #[repr(C)]
 pub struct BCD_ELEMENT_DEVICE_1_5 {
-    pub Data: UnionField<[u32; 1usize]>,
+    pub Data: UnionField<[u32; 1]>,
     pub union_field: u32,
 }
 impl Default for BCD_ELEMENT_DEVICE_1_5 {
@@ -1038,16 +805,7 @@ impl Default for BCD_ELEMENT_DEVICE_1 {
 }
 impl std::fmt::Debug for BCD_ELEMENT_DEVICE_1 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "BCD_ELEMENT_DEVICE_1 {{ File: {:?}, Partition: {:?}, Locate: {:?}, Vmbus: {:?}, Unknown: {:?}, QualifiedPartition: {:?} }}",
-            self.File,
-            self.Partition,
-            self.Locate,
-            self.Vmbus,
-            self.Unknown,
-            self.QualifiedPartition
-        )
+        write!(f, "BCD_ELEMENT_DEVICE_1 {{ File: {:?}, Partition: {:?}, Locate: {:?}, Vmbus: {:?}, Unknown: {:?}, QualifiedPartition: {:?} }}", self.File, self.Partition, self.Locate, self.Vmbus, self.Unknown, self.QualifiedPartition)
     }
 }
 impl Default for BCD_ELEMENT_DEVICE {
@@ -1057,16 +815,12 @@ impl Default for BCD_ELEMENT_DEVICE {
 }
 impl std::fmt::Debug for BCD_ELEMENT_DEVICE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "BCD_ELEMENT_DEVICE {{ Anonymous1: {:?} }}",
-            self.Anonymous1
-        )
+        write!(f, "BCD_ELEMENT_DEVICE {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(C)]
 pub struct BCD_ELEMENT_STRING {
-    pub Value: [u16; 1usize],
+    pub Value: [u16; 1],
 }
 impl Default for BCD_ELEMENT_STRING {
     fn default() -> Self {
@@ -1094,7 +848,7 @@ impl std::fmt::Debug for BCD_ELEMENT_OBJECT {
 }
 #[repr(C)]
 pub struct BCD_ELEMENT_OBJECT_LIST {
-    pub ObjectList: [GUID; 1usize],
+    pub ObjectList: [GUID; 1],
 }
 impl Default for BCD_ELEMENT_OBJECT_LIST {
     fn default() -> Self {
@@ -1103,11 +857,7 @@ impl Default for BCD_ELEMENT_OBJECT_LIST {
 }
 impl std::fmt::Debug for BCD_ELEMENT_OBJECT_LIST {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "BCD_ELEMENT_OBJECT_LIST {{ ObjectList: {:?} }}",
-            self.ObjectList
-        )
+        write!(f, "BCD_ELEMENT_OBJECT_LIST {{ ObjectList: {:?} }}", self.ObjectList)
     }
 }
 #[repr(C)]
@@ -1126,7 +876,7 @@ impl std::fmt::Debug for BCD_ELEMENT_INTEGER {
 }
 #[repr(C)]
 pub struct BCD_ELEMENT_INTEGER_LIST {
-    pub Value: [u64; 1usize],
+    pub Value: [u64; 1],
 }
 impl Default for BCD_ELEMENT_INTEGER_LIST {
     fn default() -> Self {
@@ -1185,12 +935,7 @@ impl std::fmt::Debug for BCD_ELEMENT {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdEnumerateElements(
-        BcdObjectHandle: HANDLE,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: *mut u32,
-        ElementCount: *mut u32,
-    ) -> NTSTATUS;
+    pub fn BcdEnumerateElements(BcdObjectHandle: HANDLE, Buffer: *mut std::ffi::c_void, BufferSize: *mut u32, ElementCount: *mut u32) -> NTSTATUS;
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -1207,62 +952,27 @@ pub enum BCD_FLAGS {
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdEnumerateElementsWithFlags(
-        BcdObjectHandle: HANDLE,
-        BcdFlags: BCD_FLAGS,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: *mut u32,
-        ElementCount: *mut u32,
-    ) -> NTSTATUS;
+    pub fn BcdEnumerateElementsWithFlags(BcdObjectHandle: HANDLE, BcdFlags: BCD_FLAGS, Buffer: *mut std::ffi::c_void, BufferSize: *mut u32, ElementCount: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdEnumerateAndUnpackElements(
-        BcdStoreHandle: HANDLE,
-        BcdObjectHandle: HANDLE,
-        BcdFlags: BCD_FLAGS,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: *mut u32,
-        ElementCount: *mut u32,
-    ) -> NTSTATUS;
+    pub fn BcdEnumerateAndUnpackElements(BcdStoreHandle: HANDLE, BcdObjectHandle: HANDLE, BcdFlags: BCD_FLAGS, Buffer: *mut std::ffi::c_void, BufferSize: *mut u32, ElementCount: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdGetElementData(
-        BcdObjectHandle: HANDLE,
-        BcdElement: u32,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: *mut u32,
-    ) -> NTSTATUS;
+    pub fn BcdGetElementData(BcdObjectHandle: HANDLE, BcdElement: u32, Buffer: *mut std::ffi::c_void, BufferSize: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdGetElementDataWithFlags(
-        BcdObjectHandle: HANDLE,
-        BcdElement: u32,
-        BcdFlags: BCD_FLAGS,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: *mut u32,
-    ) -> NTSTATUS;
+    pub fn BcdGetElementDataWithFlags(BcdObjectHandle: HANDLE, BcdElement: u32, BcdFlags: BCD_FLAGS, Buffer: *mut std::ffi::c_void, BufferSize: *mut u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdSetElementData(
-        BcdObjectHandle: HANDLE,
-        BcdElement: u32,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: u32,
-    ) -> NTSTATUS;
+    pub fn BcdSetElementData(BcdObjectHandle: HANDLE, BcdElement: u32, Buffer: *mut std::ffi::c_void, BufferSize: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn BcdSetElementDataWithFlags(
-        BcdObjectHandle: HANDLE,
-        BcdElement: u32,
-        BcdFlags: BCD_FLAGS,
-        Buffer: *mut std::ffi::c_void,
-        BufferSize: u32,
-    ) -> NTSTATUS;
+    pub fn BcdSetElementDataWithFlags(BcdObjectHandle: HANDLE, BcdElement: u32, BcdFlags: BCD_FLAGS, Buffer: *mut std::ffi::c_void, BufferSize: u32) -> NTSTATUS;
 }
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {

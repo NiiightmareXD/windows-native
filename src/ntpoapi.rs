@@ -1,5 +1,5 @@
 use windows::Win32::{
-    Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
+    Foundation::{BOOLEAN, HANDLE, NTSTATUS},
     System::{
         Kernel::PROCESSOR_NUMBER,
         Power::{DEVICE_POWER_STATE, EXECUTION_STATE, POWER_ACTION, POWER_MONITOR_REQUEST_REASON, SYSTEM_POWER_STATE},
@@ -20,45 +20,9 @@ pub const POWER_REQUEST_SUPPORTED_TYPES_V2: u32 = 9;
 pub const POWER_REQUEST_SUPPORTED_TYPES_V3: u32 = 5;
 pub const POWER_REQUEST_SUPPORTED_TYPES_V4: u32 = 6;
 #[repr(C)]
-pub struct PROCESSOR_POWER_INFORMATION {
-    pub Number: u32,
-    pub MaxMhz: u32,
-    pub CurrentMhz: u32,
-    pub MhzLimit: u32,
-    pub MaxIdleState: u32,
-    pub CurrentIdleState: u32,
-}
-impl Default for PROCESSOR_POWER_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESSOR_POWER_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESSOR_POWER_INFORMATION {{  }}")
-    }
-}
-#[repr(C)]
-pub struct SYSTEM_POWER_INFORMATION {
-    pub MaxIdlenessAllowed: u32,
-    pub Idleness: u32,
-    pub TimeRemaining: u32,
-    pub CoolingMode: u8,
-}
-impl Default for SYSTEM_POWER_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for SYSTEM_POWER_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_POWER_INFORMATION {{  }}")
-    }
-}
-#[repr(C)]
 pub struct SYSTEM_HIBERFILE_INFORMATION {
     pub NumberOfMcbPairs: u32,
-    pub Mcb: [i64; 1usize],
+    pub Mcb: [i64; 1],
 }
 impl Default for SYSTEM_HIBERFILE_INFORMATION {
     fn default() -> Self {
@@ -68,55 +32,6 @@ impl Default for SYSTEM_HIBERFILE_INFORMATION {
 impl std::fmt::Debug for SYSTEM_HIBERFILE_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "SYSTEM_HIBERFILE_INFORMATION {{ Mcb: {:?} }}", self.Mcb)
-    }
-}
-#[repr(C)]
-pub struct COUNTED_REASON_CONTEXT {
-    pub Version: u32,
-    pub Flags: u32,
-    pub Anonymous1: COUNTED_REASON_CONTEXT_1,
-}
-#[repr(C)]
-pub struct COUNTED_REASON_CONTEXT_1 {
-    pub Anonymous1: UnionField<COUNTED_REASON_CONTEXT_1_1>,
-    pub SimpleString: UnionField<UNICODE_STRING>,
-    pub union_field: [u64; 4usize],
-}
-#[repr(C)]
-pub struct COUNTED_REASON_CONTEXT_1_1 {
-    pub ResourceFileName: UNICODE_STRING,
-    pub ResourceReasonId: u16,
-    pub StringCount: u32,
-    pub ReasonStrings: *mut UNICODE_STRING,
-}
-impl Default for COUNTED_REASON_CONTEXT_1_1 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for COUNTED_REASON_CONTEXT_1_1 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "COUNTED_REASON_CONTEXT_1_1 {{  }}")
-    }
-}
-impl Default for COUNTED_REASON_CONTEXT_1 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for COUNTED_REASON_CONTEXT_1 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "COUNTED_REASON_CONTEXT_1 {{ union }}")
-    }
-}
-impl Default for COUNTED_REASON_CONTEXT {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for COUNTED_REASON_CONTEXT {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "COUNTED_REASON_CONTEXT {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(i32)]
@@ -165,27 +80,11 @@ impl std::fmt::Debug for POWER_STATE {
         write!(f, "POWER_STATE {{ union }}")
     }
 }
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum POWER_STATE_TYPE {
-    SystemPowerState = 0,
-    DevicePowerState = 1,
-}
-#[repr(C)]
-pub struct SYSTEM_POWER_STATE_CONTEXT {
-    pub Anonymous1: SYSTEM_POWER_STATE_CONTEXT_1,
-}
-#[repr(C)]
-pub struct SYSTEM_POWER_STATE_CONTEXT_1 {
-    pub Anonymous1: UnionField<SYSTEM_POWER_STATE_CONTEXT_1_1>,
-    pub ContextAsUlong: UnionField<u32>,
-    pub union_field: u32,
-}
 #[repr(C)]
 #[repr(align(4))]
 pub struct SYSTEM_POWER_STATE_CONTEXT_1_1 {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for SYSTEM_POWER_STATE_CONTEXT_1_1 {
     fn default() -> Self {
@@ -255,8 +154,8 @@ impl SYSTEM_POWER_STATE_CONTEXT_1_1 {
         self._bitfield_1.set(22usize, 10u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Reserved1: u32, TargetSystemState: u32, EffectiveSystemState: u32, CurrentSystemState: u32, IgnoreHibernationPath: u32, PseudoTransition: u32, Reserved2: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Reserved1: u32, TargetSystemState: u32, EffectiveSystemState: u32, CurrentSystemState: u32, IgnoreHibernationPath: u32, PseudoTransition: u32, Reserved2: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Reserved1 as u64);
         bitfield_unit.set(8usize, 4u8, TargetSystemState as u64);
         bitfield_unit.set(12usize, 4u8, EffectiveSystemState as u64);
@@ -265,26 +164,6 @@ impl SYSTEM_POWER_STATE_CONTEXT_1_1 {
         bitfield_unit.set(21usize, 1u8, PseudoTransition as u64);
         bitfield_unit.set(22usize, 10u8, Reserved2 as u64);
         bitfield_unit
-    }
-}
-impl Default for SYSTEM_POWER_STATE_CONTEXT_1 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for SYSTEM_POWER_STATE_CONTEXT_1 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_POWER_STATE_CONTEXT_1 {{ union }}")
-    }
-}
-impl Default for SYSTEM_POWER_STATE_CONTEXT {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for SYSTEM_POWER_STATE_CONTEXT {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SYSTEM_POWER_STATE_CONTEXT {{ Anonymous1: {:?} }}", self.Anonymous1)
     }
 }
 #[repr(i32)]
@@ -302,7 +181,7 @@ pub struct COUNTED_REASON_CONTEXT_RELATIVE {
 pub struct COUNTED_REASON_CONTEXT_RELATIVE_1 {
     pub Anonymous1: UnionField<COUNTED_REASON_CONTEXT_RELATIVE_1_1>,
     pub SimpleStringOffset: UnionField<usize>,
-    pub union_field: [u64; 3usize],
+    pub union_field: [u64; 3],
 }
 #[repr(C)]
 pub struct COUNTED_REASON_CONTEXT_RELATIVE_1_1 {
@@ -352,7 +231,7 @@ pub struct DIAGNOSTIC_BUFFER {
 pub struct DIAGNOSTIC_BUFFER_1 {
     pub Anonymous1: UnionField<DIAGNOSTIC_BUFFER_1_1>,
     pub Anonymous2: UnionField<DIAGNOSTIC_BUFFER_1_2>,
-    pub union_field: [u64; 2usize],
+    pub union_field: [u64; 2],
 }
 #[repr(C)]
 pub struct DIAGNOSTIC_BUFFER_1_1 {
@@ -444,7 +323,7 @@ impl std::fmt::Debug for PROCESSOR_PERF_CAP_HV {
 pub struct PROCESSOR_IDLE_TIMES {
     pub StartTime: u64,
     pub EndTime: u64,
-    pub Reserved: [u32; 4usize],
+    pub Reserved: [u32; 4],
 }
 impl Default for PROCESSOR_IDLE_TIMES {
     fn default() -> Self {
@@ -484,7 +363,7 @@ pub struct PROCESSOR_IDLE_STATES {
     pub Count: u32,
     pub Type: u32,
     pub TargetProcessors: usize,
-    pub State: [PROCESSOR_IDLE_STATE; 1usize],
+    pub State: [PROCESSOR_IDLE_STATE; 1],
 }
 impl Default for PROCESSOR_IDLE_STATES {
     fn default() -> Self {
@@ -534,7 +413,7 @@ impl std::fmt::Debug for PROCESSOR_CAP {
 #[repr(C)]
 pub struct PO_WAKE_SOURCE_INFO {
     pub Count: u32,
-    pub Offsets: [u32; 1usize],
+    pub Offsets: [u32; 1],
 }
 impl Default for PO_WAKE_SOURCE_INFO {
     fn default() -> Self {
@@ -549,7 +428,7 @@ impl std::fmt::Debug for PO_WAKE_SOURCE_INFO {
 #[repr(C)]
 pub struct PO_WAKE_SOURCE_HISTORY {
     pub Count: u32,
-    pub Offsets: [u32; 1usize],
+    pub Offsets: [u32; 1],
 }
 impl Default for PO_WAKE_SOURCE_HISTORY {
     fn default() -> Self {
@@ -602,7 +481,7 @@ impl std::fmt::Debug for PO_WAKE_SOURCE_HEADER {
 #[repr(C)]
 pub struct PO_WAKE_SOURCE_DEVICE {
     pub Header: PO_WAKE_SOURCE_HEADER,
-    pub InstancePath: [u16; 1usize],
+    pub InstancePath: [u16; 1],
 }
 impl Default for PO_WAKE_SOURCE_DEVICE {
     fn default() -> Self {
@@ -669,12 +548,12 @@ pub struct POWER_REQUEST_1 {
     pub V2: UnionField<POWER_REQUEST_1_2>,
     pub V3: UnionField<POWER_REQUEST_1_3>,
     pub V4: UnionField<POWER_REQUEST_1_4>,
-    pub union_field: [u64; 10usize],
+    pub union_field: [u64; 10],
 }
 #[repr(C)]
 pub struct POWER_REQUEST_1_1 {
     pub SupportedRequestMask: u32,
-    pub PowerRequestCount: [u32; 3usize],
+    pub PowerRequestCount: [u32; 3],
     pub DiagnosticBuffer: DIAGNOSTIC_BUFFER,
 }
 impl Default for POWER_REQUEST_1_1 {
@@ -690,7 +569,7 @@ impl std::fmt::Debug for POWER_REQUEST_1_1 {
 #[repr(C)]
 pub struct POWER_REQUEST_1_2 {
     pub SupportedRequestMask: u32,
-    pub PowerRequestCount: [u32; 9usize],
+    pub PowerRequestCount: [u32; 9],
     pub DiagnosticBuffer: DIAGNOSTIC_BUFFER,
 }
 impl Default for POWER_REQUEST_1_2 {
@@ -706,7 +585,7 @@ impl std::fmt::Debug for POWER_REQUEST_1_2 {
 #[repr(C)]
 pub struct POWER_REQUEST_1_3 {
     pub SupportedRequestMask: u32,
-    pub PowerRequestCount: [u32; 5usize],
+    pub PowerRequestCount: [u32; 5],
     pub DiagnosticBuffer: DIAGNOSTIC_BUFFER,
 }
 impl Default for POWER_REQUEST_1_3 {
@@ -722,7 +601,7 @@ impl std::fmt::Debug for POWER_REQUEST_1_3 {
 #[repr(C)]
 pub struct POWER_REQUEST_1_4 {
     pub SupportedRequestMask: u32,
-    pub PowerRequestCount: [u32; 6usize],
+    pub PowerRequestCount: [u32; 6],
     pub DiagnosticBuffer: DIAGNOSTIC_BUFFER,
 }
 impl Default for POWER_REQUEST_1_4 {
@@ -758,7 +637,7 @@ impl std::fmt::Debug for POWER_REQUEST {
 #[repr(C)]
 pub struct POWER_REQUEST_LIST {
     pub Count: usize,
-    pub PowerRequestOffsets: [usize; 1usize],
+    pub PowerRequestOffsets: [usize; 1],
 }
 impl Default for POWER_REQUEST_LIST {
     fn default() -> Self {
@@ -788,7 +667,7 @@ pub type PENTER_STATE_HANDLER = std::option::Option<unsafe extern "system" fn(Co
 pub struct POWER_STATE_HANDLER {
     pub Type: POWER_STATE_HANDLER_TYPE,
     pub RtcWake: BOOLEAN,
-    pub Spare: [u8; 3usize],
+    pub Spare: [u8; 3],
     pub Handler: PENTER_STATE_HANDLER,
     pub Context: *mut std::ffi::c_void,
 }
@@ -948,7 +827,7 @@ pub struct POWER_S0_LOW_POWER_IDLE_INFO {
 #[repr(C)]
 pub struct POWER_S0_LOW_POWER_IDLE_INFO_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: UnionField<BitfieldUnit<[u8; 1usize]>>,
+    _bitfield_1: UnionField<BitfieldUnit<[u8; 1]>>,
     pub AsUCHAR: UnionField<u8>,
     pub union_field: u8,
 }
@@ -1019,8 +898,8 @@ impl POWER_S0_LOW_POWER_IDLE_INFO_1 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(Storage: BOOLEAN, WiFi: BOOLEAN, Mbn: BOOLEAN, Ethernet: BOOLEAN, Reserved: BOOLEAN) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(Storage: BOOLEAN, WiFi: BOOLEAN, Mbn: BOOLEAN, Ethernet: BOOLEAN, Reserved: BOOLEAN) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let Storage: u8 = unsafe { std::mem::transmute(Storage) };
             Storage as u64
@@ -1047,7 +926,7 @@ impl POWER_S0_LOW_POWER_IDLE_INFO_1 {
 #[repr(C)]
 pub struct POWER_S0_LOW_POWER_IDLE_INFO_2 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: UnionField<BitfieldUnit<[u8; 1usize]>>,
+    _bitfield_1: UnionField<BitfieldUnit<[u8; 1]>>,
     pub AsUCHAR: UnionField<u8>,
     pub union_field: u8,
 }
@@ -1096,8 +975,8 @@ impl POWER_S0_LOW_POWER_IDLE_INFO_2 {
         }
     }
     #[inline]
-    pub fn new_bitfield_1(DisconnectInStandby: BOOLEAN, EnforceDs: BOOLEAN, Reserved: BOOLEAN) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(DisconnectInStandby: BOOLEAN, EnforceDs: BOOLEAN, Reserved: BOOLEAN) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, {
             let DisconnectInStandby: u8 = unsafe { std::mem::transmute(DisconnectInStandby) };
             DisconnectInStandby as u64
@@ -1217,7 +1096,7 @@ pub struct POWER_BOOT_SESSION_STANDBY_ACTIVATION_INFO {
     pub StandbyTotalTime: u32,
     pub DripsTotalTime: u32,
     pub ActivatorClientTotalActiveTime: u32,
-    pub PerActivatorClientTotalActiveTime: [u32; 98usize],
+    pub PerActivatorClientTotalActiveTime: [u32; 98],
 }
 impl Default for POWER_BOOT_SESSION_STANDBY_ACTIVATION_INFO {
     fn default() -> Self {

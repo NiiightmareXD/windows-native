@@ -1,6 +1,12 @@
 use windows::{
     core::GUID,
-    Wdk::{Foundation::OBJECT_ATTRIBUTES, System::SystemServices::KSYSTEM_TIME},
+    Wdk::{
+        Foundation::OBJECT_ATTRIBUTES,
+        System::{
+            SystemServices::{KSYSTEM_TIME, PROCESS_WS_WATCH_INFORMATION},
+            Threading::PROCESSINFOCLASS,
+        },
+    },
     Win32::{
         Foundation::{BOOL, BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
         Security::SECURITY_QUALITY_OF_SERVICE,
@@ -19,7 +25,7 @@ use windows::{
 use crate::{
     bitfield::{BitfieldUnit, UnionField},
     ntexapi::{PROCESS_DISK_COUNTERS, PROCESS_ENERGY_VALUES},
-    ntpebteb::{PEB, TEB},
+    ntpebteb::{TEB},
 };
 
 pub const PROCESS_SET_PORT: u32 = 2048;
@@ -234,514 +240,11 @@ impl std::fmt::Debug for WOW64_PROCESS {
         write!(f, "WOW64_PROCESS {{  }}")
     }
 }
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum PROCESSINFOCLASS {
-    ProcessBasicInformation = 0,
-    ProcessQuotaLimits = 1,
-    ProcessIoCounters = 2,
-    ProcessVmCounters = 3,
-    ProcessTimes = 4,
-    ProcessBasePriority = 5,
-    ProcessRaisePriority = 6,
-    ProcessDebugPort = 7,
-    ProcessExceptionPort = 8,
-    ProcessAccessToken = 9,
-    ProcessLdtInformation = 10,
-    ProcessLdtSize = 11,
-    ProcessDefaultHardErrorMode = 12,
-    ProcessIoPortHandlers = 13,
-    ProcessPooledUsageAndLimits = 14,
-    ProcessWorkingSetWatch = 15,
-    ProcessUserModeIOPL = 16,
-    ProcessEnableAlignmentFaultFixup = 17,
-    ProcessPriorityClass = 18,
-    ProcessWx86Information = 19,
-    ProcessHandleCount = 20,
-    ProcessAffinityMask = 21,
-    ProcessPriorityBoost = 22,
-    ProcessDeviceMap = 23,
-    ProcessSessionInformation = 24,
-    ProcessForegroundInformation = 25,
-    ProcessWow64Information = 26,
-    ProcessImageFileName = 27,
-    ProcessLUIDDeviceMapsEnabled = 28,
-    ProcessBreakOnTermination = 29,
-    ProcessDebugObjectHandle = 30,
-    ProcessDebugFlags = 31,
-    ProcessHandleTracing = 32,
-    ProcessIoPriority = 33,
-    ProcessExecuteFlags = 34,
-    ProcessTlsInformation = 35,
-    ProcessCookie = 36,
-    ProcessImageInformation = 37,
-    ProcessCycleTime = 38,
-    ProcessPagePriority = 39,
-    ProcessInstrumentationCallback = 40,
-    ProcessThreadStackAllocation = 41,
-    ProcessWorkingSetWatchEx = 42,
-    ProcessImageFileNameWin32 = 43,
-    ProcessImageFileMapping = 44,
-    ProcessAffinityUpdateMode = 45,
-    ProcessMemoryAllocationMode = 46,
-    ProcessGroupInformation = 47,
-    ProcessTokenVirtualizationEnabled = 48,
-    ProcessConsoleHostProcess = 49,
-    ProcessWindowInformation = 50,
-    ProcessHandleInformation = 51,
-    ProcessMitigationPolicy = 52,
-    ProcessDynamicFunctionTableInformation = 53,
-    ProcessHandleCheckingMode = 54,
-    ProcessKeepAliveCount = 55,
-    ProcessRevokeFileHandles = 56,
-    ProcessWorkingSetControl = 57,
-    ProcessHandleTable = 58,
-    ProcessCheckStackExtentsMode = 59,
-    ProcessCommandLineInformation = 60,
-    ProcessProtectionInformation = 61,
-    ProcessMemoryExhaustion = 62,
-    ProcessFaultInformation = 63,
-    ProcessTelemetryIdInformation = 64,
-    ProcessCommitReleaseInformation = 65,
-    ProcessDefaultCpuSetsInformation = 66,
-    ProcessAllowedCpuSetsInformation = 67,
-    ProcessSubsystemProcess = 68,
-    ProcessJobMemoryInformation = 69,
-    ProcessInPrivate = 70,
-    ProcessRaiseUMExceptionOnInvalidHandleClose = 71,
-    ProcessIumChallengeResponse = 72,
-    ProcessChildProcessInformation = 73,
-    ProcessHighGraphicsPriorityInformation = 74,
-    ProcessSubsystemInformation = 75,
-    ProcessEnergyValues = 76,
-    ProcessPowerThrottlingState = 77,
-    ProcessReserved3Information = 78,
-    ProcessWin32kSyscallFilterInformation = 79,
-    ProcessDisableSystemAllowedCpuSets = 80,
-    ProcessWakeInformation = 81,
-    ProcessEnergyTrackingState = 82,
-    ProcessManageWritesToExecutableMemory = 83,
-    ProcessCaptureTrustletLiveDump = 84,
-    ProcessTelemetryCoverage = 85,
-    ProcessEnclaveInformation = 86,
-    ProcessEnableReadWriteVmLogging = 87,
-    ProcessUptimeInformation = 88,
-    ProcessImageSection = 89,
-    ProcessDebugAuthInformation = 90,
-    ProcessSystemResourceManagement = 91,
-    ProcessSequenceNumber = 92,
-    ProcessLoaderDetour = 93,
-    ProcessSecurityDomainInformation = 94,
-    ProcessCombineSecurityDomainsInformation = 95,
-    ProcessEnableLogging = 96,
-    ProcessLeapSecondInformation = 97,
-    ProcessFiberShadowStackAllocation = 98,
-    ProcessFreeFiberShadowStackAllocation = 99,
-    ProcessAltSystemCallInformation = 100,
-    ProcessDynamicEHContinuationTargets = 101,
-    ProcessDynamicEnforcedCetCompatibleRanges = 102,
-    ProcessCreateStateChange = 103,
-    ProcessApplyStateChange = 104,
-    ProcessEnableOptionalXStateFeatures = 105,
-    ProcessAltPrefetchParam = 106,
-    ProcessAssignCpuPartitions = 107,
-    ProcessPriorityClassEx = 108,
-    ProcessMembershipInformation = 109,
-    ProcessEffectiveIoPriority = 110,
-    ProcessEffectivePagePriority = 111,
-    MaxProcessInfoClass = 112,
-}
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum THREADINFOCLASS {
-    ThreadBasicInformation = 0,
-    ThreadTimes = 1,
-    ThreadPriority = 2,
-    ThreadBasePriority = 3,
-    ThreadAffinityMask = 4,
-    ThreadImpersonationToken = 5,
-    ThreadDescriptorTableEntry = 6,
-    ThreadEnableAlignmentFaultFixup = 7,
-    ThreadEventPair = 8,
-    ThreadQuerySetWin32StartAddress = 9,
-    ThreadZeroTlsCell = 10,
-    ThreadPerformanceCount = 11,
-    ThreadAmILastThread = 12,
-    ThreadIdealProcessor = 13,
-    ThreadPriorityBoost = 14,
-    ThreadSetTlsArrayAddress = 15,
-    ThreadIsIoPending = 16,
-    ThreadHideFromDebugger = 17,
-    ThreadBreakOnTermination = 18,
-    ThreadSwitchLegacyState = 19,
-    ThreadIsTerminated = 20,
-    ThreadLastSystemCall = 21,
-    ThreadIoPriority = 22,
-    ThreadCycleTime = 23,
-    ThreadPagePriority = 24,
-    ThreadActualBasePriority = 25,
-    ThreadTebInformation = 26,
-    ThreadCSwitchMon = 27,
-    ThreadCSwitchPmu = 28,
-    ThreadWow64Context = 29,
-    ThreadGroupInformation = 30,
-    ThreadUmsInformation = 31,
-    ThreadCounterProfiling = 32,
-    ThreadIdealProcessorEx = 33,
-    ThreadCpuAccountingInformation = 34,
-    ThreadSuspendCount = 35,
-    ThreadHeterogeneousCpuPolicy = 36,
-    ThreadContainerId = 37,
-    ThreadNameInformation = 38,
-    ThreadSelectedCpuSets = 39,
-    ThreadSystemThreadInformation = 40,
-    ThreadActualGroupAffinity = 41,
-    ThreadDynamicCodePolicyInfo = 42,
-    ThreadExplicitCaseSensitivity = 43,
-    ThreadWorkOnBehalfTicket = 44,
-    ThreadSubsystemInformation = 45,
-    ThreadDbgkWerReportActive = 46,
-    ThreadAttachContainer = 47,
-    ThreadManageWritesToExecutableMemory = 48,
-    ThreadPowerThrottlingState = 49,
-    ThreadWorkloadClass = 50,
-    ThreadCreateStateChange = 51,
-    ThreadApplyStateChange = 52,
-    ThreadStrongerBadHandleChecks = 53,
-    ThreadEffectiveIoPriority = 54,
-    ThreadEffectivePagePriority = 55,
-    MaxThreadInfoClass = 56,
-}
-#[repr(C)]
-pub struct PAGE_PRIORITY_INFORMATION {
-    pub PagePriority: u32,
-}
-impl Default for PAGE_PRIORITY_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PAGE_PRIORITY_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PAGE_PRIORITY_INFORMATION {{  }}")
-    }
-}
-#[repr(C)]
-pub struct PROCESS_BASIC_INFORMATION {
-    pub ExitStatus: NTSTATUS,
-    pub PebBaseAddress: *mut PEB,
-    pub AffinityMask: usize,
-    pub BasePriority: i32,
-    pub UniqueProcessId: HANDLE,
-    pub InheritedFromUniqueProcessId: HANDLE,
-}
-impl Default for PROCESS_BASIC_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_BASIC_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_BASIC_INFORMATION {{  }}")
-    }
-}
-#[repr(C)]
-pub struct PROCESS_EXTENDED_BASIC_INFORMATION {
-    pub Size: usize,
-    pub BasicInfo: PROCESS_BASIC_INFORMATION,
-    pub Anonymous1: PROCESS_EXTENDED_BASIC_INFORMATION_1,
-}
-#[repr(C)]
-pub struct PROCESS_EXTENDED_BASIC_INFORMATION_1 {
-    pub Flags: UnionField<u32>,
-    pub Anonymous1: UnionField<PROCESS_EXTENDED_BASIC_INFORMATION_1_1>,
-    pub union_field: u32,
-}
-#[repr(C)]
-#[repr(align(4))]
-pub struct PROCESS_EXTENDED_BASIC_INFORMATION_1_1 {
-    _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
-}
-impl Default for PROCESS_EXTENDED_BASIC_INFORMATION_1_1 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_EXTENDED_BASIC_INFORMATION_1_1 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "PROCESS_EXTENDED_BASIC_INFORMATION_1_1 {{ IsProtectedProcess : {:?}, IsWow64Process : {:?}, IsProcessDeleting : {:?}, IsCrossSessionCreate : {:?}, IsFrozen : {:?}, IsBackground : {:?}, IsStronglyNamed : {:?}, IsSecureProcess : {:?}, IsSubsystemProcess : {:?}, SpareBits : {:?} }}",
-            self.IsProtectedProcess(),
-            self.IsWow64Process(),
-            self.IsProcessDeleting(),
-            self.IsCrossSessionCreate(),
-            self.IsFrozen(),
-            self.IsBackground(),
-            self.IsStronglyNamed(),
-            self.IsSecureProcess(),
-            self.IsSubsystemProcess(),
-            self.SpareBits()
-        )
-    }
-}
-impl PROCESS_EXTENDED_BASIC_INFORMATION_1_1 {
-    #[inline]
-    pub fn IsProtectedProcess(&self) -> u32 {
-        self._bitfield_1.get(0usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsProtectedProcess(&mut self, val: u32) {
-        self._bitfield_1.set(0usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn IsWow64Process(&self) -> u32 {
-        self._bitfield_1.get(1usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsWow64Process(&mut self, val: u32) {
-        self._bitfield_1.set(1usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn IsProcessDeleting(&self) -> u32 {
-        self._bitfield_1.get(2usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsProcessDeleting(&mut self, val: u32) {
-        self._bitfield_1.set(2usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn IsCrossSessionCreate(&self) -> u32 {
-        self._bitfield_1.get(3usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsCrossSessionCreate(&mut self, val: u32) {
-        self._bitfield_1.set(3usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn IsFrozen(&self) -> u32 {
-        self._bitfield_1.get(4usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsFrozen(&mut self, val: u32) {
-        self._bitfield_1.set(4usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn IsBackground(&self) -> u32 {
-        self._bitfield_1.get(5usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsBackground(&mut self, val: u32) {
-        self._bitfield_1.set(5usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn IsStronglyNamed(&self) -> u32 {
-        self._bitfield_1.get(6usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsStronglyNamed(&mut self, val: u32) {
-        self._bitfield_1.set(6usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn IsSecureProcess(&self) -> u32 {
-        self._bitfield_1.get(7usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsSecureProcess(&mut self, val: u32) {
-        self._bitfield_1.set(7usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn IsSubsystemProcess(&self) -> u32 {
-        self._bitfield_1.get(8usize, 1u8) as u32
-    }
-    #[inline]
-    pub fn set_IsSubsystemProcess(&mut self, val: u32) {
-        self._bitfield_1.set(8usize, 1u8, val as u64)
-    }
-    #[inline]
-    pub fn SpareBits(&self) -> u32 {
-        self._bitfield_1.get(9usize, 23u8) as u32
-    }
-    #[inline]
-    pub fn set_SpareBits(&mut self, val: u32) {
-        self._bitfield_1.set(9usize, 23u8, val as u64)
-    }
-    #[inline]
-    pub fn new_bitfield_1(IsProtectedProcess: u32, IsWow64Process: u32, IsProcessDeleting: u32, IsCrossSessionCreate: u32, IsFrozen: u32, IsBackground: u32, IsStronglyNamed: u32, IsSecureProcess: u32, IsSubsystemProcess: u32, SpareBits: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
-        bitfield_unit.set(0usize, 1u8, IsProtectedProcess as u64);
-        bitfield_unit.set(1usize, 1u8, IsWow64Process as u64);
-        bitfield_unit.set(2usize, 1u8, IsProcessDeleting as u64);
-        bitfield_unit.set(3usize, 1u8, IsCrossSessionCreate as u64);
-        bitfield_unit.set(4usize, 1u8, IsFrozen as u64);
-        bitfield_unit.set(5usize, 1u8, IsBackground as u64);
-        bitfield_unit.set(6usize, 1u8, IsStronglyNamed as u64);
-        bitfield_unit.set(7usize, 1u8, IsSecureProcess as u64);
-        bitfield_unit.set(8usize, 1u8, IsSubsystemProcess as u64);
-        bitfield_unit.set(9usize, 23u8, SpareBits as u64);
-        bitfield_unit
-    }
-}
-impl Default for PROCESS_EXTENDED_BASIC_INFORMATION_1 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_EXTENDED_BASIC_INFORMATION_1 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_EXTENDED_BASIC_INFORMATION_1 {{ union }}")
-    }
-}
-impl Default for PROCESS_EXTENDED_BASIC_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_EXTENDED_BASIC_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_EXTENDED_BASIC_INFORMATION {{ BasicInfo: {:?}, Anonymous1: {:?} }}", self.BasicInfo, self.Anonymous1)
-    }
-}
-#[repr(C)]
-pub struct VM_COUNTERS {
-    pub PeakVirtualSize: usize,
-    pub VirtualSize: usize,
-    pub PageFaultCount: u32,
-    pub PeakWorkingSetSize: usize,
-    pub WorkingSetSize: usize,
-    pub QuotaPeakPagedPoolUsage: usize,
-    pub QuotaPagedPoolUsage: usize,
-    pub QuotaPeakNonPagedPoolUsage: usize,
-    pub QuotaNonPagedPoolUsage: usize,
-    pub PagefileUsage: usize,
-    pub PeakPagefileUsage: usize,
-}
-impl Default for VM_COUNTERS {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for VM_COUNTERS {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "VM_COUNTERS {{  }}")
-    }
-}
-#[repr(C)]
-pub struct VM_COUNTERS_EX {
-    pub PeakVirtualSize: usize,
-    pub VirtualSize: usize,
-    pub PageFaultCount: u32,
-    pub PeakWorkingSetSize: usize,
-    pub WorkingSetSize: usize,
-    pub QuotaPeakPagedPoolUsage: usize,
-    pub QuotaPagedPoolUsage: usize,
-    pub QuotaPeakNonPagedPoolUsage: usize,
-    pub QuotaNonPagedPoolUsage: usize,
-    pub PagefileUsage: usize,
-    pub PeakPagefileUsage: usize,
-    pub PrivateUsage: usize,
-}
-impl Default for VM_COUNTERS_EX {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for VM_COUNTERS_EX {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "VM_COUNTERS_EX {{  }}")
-    }
-}
-#[repr(C)]
-pub struct VM_COUNTERS_EX2 {
-    pub CountersEx: VM_COUNTERS_EX,
-    pub PrivateWorkingSetSize: usize,
-    pub SharedCommitUsage: usize,
-}
-impl Default for VM_COUNTERS_EX2 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for VM_COUNTERS_EX2 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "VM_COUNTERS_EX2 {{ CountersEx: {:?} }}", self.CountersEx)
-    }
-}
-#[repr(C)]
-pub struct KERNEL_USER_TIMES {
-    pub CreateTime: i64,
-    pub ExitTime: i64,
-    pub KernelTime: i64,
-    pub UserTime: i64,
-}
-impl Default for KERNEL_USER_TIMES {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for KERNEL_USER_TIMES {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "KERNEL_USER_TIMES {{  }}")
-    }
-}
-#[repr(C)]
-pub struct POOLED_USAGE_AND_LIMITS {
-    pub PeakPagedPoolUsage: usize,
-    pub PagedPoolUsage: usize,
-    pub PagedPoolLimit: usize,
-    pub PeakNonPagedPoolUsage: usize,
-    pub NonPagedPoolUsage: usize,
-    pub NonPagedPoolLimit: usize,
-    pub PeakPagefileUsage: usize,
-    pub PagefileUsage: usize,
-    pub PagefileLimit: usize,
-}
-impl Default for POOLED_USAGE_AND_LIMITS {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for POOLED_USAGE_AND_LIMITS {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "POOLED_USAGE_AND_LIMITS {{  }}")
-    }
-}
-#[repr(C)]
-pub struct PROCESS_EXCEPTION_PORT {
-    pub ExceptionPortHandle: HANDLE,
-    pub StateFlags: u32,
-}
-impl Default for PROCESS_EXCEPTION_PORT {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_EXCEPTION_PORT {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_EXCEPTION_PORT {{  }}")
-    }
-}
-#[repr(C)]
-pub struct PROCESS_ACCESS_TOKEN {
-    pub Token: HANDLE,
-    pub Thread: HANDLE,
-}
-impl Default for PROCESS_ACCESS_TOKEN {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_ACCESS_TOKEN {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_ACCESS_TOKEN {{  }}")
-    }
-}
 #[repr(C)]
 pub struct PROCESS_LDT_INFORMATION {
     pub Start: u32,
     pub Length: u32,
-    pub LdtEntries: [LDT_ENTRY; 1usize],
+    pub LdtEntries: [LDT_ENTRY; 1],
 }
 impl Default for PROCESS_LDT_INFORMATION {
     fn default() -> Self {
@@ -765,21 +268,6 @@ impl Default for PROCESS_LDT_SIZE {
 impl std::fmt::Debug for PROCESS_LDT_SIZE {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "PROCESS_LDT_SIZE {{  }}")
-    }
-}
-#[repr(C)]
-pub struct PROCESS_WS_WATCH_INFORMATION {
-    pub FaultingPc: *mut std::ffi::c_void,
-    pub FaultingVa: *mut std::ffi::c_void,
-}
-impl Default for PROCESS_WS_WATCH_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_WS_WATCH_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_WS_WATCH_INFORMATION {{  }}")
     }
 }
 #[repr(C)]
@@ -829,7 +317,7 @@ pub struct PROCESS_PRIORITY_CLASS_EX_1 {
 #[repr(align(2))]
 pub struct PROCESS_PRIORITY_CLASS_EX_1_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
     pub padding_0: u8,
 }
 impl Default for PROCESS_PRIORITY_CLASS_EX_1_1 {
@@ -860,8 +348,8 @@ impl PROCESS_PRIORITY_CLASS_EX_1_1 {
         self._bitfield_1.set(1usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(ForegroundValid: u16, PriorityClassValid: u16) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(ForegroundValid: u16, PriorityClassValid: u16) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ForegroundValid as u64);
         bitfield_unit.set(1usize, 1u8, PriorityClassValid as u64);
         bitfield_unit
@@ -902,201 +390,6 @@ impl std::fmt::Debug for PROCESS_FOREGROUND_BACKGROUND {
     }
 }
 #[repr(C)]
-pub struct PROCESS_DEVICEMAP_INFORMATION {
-    pub Anonymous1: PROCESS_DEVICEMAP_INFORMATION_1,
-}
-#[repr(C)]
-pub struct PROCESS_DEVICEMAP_INFORMATION_1 {
-    pub Set: UnionField<PROCESS_DEVICEMAP_INFORMATION_1_1>,
-    pub Query: UnionField<PROCESS_DEVICEMAP_INFORMATION_1_2>,
-    pub union_field: [u64; 5usize],
-}
-#[repr(C)]
-pub struct PROCESS_DEVICEMAP_INFORMATION_1_1 {
-    pub DirectoryHandle: HANDLE,
-}
-impl Default for PROCESS_DEVICEMAP_INFORMATION_1_1 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_DEVICEMAP_INFORMATION_1_1 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_DEVICEMAP_INFORMATION_1_1 {{  }}")
-    }
-}
-#[repr(C)]
-pub struct PROCESS_DEVICEMAP_INFORMATION_1_2 {
-    pub DriveMap: u32,
-    pub DriveType: [u8; 32usize],
-}
-impl Default for PROCESS_DEVICEMAP_INFORMATION_1_2 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_DEVICEMAP_INFORMATION_1_2 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_DEVICEMAP_INFORMATION_1_2 {{ DriveType: {:?} }}", self.DriveType)
-    }
-}
-impl Default for PROCESS_DEVICEMAP_INFORMATION_1 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_DEVICEMAP_INFORMATION_1 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_DEVICEMAP_INFORMATION_1 {{ union }}")
-    }
-}
-impl Default for PROCESS_DEVICEMAP_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_DEVICEMAP_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_DEVICEMAP_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
-    }
-}
-#[repr(C)]
-pub struct PROCESS_DEVICEMAP_INFORMATION_EX {
-    pub Anonymous1: PROCESS_DEVICEMAP_INFORMATION_EX_1,
-    pub Flags: u32,
-}
-#[repr(C)]
-pub struct PROCESS_DEVICEMAP_INFORMATION_EX_1 {
-    pub Set: UnionField<PROCESS_DEVICEMAP_INFORMATION_EX_1_1>,
-    pub Query: UnionField<PROCESS_DEVICEMAP_INFORMATION_EX_1_2>,
-    pub union_field: [u64; 5usize],
-}
-#[repr(C)]
-pub struct PROCESS_DEVICEMAP_INFORMATION_EX_1_1 {
-    pub DirectoryHandle: HANDLE,
-}
-impl Default for PROCESS_DEVICEMAP_INFORMATION_EX_1_1 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_DEVICEMAP_INFORMATION_EX_1_1 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_DEVICEMAP_INFORMATION_EX_1_1 {{  }}")
-    }
-}
-#[repr(C)]
-pub struct PROCESS_DEVICEMAP_INFORMATION_EX_1_2 {
-    pub DriveMap: u32,
-    pub DriveType: [u8; 32usize],
-}
-impl Default for PROCESS_DEVICEMAP_INFORMATION_EX_1_2 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_DEVICEMAP_INFORMATION_EX_1_2 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_DEVICEMAP_INFORMATION_EX_1_2 {{ DriveType: {:?} }}", self.DriveType)
-    }
-}
-impl Default for PROCESS_DEVICEMAP_INFORMATION_EX_1 {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_DEVICEMAP_INFORMATION_EX_1 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_DEVICEMAP_INFORMATION_EX_1 {{ union }}")
-    }
-}
-impl Default for PROCESS_DEVICEMAP_INFORMATION_EX {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_DEVICEMAP_INFORMATION_EX {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_DEVICEMAP_INFORMATION_EX {{ Anonymous1: {:?} }}", self.Anonymous1)
-    }
-}
-#[repr(C)]
-pub struct PROCESS_SESSION_INFORMATION {
-    pub SessionId: u32,
-}
-impl Default for PROCESS_SESSION_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_SESSION_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_SESSION_INFORMATION {{  }}")
-    }
-}
-#[repr(C)]
-pub struct PROCESS_HANDLE_TRACING_ENABLE {
-    pub Flags: u32,
-}
-impl Default for PROCESS_HANDLE_TRACING_ENABLE {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_HANDLE_TRACING_ENABLE {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_HANDLE_TRACING_ENABLE {{  }}")
-    }
-}
-#[repr(C)]
-pub struct PROCESS_HANDLE_TRACING_ENABLE_EX {
-    pub Flags: u32,
-    pub TotalSlots: u32,
-}
-impl Default for PROCESS_HANDLE_TRACING_ENABLE_EX {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_HANDLE_TRACING_ENABLE_EX {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_HANDLE_TRACING_ENABLE_EX {{  }}")
-    }
-}
-#[repr(C)]
-pub struct PROCESS_HANDLE_TRACING_ENTRY {
-    pub Handle: HANDLE,
-    pub ClientId: CLIENT_ID,
-    pub Type: u32,
-    pub Stacks: [*mut std::ffi::c_void; 16usize],
-}
-impl Default for PROCESS_HANDLE_TRACING_ENTRY {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_HANDLE_TRACING_ENTRY {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_HANDLE_TRACING_ENTRY {{ Stacks: {:?} }}", self.Stacks)
-    }
-}
-#[repr(C)]
-pub struct PROCESS_HANDLE_TRACING_QUERY {
-    pub Handle: HANDLE,
-    pub TotalTraces: u32,
-    pub HandleTrace: [PROCESS_HANDLE_TRACING_ENTRY; 1usize],
-}
-impl Default for PROCESS_HANDLE_TRACING_QUERY {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_HANDLE_TRACING_QUERY {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_HANDLE_TRACING_QUERY {{ HandleTrace: {:?} }}", self.HandleTrace)
-    }
-}
-#[repr(C)]
 pub struct THREAD_TLS_INFORMATION {
     pub Flags: u32,
     pub NewTlsData: *mut std::ffi::c_void,
@@ -1127,7 +420,7 @@ pub struct PROCESS_TLS_INFORMATION {
     pub ThreadDataCount: u32,
     pub TlsIndex: u32,
     pub PreviousCount: u32,
-    pub ThreadData: [THREAD_TLS_INFORMATION; 1usize],
+    pub ThreadData: [THREAD_TLS_INFORMATION; 1],
 }
 impl Default for PROCESS_TLS_INFORMATION {
     fn default() -> Self {
@@ -1199,7 +492,7 @@ pub struct PROCESS_AFFINITY_UPDATE_MODE {
 #[repr(align(4))]
 pub struct PROCESS_AFFINITY_UPDATE_MODE_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PROCESS_AFFINITY_UPDATE_MODE_1 {
     fn default() -> Self {
@@ -1237,8 +530,8 @@ impl PROCESS_AFFINITY_UPDATE_MODE_1 {
         self._bitfield_1.set(2usize, 30u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(EnableAutoUpdate: u32, Permanent: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(EnableAutoUpdate: u32, Permanent: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, EnableAutoUpdate as u64);
         bitfield_unit.set(1usize, 1u8, Permanent as u64);
         bitfield_unit.set(2usize, 30u8, Reserved as u64);
@@ -1265,7 +558,7 @@ pub struct PROCESS_MEMORY_ALLOCATION_MODE {
 #[repr(align(4))]
 pub struct PROCESS_MEMORY_ALLOCATION_MODE_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PROCESS_MEMORY_ALLOCATION_MODE_1 {
     fn default() -> Self {
@@ -1295,8 +588,8 @@ impl PROCESS_MEMORY_ALLOCATION_MODE_1 {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(TopDown: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(TopDown: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, TopDown as u64);
         bitfield_unit.set(1usize, 31u8, Reserved as u64);
         bitfield_unit
@@ -1346,7 +639,7 @@ impl std::fmt::Debug for PROCESS_CYCLE_TIME_INFORMATION {
 pub struct PROCESS_WINDOW_INFORMATION {
     pub WindowFlags: u32,
     pub WindowTitleLength: u16,
-    pub WindowTitle: [u16; 1usize],
+    pub WindowTitle: [u16; 1],
 }
 impl Default for PROCESS_WINDOW_INFORMATION {
     fn default() -> Self {
@@ -1382,7 +675,7 @@ impl std::fmt::Debug for PROCESS_HANDLE_TABLE_ENTRY_INFO {
 pub struct PROCESS_HANDLE_SNAPSHOT_INFORMATION {
     pub NumberOfHandles: usize,
     pub Reserved: usize,
-    pub Handles: [PROCESS_HANDLE_TABLE_ENTRY_INFO; 1usize],
+    pub Handles: [PROCESS_HANDLE_TABLE_ENTRY_INFO; 1],
 }
 impl Default for PROCESS_HANDLE_SNAPSHOT_INFORMATION {
     fn default() -> Self {
@@ -1438,35 +731,6 @@ impl Default for PROCESS_MITIGATION_POLICY_INFORMATION {
 impl std::fmt::Debug for PROCESS_MITIGATION_POLICY_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "PROCESS_MITIGATION_POLICY_INFORMATION {{ Anonymous1: {:?} }}", self.Anonymous1)
-    }
-}
-#[repr(C)]
-pub struct PROCESS_KEEPALIVE_COUNT_INFORMATION {
-    pub WakeCount: u32,
-    pub NoWakeCount: u32,
-}
-impl Default for PROCESS_KEEPALIVE_COUNT_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_KEEPALIVE_COUNT_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_KEEPALIVE_COUNT_INFORMATION {{  }}")
-    }
-}
-#[repr(C)]
-pub struct PROCESS_REVOKE_FILE_HANDLES_INFORMATION {
-    pub TargetDevicePath: UNICODE_STRING,
-}
-impl Default for PROCESS_REVOKE_FILE_HANDLES_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_REVOKE_FILE_HANDLES_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_REVOKE_FILE_HANDLES_INFORMATION {{  }}")
     }
 }
 #[repr(i32)]
@@ -1527,7 +791,7 @@ pub struct PS_PROTECTION_1 {
 #[repr(C, packed)]
 pub struct PS_PROTECTION_1_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
 }
 impl Default for PS_PROTECTION_1_1 {
     fn default() -> Self {
@@ -1565,8 +829,8 @@ impl PS_PROTECTION_1_1 {
         self._bitfield_1.set(4usize, 4u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Type: u8, Audit: u8, Signer: u8) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(Type: u8, Audit: u8, Signer: u8) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 3u8, Type as u64);
         bitfield_unit.set(3usize, 1u8, Audit as u64);
         bitfield_unit.set(4usize, 4u8, Signer as u64);
@@ -1650,7 +914,7 @@ pub struct PROCESS_COMMIT_RELEASE_INFORMATION {
 #[repr(align(4))]
 pub struct PROCESS_COMMIT_RELEASE_INFORMATION_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PROCESS_COMMIT_RELEASE_INFORMATION_1 {
     fn default() -> Self {
@@ -1696,8 +960,8 @@ impl PROCESS_COMMIT_RELEASE_INFORMATION_1 {
         self._bitfield_1.set(3usize, 29u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Eligible: u32, ReleaseRepurposedMemResetCommit: u32, ForceReleaseMemResetCommit: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Eligible: u32, ReleaseRepurposedMemResetCommit: u32, ForceReleaseMemResetCommit: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, Eligible as u64);
         bitfield_unit.set(1usize, 1u8, ReleaseRepurposedMemResetCommit as u64);
         bitfield_unit.set(2usize, 1u8, ForceReleaseMemResetCommit as u64);
@@ -1750,22 +1014,6 @@ impl std::fmt::Debug for PROCESS_CHILD_PROCESS_INFORMATION {
     }
 }
 #[repr(C)]
-pub struct POWER_THROTTLING_PROCESS_STATE {
-    pub Version: u32,
-    pub ControlMask: u32,
-    pub StateMask: u32,
-}
-impl Default for POWER_THROTTLING_PROCESS_STATE {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for POWER_THROTTLING_PROCESS_STATE {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "POWER_THROTTLING_PROCESS_STATE {{  }}")
-    }
-}
-#[repr(C)]
 pub struct WIN32K_SYSCALL_FILTER {
     pub FilterState: u32,
     pub FilterSet: u32,
@@ -1783,7 +1031,7 @@ impl std::fmt::Debug for WIN32K_SYSCALL_FILTER {
 #[repr(C)]
 pub struct PROCESS_WAKE_INFORMATION {
     pub NotificationChannel: u64,
-    pub WakeCounters: [u32; 7usize],
+    pub WakeCounters: [u32; 7],
     pub WakeFilter: *mut JOBOBJECT_WAKE_FILTER,
 }
 impl Default for PROCESS_WAKE_INFORMATION {
@@ -1802,9 +1050,9 @@ pub struct PROCESS_ENERGY_TRACKING_STATE {
     pub StateDesiredValue: u32,
     pub StateSequence: u32,
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
     pub padding_0: u16,
-    pub Tag: [u16; 64usize],
+    pub Tag: [u16; 64],
 }
 impl Default for PROCESS_ENERGY_TRACKING_STATE {
     fn default() -> Self {
@@ -1826,8 +1074,8 @@ impl PROCESS_ENERGY_TRACKING_STATE {
         self._bitfield_1.set(0usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(UpdateTag: u32) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(UpdateTag: u32) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, UpdateTag as u64);
         bitfield_unit
     }
@@ -1835,7 +1083,7 @@ impl PROCESS_ENERGY_TRACKING_STATE {
 #[repr(C)]
 pub struct MANAGE_WRITES_TO_EXECUTABLE_MEMORY {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
     pub KernelWriteToExecutableSignal: *mut std::ffi::c_void,
 }
 impl Default for MANAGE_WRITES_TO_EXECUTABLE_MEMORY {
@@ -1882,29 +1130,13 @@ impl MANAGE_WRITES_TO_EXECUTABLE_MEMORY {
         self._bitfield_1.set(10usize, 22u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Version: u32, ProcessEnableWriteExceptions: u32, ThreadAllowWrites: u32, Spare: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Version: u32, ProcessEnableWriteExceptions: u32, ThreadAllowWrites: u32, Spare: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, Version as u64);
         bitfield_unit.set(8usize, 1u8, ProcessEnableWriteExceptions as u64);
         bitfield_unit.set(9usize, 1u8, ThreadAllowWrites as u64);
         bitfield_unit.set(10usize, 22u8, Spare as u64);
         bitfield_unit
-    }
-}
-#[repr(C)]
-pub struct POWER_THROTTLING_THREAD_STATE {
-    pub Version: u32,
-    pub ControlMask: u32,
-    pub StateMask: u32,
-}
-impl Default for POWER_THROTTLING_THREAD_STATE {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for POWER_THROTTLING_THREAD_STATE {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "POWER_THROTTLING_THREAD_STATE {{  }}")
     }
 }
 #[repr(C)]
@@ -1916,7 +1148,7 @@ pub struct PROCESS_READWRITEVM_LOGGING_INFORMATION {
 #[repr(C, packed)]
 pub struct PROCESS_READWRITEVM_LOGGING_INFORMATION_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
 }
 impl Default for PROCESS_READWRITEVM_LOGGING_INFORMATION_1 {
     fn default() -> Self {
@@ -1954,8 +1186,8 @@ impl PROCESS_READWRITEVM_LOGGING_INFORMATION_1 {
         self._bitfield_1.set(2usize, 6u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(EnableReadVmLogging: u8, EnableWriteVmLogging: u8, Unused: u8) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(EnableReadVmLogging: u8, EnableWriteVmLogging: u8, Unused: u8) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, EnableReadVmLogging as u64);
         bitfield_unit.set(1usize, 1u8, EnableWriteVmLogging as u64);
         bitfield_unit.set(2usize, 6u8, Unused as u64);
@@ -1986,7 +1218,7 @@ pub struct PROCESS_UPTIME_INFORMATION {
 #[repr(align(1))]
 pub union PROCESS_UPTIME_INFORMATION_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 2usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 2]>,
 }
 impl Default for PROCESS_UPTIME_INFORMATION_1 {
     fn default() -> Self {
@@ -2032,8 +1264,8 @@ impl PROCESS_UPTIME_INFORMATION_1 {
         unsafe { self._bitfield_1.set(9usize, 1u8, val as u64) }
     }
     #[inline]
-    pub fn new_bitfield_1(HangCount: u32, GhostCount: u32, Crashed: u32, Terminated: u32) -> BitfieldUnit<[u8; 2usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 2usize]> = Default::default();
+    pub fn new_bitfield_1(HangCount: u32, GhostCount: u32, Crashed: u32, Terminated: u32) -> BitfieldUnit<[u8; 2]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
         bitfield_unit.set(0usize, 4u8, HangCount as u64);
         bitfield_unit.set(4usize, 4u8, GhostCount as u64);
         bitfield_unit.set(8usize, 1u8, Crashed as u64);
@@ -2061,7 +1293,7 @@ pub struct PROCESS_SYSTEM_RESOURCE_MANAGEMENT {
 #[repr(align(4))]
 pub struct PROCESS_SYSTEM_RESOURCE_MANAGEMENT_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PROCESS_SYSTEM_RESOURCE_MANAGEMENT_1 {
     fn default() -> Self {
@@ -2091,8 +1323,8 @@ impl PROCESS_SYSTEM_RESOURCE_MANAGEMENT_1 {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(Foreground: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(Foreground: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, Foreground as u64);
         bitfield_unit.set(1usize, 31u8, Reserved as u64);
         bitfield_unit
@@ -2146,7 +1378,7 @@ pub struct PROCESS_LOGGING_INFORMATION {
 #[repr(align(4))]
 pub struct PROCESS_LOGGING_INFORMATION_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PROCESS_LOGGING_INFORMATION_1 {
     fn default() -> Self {
@@ -2226,8 +1458,8 @@ impl PROCESS_LOGGING_INFORMATION_1 {
         self._bitfield_1.set(6usize, 26u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(EnableReadVmLogging: u32, EnableWriteVmLogging: u32, EnableProcessSuspendResumeLogging: u32, EnableThreadSuspendResumeLogging: u32, EnableLocalExecProtectVmLogging: u32, EnableRemoteExecProtectVmLogging: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(EnableReadVmLogging: u32, EnableWriteVmLogging: u32, EnableProcessSuspendResumeLogging: u32, EnableThreadSuspendResumeLogging: u32, EnableLocalExecProtectVmLogging: u32, EnableRemoteExecProtectVmLogging: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, EnableReadVmLogging as u64);
         bitfield_unit.set(1usize, 1u8, EnableWriteVmLogging as u64);
         bitfield_unit.set(2usize, 1u8, EnableProcessSuspendResumeLogging as u64);
@@ -2295,20 +1527,6 @@ impl std::fmt::Debug for PROCESS_FREE_FIBER_SHADOW_STACK_ALLOCATION_INFORMATION 
         write!(f, "PROCESS_FREE_FIBER_SHADOW_STACK_ALLOCATION_INFORMATION {{  }}")
     }
 }
-#[repr(C)]
-pub struct PROCESS_MEMBERSHIP_INFORMATION {
-    pub ServerSiloId: u32,
-}
-impl Default for PROCESS_MEMBERSHIP_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for PROCESS_MEMBERSHIP_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "PROCESS_MEMBERSHIP_INFORMATION {{  }}")
-    }
-}
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn NtQueryPortInformationProcess() -> NTSTATUS;
@@ -2336,7 +1554,7 @@ impl std::fmt::Debug for THREAD_BASIC_INFORMATION {
 pub struct THREAD_LAST_SYSCALL_INFORMATION {
     pub FirstArgument: *mut std::ffi::c_void,
     pub SystemCallNumber: u16,
-    pub Pad: [u16; 1usize],
+    pub Pad: [u16; 1],
     pub WaitTime: u64,
 }
 impl Default for THREAD_LAST_SYSCALL_INFORMATION {
@@ -2408,7 +1626,7 @@ pub struct THREAD_PERFORMANCE_DATA {
     pub WaitReasonBitMap: u64,
     pub HardwareCounters: u64,
     pub CycleTime: COUNTER_READING,
-    pub HwCounters: [COUNTER_READING; 16usize],
+    pub HwCounters: [COUNTER_READING; 16],
 }
 impl Default for THREAD_PERFORMANCE_DATA {
     fn default() -> Self {
@@ -2446,10 +1664,10 @@ pub struct RTL_UMS_CONTEXT {
     pub Teb: *mut std::ffi::c_void,
     pub UserContext: *mut std::ffi::c_void,
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
     pub Flags: i32,
     _bitfield_align_2: [u64; 0],
-    _bitfield_2: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_2: BitfieldUnit<[u8; 8]>,
     pub ContextLock: u64,
     pub PrimaryUmsContext: *mut RTL_UMS_CONTEXT,
     pub SwitchCount: u32,
@@ -2538,8 +1756,8 @@ impl RTL_UMS_CONTEXT {
         self._bitfield_1.set(6usize, 1u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(ScheduledThread: u32, Suspended: u32, VolatileContext: u32, Terminated: u32, DebugActive: u32, RunningOnSelfThread: u32, DenyRunningOnSelfThread: u32) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(ScheduledThread: u32, Suspended: u32, VolatileContext: u32, Terminated: u32, DebugActive: u32, RunningOnSelfThread: u32, DenyRunningOnSelfThread: u32) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ScheduledThread as u64);
         bitfield_unit.set(1usize, 1u8, Suspended as u64);
         bitfield_unit.set(2usize, 1u8, VolatileContext as u64);
@@ -2566,8 +1784,8 @@ impl RTL_UMS_CONTEXT {
         self._bitfield_2.set(2usize, 62u8, val)
     }
     #[inline]
-    pub fn new_bitfield_2(KernelUpdateLock: u64, PrimaryClientID: u64) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_2(KernelUpdateLock: u64, PrimaryClientID: u64) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 2u8, KernelUpdateLock);
         bitfield_unit.set(2usize, 62u8, PrimaryClientID);
         bitfield_unit
@@ -2615,7 +1833,7 @@ pub struct THREAD_UMS_INFORMATION_1 {
 #[repr(align(4))]
 pub struct THREAD_UMS_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for THREAD_UMS_INFORMATION_1_1 {
     fn default() -> Self {
@@ -2653,8 +1871,8 @@ impl THREAD_UMS_INFORMATION_1_1 {
         self._bitfield_1.set(2usize, 30u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(IsUmsSchedulerThread: u32, IsUmsWorkerThread: u32, SpareBits: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(IsUmsSchedulerThread: u32, IsUmsWorkerThread: u32, SpareBits: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, IsUmsSchedulerThread as u64);
         bitfield_unit.set(1usize, 1u8, IsUmsWorkerThread as u64);
         bitfield_unit.set(2usize, 30u8, SpareBits as u64);
@@ -2679,20 +1897,6 @@ impl Default for THREAD_UMS_INFORMATION {
 impl std::fmt::Debug for THREAD_UMS_INFORMATION {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "THREAD_UMS_INFORMATION {{ Command: {:?}, CompletionList: {:?}, UmsContext: {:?}, Anonymous1: {:?} }}", self.Command, self.CompletionList, self.UmsContext, self.Anonymous1)
-    }
-}
-#[repr(C)]
-pub struct THREAD_NAME_INFORMATION {
-    pub ThreadName: UNICODE_STRING,
-}
-impl Default for THREAD_NAME_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for THREAD_NAME_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "THREAD_NAME_INFORMATION {{  }}")
     }
 }
 #[repr(C)]
@@ -2726,7 +1930,7 @@ pub struct RTL_WORK_ON_BEHALF_TICKET_EX_1 {
 #[repr(align(4))]
 pub struct RTL_WORK_ON_BEHALF_TICKET_EX_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for RTL_WORK_ON_BEHALF_TICKET_EX_1_1 {
     fn default() -> Self {
@@ -2756,8 +1960,8 @@ impl RTL_WORK_ON_BEHALF_TICKET_EX_1_1 {
         self._bitfield_1.set(1usize, 31u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(CurrentThread: u32, Reserved1: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(CurrentThread: u32, Reserved1: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, CurrentThread as u64);
         bitfield_unit.set(1usize, 31u8, Reserved1 as u64);
         bitfield_unit
@@ -2782,13 +1986,6 @@ impl std::fmt::Debug for RTL_WORK_ON_BEHALF_TICKET_EX {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "RTL_WORK_ON_BEHALF_TICKET_EX {{ Ticket: {:?}, Anonymous1: {:?} }}", self.Ticket, self.Anonymous1)
     }
-}
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum SUBSYSTEM_INFORMATION_TYPE {
-    SubsystemInformationTypeWin32 = 0,
-    SubsystemInformationTypeWSL = 1,
-    MaxSubsystemInformationType = 2,
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -2963,7 +2160,7 @@ pub struct PROC_THREAD_ATTRIBUTE_LIST {
     pub LastAttribute: u32,
     pub SpareUlong0: u32,
     pub ExtendedFlagsAttribute: *mut PROC_THREAD_ATTRIBUTE,
-    pub Attributes: [PROC_THREAD_ATTRIBUTE; 1usize],
+    pub Attributes: [PROC_THREAD_ATTRIBUTE; 1],
 }
 impl Default for PROC_THREAD_ATTRIBUTE_LIST {
     fn default() -> Self {
@@ -2992,7 +2189,7 @@ pub enum SE_SAFE_OPEN_PROMPT_EXPERIENCE_RESULTS {
 #[repr(C)]
 pub struct SE_SAFE_OPEN_PROMPT_RESULTS {
     pub Results: SE_SAFE_OPEN_PROMPT_EXPERIENCE_RESULTS,
-    pub Path: [u16; 260usize],
+    pub Path: [u16; 260],
 }
 impl Default for SE_SAFE_OPEN_PROMPT_RESULTS {
     fn default() -> Self {
@@ -3007,7 +2204,7 @@ impl std::fmt::Debug for SE_SAFE_OPEN_PROMPT_RESULTS {
 #[repr(C)]
 pub struct PROC_THREAD_BNOISOLATION_ATTRIBUTE {
     pub IsolationEnabled: BOOL,
-    pub IsolationPrefix: [u16; 136usize],
+    pub IsolationPrefix: [u16; 136],
 }
 impl Default for PROC_THREAD_BNOISOLATION_ATTRIBUTE {
     fn default() -> Self {
@@ -3108,7 +2305,7 @@ impl std::fmt::Debug for PS_ATTRIBUTE {
 #[repr(C)]
 pub struct PS_ATTRIBUTE_LIST {
     pub TotalLength: usize,
-    pub Attributes: [PS_ATTRIBUTE; 1usize],
+    pub Attributes: [PS_ATTRIBUTE; 1],
 }
 impl Default for PS_ATTRIBUTE_LIST {
     fn default() -> Self {
@@ -3158,8 +2355,8 @@ pub struct PS_STD_HANDLE_INFO_1 {
 #[repr(align(4))]
 pub struct PS_STD_HANDLE_INFO_1_1 {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: BitfieldUnit<[u8; 1usize]>,
-    pub padding_0: [u8; 3usize],
+    _bitfield_1: BitfieldUnit<[u8; 1]>,
+    pub padding_0: [u8; 3],
 }
 impl Default for PS_STD_HANDLE_INFO_1_1 {
     fn default() -> Self {
@@ -3189,8 +2386,8 @@ impl PS_STD_HANDLE_INFO_1_1 {
         self._bitfield_1.set(2usize, 3u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(StdHandleState: u32, PseudoHandleMask: u32) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(StdHandleState: u32, PseudoHandleMask: u32) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 2u8, StdHandleState as u64);
         bitfield_unit.set(2usize, 3u8, PseudoHandleMask as u64);
         bitfield_unit
@@ -3219,7 +2416,7 @@ impl std::fmt::Debug for PS_STD_HANDLE_INFO {
 #[repr(C)]
 pub struct PS_TRUSTLET_ATTRIBUTE_ACCESSRIGHTS {
     _bitfield_align_1: [u8; 0],
-    _bitfield_1: UnionField<BitfieldUnit<[u8; 1usize]>>,
+    _bitfield_1: UnionField<BitfieldUnit<[u8; 1]>>,
     pub AccessRights: UnionField<u8>,
     pub union_field: u8,
 }
@@ -3275,8 +2472,8 @@ impl PS_TRUSTLET_ATTRIBUTE_ACCESSRIGHTS {
         unsafe { self._bitfield_1.as_mut().set(4usize, 4u8, val as u64) }
     }
     #[inline]
-    pub fn new_bitfield_1(Trustlet: u8, Ntos: u8, WriteHandle: u8, ReadHandle: u8, Reserved: u8) -> BitfieldUnit<[u8; 1usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 1usize]> = Default::default();
+    pub fn new_bitfield_1(Trustlet: u8, Ntos: u8, WriteHandle: u8, ReadHandle: u8, Reserved: u8) -> BitfieldUnit<[u8; 1]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
         bitfield_unit.set(0usize, 1u8, Trustlet as u64);
         bitfield_unit.set(1usize, 1u8, Ntos as u64);
         bitfield_unit.set(2usize, 1u8, WriteHandle as u64);
@@ -3336,7 +2533,7 @@ impl std::fmt::Debug for PS_TRUSTLET_ATTRIBUTE_TYPE {
 pub struct PS_TRUSTLET_ATTRIBUTE_HEADER {
     pub AttributeType: PS_TRUSTLET_ATTRIBUTE_TYPE,
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PS_TRUSTLET_ATTRIBUTE_HEADER {
     fn default() -> Self {
@@ -3366,8 +2563,8 @@ impl PS_TRUSTLET_ATTRIBUTE_HEADER {
         self._bitfield_1.set(8usize, 24u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(InstanceNumber: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(InstanceNumber: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 8u8, InstanceNumber as u64);
         bitfield_unit.set(8usize, 24u8, Reserved as u64);
         bitfield_unit
@@ -3376,7 +2573,7 @@ impl PS_TRUSTLET_ATTRIBUTE_HEADER {
 #[repr(C)]
 pub struct PS_TRUSTLET_ATTRIBUTE_DATA {
     pub Header: PS_TRUSTLET_ATTRIBUTE_HEADER,
-    pub Data: [u64; 1usize],
+    pub Data: [u64; 1],
 }
 impl Default for PS_TRUSTLET_ATTRIBUTE_DATA {
     fn default() -> Self {
@@ -3391,7 +2588,7 @@ impl std::fmt::Debug for PS_TRUSTLET_ATTRIBUTE_DATA {
 #[repr(C)]
 pub struct PS_TRUSTLET_CREATE_ATTRIBUTES {
     pub TrustletIdentity: u64,
-    pub Attributes: [PS_TRUSTLET_ATTRIBUTE_DATA; 1usize],
+    pub Attributes: [PS_TRUSTLET_ATTRIBUTE_DATA; 1],
 }
 impl Default for PS_TRUSTLET_CREATE_ATTRIBUTES {
     fn default() -> Self {
@@ -3486,7 +2683,7 @@ pub struct PS_CREATE_INFO_1 {
     pub ExeFormat: UnionField<PS_CREATE_INFO_1_3>,
     pub ExeName: UnionField<PS_CREATE_INFO_1_4>,
     pub SuccessState: UnionField<PS_CREATE_INFO_1_5>,
-    pub union_field: [u64; 9usize],
+    pub union_field: [u64; 9],
 }
 #[repr(C)]
 pub struct PS_CREATE_INFO_1_1 {
@@ -3503,7 +2700,7 @@ pub struct PS_CREATE_INFO_1_1_1 {
 #[repr(align(2))]
 pub struct PS_CREATE_INFO_1_1_1_1 {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PS_CREATE_INFO_1_1_1_1 {
     fn default() -> Self {
@@ -3573,8 +2770,8 @@ impl PS_CREATE_INFO_1_1_1_1 {
         self._bitfield_1.set(16usize, 16u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(WriteOutputOnExit: u8, DetectManifest: u8, IFEOSkipDebugger: u8, IFEODoNotPropagateKeyState: u8, SpareBits1: u8, SpareBits2: u8, ProhibitedImageCharacteristics: u16) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(WriteOutputOnExit: u8, DetectManifest: u8, IFEOSkipDebugger: u8, IFEODoNotPropagateKeyState: u8, SpareBits1: u8, SpareBits2: u8, ProhibitedImageCharacteristics: u16) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, WriteOutputOnExit as u64);
         bitfield_unit.set(1usize, 1u8, DetectManifest as u64);
         bitfield_unit.set(2usize, 1u8, IFEOSkipDebugger as u64);
@@ -3670,7 +2867,7 @@ pub struct PS_CREATE_INFO_1_5_1 {
 #[repr(align(2))]
 pub struct PS_CREATE_INFO_1_5_1_1 {
     _bitfield_align_1: [u16; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for PS_CREATE_INFO_1_5_1_1 {
     fn default() -> Self {
@@ -3748,8 +2945,8 @@ impl PS_CREATE_INFO_1_5_1_1 {
         self._bitfield_1.set(16usize, 16u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(ProtectedProcess: u8, AddressSpaceOverride: u8, DevOverrideEnabled: u8, ManifestDetected: u8, ProtectedProcessLight: u8, SpareBits1: u8, SpareBits2: u8, SpareBits3: u16) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(ProtectedProcess: u8, AddressSpaceOverride: u8, DevOverrideEnabled: u8, ManifestDetected: u8, ProtectedProcessLight: u8, SpareBits1: u8, SpareBits2: u8, SpareBits3: u16) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, ProtectedProcess as u64);
         bitfield_unit.set(1usize, 1u8, AddressSpaceOverride as u64);
         bitfield_unit.set(2usize, 1u8, DevOverrideEnabled as u64);
@@ -3854,7 +3051,7 @@ impl std::fmt::Debug for JOBOBJECT_EXTENDED_ACCOUNTING_INFORMATION {
 #[repr(C)]
 pub struct JOBOBJECT_WAKE_INFORMATION {
     pub NotificationChannel: HANDLE,
-    pub WakeCounters: [u64; 7usize],
+    pub WakeCounters: [u64; 7],
 }
 impl Default for JOBOBJECT_WAKE_INFORMATION {
     fn default() -> Self {
@@ -3869,7 +3066,7 @@ impl std::fmt::Debug for JOBOBJECT_WAKE_INFORMATION {
 #[repr(C)]
 pub struct JOBOBJECT_WAKE_INFORMATION_V1 {
     pub NotificationChannel: HANDLE,
-    pub WakeCounters: [u64; 4usize],
+    pub WakeCounters: [u64; 4],
 }
 impl Default for JOBOBJECT_WAKE_INFORMATION_V1 {
     fn default() -> Self {
@@ -3915,7 +3112,7 @@ pub struct JOBOBJECT_FREEZE_INFORMATION {
     pub Anonymous1: JOBOBJECT_FREEZE_INFORMATION_1,
     pub Freeze: BOOLEAN,
     pub Swap: BOOLEAN,
-    pub Reserved0: [u8; 2usize],
+    pub Reserved0: [u8; 2],
     pub WakeFilter: JOBOBJECT_WAKE_FILTER,
 }
 #[repr(C)]
@@ -3928,7 +3125,7 @@ pub struct JOBOBJECT_FREEZE_INFORMATION_1 {
 #[repr(align(4))]
 pub struct JOBOBJECT_FREEZE_INFORMATION_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 4usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 4]>,
 }
 impl Default for JOBOBJECT_FREEZE_INFORMATION_1_1 {
     fn default() -> Self {
@@ -3974,8 +3171,8 @@ impl JOBOBJECT_FREEZE_INFORMATION_1_1 {
         self._bitfield_1.set(3usize, 29u8, val as u64)
     }
     #[inline]
-    pub fn new_bitfield_1(FreezeOperation: u32, FilterOperation: u32, SwapOperation: u32, Reserved: u32) -> BitfieldUnit<[u8; 4usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 4usize]> = Default::default();
+    pub fn new_bitfield_1(FreezeOperation: u32, FilterOperation: u32, SwapOperation: u32, Reserved: u32) -> BitfieldUnit<[u8; 4]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 4]> = Default::default();
         bitfield_unit.set(0usize, 1u8, FreezeOperation as u64);
         bitfield_unit.set(1usize, 1u8, FilterOperation as u64);
         bitfield_unit.set(2usize, 1u8, SwapOperation as u64);
@@ -4038,7 +3235,7 @@ impl std::fmt::Debug for JOBOBJECT_MEMORY_USAGE_INFORMATION {
 pub struct JOBOBJECT_MEMORY_USAGE_INFORMATION_V2 {
     pub BasicInfo: JOBOBJECT_MEMORY_USAGE_INFORMATION,
     pub JobSharedMemory: u64,
-    pub Reserved: [u64; 2usize],
+    pub Reserved: [u64; 2],
 }
 impl Default for JOBOBJECT_MEMORY_USAGE_INFORMATION_V2 {
     fn default() -> Self {
@@ -4059,8 +3256,8 @@ pub struct SILO_USER_SHARED_DATA {
     pub SuiteMask: u32,
     pub SharedUserSessionId: u32,
     pub IsMultiSessionSku: BOOLEAN,
-    pub NtSystemRoot: [u16; 260usize],
-    pub UserModeGlobalLogger: [u16; 16usize],
+    pub NtSystemRoot: [u16; 260],
+    pub UserModeGlobalLogger: [u16; 16],
     pub TimeZoneId: u32,
     pub TimeZoneBiasStamp: i32,
     pub TimeZoneBias: KSYSTEM_TIME,

@@ -152,7 +152,7 @@ impl std::fmt::Debug for PORT_MESSAGE_2 {
 pub struct PORT_MESSAGE_3 {
     pub ClientId: UnionField<CLIENT_ID>,
     pub DoNotUseThisField: UnionField<f64>,
-    pub union_field: [u64; 2usize],
+    pub union_field: [u64; 2],
 }
 impl Default for PORT_MESSAGE_3 {
     fn default() -> Self {
@@ -208,7 +208,7 @@ impl std::fmt::Debug for PORT_DATA_ENTRY {
 #[repr(C)]
 pub struct PORT_DATA_INFORMATION {
     pub CountDataEntries: u32,
-    pub DataEntries: [PORT_DATA_ENTRY; 1usize],
+    pub DataEntries: [PORT_DATA_ENTRY; 1],
 }
 impl Default for PORT_DATA_INFORMATION {
     fn default() -> Self {
@@ -344,7 +344,7 @@ impl std::fmt::Debug for PORT_MESSAGE64_2 {
 pub struct PORT_MESSAGE64_3 {
     pub ClientId: UnionField<CLIENT_ID>,
     pub DoNotUseThisField: UnionField<f64>,
-    pub union_field: [u64; 2usize],
+    pub union_field: [u64; 2],
 }
 impl Default for PORT_MESSAGE64_3 {
     fn default() -> Self {
@@ -558,7 +558,7 @@ pub struct ALPC_COMPLETION_LIST_STATE_1 {
 #[repr(align(8))]
 pub struct ALPC_COMPLETION_LIST_STATE_1_1 {
     _bitfield_align_1: [u32; 0],
-    _bitfield_1: BitfieldUnit<[u8; 8usize]>,
+    _bitfield_1: BitfieldUnit<[u8; 8]>,
 }
 impl Default for ALPC_COMPLETION_LIST_STATE_1_1 {
     fn default() -> Self {
@@ -596,8 +596,8 @@ impl ALPC_COMPLETION_LIST_STATE_1_1 {
         self._bitfield_1.set(48usize, 16u8, val)
     }
     #[inline]
-    pub fn new_bitfield_1(Head: u64, Tail: u64, ActiveThreadCount: u64) -> BitfieldUnit<[u8; 8usize]> {
-        let mut bitfield_unit: BitfieldUnit<[u8; 8usize]> = Default::default();
+    pub fn new_bitfield_1(Head: u64, Tail: u64, ActiveThreadCount: u64) -> BitfieldUnit<[u8; 8]> {
+        let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
         bitfield_unit.set(0usize, 24u8, Head);
         bitfield_unit.set(24usize, 24u8, Tail);
         bitfield_unit.set(48usize, 16u8, ActiveThreadCount);
@@ -637,17 +637,17 @@ pub struct ALPC_COMPLETION_LIST_HEADER {
     pub DataSize: u32,
     pub AttributeFlags: u32,
     pub AttributeSize: u32,
-    pub padding_0: [u64; 10usize],
+    pub padding_0: [u64; 10],
     pub State: ALPC_COMPLETION_LIST_STATE,
     pub LastMessageId: u32,
     pub LastCallbackId: u32,
-    pub padding_1: [u32; 28usize],
+    pub padding_1: [u32; 28],
     pub PostCount: u32,
-    pub padding_2: [u32; 31usize],
+    pub padding_2: [u32; 31],
     pub ReturnCount: u32,
-    pub padding_3: [u32; 31usize],
+    pub padding_3: [u32; 31],
     pub LogSequenceNumber: u32,
-    pub padding_4: [u64; 15usize],
+    pub padding_4: [u64; 15],
     pub UserLock: SRWLOCK,
     pub EndMagic: u64,
 }
@@ -818,7 +818,7 @@ pub struct ALPC_SERVER_INFORMATION {
 pub struct ALPC_SERVER_INFORMATION_1 {
     pub In: UnionField<ALPC_SERVER_INFORMATION_1_1>,
     pub Out: UnionField<ALPC_SERVER_INFORMATION_1_2>,
-    pub union_field: [u64; 4usize],
+    pub union_field: [u64; 4],
 }
 #[repr(C)]
 pub struct ALPC_SERVER_INFORMATION_1_1 {

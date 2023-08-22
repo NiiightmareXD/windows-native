@@ -3,8 +3,14 @@ use windows::{
     Wdk::Foundation::OBJECT_ATTRIBUTES,
     Win32::{
         Foundation::{BOOL, BOOLEAN, HANDLE, NTSTATUS, PSID, UNICODE_STRING},
-        Security::{Authentication::Identity::USER_ALL_INFORMATION, SECURITY_DESCRIPTOR, SID_NAME_USE},
-        System::Kernel::STRING,
+        Security::{
+            Authentication::Identity::{DOMAIN_PASSWORD_INFORMATION, LOGON_HOURS, USER_ALL_INFORMATION},
+            SECURITY_DESCRIPTOR, SID_NAME_USE,
+        },
+        System::{
+            Kernel::STRING,
+            PasswordManagement::{CYPHER_BLOCK, ENCRYPTED_LM_OWF_PASSWORD},
+        },
     },
 };
 
@@ -344,24 +350,6 @@ impl std::fmt::Debug for DOMAIN_UAS_INFORMATION {
         write!(f, "DOMAIN_UAS_INFORMATION {{  }}")
     }
 }
-#[repr(C)]
-pub struct DOMAIN_PASSWORD_INFORMATION {
-    pub MinPasswordLength: u16,
-    pub PasswordHistoryLength: u16,
-    pub PasswordProperties: u32,
-    pub MaxPasswordAge: i64,
-    pub MinPasswordAge: i64,
-}
-impl Default for DOMAIN_PASSWORD_INFORMATION {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for DOMAIN_PASSWORD_INFORMATION {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "DOMAIN_PASSWORD_INFORMATION {{  }}")
-    }
-}
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum DOMAIN_PASSWORD_CONSTRUCTION {
@@ -626,7 +614,7 @@ impl std::fmt::Debug for DOMAIN_LOCALIZABLE_ACCOUNTS {
 #[repr(C)]
 pub struct DOMAIN_LOCALIZABLE_INFO_BUFFER {
     pub Basic: UnionField<DOMAIN_LOCALIZABLE_ACCOUNTS>,
-    pub union_field: [u64; 2usize],
+    pub union_field: [u64; 2],
 }
 impl Default for DOMAIN_LOCALIZABLE_INFO_BUFFER {
     fn default() -> Self {
@@ -916,36 +904,6 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamGetAliasMembership(DomainHandle: *mut std::ffi::c_void, PassedCount: u32, Sids: *mut PSID, MembershipCount: *mut u32, Aliases: *mut *mut u32) -> NTSTATUS;
-}
-#[repr(C)]
-pub struct LOGON_HOURS {
-    pub UnitsPerWeek: u16,
-    pub LogonHours: *mut u8,
-}
-impl Default for LOGON_HOURS {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for LOGON_HOURS {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "LOGON_HOURS {{  }}")
-    }
-}
-#[repr(C)]
-pub struct SR_SECURITY_DESCRIPTOR {
-    pub Length: u32,
-    pub SecurityDescriptor: *mut u8,
-}
-impl Default for SR_SECURITY_DESCRIPTOR {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for SR_SECURITY_DESCRIPTOR {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "SR_SECURITY_DESCRIPTOR {{  }}")
-    }
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -1266,22 +1224,8 @@ impl std::fmt::Debug for USER_EXPIRES_INFORMATION {
     }
 }
 #[repr(C)]
-pub struct CYPHER_BLOCK {
-    pub data: [i8; 8usize],
-}
-impl Default for CYPHER_BLOCK {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for CYPHER_BLOCK {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "CYPHER_BLOCK {{ data: {:?} }}", self.data)
-    }
-}
-#[repr(C)]
 pub struct ENCRYPTED_NT_OWF_PASSWORD {
-    pub data: [CYPHER_BLOCK; 2usize],
+    pub data: [CYPHER_BLOCK; 2],
 }
 impl Default for ENCRYPTED_NT_OWF_PASSWORD {
     fn default() -> Self {
@@ -1291,20 +1235,6 @@ impl Default for ENCRYPTED_NT_OWF_PASSWORD {
 impl std::fmt::Debug for ENCRYPTED_NT_OWF_PASSWORD {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "ENCRYPTED_NT_OWF_PASSWORD {{ data: {:?} }}", self.data)
-    }
-}
-#[repr(C)]
-pub struct ENCRYPTED_LM_OWF_PASSWORD {
-    pub data: [CYPHER_BLOCK; 2usize],
-}
-impl Default for ENCRYPTED_LM_OWF_PASSWORD {
-    fn default() -> Self {
-        unsafe { std::mem::zeroed() }
-    }
-}
-impl std::fmt::Debug for ENCRYPTED_LM_OWF_PASSWORD {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ENCRYPTED_LM_OWF_PASSWORD {{ data: {:?} }}", self.data)
     }
 }
 #[repr(C)]
@@ -1374,7 +1304,7 @@ impl std::fmt::Debug for USER_INTERNAL3_INFORMATION {
 }
 #[repr(C)]
 pub struct ENCRYPTED_USER_PASSWORD {
-    pub Buffer: [u8; 516usize],
+    pub Buffer: [u8; 516],
 }
 impl Default for ENCRYPTED_USER_PASSWORD {
     fn default() -> Self {
@@ -1418,7 +1348,7 @@ impl std::fmt::Debug for USER_INTERNAL5_INFORMATION {
 }
 #[repr(C)]
 pub struct ENCRYPTED_USER_PASSWORD_NEW {
-    pub Buffer: [u8; 532usize],
+    pub Buffer: [u8; 532],
 }
 impl Default for ENCRYPTED_USER_PASSWORD_NEW {
     fn default() -> Self {
@@ -1464,7 +1394,7 @@ impl std::fmt::Debug for USER_INTERNAL5_INFORMATION_NEW {
 pub struct USER_ALLOWED_TO_DELEGATE_TO_LIST {
     pub Size: u32,
     pub NumSPNs: u32,
-    pub SPNList: [UNICODE_STRING; 1usize],
+    pub SPNList: [UNICODE_STRING; 1],
 }
 impl Default for USER_ALLOWED_TO_DELEGATE_TO_LIST {
     fn default() -> Self {
@@ -1532,8 +1462,8 @@ impl std::fmt::Debug for USER_LOGON_UI_INFORMATION {
 }
 #[repr(C)]
 pub struct ENCRYPTED_PASSWORD_AES {
-    pub AuthData: [u8; 64usize],
-    pub Salt: [u8; 16usize],
+    pub AuthData: [u8; 64],
+    pub Salt: [u8; 16],
     pub cbCipher: u32,
     pub Cipher: *mut u8,
     pub PBKDF2Iterations: u64,
@@ -1863,7 +1793,7 @@ pub struct SAM_VALIDATE_INPUT_ARG {
     pub ValidateAuthenticationInput: UnionField<SAM_VALIDATE_AUTHENTICATION_INPUT_ARG>,
     pub ValidatePasswordChangeInput: UnionField<SAM_VALIDATE_PASSWORD_CHANGE_INPUT_ARG>,
     pub ValidatePasswordResetInput: UnionField<SAM_VALIDATE_PASSWORD_RESET_INPUT_ARG>,
-    pub union_field: [u64; 13usize],
+    pub union_field: [u64; 13],
 }
 impl Default for SAM_VALIDATE_INPUT_ARG {
     fn default() -> Self {
@@ -1880,7 +1810,7 @@ pub struct SAM_VALIDATE_OUTPUT_ARG {
     pub ValidateAuthenticationOutput: UnionField<SAM_VALIDATE_STANDARD_OUTPUT_ARG>,
     pub ValidatePasswordChangeOutput: UnionField<SAM_VALIDATE_STANDARD_OUTPUT_ARG>,
     pub ValidatePasswordResetOutput: UnionField<SAM_VALIDATE_STANDARD_OUTPUT_ARG>,
-    pub union_field: [u64; 7usize],
+    pub union_field: [u64; 7],
 }
 impl Default for SAM_VALIDATE_OUTPUT_ARG {
     fn default() -> Self {
@@ -1935,7 +1865,7 @@ impl std::fmt::Debug for SAM_OPERATION_OBJCHG_OUTPUT {
 #[repr(C)]
 pub struct SAM_GENERIC_OPERATION_INPUT {
     pub ObjChangeIn: UnionField<SAM_OPERATION_OBJCHG_INPUT>,
-    pub union_field: [u64; 3usize],
+    pub union_field: [u64; 3],
 }
 impl Default for SAM_GENERIC_OPERATION_INPUT {
     fn default() -> Self {
