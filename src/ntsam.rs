@@ -278,12 +278,6 @@ extern "system" {
     pub fn SamRidToSid(ObjectHandle: *mut std::ffi::c_void, Rid: u32, Sid: *mut PSID) -> NTSTATUS;
 }
 
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct RPC_AUTH_IDENTITY_HANDLE {
-    _unused: [u8; 0],
-}
-
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn SamConnect(
@@ -301,7 +295,7 @@ extern "system" {
         ServerHandle: *mut *mut std::ffi::c_void,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        Creds: *mut RPC_AUTH_IDENTITY_HANDLE,
+        Creds: *mut std::ffi::c_void,
         Spn: PWSTR,
         pfDstIsW2K: *mut BOOL,
     ) -> NTSTATUS;

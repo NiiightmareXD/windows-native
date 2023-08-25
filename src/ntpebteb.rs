@@ -20,12 +20,6 @@ use crate::{
 pub const GDI_BATCH_BUFFER_SIZE: u32 = 310;
 
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct LEAP_SECOND_DATA {
-    _unused: [u8; 0],
-}
-
-#[repr(C)]
 pub struct API_SET_NAMESPACE {
     pub Version: u32,
     pub Size: u32,
@@ -199,7 +193,7 @@ pub struct PEB {
     pub CloudFileDiagFlags: u32,
     pub PlaceholderCompatibilityMode: i8,
     pub PlaceholderCompatibilityModeReserved: [i8; 7],
-    pub LeapSecondData: *mut LEAP_SECOND_DATA,
+    pub LeapSecondData: *mut std::ffi::c_void,
     pub Anonymous6: PEB_6,
     pub NtGlobalFlag2: u32,
     pub ExtendedFeatureDisableMask: u64,

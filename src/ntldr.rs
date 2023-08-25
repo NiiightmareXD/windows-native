@@ -232,12 +232,6 @@ pub enum LDR_HOT_PATCH_STATE {
 }
 
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct LDRP_LOAD_CONTEXT {
-    _unused: [u8; 0],
-}
-
-#[repr(C)]
 pub struct LDR_DATA_TABLE_ENTRY {
     pub InLoadOrderLinks: LIST_ENTRY,
     pub InMemoryOrderLinks: LIST_ENTRY,
@@ -256,7 +250,7 @@ pub struct LDR_DATA_TABLE_ENTRY {
     pub Lock: *mut std::ffi::c_void,
     pub DdagNode: *mut LDR_DDAG_NODE,
     pub NodeModuleLink: LIST_ENTRY,
-    pub LoadContext: *mut LDRP_LOAD_CONTEXT,
+    pub LoadContext: *mut std::ffi::c_void,
     pub ParentDllBase: *mut std::ffi::c_void,
     pub SwitchBackContext: *mut std::ffi::c_void,
     pub BaseAddressIndexNode: RTL_BALANCED_NODE,
