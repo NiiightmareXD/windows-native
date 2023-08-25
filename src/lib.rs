@@ -25,7 +25,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! windows-native = "0.51.1"
+//! windows-native = "1.0.40"
 //! ```
 //! or run this command
 //!

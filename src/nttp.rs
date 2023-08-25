@@ -10,17 +10,11 @@ use windows::Win32::{
     },
 };
 
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct TP_ALPC {
-    _unused: [u8; 0],
-}
-
 pub type PTP_ALPC_CALLBACK = std::option::Option<
     unsafe extern "system" fn(
         Instance: PTP_CALLBACK_INSTANCE,
         Context: *mut std::ffi::c_void,
-        Alpc: *mut TP_ALPC,
+        Alpc: *mut std::ffi::c_void,
     ),
 >;
 
@@ -28,7 +22,7 @@ pub type PTP_ALPC_CALLBACK_EX = std::option::Option<
     unsafe extern "system" fn(
         Instance: PTP_CALLBACK_INSTANCE,
         Context: *mut std::ffi::c_void,
-        Alpc: *mut TP_ALPC,
+        Alpc: *mut std::ffi::c_void,
         ApcContext: *mut std::ffi::c_void,
     ),
 >;
@@ -291,7 +285,7 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn TpAllocAlpcCompletion(
-        AlpcReturn: *mut *mut TP_ALPC,
+        AlpcReturn: *mut *mut std::ffi::c_void,
         AlpcPort: HANDLE,
         Callback: PTP_ALPC_CALLBACK,
         Context: *mut std::ffi::c_void,
@@ -302,7 +296,7 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn TpAllocAlpcCompletionEx(
-        AlpcReturn: *mut *mut TP_ALPC,
+        AlpcReturn: *mut *mut std::ffi::c_void,
         AlpcPort: HANDLE,
         Callback: PTP_ALPC_CALLBACK_EX,
         Context: *mut std::ffi::c_void,
@@ -312,12 +306,12 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn TpReleaseAlpcCompletion(Alpc: *mut TP_ALPC);
+    pub fn TpReleaseAlpcCompletion(Alpc: *mut std::ffi::c_void);
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn TpWaitForAlpcCompletion(Alpc: *mut TP_ALPC);
+    pub fn TpWaitForAlpcCompletion(Alpc: *mut std::ffi::c_void);
 }
 
 #[repr(i32)]

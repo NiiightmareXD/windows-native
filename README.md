@@ -18,7 +18,7 @@ Add this library to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-windows-native = "1.0.39"
+windows-native = "1.0.40"
 ```
 or run this command
 
