@@ -1,5 +1,5 @@
 use windows::{
-    Wdk::{Foundation::OBJECT_ATTRIBUTES, System::SystemServices::SECTION_INHERIT},
+    Wdk::{Foundation::OBJECT_ATTRIBUTES, System::Memory::SECTION_INHERIT},
     Win32::{
         Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
         System::{

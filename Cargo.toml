@@ -39,5 +39,6 @@ windows = { version = "0.58.0", features = [
     "Wdk_System_SystemInformation",
     "Wdk_System_Threading",
     "Wdk_System_Registry",
+    "Wdk_System_Memory",
     "Win32_System_PasswordManagement",
 ], default-features = false }

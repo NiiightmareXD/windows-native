@@ -1,8 +1,8 @@
 use windows::{
     Wdk::Foundation::OBJECT_ATTRIBUTES,
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, NTSTATUS, PSID, UNICODE_STRING},
-        Security::{SECURITY_DESCRIPTOR, SECURITY_QUALITY_OF_SERVICE},
+        Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
+        Security::{PSID, SECURITY_DESCRIPTOR, SECURITY_QUALITY_OF_SERVICE},
         System::{Threading::SRWLOCK, WindowsProgramming::CLIENT_ID},
     },
 };

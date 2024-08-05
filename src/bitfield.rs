@@ -184,7 +184,7 @@ impl<T> std::default::Default for UnionField<T> {
 
 impl<T> std::clone::Clone for UnionField<T> {
     #[inline]
-    #[allow(clippy::incorrect_clone_impl_on_copy_type)]
+    #[allow(clippy::non_canonical_clone_impl)]
 
     fn clone(&self) -> Self {
         Self::new()

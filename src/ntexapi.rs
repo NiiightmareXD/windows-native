@@ -2,9 +2,12 @@ use windows::{
     core::{GUID, PWSTR},
     Wdk::{
         Foundation::{DEVICE_OBJECT, FILE_OBJECT, IRP, OBJECT_ATTRIBUTES},
-        System::SystemServices::{
-            BUS_DATA_TYPE, INTERFACE_TYPE, KPROFILE_SOURCE, KUSER_SHARED_DATA, KWAIT_REASON,
-            PTIMER_APC_ROUTINE, RTL_BITMAP, TIMER_SET_INFORMATION_CLASS,
+        System::{
+            SystemServices::{
+                BUS_DATA_TYPE, INTERFACE_TYPE, KPROFILE_SOURCE, KUSER_SHARED_DATA, KWAIT_REASON,
+                PTIMER_APC_ROUTINE, RTL_BITMAP,
+            },
+            Threading::TIMER_SET_INFORMATION_CLASS,
         },
     },
     Win32::{

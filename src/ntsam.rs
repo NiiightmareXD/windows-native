@@ -2,12 +2,12 @@ use windows::{
     core::PWSTR,
     Wdk::Foundation::OBJECT_ATTRIBUTES,
     Win32::{
-        Foundation::{BOOL, BOOLEAN, HANDLE, NTSTATUS, PSID, UNICODE_STRING},
+        Foundation::{BOOL, BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
         Security::{
             Authentication::Identity::{
                 DOMAIN_PASSWORD_INFORMATION, LOGON_HOURS, USER_ALL_INFORMATION,
             },
-            SECURITY_DESCRIPTOR, SID_NAME_USE,
+            PSID, SECURITY_DESCRIPTOR, SID_NAME_USE,
         },
         System::{
             Kernel::STRING,

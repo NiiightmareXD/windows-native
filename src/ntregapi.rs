@@ -1,7 +1,7 @@
 use windows::{
     Wdk::{
         Foundation::OBJECT_ATTRIBUTES,
-        System::SystemServices::{KEY_INFORMATION_CLASS, KEY_VALUE_INFORMATION_CLASS},
+        System::Registry::{KEY_INFORMATION_CLASS, KEY_VALUE_INFORMATION_CLASS},
     },
     Win32::{
         Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},

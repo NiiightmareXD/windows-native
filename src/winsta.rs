@@ -1,6 +1,9 @@
 use windows::{
     core::PWSTR,
-    Win32::Foundation::{BOOLEAN, FILETIME, HANDLE, HWND, PSID, UNICODE_STRING},
+    Win32::{
+        Foundation::{BOOLEAN, FILETIME, HANDLE, HWND, UNICODE_STRING},
+        Security::PSID,
+    },
 };
 
 use crate::{
@@ -84,8 +87,8 @@ pub const WEVENT_ALL: u32 = 2147483647;
 pub const WEVENT_FLUSH: u32 = 2147483648;
 pub const WNOTIFY_ALL_SESSIONS: u32 = 1;
 pub const LOGONID_CURRENT: i32 = -1;
-pub const WINSTATION_CURRENT_SERVER: HANDLE = HANDLE(0);
-pub const WINSTATION_CURRENT_SERVER_HANDLE: HANDLE = HANDLE(0);
+pub const WINSTATION_CURRENT_SERVER: HANDLE = HANDLE(0isize as *mut std::ffi::c_void);
+pub const WINSTATION_CURRENT_SERVER_HANDLE: HANDLE = HANDLE(0isize as *mut std::ffi::c_void);
 pub const WINSTATION_CURRENT_SERVER_NAME: *mut std::ffi::c_void = std::ptr::null_mut();
 pub const WINSTATION_CURRENT_SESSION: u32 = 4294967295;
 pub const WINSTATION_ANY_SESSION: u32 = 4294967294;
