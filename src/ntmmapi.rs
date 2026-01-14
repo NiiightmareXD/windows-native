@@ -1,7 +1,7 @@
 use windows::{
     Wdk::{Foundation::OBJECT_ATTRIBUTES, System::Memory::SECTION_INHERIT},
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, NTSTATUS, UNICODE_STRING},
         System::{
             Memory::{CFG_CALL_TARGET_INFO, MEM_EXTENDED_PARAMETER},
             IO::IO_STATUS_BLOCK,
@@ -2131,7 +2131,7 @@ pub struct SECTION_IMAGE_INFORMATION {
     pub ImageCharacteristics: u16,
     pub DllCharacteristics: u16,
     pub Machine: u16,
-    pub ImageContainsCode: BOOLEAN,
+    pub ImageContainsCode: bool,
     pub Anonymous3: SECTION_IMAGE_INFORMATION_3,
     pub LoaderFlags: u32,
     pub ImageFileSize: u32,
@@ -3171,7 +3171,7 @@ extern "system" {
 extern "system" {
     pub fn NtTerminateEnclave(
         BaseAddress: *mut std::ffi::c_void,
-        WaitForThread: BOOLEAN,
+        WaitForThread: bool,
     ) -> NTSTATUS;
 }
 
@@ -3180,7 +3180,7 @@ extern "system" {
     pub fn NtCallEnclave(
         Routine: PENCLAVE_ROUTINE,
         Parameter: *mut std::ffi::c_void,
-        WaitForThread: BOOLEAN,
+        WaitForThread: bool,
         ReturnValue: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }

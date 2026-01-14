@@ -1,7 +1,7 @@
 use windows::{
     Wdk::Foundation::{OBJECT_ATTRIBUTES, OBJECT_INFORMATION_CLASS},
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, NTSTATUS, UNICODE_STRING},
         Security::GENERIC_MAPPING,
         System::Kernel::WAIT_TYPE,
     },
@@ -71,8 +71,8 @@ pub struct OBJECT_TYPE_INFORMATION {
     pub InvalidAttributes: u32,
     pub GenericMapping: GENERIC_MAPPING,
     pub ValidAccessMask: u32,
-    pub SecurityRequired: BOOLEAN,
-    pub MaintainHandleCount: BOOLEAN,
+    pub SecurityRequired: bool,
+    pub MaintainHandleCount: bool,
     pub TypeIndex: u8,
     pub ReservedByte: i8,
     pub PoolType: u32,
@@ -111,8 +111,8 @@ impl std::fmt::Debug for OBJECT_TYPES_INFORMATION {
 
 #[repr(C)]
 pub struct OBJECT_HANDLE_FLAG_INFORMATION {
-    pub Inherit: BOOLEAN,
-    pub ProtectFromClose: BOOLEAN,
+    pub Inherit: bool,
+    pub ProtectFromClose: bool,
 }
 
 impl Default for OBJECT_HANDLE_FLAG_INFORMATION {
@@ -165,7 +165,7 @@ extern "system" {
     pub fn NtSignalAndWaitForSingleObject(
         SignalHandle: HANDLE,
         WaitHandle: HANDLE,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
@@ -176,7 +176,7 @@ extern "system" {
         Count: u32,
         Handles: *mut HANDLE,
         WaitType: WAIT_TYPE,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
@@ -187,7 +187,7 @@ extern "system" {
         Count: u32,
         Handles: *mut i32,
         WaitType: WAIT_TYPE,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
@@ -250,8 +250,8 @@ extern "system" {
         DirectoryHandle: HANDLE,
         Buffer: *mut std::ffi::c_void,
         Length: u32,
-        ReturnSingleEntry: BOOLEAN,
-        RestartScan: BOOLEAN,
+        ReturnSingleEntry: bool,
+        RestartScan: bool,
         Context: *mut u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;

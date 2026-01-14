@@ -7,7 +7,7 @@ use windows::{
         },
     },
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, NTSTATUS, UNICODE_STRING},
         Security::SID,
         Storage::FileSystem::FILE_SEGMENT_ELEMENT,
         System::IO::{IO_STATUS_BLOCK, PIO_APC_ROUTINE},
@@ -227,30 +227,22 @@ impl std::fmt::Debug for FILE_INTERNAL_INFORMATION_1_1 {
 impl FILE_INTERNAL_INFORMATION_1_1 {
     #[inline]
     pub fn MftRecordIndex(&self) -> i64 {
-        unsafe { std::mem::transmute(self._bitfield_1.get(0usize, 48u8)) }
+        u64::cast_signed(self._bitfield_1.get(0usize, 48u8))
     }
 
     #[inline]
     pub fn set_MftRecordIndex(&mut self, val: i64) {
-        unsafe {
-            let val: u64 = std::mem::transmute(val);
-
-            self._bitfield_1.set(0usize, 48u8, val as u64)
-        }
+        self._bitfield_1.set(0usize, 48u8, val as u64)
     }
 
     #[inline]
     pub fn SequenceNumber(&self) -> i64 {
-        unsafe { std::mem::transmute(self._bitfield_1.get(48usize, 16u8)) }
+        u64::cast_signed(self._bitfield_1.get(48usize, 16u8))
     }
 
     #[inline]
     pub fn set_SequenceNumber(&mut self, val: i64) {
-        unsafe {
-            let val: u64 = std::mem::transmute(val);
-
-            self._bitfield_1.set(48usize, 16u8, val as u64)
-        }
+        self._bitfield_1.set(48usize, 16u8, val as u64)
     }
 
     #[inline]
@@ -258,14 +250,10 @@ impl FILE_INTERNAL_INFORMATION_1_1 {
         let mut bitfield_unit: BitfieldUnit<[u8; 8]> = Default::default();
 
         bitfield_unit.set(0usize, 48u8, {
-            let MftRecordIndex: u64 = unsafe { std::mem::transmute(MftRecordIndex) };
-
             MftRecordIndex as u64
         });
 
         bitfield_unit.set(48usize, 16u8, {
-            let SequenceNumber: u64 = unsafe { std::mem::transmute(SequenceNumber) };
-
             SequenceNumber as u64
         });
 
@@ -497,11 +485,11 @@ extern "system" {
         IoStatusBlock: *mut IO_STATUS_BLOCK,
         Buffer: *mut std::ffi::c_void,
         Length: u32,
-        ReturnSingleEntry: BOOLEAN,
+        ReturnSingleEntry: bool,
         EaList: *mut std::ffi::c_void,
         EaListLength: u32,
         EaIndex: *mut u32,
-        RestartScan: BOOLEAN,
+        RestartScan: bool,
     ) -> NTSTATUS;
 }
 
@@ -586,7 +574,7 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         Length: u32,
         CompletionFilter: u32,
-        WatchTree: BOOLEAN,
+        WatchTree: bool,
     ) -> NTSTATUS;
 }
 
@@ -601,7 +589,7 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         Length: u32,
         CompletionFilter: u32,
-        WatchTree: BOOLEAN,
+        WatchTree: bool,
         DirectoryNotifyInformationClass: DIRECTORY_NOTIFY_INFORMATION_CLASS,
     ) -> NTSTATUS;
 }
@@ -711,7 +699,7 @@ extern "system" {
         Count: u32,
         NumEntriesRemoved: *mut u32,
         Timeout: *mut i64,
-        Alertable: BOOLEAN,
+        Alertable: bool,
     ) -> NTSTATUS;
 }
 
@@ -734,7 +722,7 @@ extern "system" {
         ApcContext: *mut std::ffi::c_void,
         IoStatus: NTSTATUS,
         IoStatusInformation: usize,
-        AlreadySignaled: *mut BOOLEAN,
+        AlreadySignaled: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -742,7 +730,7 @@ extern "system" {
 extern "system" {
     pub fn NtCancelWaitCompletionPacket(
         WaitCompletionPacketHandle: HANDLE,
-        RemoveSignaledPacket: BOOLEAN,
+        RemoveSignaledPacket: bool,
     ) -> NTSTATUS;
 }
 
@@ -880,7 +868,7 @@ impl std::fmt::Debug for MOUNTMGR_DRIVE_LETTER_TARGET {
 
 #[repr(C)]
 pub struct MOUNTMGR_DRIVE_LETTER_INFORMATION {
-    pub DriveLetterWasAssigned: BOOLEAN,
+    pub DriveLetterWasAssigned: bool,
     pub CurrentDriveLetter: u8,
 }
 

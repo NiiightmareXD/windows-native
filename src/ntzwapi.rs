@@ -13,7 +13,7 @@ use windows::{
         },
     },
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, LUID, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, LUID, NTSTATUS, UNICODE_STRING},
         Security::{
             AUDIT_EVENT_TYPE, GENERIC_MAPPING, OBJECT_TYPE_LIST, PRIVILEGE_SET, PSID,
             SECURITY_DESCRIPTOR, SECURITY_QUALITY_OF_SERVICE, SID_AND_ATTRIBUTES,
@@ -71,7 +71,7 @@ extern "system" {
         PortHandle: *mut HANDLE,
         PortContext: *mut std::ffi::c_void,
         ConnectionRequest: *mut PORT_MESSAGE,
-        AcceptConnection: BOOLEAN,
+        AcceptConnection: bool,
         ServerView: *mut PORT_VIEW,
         ClientView: *mut REMOTE_PORT_VIEW,
     ) -> NTSTATUS;
@@ -101,10 +101,10 @@ extern "system" {
         SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
         DesiredAccess: u32,
         GenericMapping: *mut GENERIC_MAPPING,
-        ObjectCreation: BOOLEAN,
+        ObjectCreation: bool,
         GrantedAccess: *mut u32,
         AccessStatus: *mut NTSTATUS,
-        GenerateOnClose: *mut BOOLEAN,
+        GenerateOnClose: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -140,10 +140,10 @@ extern "system" {
         ObjectTypeList: *mut OBJECT_TYPE_LIST,
         ObjectTypeListLength: u32,
         GenericMapping: *mut GENERIC_MAPPING,
-        ObjectCreation: BOOLEAN,
+        ObjectCreation: bool,
         GrantedAccess: *mut u32,
         AccessStatus: *mut NTSTATUS,
-        GenerateOnClose: *mut BOOLEAN,
+        GenerateOnClose: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -179,10 +179,10 @@ extern "system" {
         ObjectTypeList: *mut OBJECT_TYPE_LIST,
         ObjectTypeListLength: u32,
         GenericMapping: *mut GENERIC_MAPPING,
-        ObjectCreation: BOOLEAN,
+        ObjectCreation: bool,
         GrantedAccess: *mut u32,
         AccessStatus: *mut NTSTATUS,
-        GenerateOnClose: *mut BOOLEAN,
+        GenerateOnClose: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -202,10 +202,10 @@ extern "system" {
         ObjectTypeList: *mut OBJECT_TYPE_LIST,
         ObjectTypeListLength: u32,
         GenericMapping: *mut GENERIC_MAPPING,
-        ObjectCreation: BOOLEAN,
+        ObjectCreation: bool,
         GrantedAccess: *mut u32,
         AccessStatus: *mut NTSTATUS,
-        GenerateOnClose: *mut BOOLEAN,
+        GenerateOnClose: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -213,8 +213,8 @@ extern "system" {
 extern "system" {
     pub fn ZwAcquireCMFViewOwnership(
         TimeStamp: *mut u64,
-        tokenTaken: *mut BOOLEAN,
-        replaceExisting: BOOLEAN,
+        tokenTaken: *mut bool,
+        replaceExisting: bool,
     ) -> NTSTATUS;
 }
 
@@ -242,7 +242,7 @@ extern "system" {
 extern "system" {
     pub fn ZwAdjustGroupsToken(
         TokenHandle: HANDLE,
-        ResetToDefault: BOOLEAN,
+        ResetToDefault: bool,
         NewState: *mut TOKEN_GROUPS,
         BufferLength: u32,
         PreviousState: *mut TOKEN_GROUPS,
@@ -254,7 +254,7 @@ extern "system" {
 extern "system" {
     pub fn ZwAdjustPrivilegesToken(
         TokenHandle: HANDLE,
-        DisableAllPrivileges: BOOLEAN,
+        DisableAllPrivileges: bool,
         NewState: *mut TOKEN_PRIVILEGES,
         BufferLength: u32,
         PreviousState: *mut TOKEN_PRIVILEGES,
@@ -266,9 +266,9 @@ extern "system" {
 extern "system" {
     pub fn ZwAdjustTokenClaimsAndDeviceGroups(
         TokenHandle: HANDLE,
-        UserResetToDefault: BOOLEAN,
-        DeviceResetToDefault: BOOLEAN,
-        DeviceGroupsResetToDefault: BOOLEAN,
+        UserResetToDefault: bool,
+        DeviceResetToDefault: bool,
+        DeviceGroupsResetToDefault: bool,
         NewUserState: *mut TOKEN_SECURITY_ATTRIBUTES_INFORMATION,
         NewDeviceState: *mut TOKEN_SECURITY_ATTRIBUTES_INFORMATION,
         NewDeviceGroupsState: *mut TOKEN_GROUPS,
@@ -349,7 +349,7 @@ extern "system" {
         PortContext: *mut std::ffi::c_void,
         ConnectionRequest: *mut PORT_MESSAGE,
         ConnectionMessageAttributes: *mut ALPC_MESSAGE_ATTRIBUTES,
-        AcceptConnection: BOOLEAN,
+        AcceptConnection: bool,
     ) -> NTSTATUS;
 }
 
@@ -607,7 +607,7 @@ extern "system" {
         ApcContext: *mut std::ffi::c_void,
         IoStatus: NTSTATUS,
         IoStatusInformation: usize,
-        AlreadySignaled: *mut BOOLEAN,
+        AlreadySignaled: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -625,7 +625,7 @@ extern "system" {
     pub fn ZwCallEnclave(
         Routine: PENCLAVE_ROUTINE,
         Parameter: *mut std::ffi::c_void,
-        WaitForThread: BOOLEAN,
+        WaitForThread: bool,
         ReturnValue: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
@@ -662,7 +662,7 @@ extern "system" {
 extern "system" {
     pub fn ZwCancelWaitCompletionPacket(
         WaitCompletionPacketHandle: HANDLE,
-        RemoveSignaledPacket: BOOLEAN,
+        RemoveSignaledPacket: bool,
     ) -> NTSTATUS;
 }
 
@@ -700,7 +700,7 @@ extern "system" {
     pub fn ZwCloseObjectAuditAlarm(
         SubsystemName: *mut UNICODE_STRING,
         HandleId: *mut std::ffi::c_void,
-        GenerateOnClose: BOOLEAN,
+        GenerateOnClose: bool,
     ) -> NTSTATUS;
 }
 
@@ -724,7 +724,7 @@ extern "system" {
     pub fn ZwCompareTokens(
         FirstTokenHandle: HANDLE,
         SecondTokenHandle: HANDLE,
-        Equal: *mut BOOLEAN,
+        Equal: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -754,7 +754,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn ZwContinue(ContextRecord: *mut CONTEXT, TestAlert: BOOLEAN) -> NTSTATUS;
+    pub fn ZwContinue(ContextRecord: *mut CONTEXT, TestAlert: bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -884,7 +884,7 @@ extern "system" {
         MutantHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        InitialOwner: BOOLEAN,
+        InitialOwner: bool,
     ) -> NTSTATUS;
 }
 
@@ -957,7 +957,7 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         ParentProcess: HANDLE,
-        InheritObjectTable: BOOLEAN,
+        InheritObjectTable: bool,
         SectionHandle: HANDLE,
         DebugPort: HANDLE,
         TokenHandle: HANDLE,
@@ -1067,7 +1067,7 @@ extern "system" {
         ClientId: *mut CLIENT_ID,
         ThreadContext: *mut CONTEXT,
         InitialTeb: *mut INITIAL_TEB,
-        CreateSuspended: BOOLEAN,
+        CreateSuspended: bool,
     ) -> NTSTATUS;
 }
 
@@ -1195,7 +1195,7 @@ extern "system" {
         StateName: *mut WNF_STATE_NAME,
         NameLifetime: WNF_STATE_NAME_LIFETIME,
         DataScope: WNF_DATA_SCOPE,
-        PersistData: BOOLEAN,
+        PersistData: bool,
         TypeId: *const WNF_TYPE_ID,
         MaximumStateSize: u32,
         SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
@@ -1234,7 +1234,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn ZwDelayExecution(Alertable: BOOLEAN, DelayInterval: *mut i64) -> NTSTATUS;
+    pub fn ZwDelayExecution(Alertable: bool, DelayInterval: *mut i64) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1257,7 +1257,7 @@ extern "system" {
     pub fn ZwDeleteObjectAuditAlarm(
         SubsystemName: *mut UNICODE_STRING,
         HandleId: *mut std::ffi::c_void,
-        GenerateOnClose: BOOLEAN,
+        GenerateOnClose: bool,
     ) -> NTSTATUS;
 }
 
@@ -1570,7 +1570,7 @@ extern "system" {
         SystemAction: POWER_ACTION,
         LightestSystemState: SYSTEM_POWER_STATE,
         Flags: u32,
-        Asynchronous: BOOLEAN,
+        Asynchronous: bool,
     ) -> NTSTATUS;
 }
 
@@ -1581,7 +1581,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn ZwIsSystemResumeAutomatic() -> BOOLEAN;
+    pub fn ZwIsSystemResumeAutomatic() -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1741,7 +1741,7 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         Length: u32,
         CompletionFilter: u32,
-        WatchTree: BOOLEAN,
+        WatchTree: bool,
     ) -> NTSTATUS;
 }
 
@@ -1756,7 +1756,7 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         Length: u32,
         CompletionFilter: u32,
-        WatchTree: BOOLEAN,
+        WatchTree: bool,
         DirectoryNotifyInformationClass: DIRECTORY_NOTIFY_INFORMATION_CLASS,
     ) -> NTSTATUS;
 }
@@ -1772,10 +1772,10 @@ extern "system" {
         ApcContext: *mut std::ffi::c_void,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
         CompletionFilter: u32,
-        WatchTree: BOOLEAN,
+        WatchTree: bool,
         Buffer: *mut std::ffi::c_void,
         BufferSize: u32,
-        Asynchronous: BOOLEAN,
+        Asynchronous: bool,
     ) -> NTSTATUS;
 }
 
@@ -1850,9 +1850,9 @@ extern "system" {
         DesiredAccess: u32,
         GrantedAccess: u32,
         Privileges: *mut PRIVILEGE_SET,
-        ObjectCreation: BOOLEAN,
-        AccessGranted: BOOLEAN,
-        GenerateOnClose: *mut BOOLEAN,
+        ObjectCreation: bool,
+        AccessGranted: bool,
+        GenerateOnClose: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -1908,7 +1908,7 @@ extern "system" {
     pub fn ZwOpenThreadToken(
         ThreadHandle: HANDLE,
         DesiredAccess: u32,
-        OpenAsSelf: BOOLEAN,
+        OpenAsSelf: bool,
         TokenHandle: *mut HANDLE,
     ) -> NTSTATUS;
 }
@@ -1927,7 +1927,7 @@ extern "system" {
     pub fn ZwPrivilegeCheck(
         ClientToken: HANDLE,
         RequiredPrivileges: *mut PRIVILEGE_SET,
-        Result: *mut BOOLEAN,
+        Result: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -1938,7 +1938,7 @@ extern "system" {
         ServiceName: *mut UNICODE_STRING,
         ClientToken: HANDLE,
         Privileges: *mut PRIVILEGE_SET,
-        AccessGranted: BOOLEAN,
+        AccessGranted: bool,
     ) -> NTSTATUS;
 }
 
@@ -1950,7 +1950,7 @@ extern "system" {
         ClientToken: HANDLE,
         DesiredAccess: u32,
         Privileges: *mut PRIVILEGE_SET,
-        AccessGranted: BOOLEAN,
+        AccessGranted: bool,
     ) -> NTSTATUS;
 }
 
@@ -2017,7 +2017,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn ZwQueryDefaultLocale(UserProfile: BOOLEAN, DefaultLocaleId: *mut u32) -> NTSTATUS;
+    pub fn ZwQueryDefaultLocale(UserProfile: bool, DefaultLocaleId: *mut u32) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2031,8 +2031,8 @@ extern "system" {
         DirectoryHandle: HANDLE,
         Buffer: *mut std::ffi::c_void,
         Length: u32,
-        ReturnSingleEntry: BOOLEAN,
-        RestartScan: BOOLEAN,
+        ReturnSingleEntry: bool,
+        RestartScan: bool,
         Context: *mut u32,
         ReturnLength: *mut u32,
     ) -> NTSTATUS;
@@ -2365,7 +2365,7 @@ extern "system" {
     pub fn ZwRaiseException(
         ExceptionRecord: *mut EXCEPTION_RECORD,
         ContextRecord: *mut CONTEXT,
-        FirstChance: BOOLEAN,
+        FirstChance: bool,
     ) -> NTSTATUS;
 }
 
@@ -2445,7 +2445,7 @@ extern "system" {
     pub fn ZwReleaseKeyedEvent(
         KeyedEventHandle: HANDLE,
         KeyValue: *mut std::ffi::c_void,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
@@ -2488,7 +2488,7 @@ extern "system" {
         Count: u32,
         NumEntriesRemoved: *mut u32,
         Timeout: *mut i64,
-        Alertable: BOOLEAN,
+        Alertable: bool,
     ) -> NTSTATUS;
 }
 
@@ -2659,7 +2659,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn ZwSetDebugFilterState(ComponentId: u32, Level: u32, State: BOOLEAN) -> NTSTATUS;
+    pub fn ZwSetDebugFilterState(ComponentId: u32, Level: u32, State: bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2669,7 +2669,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn ZwSetDefaultLocale(UserProfile: BOOLEAN, DefaultLocaleId: u32) -> NTSTATUS;
+    pub fn ZwSetDefaultLocale(UserProfile: bool, DefaultLocaleId: u32) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2877,7 +2877,7 @@ extern "system" {
 extern "system" {
     pub fn ZwSetTimerResolution(
         DesiredTime: u32,
-        SetResolution: BOOLEAN,
+        SetResolution: bool,
         ActualTime: *mut u32,
     ) -> NTSTATUS;
 }
@@ -2910,7 +2910,7 @@ extern "system" {
     pub fn ZwSignalAndWaitForSingleObject(
         SignalHandle: HANDLE,
         WaitHandle: HANDLE,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
@@ -2961,7 +2961,7 @@ extern "system" {
 extern "system" {
     pub fn ZwTerminateEnclave(
         BaseAddress: *mut std::ffi::c_void,
-        WaitForThread: BOOLEAN,
+        WaitForThread: bool,
     ) -> NTSTATUS;
 }
 
@@ -3093,7 +3093,7 @@ extern "system" {
 extern "system" {
     pub fn ZwWaitForDebugEvent(
         DebugObjectHandle: HANDLE,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
         WaitStateChange: *mut DBGUI_WAIT_STATE_CHANGE,
     ) -> NTSTATUS;
@@ -3104,7 +3104,7 @@ extern "system" {
     pub fn ZwWaitForKeyedEvent(
         KeyedEventHandle: HANDLE,
         KeyValue: *mut std::ffi::c_void,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
@@ -3115,7 +3115,7 @@ extern "system" {
         Count: u32,
         Handles: *mut HANDLE,
         WaitType: WAIT_TYPE,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
@@ -3126,7 +3126,7 @@ extern "system" {
         Count: u32,
         Handles: *mut i32,
         WaitType: WAIT_TYPE,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }

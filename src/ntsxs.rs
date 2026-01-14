@@ -1,7 +1,7 @@
 use windows::{
     core::GUID,
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, UNICODE_STRING},
+        Foundation::{HANDLE, UNICODE_STRING},
         System::{
             ApplicationInstallationAndServicing::{
                 ACTCTX_COMPATIBILITY_ELEMENT_TYPE, ACTCTX_REQUESTED_RUN_LEVEL,
@@ -828,7 +828,7 @@ pub type PACTIVATION_CONTEXT_NOTIFY_ROUTINE = std::option::Option<
         ActivationContextData: *mut ACTIVATION_CONTEXT_DATA,
         NotificationContext: *mut std::ffi::c_void,
         NotificationData: *mut std::ffi::c_void,
-        DisableThisNotification: *mut BOOLEAN,
+        DisableThisNotification: *mut bool,
     ),
 >;
 

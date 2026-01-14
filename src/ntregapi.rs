@@ -4,7 +4,7 @@ use windows::{
         System::Registry::{KEY_INFORMATION_CLASS, KEY_VALUE_INFORMATION_CLASS},
     },
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, NTSTATUS, UNICODE_STRING},
         System::IO::{IO_STATUS_BLOCK, PIO_APC_ROUTINE},
     },
 };
@@ -852,10 +852,10 @@ extern "system" {
         ApcContext: *mut std::ffi::c_void,
         IoStatusBlock: *mut IO_STATUS_BLOCK,
         CompletionFilter: u32,
-        WatchTree: BOOLEAN,
+        WatchTree: bool,
         Buffer: *mut std::ffi::c_void,
         BufferSize: u32,
-        Asynchronous: BOOLEAN,
+        Asynchronous: bool,
     ) -> NTSTATUS;
 }
 

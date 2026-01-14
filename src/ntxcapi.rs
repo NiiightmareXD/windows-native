@@ -1,5 +1,5 @@
 use windows::Win32::{
-    Foundation::{BOOLEAN, NTSTATUS},
+    Foundation::NTSTATUS,
     System::Diagnostics::Debug::{CONTEXT, EXCEPTION_RECORD},
 };
 
@@ -11,7 +11,7 @@ extern "system" {
     pub fn RtlDispatchException(
         ExceptionRecord: *mut EXCEPTION_RECORD,
         ContextRecord: *mut CONTEXT,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -21,7 +21,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtContinue(ContextRecord: *mut CONTEXT, TestAlert: BOOLEAN) -> NTSTATUS;
+    pub fn NtContinue(ContextRecord: *mut CONTEXT, TestAlert: bool) -> NTSTATUS;
 }
 
 #[repr(i32)]
@@ -70,6 +70,6 @@ extern "system" {
     pub fn NtRaiseException(
         ExceptionRecord: *mut EXCEPTION_RECORD,
         ContextRecord: *mut CONTEXT,
-        FirstChance: BOOLEAN,
+        FirstChance: bool,
     ) -> NTSTATUS;
 }

@@ -5,7 +5,7 @@ use windows::{
         System::SystemServices::{KSYSTEM_TIME, RTL_BITMAP, RTL_QUERY_REGISTRY_TABLE, TIME_FIELDS},
     },
     Win32::{
-        Foundation::{BOOL, BOOLEAN, HANDLE, LUID, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, LUID, NTSTATUS, UNICODE_STRING},
         Security::{
             ACE_HEADER, ACL, ACL_INFORMATION_CLASS, CLAIM_SECURITY_ATTRIBUTES_INFORMATION,
             GENERIC_MAPPING, LUID_AND_ATTRIBUTES, PSID, SECURITY_DESCRIPTOR,
@@ -285,14 +285,14 @@ extern "system" {
     pub fn RtlRbInsertNodeEx(
         Tree: *mut RTL_RB_TREE,
         Parent: *mut RTL_BALANCED_NODE,
-        Right: BOOLEAN,
+        Right: bool,
         Node: *mut RTL_BALANCED_NODE,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlRbRemoveNode(Tree: *mut RTL_RB_TREE, Node: *mut RTL_BALANCED_NODE) -> BOOLEAN;
+    pub fn RtlRbRemoveNode(Tree: *mut RTL_RB_TREE, Node: *mut RTL_BALANCED_NODE) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -407,12 +407,12 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlAcquireResourceShared(Resource: *mut RTL_RESOURCE, Wait: BOOLEAN) -> BOOLEAN;
+    pub fn RtlAcquireResourceShared(Resource: *mut RTL_RESOURCE, Wait: bool) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlAcquireResourceExclusive(Resource: *mut RTL_RESOURCE, Wait: BOOLEAN) -> BOOLEAN;
+    pub fn RtlAcquireResourceExclusive(Resource: *mut RTL_RESOURCE, Wait: bool) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -457,12 +457,12 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlTryAcquireSRWLockExclusive(SRWLock: *mut SRWLOCK) -> BOOLEAN;
+    pub fn RtlTryAcquireSRWLockExclusive(SRWLock: *mut SRWLOCK) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlTryAcquireSRWLockShared(SRWLock: *mut SRWLOCK) -> BOOLEAN;
+    pub fn RtlTryAcquireSRWLockShared(SRWLock: *mut SRWLOCK) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -520,12 +520,12 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlBarrier(Barrier: *mut SYNCHRONIZATION_BARRIER, Flags: u32) -> BOOLEAN;
+    pub fn RtlBarrier(Barrier: *mut SYNCHRONIZATION_BARRIER, Flags: u32) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlBarrierForDelete(Barrier: *mut SYNCHRONIZATION_BARRIER, Flags: u32) -> BOOLEAN;
+    pub fn RtlBarrierForDelete(Barrier: *mut SYNCHRONIZATION_BARRIER, Flags: u32) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -558,7 +558,7 @@ extern "system" {
     pub fn RtlCreateUnicodeStringFromAsciiz(
         DestinationString: *mut UNICODE_STRING,
         SourceString: *mut i8,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -566,7 +566,7 @@ extern "system" {
     pub fn RtlFindUnicodeSubstring(
         FullString: *mut UNICODE_STRING,
         SearchString: *mut UNICODE_STRING,
-        CaseInSensitive: BOOLEAN,
+        CaseInSensitive: bool,
     ) -> PWSTR;
 }
 
@@ -595,7 +595,7 @@ extern "system" {
     pub fn RtlUpcaseUnicodeStringToAnsiString(
         DestinationString: *mut STRING,
         SourceString: *mut UNICODE_STRING,
-        AllocateDestinationString: BOOLEAN,
+        AllocateDestinationString: bool,
     ) -> NTSTATUS;
 }
 
@@ -628,7 +628,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsTextUnicode(Buffer: *mut std::ffi::c_void, Size: u32, Result: *mut u32) -> BOOLEAN;
+    pub fn RtlIsTextUnicode(Buffer: *mut std::ffi::c_void, Size: u32, Result: *mut u32) -> bool;
 }
 
 #[repr(i32)]
@@ -653,9 +653,9 @@ extern "system" {
     pub fn RtlIsNameInExpression(
         Expression: *mut UNICODE_STRING,
         Name: *mut UNICODE_STRING,
-        IgnoreCase: BOOLEAN,
+        IgnoreCase: bool,
         UpcaseTable: PWSTR,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -663,14 +663,14 @@ extern "system" {
     pub fn RtlIsNameInUnUpcasedExpression(
         Expression: *mut UNICODE_STRING,
         Name: *mut UNICODE_STRING,
-        IgnoreCase: BOOLEAN,
+        IgnoreCase: bool,
         UpcaseTable: PWSTR,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlDoesNameContainWildCards(Expression: *mut UNICODE_STRING) -> BOOLEAN;
+    pub fn RtlDoesNameContainWildCards(Expression: *mut UNICODE_STRING) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -678,7 +678,7 @@ extern "system" {
     pub fn RtlEqualDomainName(
         String1: *mut UNICODE_STRING,
         String2: *mut UNICODE_STRING,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -686,7 +686,7 @@ extern "system" {
     pub fn RtlEqualComputerName(
         String1: *mut UNICODE_STRING,
         String2: *mut UNICODE_STRING,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -694,7 +694,7 @@ extern "system" {
     pub fn RtlDnsHostNameToComputerName(
         ComputerNameString: *mut UNICODE_STRING,
         DnsHostNameString: *mut UNICODE_STRING,
-        AllocateComputerNameString: BOOLEAN,
+        AllocateComputerNameString: bool,
     ) -> NTSTATUS;
 }
 
@@ -703,7 +703,7 @@ extern "system" {
     pub fn RtlStringFromGUIDEx(
         Guid: *mut GUID,
         GuidString: *mut UNICODE_STRING,
-        AllocateGuidString: BOOLEAN,
+        AllocateGuidString: bool,
     ) -> NTSTATUS;
 }
 
@@ -720,7 +720,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsValidLocaleName(LocaleName: PCWSTR, Flags: u32) -> BOOLEAN;
+    pub fn RtlIsValidLocaleName(LocaleName: PCWSTR, Flags: u32) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -729,7 +729,7 @@ extern "system" {
         LocaleName: PCWSTR,
         ParentLocaleName: *mut UNICODE_STRING,
         Flags: u32,
-        AllocateDestinationString: BOOLEAN,
+        AllocateDestinationString: bool,
     ) -> NTSTATUS;
 }
 
@@ -739,7 +739,7 @@ extern "system" {
         lcid: u32,
         LocaleName: *mut UNICODE_STRING,
         Flags: u32,
-        AllocateDestinationString: BOOLEAN,
+        AllocateDestinationString: bool,
     ) -> NTSTATUS;
 }
 
@@ -750,12 +750,12 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlLCIDToCultureName(Lcid: u32, String: *mut UNICODE_STRING) -> BOOLEAN;
+    pub fn RtlLCIDToCultureName(Lcid: u32, String: *mut UNICODE_STRING) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlCultureNameToLCID(String: *mut UNICODE_STRING, Lcid: *mut u32) -> BOOLEAN;
+    pub fn RtlCultureNameToLCID(String: *mut UNICODE_STRING, Lcid: *mut u32) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -983,7 +983,7 @@ extern "system" {
         ProcessSecurityDescriptor: *mut SECURITY_DESCRIPTOR,
         ThreadSecurityDescriptor: *mut SECURITY_DESCRIPTOR,
         ParentProcess: HANDLE,
-        InheritHandles: BOOLEAN,
+        InheritHandles: bool,
         DebugPort: HANDLE,
         TokenHandle: HANDLE,
         ProcessInformation: *mut RTL_USER_PROCESS_INFORMATION,
@@ -1019,7 +1019,7 @@ extern "system" {
     pub fn RtlCreateUserProcessEx(
         NtImagePathName: *mut UNICODE_STRING,
         ProcessParameters: *mut RTL_USER_PROCESS_PARAMETERS,
-        InheritHandles: BOOLEAN,
+        InheritHandles: bool,
         ProcessExtendedParameters: *mut RTL_USER_PROCESS_EXTENDED_PARAMETERS,
         ProcessInformation: *mut RTL_USER_PROCESS_INFORMATION,
     ) -> NTSTATUS;
@@ -1085,39 +1085,39 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetProcessIsCritical(
-        NewValue: BOOLEAN,
-        OldValue: *mut BOOLEAN,
-        CheckFlag: BOOLEAN,
+        NewValue: bool,
+        OldValue: *mut bool,
+        CheckFlag: bool,
     ) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlSetThreadIsCritical(
-        NewValue: BOOLEAN,
-        OldValue: *mut BOOLEAN,
-        CheckFlag: BOOLEAN,
+        NewValue: bool,
+        OldValue: *mut bool,
+        CheckFlag: bool,
     ) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlValidProcessProtection(ProcessProtection: PS_PROTECTION) -> BOOLEAN;
+    pub fn RtlValidProcessProtection(ProcessProtection: PS_PROTECTION) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlTestProtectedAccess(Source: PS_PROTECTION, Target: PS_PROTECTION) -> BOOLEAN;
+    pub fn RtlTestProtectedAccess(Source: PS_PROTECTION, Target: PS_PROTECTION) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsCurrentProcess(ProcessHandle: HANDLE) -> BOOLEAN;
+    pub fn RtlIsCurrentProcess(ProcessHandle: HANDLE) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsCurrentThread(ThreadHandle: HANDLE) -> BOOLEAN;
+    pub fn RtlIsCurrentThread(ThreadHandle: HANDLE) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1125,7 +1125,7 @@ extern "system" {
     pub fn RtlCreateUserThread(
         ProcessHandle: HANDLE,
         ThreadSecurityDescriptor: *mut SECURITY_DESCRIPTOR,
-        CreateSuspended: BOOLEAN,
+        CreateSuspended: bool,
         ZeroBits: u32,
         MaximumStackSize: usize,
         CommittedStackSize: usize,
@@ -1143,7 +1143,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsCurrentThreadAttachExempt() -> BOOLEAN;
+    pub fn RtlIsCurrentThreadAttachExempt() -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1315,8 +1315,8 @@ extern "system" {
         CallSite: *mut std::ffi::c_void,
         ArgumentCount: u32,
         Arguments: *mut usize,
-        PassContext: BOOLEAN,
-        AlreadySuspended: BOOLEAN,
+        PassContext: bool,
+        AlreadySuspended: bool,
     ) -> NTSTATUS;
 }
 
@@ -1347,7 +1347,7 @@ extern "system" {
 }
 
 pub type PRTLP_UNHANDLED_EXCEPTION_FILTER =
-    std::option::Option<unsafe extern "system" fn(ExceptionInfo: *mut EXCEPTION_POINTERS) -> u32>;
+    Option<unsafe extern "system" fn(ExceptionInfo: *mut EXCEPTION_POINTERS) -> u32>;
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -1439,7 +1439,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsActivationContextActive(ActivationContext: *mut ACTIVATION_CONTEXT) -> BOOLEAN;
+    pub fn RtlIsActivationContextActive(ActivationContext: *mut ACTIVATION_CONTEXT) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1573,7 +1573,7 @@ extern "system" {
 extern "system" {
     pub fn RtlImageDirectoryEntryToData(
         BaseOfImage: *mut std::ffi::c_void,
-        MappedAsImage: BOOLEAN,
+        MappedAsImage: bool,
         DirectoryEntry: u16,
         Size: *mut u32,
     ) -> *mut std::ffi::c_void;
@@ -1610,15 +1610,15 @@ extern "system" {
 extern "system" {
     pub fn RtlGuardCheckLongJumpTarget(
         PcValue: *mut std::ffi::c_void,
-        IsFastFail: BOOL,
-        IsLongJumpTarget: *mut BOOL,
+        IsFastFail: bool,
+        IsLongJumpTarget: *mut bool,
     ) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlCreateEnvironment(
-        CloneCurrentEnvironment: BOOLEAN,
+        CloneCurrentEnvironment: bool,
         Environment: *mut *mut std::ffi::c_void,
     ) -> NTSTATUS;
 }
@@ -1806,7 +1806,7 @@ extern "system" {
         DynamicString: *mut UNICODE_STRING,
         StringUsed: *mut *mut UNICODE_STRING,
         FilePartPrefixCch: *mut usize,
-        NameInvalid: *mut BOOLEAN,
+        NameInvalid: *mut bool,
         InputPathType: *mut RTL_PATH_TYPE,
         BytesRequired: *mut usize,
     ) -> NTSTATUS;
@@ -1887,7 +1887,7 @@ extern "system" {
         NtFileName: *mut UNICODE_STRING,
         FilePart: *mut PWSTR,
         RelativeName: *mut RTL_RELATIVE_NAME_U,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1917,7 +1917,7 @@ extern "system" {
         NtFileName: *mut UNICODE_STRING,
         FilePart: *mut PWSTR,
         RelativeName: *mut RTL_RELATIVE_NAME_U,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1974,7 +1974,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlDoesFileExists_U(FileName: PCWSTR) -> BOOLEAN;
+    pub fn RtlDoesFileExists_U(FileName: PCWSTR) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2045,7 +2045,7 @@ extern "system" {
         Destination: *mut UNICODE_STRING,
         Machine: u16,
         TargetMachine: u16,
-        IncludePathSeperator: BOOLEAN,
+        IncludePathSeperator: bool,
     ) -> u32;
 }
 
@@ -2065,17 +2065,17 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlAreLongPathsEnabled() -> BOOLEAN;
+    pub fn RtlAreLongPathsEnabled() -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsThreadWithinLoaderCallout() -> BOOLEAN;
+    pub fn RtlIsThreadWithinLoaderCallout() -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlDllShutdownInProgress() -> BOOLEAN;
+    pub fn RtlDllShutdownInProgress() -> bool;
 }
 
 #[repr(C)]
@@ -2294,17 +2294,17 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlProtectHeap(HeapHandle: *mut std::ffi::c_void, MakeReadOnly: BOOLEAN);
+    pub fn RtlProtectHeap(HeapHandle: *mut std::ffi::c_void, MakeReadOnly: bool);
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlLockHeap(HeapHandle: *mut std::ffi::c_void) -> BOOLEAN;
+    pub fn RtlLockHeap(HeapHandle: *mut std::ffi::c_void) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlUnlockHeap(HeapHandle: *mut std::ffi::c_void) -> BOOLEAN;
+    pub fn RtlUnlockHeap(HeapHandle: *mut std::ffi::c_void) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2325,7 +2325,7 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         UserValue: *mut *mut std::ffi::c_void,
         UserFlags: *mut u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2335,7 +2335,7 @@ extern "system" {
         Flags: u32,
         BaseAddress: *mut std::ffi::c_void,
         UserValue: *mut std::ffi::c_void,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2346,7 +2346,7 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         UserFlagsReset: u32,
         UserFlagsSet: u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[repr(C)]
@@ -2384,7 +2384,7 @@ extern "system" {
         HeapHandle: *mut std::ffi::c_void,
         Flags: u32,
         TagIndex: u16,
-        ResetCounters: BOOLEAN,
+        ResetCounters: bool,
         TagInfo: *mut RTL_HEAP_TAG_INFO,
     ) -> PWSTR;
 }
@@ -2410,12 +2410,12 @@ extern "system" {
         HeapHandle: *mut std::ffi::c_void,
         Flags: u32,
         BaseAddress: *mut std::ffi::c_void,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlValidateProcessHeaps() -> BOOLEAN;
+    pub fn RtlValidateProcessHeaps() -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2423,7 +2423,7 @@ extern "system" {
     pub fn RtlGetProcessHeaps(NumberOfHeaps: u32, ProcessHeaps: *mut *mut std::ffi::c_void) -> u32;
 }
 
-pub type PRTL_ENUM_HEAPS_ROUTINE = std::option::Option<
+pub type PRTL_ENUM_HEAPS_ROUTINE = Option<
     unsafe extern "system" fn(arg1: *mut std::ffi::c_void, arg2: *mut std::ffi::c_void) -> NTSTATUS,
 >;
 
@@ -2855,7 +2855,7 @@ impl std::fmt::Debug for HEAP_INFORMATION_ITEM {
     }
 }
 
-pub type PRTL_HEAP_EXTENDED_ENUMERATION_ROUTINE = std::option::Option<
+pub type PRTL_HEAP_EXTENDED_ENUMERATION_ROUTINE = Option<
     unsafe extern "system" fn(
         arg1: *mut HEAP_INFORMATION_ITEM,
         arg2: *mut std::ffi::c_void,
@@ -2907,7 +2907,7 @@ impl std::fmt::Debug for HEAP_EXTENDED_INFORMATION {
     }
 }
 
-pub type RTL_HEAP_STACK_WRITE_ROUTINE = std::option::Option<
+pub type RTL_HEAP_STACK_WRITE_ROUTINE = Option<
     unsafe extern "system" fn(
         Information: *mut std::ffi::c_void,
         Size: u32,
@@ -3040,7 +3040,7 @@ impl std::fmt::Debug for RTL_HEAP_STACK_CONTROL {
     }
 }
 
-pub type PRTL_HEAP_DEBUGGING_INTERCEPTOR_ROUTINE = std::option::Option<
+pub type PRTL_HEAP_DEBUGGING_INTERCEPTOR_ROUTINE = Option<
     unsafe extern "system" fn(
         HeapHandle: *mut std::ffi::c_void,
         Action: u32,
@@ -3049,7 +3049,7 @@ pub type PRTL_HEAP_DEBUGGING_INTERCEPTOR_ROUTINE = std::option::Option<
     ) -> NTSTATUS,
 >;
 
-pub type PRTL_HEAP_LEAK_ENUMERATION_ROUTINE = std::option::Option<
+pub type PRTL_HEAP_LEAK_ENUMERATION_ROUTINE = Option<
     unsafe extern "system" fn(
         Reserved: i32,
         HeapHandle: *mut std::ffi::c_void,
@@ -3404,7 +3404,7 @@ impl std::fmt::Debug for RTL_DEBUG_INFORMATION {
 extern "system" {
     pub fn RtlCreateQueryDebugBuffer(
         MaximumCommit: u32,
-        UseEventPair: BOOLEAN,
+        UseEventPair: bool,
     ) -> *mut RTL_DEBUG_INFORMATION;
 }
 
@@ -3464,9 +3464,9 @@ extern "system" {
     pub fn RtlFormatMessage(
         MessageFormat: PWSTR,
         MaximumWidth: u32,
-        IgnoreInserts: BOOLEAN,
-        ArgumentsAreAnsi: BOOLEAN,
-        ArgumentsAreAnArray: BOOLEAN,
+        IgnoreInserts: bool,
+        ArgumentsAreAnsi: bool,
+        ArgumentsAreAnArray: bool,
         Arguments: *mut *mut std::ffi::c_void,
         Buffer: PWSTR,
         Length: u32,
@@ -3501,9 +3501,9 @@ extern "system" {
     pub fn RtlFormatMessageEx(
         MessageFormat: PWSTR,
         MaximumWidth: u32,
-        IgnoreInserts: BOOLEAN,
-        ArgumentsAreAnsi: BOOLEAN,
-        ArgumentsAreAnArray: BOOLEAN,
+        IgnoreInserts: bool,
+        ArgumentsAreAnsi: bool,
+        ArgumentsAreAnArray: bool,
         Arguments: *mut *mut std::ffi::c_void,
         Buffer: PWSTR,
         Length: u32,
@@ -3661,8 +3661,8 @@ extern "system" {
         CutoverTime: *mut TIME_FIELDS,
         SystemTime: *mut i64,
         CurrentSystemTime: *mut i64,
-        ThisYear: BOOLEAN,
-    ) -> BOOLEAN;
+        ThisYear: bool,
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3696,7 +3696,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlQueryUnbiasedInterruptTime(InterruptTime: *mut i64) -> BOOLEAN;
+    pub fn RtlQueryUnbiasedInterruptTime(InterruptTime: *mut i64) -> bool;
 }
 
 #[repr(C)]
@@ -3787,7 +3787,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlTestBitEx(BitMapHeader: *mut RTL_BITMAP_EX, BitNumber: u64) -> BOOLEAN;
+    pub fn RtlTestBitEx(BitMapHeader: *mut RTL_BITMAP_EX, BitNumber: u64) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3921,7 +3921,7 @@ extern "system" {
     pub fn RtlFreeHandle(
         HandleTable: *mut RTL_HANDLE_TABLE,
         Handle: *mut RTL_HANDLE_TABLE_ENTRY,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3929,7 +3929,7 @@ extern "system" {
     pub fn RtlIsValidHandle(
         HandleTable: *mut RTL_HANDLE_TABLE,
         Handle: *mut RTL_HANDLE_TABLE_ENTRY,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3938,7 +3938,7 @@ extern "system" {
         HandleTable: *mut RTL_HANDLE_TABLE,
         HandleIndex: u32,
         Handle: *mut *mut RTL_HANDLE_TABLE_ENTRY,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -3958,7 +3958,7 @@ extern "system" {
 extern "system" {
     pub fn RtlEmptyAtomTable(
         AtomTableHandle: *mut std::ffi::c_void,
-        IncludePinnedAtoms: BOOLEAN,
+        IncludePinnedAtoms: bool,
     ) -> NTSTATUS;
 }
 
@@ -4007,7 +4007,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlGetIntegerAtom(AtomName: PWSTR, IntegerAtom: *mut u16) -> BOOLEAN;
+    pub fn RtlGetIntegerAtom(AtomName: PWSTR, IntegerAtom: *mut u16) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4025,7 +4025,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlSidDominates(Sid1: PSID, Sid2: PSID, Dominates: *mut BOOLEAN) -> NTSTATUS;
+    pub fn RtlSidDominates(Sid1: PSID, Sid2: PSID, Dominates: *mut bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4033,18 +4033,18 @@ extern "system" {
     pub fn RtlSidDominatesForTrust(
         Sid1: PSID,
         Sid2: PSID,
-        DominatesTrust: *mut BOOLEAN,
+        DominatesTrust: *mut bool,
     ) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlSidEqualLevel(Sid1: PSID, Sid2: PSID, EqualLevel: *mut BOOLEAN) -> NTSTATUS;
+    pub fn RtlSidEqualLevel(Sid1: PSID, Sid2: PSID, EqualLevel: *mut bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlSidIsHigherLevel(Sid1: PSID, Sid2: PSID, HigherLevel: *mut BOOLEAN) -> NTSTATUS;
+    pub fn RtlSidIsHigherLevel(Sid1: PSID, Sid2: PSID, HigherLevel: *mut bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4071,7 +4071,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsElevatedRid(SidAttr: *mut SID_AND_ATTRIBUTES) -> BOOLEAN;
+    pub fn RtlIsElevatedRid(SidAttr: *mut SID_AND_ATTRIBUTES) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4115,7 +4115,7 @@ extern "system" {
     pub fn RtlGetSecurityDescriptorRMControl(
         SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
         RMControl: *mut u8,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4145,7 +4145,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlValidAcl(Acl: *mut ACL) -> BOOLEAN;
+    pub fn RtlValidAcl(Acl: *mut ACL) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4170,7 +4170,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlFirstFreeAce(Acl: *mut ACL, FirstFree: *mut *mut std::ffi::c_void) -> BOOLEAN;
+    pub fn RtlFirstFreeAce(Acl: *mut ACL, FirstFree: *mut *mut std::ffi::c_void) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4180,7 +4180,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlOwnerAcesPresent(pAcl: *mut ACL) -> BOOLEAN;
+    pub fn RtlOwnerAcesPresent(pAcl: *mut ACL) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4211,8 +4211,8 @@ extern "system" {
         AceRevision: u32,
         AccessMask: u32,
         Sid: PSID,
-        AuditSuccess: BOOLEAN,
-        AuditFailure: BOOLEAN,
+        AuditSuccess: bool,
+        AuditFailure: bool,
     ) -> NTSTATUS;
 }
 
@@ -4224,8 +4224,8 @@ extern "system" {
         AceFlags: u32,
         AccessMask: u32,
         Sid: PSID,
-        AuditSuccess: BOOLEAN,
-        AuditFailure: BOOLEAN,
+        AuditSuccess: bool,
+        AuditFailure: bool,
     ) -> NTSTATUS;
 }
 
@@ -4265,13 +4265,13 @@ extern "system" {
         ObjectTypeGuid: *mut GUID,
         InheritedObjectTypeGuid: *mut GUID,
         Sid: PSID,
-        AuditSuccess: BOOLEAN,
-        AuditFailure: BOOLEAN,
+        AuditSuccess: bool,
+        AuditFailure: bool,
     ) -> NTSTATUS;
 }
 
 #[repr(C)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct COMPOUND_ACCESS_ALLOWED_ACE {
     pub Header: ACE_HEADER,
     pub Mask: u32,
@@ -4339,7 +4339,7 @@ extern "system" {
         ParentDescriptor: *mut SECURITY_DESCRIPTOR,
         CreatorDescriptor: *mut SECURITY_DESCRIPTOR,
         NewDescriptor: *mut *mut SECURITY_DESCRIPTOR,
-        IsDirectoryObject: BOOLEAN,
+        IsDirectoryObject: bool,
         Token: HANDLE,
         GenericMapping: *mut GENERIC_MAPPING,
     ) -> NTSTATUS;
@@ -4352,7 +4352,7 @@ extern "system" {
         CreatorDescriptor: *mut SECURITY_DESCRIPTOR,
         NewDescriptor: *mut *mut SECURITY_DESCRIPTOR,
         ObjectType: *mut GUID,
-        IsDirectoryObject: BOOLEAN,
+        IsDirectoryObject: bool,
         AutoInheritFlags: u32,
         Token: HANDLE,
         GenericMapping: *mut GENERIC_MAPPING,
@@ -4367,7 +4367,7 @@ extern "system" {
         NewDescriptor: *mut *mut SECURITY_DESCRIPTOR,
         ObjectType: *mut *mut GUID,
         GuidCount: u32,
-        IsDirectoryObject: BOOLEAN,
+        IsDirectoryObject: bool,
         AutoInheritFlags: u32,
         Token: HANDLE,
         GenericMapping: *mut GENERIC_MAPPING,
@@ -4420,7 +4420,7 @@ extern "system" {
         CurrentSecurityDescriptor: *mut SECURITY_DESCRIPTOR,
         NewSecurityDescriptor: *mut *mut SECURITY_DESCRIPTOR,
         ObjectType: *mut GUID,
-        IsDirectoryObject: BOOLEAN,
+        IsDirectoryObject: bool,
         GenericMapping: *mut GENERIC_MAPPING,
     ) -> NTSTATUS;
 }
@@ -4428,14 +4428,14 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn RtlNewInstanceSecurityObject(
-        ParentDescriptorChanged: BOOLEAN,
-        CreatorDescriptorChanged: BOOLEAN,
+        ParentDescriptorChanged: bool,
+        CreatorDescriptorChanged: bool,
         OldClientTokenModifiedId: *mut LUID,
         NewClientTokenModifiedId: *mut LUID,
         ParentDescriptor: *mut SECURITY_DESCRIPTOR,
         CreatorDescriptor: *mut SECURITY_DESCRIPTOR,
         NewDescriptor: *mut *mut SECURITY_DESCRIPTOR,
-        IsDirectoryObject: BOOLEAN,
+        IsDirectoryObject: bool,
         TokenHandle: HANDLE,
         GenericMapping: *mut GENERIC_MAPPING,
     ) -> NTSTATUS;
@@ -4477,7 +4477,7 @@ extern "system" {
         AceCount: u32,
         OwnerSid: PSID,
         GroupSid: PSID,
-        IsDirectoryObject: BOOLEAN,
+        IsDirectoryObject: bool,
         GenericMapping: *mut GENERIC_MAPPING,
         NewSecurityDescriptor: *mut *mut SECURITY_DESCRIPTOR,
     ) -> NTSTATUS;
@@ -4522,9 +4522,9 @@ extern "system" {
 extern "system" {
     pub fn RtlAdjustPrivilege(
         Privilege: u32,
-        Enable: BOOLEAN,
-        Client: BOOLEAN,
-        WasEnabled: *mut BOOLEAN,
+        Enable: bool,
+        Client: bool,
+        WasEnabled: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -4635,7 +4635,7 @@ extern "system" {
     ) -> NTSTATUS;
 }
 
-pub type PRTL_START_POOL_THREAD = std::option::Option<
+pub type PRTL_START_POOL_THREAD = Option<
     unsafe extern "system" fn(
         arg1: LPTHREAD_START_ROUTINE,
         arg2: *mut std::ffi::c_void,
@@ -4644,7 +4644,7 @@ pub type PRTL_START_POOL_THREAD = std::option::Option<
 >;
 
 pub type PRTL_EXIT_POOL_THREAD =
-    std::option::Option<unsafe extern "system" fn(arg1: NTSTATUS) -> NTSTATUS>;
+    Option<unsafe extern "system" fn(arg1: NTSTATUS) -> NTSTATUS>;
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -4666,7 +4666,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlDelayExecution(Alertable: BOOLEAN, DelayInterval: *mut i64) -> NTSTATUS;
+    pub fn RtlDelayExecution(Alertable: bool, DelayInterval: *mut i64) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4754,7 +4754,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlQueryThreadProfiling(ThreadHandle: HANDLE, Enabled: *mut BOOLEAN) -> NTSTATUS;
+    pub fn RtlQueryThreadProfiling(ThreadHandle: HANDLE, Enabled: *mut bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4789,7 +4789,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlWow64EnableFsRedirection(Wow64FsEnableRedirection: BOOLEAN) -> NTSTATUS;
+    pub fn RtlWow64EnableFsRedirection(Wow64FsEnableRedirection: bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -4845,7 +4845,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsProcessorFeaturePresent(ProcessorFeature: u32) -> BOOLEAN;
+    pub fn RtlIsProcessorFeaturePresent(ProcessorFeature: u32) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5749,7 +5749,7 @@ extern "system" {
     pub fn RtlGetAppContainerNamedObjectPath(
         TokenHandle: HANDLE,
         AppContainerSid: PSID,
-        RelativePath: BOOLEAN,
+        RelativePath: bool,
         ObjectPath: *mut UNICODE_STRING,
     ) -> NTSTATUS;
 }
@@ -5764,7 +5764,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlCheckSandboxedToken(TokenHandle: HANDLE, IsSandboxed: *mut BOOLEAN) -> NTSTATUS;
+    pub fn RtlCheckSandboxedToken(TokenHandle: HANDLE, IsSandboxed: *mut bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -5772,7 +5772,7 @@ extern "system" {
     pub fn RtlCheckTokenCapability(
         TokenHandle: HANDLE,
         CapabilitySidToCheck: PSID,
-        HasCapability: *mut BOOLEAN,
+        HasCapability: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -5781,7 +5781,7 @@ extern "system" {
     pub fn RtlCapabilityCheck(
         TokenHandle: HANDLE,
         CapabilityName: *mut UNICODE_STRING,
-        HasCapability: *mut BOOLEAN,
+        HasCapability: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -5790,7 +5790,7 @@ extern "system" {
     pub fn RtlCheckTokenMembership(
         TokenHandle: HANDLE,
         SidToCheck: PSID,
-        IsMember: *mut BOOLEAN,
+        IsMember: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -5800,7 +5800,7 @@ extern "system" {
         TokenHandle: HANDLE,
         SidToCheck: PSID,
         Flags: u32,
-        IsMember: *mut BOOLEAN,
+        IsMember: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -5814,22 +5814,22 @@ extern "system" {
     pub fn RtlIsParentOfChildAppContainer(
         ParentAppContainerSid: PSID,
         ChildAppContainerSid: PSID,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsCapabilitySid(Sid: PSID) -> BOOLEAN;
+    pub fn RtlIsCapabilitySid(Sid: PSID) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsPackageSid(Sid: PSID) -> BOOLEAN;
+    pub fn RtlIsPackageSid(Sid: PSID) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsValidProcessTrustLabelSid(Sid: PSID) -> BOOLEAN;
+    pub fn RtlIsValidProcessTrustLabelSid(Sid: PSID) -> bool;
 }
 
 #[repr(i32)]
@@ -5874,7 +5874,7 @@ extern "system" {
 extern "system" {
     pub fn RtlAppxIsFileOwnedByTrustedInstaller(
         FileHandle: HANDLE,
-        IsFileOwnedByTrustedInstaller: *mut BOOLEAN,
+        IsFileOwnedByTrustedInstaller: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -5926,7 +5926,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlIsEnclaveFeaturePresent(FeatureMask: u32) -> BOOLEAN;
+    pub fn RtlIsEnclaveFeaturePresent(FeatureMask: u32) -> bool;
 }
 
 #[repr(i32)]
@@ -5994,114 +5994,82 @@ impl std::fmt::Debug for RTL_BSD_DATA_POWER_TRANSITION_1 {
 
 impl RTL_BSD_DATA_POWER_TRANSITION_1 {
     #[inline]
-    pub fn SystemRunning(&self) -> BOOLEAN {
+    pub fn SystemRunning(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(0usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_SystemRunning(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(0usize, 1u8, val as u64)
-        }
+    pub fn set_SystemRunning(&mut self, val: bool) {
+        self._bitfield_1.set(0usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn ConnectedStandbyInProgress(&self) -> BOOLEAN {
+    pub fn ConnectedStandbyInProgress(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(1usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_ConnectedStandbyInProgress(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(1usize, 1u8, val as u64)
-        }
+    pub fn set_ConnectedStandbyInProgress(&mut self, val: bool) {
+        self._bitfield_1.set(1usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn UserShutdownInProgress(&self) -> BOOLEAN {
+    pub fn UserShutdownInProgress(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(2usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_UserShutdownInProgress(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(2usize, 1u8, val as u64)
-        }
+    pub fn set_UserShutdownInProgress(&mut self, val: bool) {
+        self._bitfield_1.set(2usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn SystemShutdownInProgress(&self) -> BOOLEAN {
+    pub fn SystemShutdownInProgress(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(3usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_SystemShutdownInProgress(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(3usize, 1u8, val as u64)
-        }
+    pub fn set_SystemShutdownInProgress(&mut self, val: bool) {
+        self._bitfield_1.set(3usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn SleepInProgress(&self) -> BOOLEAN {
+    pub fn SleepInProgress(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(4usize, 4u8) as u8) }
     }
 
     #[inline]
-    pub fn set_SleepInProgress(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(4usize, 4u8, val as u64)
-        }
+    pub fn set_SleepInProgress(&mut self, val: bool) {
+        self._bitfield_1.set(4usize, 4u8, val as u64)
     }
 
     #[inline]
     pub fn new_bitfield_1(
-        SystemRunning: BOOLEAN,
-        ConnectedStandbyInProgress: BOOLEAN,
-        UserShutdownInProgress: BOOLEAN,
-        SystemShutdownInProgress: BOOLEAN,
-        SleepInProgress: BOOLEAN,
+        SystemRunning: bool,
+        ConnectedStandbyInProgress: bool,
+        UserShutdownInProgress: bool,
+        SystemShutdownInProgress: bool,
+        SleepInProgress: bool,
     ) -> BitfieldUnit<[u8; 1]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
 
         bitfield_unit.set(0usize, 1u8, {
-            let SystemRunning: u8 = unsafe { std::mem::transmute(SystemRunning) };
-
             SystemRunning as u64
         });
 
         bitfield_unit.set(1usize, 1u8, {
-            let ConnectedStandbyInProgress: u8 =
-                unsafe { std::mem::transmute(ConnectedStandbyInProgress) };
-
             ConnectedStandbyInProgress as u64
         });
 
         bitfield_unit.set(2usize, 1u8, {
-            let UserShutdownInProgress: u8 = unsafe { std::mem::transmute(UserShutdownInProgress) };
-
             UserShutdownInProgress as u64
         });
 
         bitfield_unit.set(3usize, 1u8, {
-            let SystemShutdownInProgress: u8 =
-                unsafe { std::mem::transmute(SystemShutdownInProgress) };
-
             SystemShutdownInProgress as u64
         });
 
         bitfield_unit.set(4usize, 4u8, {
-            let SleepInProgress: u8 = unsafe { std::mem::transmute(SleepInProgress) };
-
             SleepInProgress as u64
         });
 
@@ -6273,7 +6241,7 @@ extern "system" {
 extern "system" {
     pub fn RtlGetSetBootStatusData(
         FileHandle: HANDLE,
-        Read: BOOLEAN,
+        Read: bool,
         DataClass: RTL_BSD_ITEM_TYPE,
         Buffer: *mut std::ffi::c_void,
         BufferSize: u32,
@@ -6283,7 +6251,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlCheckBootStatusIntegrity(FileHandle: HANDLE, Verified: *mut BOOLEAN) -> NTSTATUS;
+    pub fn RtlCheckBootStatusIntegrity(FileHandle: HANDLE, Verified: *mut bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -6318,15 +6286,15 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlCheckPortableOperatingSystem(IsPortable: *mut BOOLEAN) -> NTSTATUS;
+    pub fn RtlCheckPortableOperatingSystem(IsPortable: *mut bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlSetPortableOperatingSystem(IsPortable: BOOLEAN) -> NTSTATUS;
+    pub fn RtlSetPortableOperatingSystem(IsPortable: bool) -> NTSTATUS;
 }
 
-pub type PRTL_SECURE_MEMORY_CACHE_CALLBACK = std::option::Option<
+pub type PRTL_SECURE_MEMORY_CACHE_CALLBACK = Option<
     unsafe extern "system" fn(arg1: *mut std::ffi::c_void, arg2: usize) -> NTSTATUS,
 >;
 
@@ -6349,7 +6317,7 @@ extern "system" {
     pub fn RtlFlushSecureMemoryCache(
         MemoryCache: *mut std::ffi::c_void,
         MemoryLength: usize,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[repr(C)]
@@ -6600,7 +6568,7 @@ extern "system" {
 }
 
 pub type PRTL_FEATURE_CONFIGURATION_CHANGE_NOTIFICATION =
-    std::option::Option<unsafe extern "system" fn(arg1: *mut std::ffi::c_void)>;
+    Option<unsafe extern "system" fn(arg1: *mut std::ffi::c_void)>;
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
@@ -6637,10 +6605,10 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn RtlEqualWnfChangeStamps(ChangeStamp1: u32, ChangeStamp2: u32) -> BOOLEAN;
+    pub fn RtlEqualWnfChangeStamps(ChangeStamp1: u32, ChangeStamp2: u32) -> bool;
 }
 
-pub type PWNF_USER_CALLBACK = std::option::Option<
+pub type PWNF_USER_CALLBACK = Option<
     unsafe extern "system" fn(
         arg1: WNF_STATE_NAME,
         arg2: u32,

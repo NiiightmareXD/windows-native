@@ -8,7 +8,7 @@ use windows::{
         },
     },
     Win32::{
-        Foundation::{BOOL, BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, NTSTATUS, UNICODE_STRING},
         Security::SECURITY_QUALITY_OF_SERVICE,
         System::{
             Diagnostics::Debug::{CONTEXT, LDT_ENTRY},
@@ -194,13 +194,13 @@ pub const ProcThreadAttributeCreateStore: u32 = 28;
 #[repr(C)]
 pub struct PEB_LDR_DATA {
     pub Length: u32,
-    pub Initialized: BOOLEAN,
+    pub Initialized: bool,
     pub SsHandle: HANDLE,
     pub InLoadOrderModuleList: LIST_ENTRY,
     pub InMemoryOrderModuleList: LIST_ENTRY,
     pub InInitializationOrderModuleList: LIST_ENTRY,
     pub EntryInProgress: *mut std::ffi::c_void,
-    pub ShutdownInProgress: BOOLEAN,
+    pub ShutdownInProgress: bool,
     pub ShutdownThreadId: HANDLE,
 }
 
@@ -336,7 +336,7 @@ impl std::fmt::Debug for PROCESS_WS_WATCH_INFORMATION_EX {
 
 #[repr(C)]
 pub struct PROCESS_PRIORITY_CLASS {
-    pub Foreground: BOOLEAN,
+    pub Foreground: bool,
     pub PriorityClass: u8,
 }
 
@@ -356,7 +356,7 @@ impl std::fmt::Debug for PROCESS_PRIORITY_CLASS {
 pub struct PROCESS_PRIORITY_CLASS_EX {
     pub Anonymous1: PROCESS_PRIORITY_CLASS_EX_1,
     pub PriorityClass: u8,
-    pub Foreground: BOOLEAN,
+    pub Foreground: bool,
 }
 
 #[repr(C)]
@@ -454,7 +454,7 @@ impl std::fmt::Debug for PROCESS_PRIORITY_CLASS_EX {
 
 #[repr(C)]
 pub struct PROCESS_FOREGROUND_BACKGROUND {
-    pub Foreground: BOOLEAN,
+    pub Foreground: bool,
 }
 
 impl Default for PROCESS_FOREGROUND_BACKGROUND {
@@ -1263,9 +1263,9 @@ impl std::fmt::Debug for PROCESS_JOB_MEMORY_INFO {
 
 #[repr(C)]
 pub struct PROCESS_CHILD_PROCESS_INFORMATION {
-    pub ProhibitChildProcesses: BOOLEAN,
-    pub AlwaysAllowSecureChildProcess: BOOLEAN,
-    pub AuditProhibitChildProcesses: BOOLEAN,
+    pub ProhibitChildProcesses: bool,
+    pub AlwaysAllowSecureChildProcess: bool,
+    pub AuditProhibitChildProcesses: bool,
 }
 
 impl Default for PROCESS_CHILD_PROCESS_INFORMATION {
@@ -2598,7 +2598,7 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         ParentProcess: HANDLE,
-        InheritObjectTable: BOOLEAN,
+        InheritObjectTable: bool,
         SectionHandle: HANDLE,
         DebugPort: HANDLE,
         TokenHandle: HANDLE,
@@ -2740,7 +2740,7 @@ extern "system" {
         ClientId: *mut CLIENT_ID,
         ThreadContext: *mut CONTEXT,
         InitialTeb: *mut INITIAL_TEB,
-        CreateSuspended: BOOLEAN,
+        CreateSuspended: bool,
     ) -> NTSTATUS;
 }
 
@@ -2968,7 +2968,7 @@ impl std::fmt::Debug for SE_SAFE_OPEN_PROMPT_RESULTS {
 
 #[repr(C)]
 pub struct PROC_THREAD_BNOISOLATION_ATTRIBUTE {
-    pub IsolationEnabled: BOOL,
+    pub IsolationEnabled: bool,
     pub IsolationPrefix: [u16; 136],
 }
 
@@ -3498,7 +3498,7 @@ pub struct PS_BNO_ISOLATION_PARAMETERS {
     pub IsolationPrefix: UNICODE_STRING,
     pub HandleCount: u32,
     pub Handles: *mut *mut std::ffi::c_void,
-    pub IsolationEnabled: BOOLEAN,
+    pub IsolationEnabled: bool,
 }
 
 impl Default for PS_BNO_ISOLATION_PARAMETERS {
@@ -4209,8 +4209,8 @@ impl std::fmt::Debug for JOBOBJECT_WAKE_FILTER {
 #[repr(C)]
 pub struct JOBOBJECT_FREEZE_INFORMATION {
     pub Anonymous1: JOBOBJECT_FREEZE_INFORMATION_1,
-    pub Freeze: BOOLEAN,
-    pub Swap: BOOLEAN,
+    pub Freeze: bool,
+    pub Swap: bool,
     pub Reserved0: [u8; 2],
     pub WakeFilter: JOBOBJECT_WAKE_FILTER,
 }
@@ -4406,7 +4406,7 @@ pub struct SILO_USER_SHARED_DATA {
     pub NtProductType: NT_PRODUCT_TYPE,
     pub SuiteMask: u32,
     pub SharedUserSessionId: u32,
-    pub IsMultiSessionSku: BOOLEAN,
+    pub IsMultiSessionSku: bool,
     pub NtSystemRoot: [u16; 260],
     pub UserModeGlobalLogger: [u16; 16],
     pub TimeZoneId: u32,
@@ -4478,7 +4478,7 @@ impl std::fmt::Debug for SILOOBJECT_ROOT_DIRECTORY {
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct SERVERSILO_INIT_INFORMATION {
     pub DeleteEvent: HANDLE,
-    pub IsDownlevelContainer: BOOLEAN,
+    pub IsDownlevelContainer: bool,
 }
 
 impl Default for SERVERSILO_INIT_INFORMATION {

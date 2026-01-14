@@ -1,5 +1,5 @@
 use windows::Win32::{
-    Foundation::{BOOLEAN, HANDLE, NTSTATUS},
+    Foundation::{HANDLE, NTSTATUS},
     System::{
         Kernel::PROCESSOR_NUMBER,
         Power::{
@@ -59,7 +59,7 @@ pub enum POWER_REQUEST_TYPE_INTERNAL {
 pub struct POWER_REQUEST_ACTION {
     pub PowerRequestHandle: HANDLE,
     pub RequestType: POWER_REQUEST_TYPE_INTERNAL,
-    pub SetAction: BOOLEAN,
+    pub SetAction: bool,
     pub ProcessHandle: HANDLE,
 }
 
@@ -443,7 +443,7 @@ impl std::fmt::Debug for PROCESSOR_IDLE_TIMES {
     }
 }
 
-pub type PROCESSOR_IDLE_HANDLER = std::option::Option<
+pub type PROCESSOR_IDLE_HANDLER = Option<
     unsafe extern "system" fn(Context: usize, IdleTimes: *mut PROCESSOR_IDLE_TIMES) -> NTSTATUS,
 >;
 
@@ -871,11 +871,11 @@ pub enum POWER_STATE_HANDLER_TYPE {
     PowerStateMaximum = 7,
 }
 
-pub type PENTER_STATE_SYSTEM_HANDLER = std::option::Option<
+pub type PENTER_STATE_SYSTEM_HANDLER = Option<
     unsafe extern "system" fn(SystemContext: *mut std::ffi::c_void) -> NTSTATUS,
 >;
 
-pub type PENTER_STATE_HANDLER = std::option::Option<
+pub type PENTER_STATE_HANDLER = Option<
     unsafe extern "system" fn(
         Context: *mut std::ffi::c_void,
         SystemHandler: PENTER_STATE_SYSTEM_HANDLER,
@@ -888,7 +888,7 @@ pub type PENTER_STATE_HANDLER = std::option::Option<
 #[repr(C)]
 pub struct POWER_STATE_HANDLER {
     pub Type: POWER_STATE_HANDLER_TYPE,
-    pub RtcWake: BOOLEAN,
+    pub RtcWake: bool,
     pub Spare: [u8; 3],
     pub Handler: PENTER_STATE_HANDLER,
     pub Context: *mut std::ffi::c_void,
@@ -910,11 +910,11 @@ impl std::fmt::Debug for POWER_STATE_HANDLER {
     }
 }
 
-pub type PENTER_STATE_NOTIFY_HANDLER = std::option::Option<
+pub type PENTER_STATE_NOTIFY_HANDLER = Option<
     unsafe extern "system" fn(
         State: POWER_STATE_HANDLER_TYPE,
         Context: *mut std::ffi::c_void,
-        Entering: BOOLEAN,
+        Entering: bool,
     ) -> NTSTATUS,
 >;
 
@@ -944,7 +944,7 @@ impl std::fmt::Debug for POWER_STATE_NOTIFY_HANDLER {
 pub struct POWER_REQUEST_ACTION_INTERNAL {
     pub PowerRequestPointer: *mut std::ffi::c_void,
     pub RequestType: POWER_REQUEST_TYPE_INTERNAL,
-    pub SetAction: BOOLEAN,
+    pub SetAction: bool,
 }
 
 impl Default for POWER_REQUEST_ACTION_INTERNAL {
@@ -1099,112 +1099,92 @@ impl std::fmt::Debug for POWER_S0_LOW_POWER_IDLE_INFO_1 {
 
 impl POWER_S0_LOW_POWER_IDLE_INFO_1 {
     #[inline]
-    pub fn Storage(&self) -> BOOLEAN {
+    pub fn Storage(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.as_ref().get(0usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_Storage(&mut self, val: BOOLEAN) {
+    pub fn set_Storage(&mut self, val: bool) {
         unsafe {
-            let val: u8 = std::mem::transmute(val);
-
             self._bitfield_1.as_mut().set(0usize, 1u8, val as u64)
         }
     }
 
     #[inline]
-    pub fn WiFi(&self) -> BOOLEAN {
+    pub fn WiFi(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.as_ref().get(1usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_WiFi(&mut self, val: BOOLEAN) {
+    pub fn set_WiFi(&mut self, val: bool) {
         unsafe {
-            let val: u8 = std::mem::transmute(val);
-
             self._bitfield_1.as_mut().set(1usize, 1u8, val as u64)
         }
     }
 
     #[inline]
-    pub fn Mbn(&self) -> BOOLEAN {
+    pub fn Mbn(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.as_ref().get(2usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_Mbn(&mut self, val: BOOLEAN) {
+    pub fn set_Mbn(&mut self, val: bool) {
         unsafe {
-            let val: u8 = std::mem::transmute(val);
-
             self._bitfield_1.as_mut().set(2usize, 1u8, val as u64)
         }
     }
 
     #[inline]
-    pub fn Ethernet(&self) -> BOOLEAN {
+    pub fn Ethernet(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.as_ref().get(3usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_Ethernet(&mut self, val: BOOLEAN) {
+    pub fn set_Ethernet(&mut self, val: bool) {
         unsafe {
-            let val: u8 = std::mem::transmute(val);
-
             self._bitfield_1.as_mut().set(3usize, 1u8, val as u64)
         }
     }
 
     #[inline]
-    pub fn Reserved(&self) -> BOOLEAN {
+    pub fn Reserved(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.as_ref().get(4usize, 4u8) as u8) }
     }
 
     #[inline]
-    pub fn set_Reserved(&mut self, val: BOOLEAN) {
+    pub fn set_Reserved(&mut self, val: bool) {
         unsafe {
-            let val: u8 = std::mem::transmute(val);
-
             self._bitfield_1.as_mut().set(4usize, 4u8, val as u64)
         }
     }
 
     #[inline]
     pub fn new_bitfield_1(
-        Storage: BOOLEAN,
-        WiFi: BOOLEAN,
-        Mbn: BOOLEAN,
-        Ethernet: BOOLEAN,
-        Reserved: BOOLEAN,
+        Storage: bool,
+        WiFi: bool,
+        Mbn: bool,
+        Ethernet: bool,
+        Reserved: bool,
     ) -> BitfieldUnit<[u8; 1]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
 
         bitfield_unit.set(0usize, 1u8, {
-            let Storage: u8 = unsafe { std::mem::transmute(Storage) };
-
             Storage as u64
         });
 
         bitfield_unit.set(1usize, 1u8, {
-            let WiFi: u8 = unsafe { std::mem::transmute(WiFi) };
-
             WiFi as u64
         });
 
         bitfield_unit.set(2usize, 1u8, {
-            let Mbn: u8 = unsafe { std::mem::transmute(Mbn) };
-
             Mbn as u64
         });
 
         bitfield_unit.set(3usize, 1u8, {
-            let Ethernet: u8 = unsafe { std::mem::transmute(Ethernet) };
-
             Ethernet as u64
         });
 
         bitfield_unit.set(4usize, 4u8, {
-            let Reserved: u8 = unsafe { std::mem::transmute(Reserved) };
-
             Reserved as u64
         });
 
@@ -1234,70 +1214,58 @@ impl std::fmt::Debug for POWER_S0_LOW_POWER_IDLE_INFO_2 {
 
 impl POWER_S0_LOW_POWER_IDLE_INFO_2 {
     #[inline]
-    pub fn DisconnectInStandby(&self) -> BOOLEAN {
+    pub fn DisconnectInStandby(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.as_ref().get(0usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_DisconnectInStandby(&mut self, val: BOOLEAN) {
+    pub fn set_DisconnectInStandby(&mut self, val: bool) {
         unsafe {
-            let val: u8 = std::mem::transmute(val);
-
             self._bitfield_1.as_mut().set(0usize, 1u8, val as u64)
         }
     }
 
     #[inline]
-    pub fn EnforceDs(&self) -> BOOLEAN {
+    pub fn EnforceDs(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.as_ref().get(1usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_EnforceDs(&mut self, val: BOOLEAN) {
+    pub fn set_EnforceDs(&mut self, val: bool) {
         unsafe {
-            let val: u8 = std::mem::transmute(val);
-
             self._bitfield_1.as_mut().set(1usize, 1u8, val as u64)
         }
     }
 
     #[inline]
-    pub fn Reserved(&self) -> BOOLEAN {
+    pub fn Reserved(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.as_ref().get(2usize, 6u8) as u8) }
     }
 
     #[inline]
-    pub fn set_Reserved(&mut self, val: BOOLEAN) {
+    pub fn set_Reserved(&mut self, val: bool) {
         unsafe {
-            let val: u8 = std::mem::transmute(val);
-
             self._bitfield_1.as_mut().set(2usize, 6u8, val as u64)
         }
     }
 
     #[inline]
     pub fn new_bitfield_1(
-        DisconnectInStandby: BOOLEAN,
-        EnforceDs: BOOLEAN,
-        Reserved: BOOLEAN,
+        DisconnectInStandby: bool,
+        EnforceDs: bool,
+        Reserved: bool,
     ) -> BitfieldUnit<[u8; 1]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 1]> = Default::default();
 
         bitfield_unit.set(0usize, 1u8, {
-            let DisconnectInStandby: u8 = unsafe { std::mem::transmute(DisconnectInStandby) };
-
             DisconnectInStandby as u64
         });
 
         bitfield_unit.set(1usize, 1u8, {
-            let EnforceDs: u8 = unsafe { std::mem::transmute(EnforceDs) };
-
             EnforceDs as u64
         });
 
         bitfield_unit.set(2usize, 6u8, {
-            let Reserved: u8 = unsafe { std::mem::transmute(Reserved) };
-
             Reserved as u64
         });
 
@@ -1367,7 +1335,7 @@ impl std::fmt::Debug for POWER_USER_ABSENCE_PREDICTION {
 
 #[repr(C)]
 pub struct POWER_USER_ABSENCE_PREDICTION_CAPABILITY {
-    pub AbsencePredictionCapability: BOOLEAN,
+    pub AbsencePredictionCapability: bool,
 }
 
 impl Default for POWER_USER_ABSENCE_PREDICTION_CAPABILITY {
@@ -1407,7 +1375,7 @@ impl std::fmt::Debug for POWER_PROCESSOR_LATENCY_HINT {
 #[repr(C)]
 pub struct POWER_STANDBY_NETWORK_REQUEST {
     pub PowerInformationInternalHeader: POWER_INFORMATION_INTERNAL_HEADER,
-    pub Active: BOOLEAN,
+    pub Active: bool,
 }
 
 impl Default for POWER_STANDBY_NETWORK_REQUEST {
@@ -1429,7 +1397,7 @@ impl std::fmt::Debug for POWER_STANDBY_NETWORK_REQUEST {
 #[repr(C)]
 pub struct POWER_SET_BACKGROUND_TASK_STATE {
     pub PowerInformationInternalHeader: POWER_INFORMATION_INTERNAL_HEADER,
-    pub Engaged: BOOLEAN,
+    pub Engaged: bool,
 }
 
 impl Default for POWER_SET_BACKGROUND_TASK_STATE {
@@ -1476,8 +1444,8 @@ impl std::fmt::Debug for POWER_BOOT_SESSION_STANDBY_ACTIVATION_INFO {
 pub struct POWER_SESSION_POWER_STATE {
     pub Header: POWER_INFORMATION_INTERNAL_HEADER,
     pub SessionId: u32,
-    pub On: BOOLEAN,
-    pub IsConsole: BOOLEAN,
+    pub On: bool,
+    pub IsConsole: bool,
     pub RequestReason: POWER_MONITOR_REQUEST_REASON,
 }
 
@@ -1499,9 +1467,9 @@ impl std::fmt::Debug for POWER_SESSION_POWER_STATE {
 
 #[repr(C)]
 pub struct POWER_INTERNAL_PROCESSOR_QOS_SUPPORT {
-    pub QosSupportedAndConfigured: BOOLEAN,
-    pub SchedulerDirectedPerfStatesSupported: BOOLEAN,
-    pub QosGroupPolicyDisable: BOOLEAN,
+    pub QosSupportedAndConfigured: bool,
+    pub SchedulerDirectedPerfStatesSupported: bool,
+    pub QosGroupPolicyDisable: bool,
 }
 
 impl Default for POWER_INTERNAL_PROCESSOR_QOS_SUPPORT {
@@ -1519,7 +1487,7 @@ impl std::fmt::Debug for POWER_INTERNAL_PROCESSOR_QOS_SUPPORT {
 #[repr(C)]
 pub struct POWER_INTERNAL_HOST_ENERGY_SAVER_STATE {
     pub Header: POWER_INFORMATION_INTERNAL_HEADER,
-    pub EsEnabledOnHost: BOOLEAN,
+    pub EsEnabledOnHost: bool,
 }
 
 impl Default for POWER_INTERNAL_HOST_ENERGY_SAVER_STATE {
@@ -1610,7 +1578,7 @@ extern "system" {
         SystemAction: POWER_ACTION,
         LightestSystemState: SYSTEM_POWER_STATE,
         Flags: u32,
-        Asynchronous: BOOLEAN,
+        Asynchronous: bool,
     ) -> NTSTATUS;
 }
 
@@ -1630,5 +1598,5 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtIsSystemResumeAutomatic() -> BOOLEAN;
+    pub fn NtIsSystemResumeAutomatic() -> bool;
 }

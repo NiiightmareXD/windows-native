@@ -2,7 +2,7 @@ use windows::{
     core::{PCWSTR, PSTR, PWSTR},
     Wdk::Foundation::OBJECT_ATTRIBUTES,
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, NTSTATUS, UNICODE_STRING},
         System::{
             Kernel::{LIST_ENTRY, RTL_BALANCED_NODE, SINGLE_LIST_ENTRY, STRING},
             SystemServices::{
@@ -73,7 +73,7 @@ pub type PLDR_INIT_ROUTINE = std::option::Option<
         DllHandle: *mut std::ffi::c_void,
         Reason: u32,
         Context: *mut std::ffi::c_void,
-    ) -> BOOLEAN,
+    ) -> bool,
 >;
 
 #[repr(C)]
@@ -879,7 +879,7 @@ extern "system" {
 extern "system" {
     pub fn LdrGetKnownDllSectionHandle(
         DllName: PCWSTR,
-        KnownDlls32: BOOLEAN,
+        KnownDlls32: bool,
         Section: *mut HANDLE,
     ) -> NTSTATUS;
 }
@@ -960,7 +960,7 @@ extern "system" {
         BaseAddress: *mut std::ffi::c_void,
         NumberOfBytes: usize,
         FileLength: u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 pub type PLDR_IMPORT_MODULE_CALLBACK = std::option::Option<
@@ -1528,7 +1528,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrUnloadAlternateResourceModule(DllHandle: *mut std::ffi::c_void) -> BOOLEAN;
+    pub fn LdrUnloadAlternateResourceModule(DllHandle: *mut std::ffi::c_void) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1536,7 +1536,7 @@ extern "system" {
     pub fn LdrUnloadAlternateResourceModuleEx(
         DllHandle: *mut std::ffi::c_void,
         Flags: u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[repr(C)]
@@ -1625,14 +1625,14 @@ pub type PLDR_ENUM_CALLBACK = std::option::Option<
     unsafe extern "system" fn(
         ModuleInformation: *mut LDR_DATA_TABLE_ENTRY,
         Parameter: *mut std::ffi::c_void,
-        Stop: *mut BOOLEAN,
+        Stop: *mut bool,
     ),
 >;
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn LdrEnumerateLoadedModules(
-        ReservedFlag: BOOLEAN,
+        ReservedFlag: bool,
         EnumProc: PLDR_ENUM_CALLBACK,
         Context: *mut std::ffi::c_void,
     ) -> NTSTATUS;
@@ -1642,7 +1642,7 @@ extern "system" {
 extern "system" {
     pub fn LdrOpenImageFileOptionsKey(
         SubKey: *mut UNICODE_STRING,
-        Wow64: BOOLEAN,
+        Wow64: bool,
         NewKeyHandle: *mut HANDLE,
     ) -> NTSTATUS;
 }
@@ -1680,7 +1680,7 @@ extern "system" {
         Buffer: *mut std::ffi::c_void,
         BufferSize: u32,
         ReturnedLength: *mut u32,
-        Wow64: BOOLEAN,
+        Wow64: bool,
     ) -> NTSTATUS;
 }
 
@@ -1754,12 +1754,12 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrControlFlowGuardEnforced() -> BOOLEAN;
+    pub fn LdrControlFlowGuardEnforced() -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn LdrIsModuleSxsRedirected(DllHandle: *mut std::ffi::c_void) -> BOOLEAN;
+    pub fn LdrIsModuleSxsRedirected(DllHandle: *mut std::ffi::c_void) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]

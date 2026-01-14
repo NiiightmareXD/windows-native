@@ -2,7 +2,7 @@ use windows::{
     core::PWSTR,
     Wdk::Foundation::OBJECT_ATTRIBUTES,
     Win32::{
-        Foundation::{BOOL, BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, NTSTATUS, UNICODE_STRING},
         Security::{
             Authentication::Identity::{
                 DOMAIN_PASSWORD_INFORMATION, LOGON_HOURS, USER_ALL_INFORMATION,
@@ -297,7 +297,7 @@ extern "system" {
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         Creds: *mut std::ffi::c_void,
         Spn: PWSTR,
-        pfDstIsW2K: *mut BOOL,
+        pfDstIsW2K: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -347,7 +347,7 @@ pub struct DOMAIN_GENERAL_INFORMATION {
     pub DomainModifiedCount: i64,
     pub DomainServerState: DOMAIN_SERVER_ENABLE_STATE,
     pub DomainServerRole: DOMAIN_SERVER_ROLE,
-    pub UasCompatibilityRequired: BOOLEAN,
+    pub UasCompatibilityRequired: bool,
     pub UserCount: u32,
     pub GroupCount: u32,
     pub AliasCount: u32,
@@ -391,7 +391,7 @@ impl std::fmt::Debug for DOMAIN_GENERAL_INFORMATION2 {
 
 #[repr(C)]
 pub struct DOMAIN_UAS_INFORMATION {
-    pub UasCompatibilityRequired: BOOLEAN,
+    pub UasCompatibilityRequired: bool,
 }
 
 impl Default for DOMAIN_UAS_INFORMATION {
@@ -1539,7 +1539,7 @@ impl std::fmt::Debug for USER_WORKSTATIONS_INFORMATION {
 #[repr(C)]
 pub struct USER_SET_PASSWORD_INFORMATION {
     pub Password: UNICODE_STRING,
-    pub PasswordExpired: BOOLEAN,
+    pub PasswordExpired: bool,
 }
 
 impl Default for USER_SET_PASSWORD_INFORMATION {
@@ -1609,9 +1609,9 @@ impl std::fmt::Debug for ENCRYPTED_NT_OWF_PASSWORD {
 pub struct USER_INTERNAL1_INFORMATION {
     pub EncryptedNtOwfPassword: ENCRYPTED_NT_OWF_PASSWORD,
     pub EncryptedLmOwfPassword: ENCRYPTED_LM_OWF_PASSWORD,
-    pub NtPasswordPresent: BOOLEAN,
-    pub LmPasswordPresent: BOOLEAN,
-    pub PasswordExpired: BOOLEAN,
+    pub NtPasswordPresent: bool,
+    pub LmPasswordPresent: bool,
+    pub PasswordExpired: bool,
 }
 
 impl Default for USER_INTERNAL1_INFORMATION {
@@ -1728,7 +1728,7 @@ impl std::fmt::Debug for USER_INTERNAL4_INFORMATION {
 #[repr(C)]
 pub struct USER_INTERNAL5_INFORMATION {
     pub UserPassword: ENCRYPTED_USER_PASSWORD,
-    pub PasswordExpired: BOOLEAN,
+    pub PasswordExpired: bool,
 }
 
 impl Default for USER_INTERNAL5_INFORMATION {
@@ -1793,7 +1793,7 @@ impl std::fmt::Debug for USER_INTERNAL4_INFORMATION_NEW {
 #[repr(C)]
 pub struct USER_INTERNAL5_INFORMATION_NEW {
     pub UserPassword: ENCRYPTED_USER_PASSWORD_NEW,
-    pub PasswordExpired: BOOLEAN,
+    pub PasswordExpired: bool,
 }
 
 impl Default for USER_INTERNAL5_INFORMATION_NEW {
@@ -1840,7 +1840,7 @@ pub struct USER_INTERNAL6_INFORMATION {
     pub I1: USER_ALL_INFORMATION,
     pub LastBadPasswordTime: i64,
     pub ExtendedFields: u32,
-    pub UPNDefaulted: BOOLEAN,
+    pub UPNDefaulted: bool,
     pub UPN: UNICODE_STRING,
     pub A2D2List: *mut USER_ALLOWED_TO_DELEGATE_TO_LIST,
 }
@@ -1870,7 +1870,7 @@ pub struct USER_EXTENDED_INFORMATION {
     pub ExtendedWhichFields: u32,
     pub UserTile: SAM_USER_TILE,
     pub PasswordHint: UNICODE_STRING,
-    pub DontShowInLogonUI: BOOLEAN,
+    pub DontShowInLogonUI: bool,
     pub ShellAdminObjectProperties: SAM_SHELL_OBJECT_PROPERTIES,
 }
 
@@ -1892,8 +1892,8 @@ impl std::fmt::Debug for USER_EXTENDED_INFORMATION {
 
 #[repr(C)]
 pub struct USER_LOGON_UI_INFORMATION {
-    pub PasswordIsBlank: BOOLEAN,
-    pub AccountIsDisabled: BOOLEAN,
+    pub PasswordIsBlank: bool,
+    pub AccountIsDisabled: bool,
 }
 
 impl Default for USER_LOGON_UI_INFORMATION {
@@ -1936,7 +1936,7 @@ impl std::fmt::Debug for ENCRYPTED_PASSWORD_AES {
 #[repr(C)]
 pub struct USER_INTERNAL7_INFORMATION {
     pub UserPassword: ENCRYPTED_PASSWORD_AES,
-    pub PasswordExpired: BOOLEAN,
+    pub PasswordExpired: bool,
 }
 
 impl Default for USER_INTERNAL7_INFORMATION {
@@ -2345,7 +2345,7 @@ impl std::fmt::Debug for SAM_VALIDATE_STANDARD_OUTPUT_ARG {
 #[repr(C)]
 pub struct SAM_VALIDATE_AUTHENTICATION_INPUT_ARG {
     pub InputPersistedFields: SAM_VALIDATE_PERSISTED_FIELDS,
-    pub PasswordMatched: BOOLEAN,
+    pub PasswordMatched: bool,
 }
 
 impl Default for SAM_VALIDATE_AUTHENTICATION_INPUT_ARG {
@@ -2370,7 +2370,7 @@ pub struct SAM_VALIDATE_PASSWORD_CHANGE_INPUT_ARG {
     pub ClearPassword: UNICODE_STRING,
     pub UserAccountName: UNICODE_STRING,
     pub HashedPassword: SAM_VALIDATE_PASSWORD_HASH,
-    pub PasswordMatch: BOOLEAN,
+    pub PasswordMatch: bool,
 }
 
 impl Default for SAM_VALIDATE_PASSWORD_CHANGE_INPUT_ARG {
@@ -2395,8 +2395,8 @@ pub struct SAM_VALIDATE_PASSWORD_RESET_INPUT_ARG {
     pub ClearPassword: UNICODE_STRING,
     pub UserAccountName: UNICODE_STRING,
     pub HashedPassword: SAM_VALIDATE_PASSWORD_HASH,
-    pub PasswordMustChangeAtNextLogon: BOOLEAN,
-    pub ClearLockout: BOOLEAN,
+    pub PasswordMustChangeAtNextLogon: bool,
+    pub ClearLockout: bool,
 }
 
 impl Default for SAM_VALIDATE_PASSWORD_RESET_INPUT_ARG {
@@ -2473,7 +2473,7 @@ pub enum SAM_GENERIC_OPERATION_TYPE {
 
 #[repr(C)]
 pub struct SAM_OPERATION_OBJCHG_INPUT {
-    pub Register: BOOLEAN,
+    pub Register: bool,
     pub EventHandle: u64,
     pub ObjectType: SECURITY_DB_OBJECT_TYPE,
     pub ProcessID: u32,

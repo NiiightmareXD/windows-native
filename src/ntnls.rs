@@ -1,5 +1,3 @@
-use windows::Win32::Foundation::BOOLEAN;
-
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
 
@@ -9,11 +7,11 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
 
-    pub static mut NlsMbCodePageTag: BOOLEAN;
+    pub static mut NlsMbCodePageTag: bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
 
-    pub static mut NlsMbOemCodePageTag: BOOLEAN;
+    pub static mut NlsMbOemCodePageTag: bool;
 }

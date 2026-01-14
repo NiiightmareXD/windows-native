@@ -1,7 +1,7 @@
 use windows::{
     Wdk::Foundation::OBJECT_ATTRIBUTES,
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, NTSTATUS, UNICODE_STRING},
         Security::{PSID, SECURITY_DESCRIPTOR, SECURITY_QUALITY_OF_SERVICE},
         System::{Threading::SRWLOCK, WindowsProgramming::CLIENT_ID},
     },
@@ -573,7 +573,7 @@ extern "system" {
         PortHandle: *mut HANDLE,
         PortContext: *mut std::ffi::c_void,
         ConnectionRequest: *mut PORT_MESSAGE,
-        AcceptConnection: BOOLEAN,
+        AcceptConnection: bool,
         ServerView: *mut PORT_VIEW,
         ClientView: *mut REMOTE_PORT_VIEW,
     ) -> NTSTATUS;
@@ -1076,7 +1076,7 @@ impl std::fmt::Debug for ALPC_SERVER_INFORMATION_1_1 {
 
 #[repr(C)]
 pub struct ALPC_SERVER_INFORMATION_1_2 {
-    pub ThreadBlocked: BOOLEAN,
+    pub ThreadBlocked: bool,
     pub ConnectedProcessId: HANDLE,
     pub ConnectionPortName: UNICODE_STRING,
 }
@@ -1403,7 +1403,7 @@ extern "system" {
         PortContext: *mut std::ffi::c_void,
         ConnectionRequest: *mut PORT_MESSAGE,
         ConnectionMessageAttributes: *mut ALPC_MESSAGE_ATTRIBUTES,
-        AcceptConnection: BOOLEAN,
+        AcceptConnection: bool,
     ) -> NTSTATUS;
 }
 
@@ -1532,14 +1532,14 @@ extern "system" {
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn AlpcRegisterCompletionListWorkerThread(CompletionList: *mut std::ffi::c_void)
-    -> BOOLEAN;
+    -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
     pub fn AlpcUnregisterCompletionListWorkerThread(
         CompletionList: *mut std::ffi::c_void,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]

@@ -1,7 +1,7 @@
 use windows::{
     Wdk::Foundation::OBJECT_ATTRIBUTES,
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, LUID, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, LUID, NTSTATUS, UNICODE_STRING},
         Security::{
             GENERIC_MAPPING, OBJECT_TYPE_LIST, PRIVILEGE_SET, PSID, SECURITY_DESCRIPTOR,
             SID_AND_ATTRIBUTES, TOKEN_DEFAULT_DACL, TOKEN_GROUPS, TOKEN_MANDATORY_POLICY,
@@ -261,9 +261,9 @@ extern "system" {
 extern "system" {
     pub fn NtAdjustTokenClaimsAndDeviceGroups(
         TokenHandle: HANDLE,
-        UserResetToDefault: BOOLEAN,
-        DeviceResetToDefault: BOOLEAN,
-        DeviceGroupsResetToDefault: BOOLEAN,
+        UserResetToDefault: bool,
+        DeviceResetToDefault: bool,
+        DeviceGroupsResetToDefault: bool,
         NewUserState: *mut TOKEN_SECURITY_ATTRIBUTES_INFORMATION,
         NewDeviceState: *mut TOKEN_SECURITY_ATTRIBUTES_INFORMATION,
         NewDeviceGroupsState: *mut TOKEN_GROUPS,
@@ -304,7 +304,7 @@ extern "system" {
     pub fn NtCompareTokens(
         FirstTokenHandle: HANDLE,
         SecondTokenHandle: HANDLE,
-        Equal: *mut BOOLEAN,
+        Equal: *mut bool,
     ) -> NTSTATUS;
 }
 

@@ -1,7 +1,7 @@
 use windows::{
     core::PWSTR,
     Win32::{
-        Foundation::{BOOLEAN, FILETIME, HANDLE, HWND, UNICODE_STRING},
+        Foundation::{FILETIME, HANDLE, HWND, UNICODE_STRING},
         Security::PSID,
     },
 };
@@ -1261,7 +1261,7 @@ pub struct NASICONFIG {
     pub PassWord: NASIPASSWORD,
     pub SessionName: NASISESIONNAME,
     pub FileServer: NASIFILESERVER,
-    pub GlobalSession: BOOLEAN,
+    pub GlobalSession: bool,
 }
 
 impl Default for NASICONFIG {
@@ -1945,7 +1945,7 @@ pub type PCLIENTDATANAME = *mut i8;
 #[repr(C)]
 pub struct WINSTATIONCLIENTDATA {
     pub DataName: CLIENTDATANAME,
-    pub fUnicodeData: BOOLEAN,
+    pub fUnicodeData: bool,
 }
 
 impl Default for WINSTATIONCLIENTDATA {
@@ -2351,7 +2351,7 @@ impl std::fmt::Debug for TS_ALL_PROCESSES_INFO {
 #[repr(C)]
 pub struct TS_COUNTER_HEADER {
     pub dwCounterID: u32,
-    pub bResult: BOOLEAN,
+    pub bResult: bool,
 }
 
 impl Default for TS_COUNTER_HEADER {
@@ -2387,7 +2387,7 @@ impl std::fmt::Debug for TS_COUNTER {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationFreeMemory(Buffer: *mut std::ffi::c_void) -> BOOLEAN;
+    pub fn WinStationFreeMemory(Buffer: *mut std::ffi::c_void) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2397,12 +2397,12 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationCloseServer(ServerHandle: HANDLE) -> BOOLEAN;
+    pub fn WinStationCloseServer(ServerHandle: HANDLE) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationServerPing(ServerHandle: HANDLE) -> BOOLEAN;
+    pub fn WinStationServerPing(ServerHandle: HANDLE) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2411,12 +2411,12 @@ extern "system" {
         ServerHandle: HANDLE,
         Count: u32,
         Counters: *mut TS_COUNTER,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationShutdownSystem(ServerHandle: HANDLE, ShutdownFlags: u32) -> BOOLEAN;
+    pub fn WinStationShutdownSystem(ServerHandle: HANDLE, ShutdownFlags: u32) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2425,7 +2425,7 @@ extern "system" {
         ServerHandle: HANDLE,
         EventMask: u32,
         EventFlags: *mut u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2434,7 +2434,7 @@ extern "system" {
         ServerHandle: HANDLE,
         WindowHandle: HWND,
         Flags: u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2442,7 +2442,7 @@ extern "system" {
     pub fn WinStationUnRegisterConsoleNotification(
         ServerHandle: HANDLE,
         WindowHandle: HWND,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2451,7 +2451,7 @@ extern "system" {
         ServerHandle: HANDLE,
         SessionIds: *mut *mut SESSIONIDW,
         Count: *mut u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2463,7 +2463,7 @@ extern "system" {
         pWinStationInformation: *mut std::ffi::c_void,
         WinStationInformationLength: u32,
         pReturnLength: *mut u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2474,7 +2474,7 @@ extern "system" {
         WinStationInformationClass: WINSTATIONINFOCLASS,
         pWinStationInformation: *mut std::ffi::c_void,
         WinStationInformationLength: u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2483,7 +2483,7 @@ extern "system" {
         ServerHandle: HANDLE,
         SessionId: u32,
         pWinStationName: PWSTR,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2492,7 +2492,7 @@ extern "system" {
         ServerHandle: HANDLE,
         pWinStationName: PWSTR,
         SessionId: *mut u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2507,8 +2507,8 @@ extern "system" {
         Style: u32,
         Timeout: u32,
         Response: *mut u32,
-        DoNotWait: BOOLEAN,
-    ) -> BOOLEAN;
+        DoNotWait: bool,
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2518,18 +2518,18 @@ extern "system" {
         SessionId: u32,
         TargetSessionId: u32,
         pPassword: PWSTR,
-        bWait: BOOLEAN,
-    ) -> BOOLEAN;
+        bWait: bool,
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationDisconnect(ServerHandle: HANDLE, SessionId: u32, bWait: BOOLEAN) -> BOOLEAN;
+    pub fn WinStationDisconnect(ServerHandle: HANDLE, SessionId: u32, bWait: bool) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationReset(ServerHandle: HANDLE, SessionId: u32, bWait: BOOLEAN) -> BOOLEAN;
+    pub fn WinStationReset(ServerHandle: HANDLE, SessionId: u32, bWait: bool) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2540,12 +2540,12 @@ extern "system" {
         TargetSessionId: u32,
         HotKeyVk: u8,
         HotkeyModifiers: u16,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationShadowStop(ServerHandle: HANDLE, SessionId: u32, bWait: BOOLEAN) -> BOOLEAN;
+    pub fn WinStationShadowStop(ServerHandle: HANDLE, SessionId: u32, bWait: bool) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2553,7 +2553,7 @@ extern "system" {
     pub fn WinStationEnumerateProcesses(
         ServerHandle: HANDLE,
         Processes: *mut *mut std::ffi::c_void,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2563,7 +2563,7 @@ extern "system" {
         Level: u32,
         NumberOfProcesses: *mut u32,
         Processes: *mut *mut TS_ALL_PROCESSES_INFO,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2572,7 +2572,7 @@ extern "system" {
         Level: u32,
         Processes: *mut TS_ALL_PROCESSES_INFO,
         NumberOfProcesses: u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2581,7 +2581,7 @@ extern "system" {
         ServerHandle: HANDLE,
         ProcessId: u32,
         ExitCode: u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -2592,20 +2592,20 @@ extern "system" {
         ProcessStartTime: FILETIME,
         pProcessUserSid: *mut std::ffi::c_void,
         dwSidSize: *mut u32,
-    ) -> BOOLEAN;
+    ) -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationSwitchToServicesSession() -> BOOLEAN;
+    pub fn WinStationSwitchToServicesSession() -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn WinStationRevertFromServicesSession() -> BOOLEAN;
+    pub fn WinStationRevertFromServicesSession() -> bool;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn _WinStationWaitForConnect() -> BOOLEAN;
+    pub fn _WinStationWaitForConnect() -> bool;
 }

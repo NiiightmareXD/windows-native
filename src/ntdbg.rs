@@ -2,7 +2,7 @@ use windows::{
     core::GUID,
     Wdk::Foundation::OBJECT_ATTRIBUTES,
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, NTSTATUS},
+        Foundation::{HANDLE, NTSTATUS},
         System::{
             Diagnostics::{
                 Debug::{DEBUG_EVENT, EXCEPTION_RECORD},
@@ -326,7 +326,7 @@ extern "system" {
 extern "system" {
     pub fn NtWaitForDebugEvent(
         DebugObjectHandle: HANDLE,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
         WaitStateChange: *mut DBGUI_WAIT_STATE_CHANGE,
     ) -> NTSTATUS;

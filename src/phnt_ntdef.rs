@@ -1,5 +1,3 @@
-use windows::Win32::Foundation::BOOLEAN;
-
 pub const NT_FACILITY_MASK: u32 = 4095;
 pub const NT_FACILITY_SHIFT: u32 = 16;
 pub const OBJ_PROTECT_CLOSE: u32 = 1;
@@ -102,4 +100,4 @@ pub type PENCLAVE_ROUTINE =
     Option<unsafe extern "system" fn(lpThreadParameter: *mut std::ffi::c_void) -> u32>;
 
 pub type WAITORTIMERCALLBACKFUNC =
-    Option<unsafe extern "system" fn(_: *mut std::ffi::c_void, _: BOOLEAN)>;
+    Option<unsafe extern "system" fn(_: *mut std::ffi::c_void, _: bool)>;

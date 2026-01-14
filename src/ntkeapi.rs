@@ -1,4 +1,4 @@
-use windows::Win32::Foundation::{BOOLEAN, NTSTATUS};
+use windows::Win32::Foundation::{NTSTATUS};
 
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -54,7 +54,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetDebugFilterState(ComponentId: u32, Level: u32, State: BOOLEAN) -> NTSTATUS;
+    pub fn NtSetDebugFilterState(ComponentId: u32, Level: u32, State: bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]

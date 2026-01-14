@@ -11,7 +11,7 @@ use windows::{
         },
     },
     Win32::{
-        Foundation::{BOOLEAN, HANDLE, LUID, NTSTATUS, UNICODE_STRING},
+        Foundation::{HANDLE, LUID, NTSTATUS, UNICODE_STRING},
         Security::{GENERIC_MAPPING, SECURITY_DESCRIPTOR},
         System::{
             Diagnostics::Etw::PROFILE_SOURCE_INFO,
@@ -870,7 +870,7 @@ pub const FLG_USERMODE_VALID_BITS: u32 = 2989595123;
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtDelayExecution(Alertable: BOOLEAN, DelayInterval: *mut i64) -> NTSTATUS;
+    pub fn NtDelayExecution(Alertable: bool, DelayInterval: *mut i64) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1242,7 +1242,7 @@ extern "system" {
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
         EventType: EVENT_TYPE,
-        InitialState: BOOLEAN,
+        InitialState: bool,
     ) -> NTSTATUS;
 }
 
@@ -1349,8 +1349,8 @@ pub enum MUTANT_INFORMATION_CLASS {
 #[repr(C)]
 pub struct MUTANT_BASIC_INFORMATION {
     pub CurrentCount: i32,
-    pub OwnedByCaller: BOOLEAN,
-    pub AbandonedState: BOOLEAN,
+    pub OwnedByCaller: bool,
+    pub AbandonedState: bool,
 }
 
 impl Default for MUTANT_BASIC_INFORMATION {
@@ -1388,7 +1388,7 @@ extern "system" {
         MutantHandle: *mut HANDLE,
         DesiredAccess: u32,
         ObjectAttributes: *mut OBJECT_ATTRIBUTES,
-        InitialOwner: BOOLEAN,
+        InitialOwner: bool,
     ) -> NTSTATUS;
 }
 
@@ -1490,7 +1490,7 @@ pub enum TIMER_INFORMATION_CLASS {
 #[repr(C)]
 pub struct TIMER_BASIC_INFORMATION {
     pub RemainingTime: i64,
-    pub TimerState: BOOLEAN,
+    pub TimerState: bool,
 }
 
 impl Default for TIMER_BASIC_INFORMATION {
@@ -1531,9 +1531,9 @@ extern "system" {
         DueTime: *mut i64,
         TimerApcRoutine: PTIMER_APC_ROUTINE,
         TimerContext: *mut std::ffi::c_void,
-        ResumeTimer: BOOLEAN,
+        ResumeTimer: bool,
         Period: i32,
-        PreviousState: *mut BOOLEAN,
+        PreviousState: *mut bool,
     ) -> NTSTATUS;
 }
 
@@ -1549,7 +1549,7 @@ extern "system" {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtCancelTimer(TimerHandle: HANDLE, CurrentState: *mut BOOLEAN) -> NTSTATUS;
+    pub fn NtCancelTimer(TimerHandle: HANDLE, CurrentState: *mut bool) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
@@ -1693,7 +1693,7 @@ extern "system" {
     pub fn NtReleaseKeyedEvent(
         KeyedEventHandle: HANDLE,
         KeyValue: *mut std::ffi::c_void,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
@@ -1703,7 +1703,7 @@ extern "system" {
     pub fn NtWaitForKeyedEvent(
         KeyedEventHandle: HANDLE,
         KeyValue: *mut std::ffi::c_void,
-        Alertable: BOOLEAN,
+        Alertable: bool,
         Timeout: *mut i64,
     ) -> NTSTATUS;
 }
@@ -1791,7 +1791,7 @@ extern "system" {
         StateName: *mut WNF_STATE_NAME,
         NameLifetime: WNF_STATE_NAME_LIFETIME,
         DataScope: WNF_DATA_SCOPE,
-        PersistData: BOOLEAN,
+        PersistData: bool,
         TypeId: *const WNF_TYPE_ID,
         MaximumStateSize: u32,
         SecurityDescriptor: *mut SECURITY_DESCRIPTOR,
@@ -1906,13 +1906,13 @@ pub struct WORKER_FACTORY_BASIC_INFORMATION {
     pub Timeout: i64,
     pub RetryTimeout: i64,
     pub IdleTimeout: i64,
-    pub Paused: BOOLEAN,
-    pub TimerSet: BOOLEAN,
-    pub QueuedToExWorker: BOOLEAN,
-    pub MayCreate: BOOLEAN,
-    pub CreateInProgress: BOOLEAN,
-    pub InsertedIntoQueue: BOOLEAN,
-    pub Shutdown: BOOLEAN,
+    pub Paused: bool,
+    pub TimerSet: bool,
+    pub QueuedToExWorker: bool,
+    pub MayCreate: bool,
+    pub CreateInProgress: bool,
+    pub InsertedIntoQueue: bool,
+    pub Shutdown: bool,
     pub BindingCount: u32,
     pub ThreadMinimum: u32,
     pub ThreadMaximum: u32,
@@ -2040,7 +2040,7 @@ extern "system" {
 extern "system" {
     pub fn NtSetTimerResolution(
         DesiredTime: u32,
-        SetResolution: BOOLEAN,
+        SetResolution: bool,
         ActualTime: *mut u32,
     ) -> NTSTATUS;
 }
@@ -2859,8 +2859,8 @@ pub struct SYSTEM_OBJECTTYPE_INFORMATION {
     pub GenericMapping: GENERIC_MAPPING,
     pub ValidAccessMask: u32,
     pub PoolType: u32,
-    pub SecurityRequired: BOOLEAN,
-    pub WaitableObject: BOOLEAN,
+    pub SecurityRequired: bool,
+    pub WaitableObject: bool,
     pub TypeName: UNICODE_STRING,
 }
 
@@ -3130,7 +3130,7 @@ impl std::fmt::Debug for SYSTEM_DPC_BEHAVIOR_INFORMATION {
 pub struct SYSTEM_QUERY_TIME_ADJUST_INFORMATION {
     pub TimeAdjustment: u32,
     pub TimeIncrement: u32,
-    pub Enable: BOOLEAN,
+    pub Enable: bool,
 }
 
 impl Default for SYSTEM_QUERY_TIME_ADJUST_INFORMATION {
@@ -3149,7 +3149,7 @@ impl std::fmt::Debug for SYSTEM_QUERY_TIME_ADJUST_INFORMATION {
 pub struct SYSTEM_QUERY_TIME_ADJUST_INFORMATION_PRECISE {
     pub TimeAdjustment: u64,
     pub TimeIncrement: u64,
-    pub Enable: BOOLEAN,
+    pub Enable: bool,
 }
 
 impl Default for SYSTEM_QUERY_TIME_ADJUST_INFORMATION_PRECISE {
@@ -3167,7 +3167,7 @@ impl std::fmt::Debug for SYSTEM_QUERY_TIME_ADJUST_INFORMATION_PRECISE {
 #[repr(C)]
 pub struct SYSTEM_SET_TIME_ADJUST_INFORMATION {
     pub TimeAdjustment: u32,
-    pub Enable: BOOLEAN,
+    pub Enable: bool,
 }
 
 impl Default for SYSTEM_SET_TIME_ADJUST_INFORMATION {
@@ -3185,7 +3185,7 @@ impl std::fmt::Debug for SYSTEM_SET_TIME_ADJUST_INFORMATION {
 #[repr(C)]
 pub struct SYSTEM_SET_TIME_ADJUST_INFORMATION_PRECISE {
     pub TimeAdjustment: u64,
-    pub Enable: BOOLEAN,
+    pub Enable: bool,
 }
 
 impl Default for SYSTEM_SET_TIME_ADJUST_INFORMATION_PRECISE {
@@ -3603,7 +3603,7 @@ impl std::fmt::Debug for EVENT_TRACE_PROFILE_LIST_INFORMATION {
 pub struct EVENT_TRACE_STACK_CACHING_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub TraceHandle: TRACEHANDLE,
-    pub Enabled: BOOLEAN,
+    pub Enabled: bool,
     pub Reserved: [u8; 3],
     pub CacheSize: u32,
     pub BucketCount: u32,
@@ -3629,7 +3629,7 @@ impl std::fmt::Debug for EVENT_TRACE_STACK_CACHING_INFORMATION {
 pub struct EVENT_TRACE_SOFT_RESTART_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
     pub TraceHandle: TRACEHANDLE,
-    pub PersistTraceBuffers: BOOLEAN,
+    pub PersistTraceBuffers: bool,
     pub FileName: [u16; 1],
 }
 
@@ -3652,13 +3652,13 @@ impl std::fmt::Debug for EVENT_TRACE_SOFT_RESTART_INFORMATION {
 #[repr(C)]
 pub struct EVENT_TRACE_PROFILE_ADD_INFORMATION {
     pub EventTraceInformationClass: EVENT_TRACE_INFORMATION_CLASS,
-    pub PerfEvtEventSelect: BOOLEAN,
-    pub PerfEvtUnitSelect: BOOLEAN,
+    pub PerfEvtEventSelect: bool,
+    pub PerfEvtUnitSelect: bool,
     pub PerfEvtType: u32,
     pub CpuInfoHierarchy: [u32; 3],
     pub InitialInterval: u32,
-    pub AllowsHalt: BOOLEAN,
-    pub Persist: BOOLEAN,
+    pub AllowsHalt: bool,
+    pub Persist: bool,
     pub ProfileSourceDescription: [u16; 1],
 }
 
@@ -3769,8 +3769,8 @@ impl Default for SYSTEM_CRASH_DUMP_STATE_INFORMATION {
 
 #[repr(C)]
 pub struct SYSTEM_KERNEL_DEBUGGER_INFORMATION {
-    pub KernelDebuggerEnabled: BOOLEAN,
-    pub KernelDebuggerNotPresent: BOOLEAN,
+    pub KernelDebuggerEnabled: bool,
+    pub KernelDebuggerNotPresent: bool,
 }
 
 impl Default for SYSTEM_KERNEL_DEBUGGER_INFORMATION {
@@ -4208,8 +4208,6 @@ impl SYSTEM_BIGPOOL_ENTRY_1 {
     #[inline]
     pub fn set_NonPaged(&mut self, val: usize) {
         unsafe {
-            let val: u64 = std::mem::transmute(val);
-
             self._bitfield_1.as_mut().set(0usize, 1u8, val as u64)
         }
     }
@@ -4221,7 +4219,7 @@ impl SYSTEM_BIGPOOL_ENTRY_1 {
         bitfield_unit.set(0usize, 1u8, {
             let NonPaged: u64 = unsafe { std::mem::transmute(NonPaged) };
 
-            NonPaged as u64
+            NonPaged
         });
 
         bitfield_unit
@@ -4287,8 +4285,8 @@ impl std::fmt::Debug for SYSTEM_BIGPOOL_INFORMATION {
 
 #[repr(C)]
 pub struct SYSTEM_POOL_ENTRY {
-    pub Allocated: BOOLEAN,
-    pub Spare0: BOOLEAN,
+    pub Allocated: bool,
+    pub Spare0: bool,
     pub AllocatorBackTraceIndex: u16,
     pub Size: u32,
     pub Anonymous1: SYSTEM_POOL_ENTRY_1,
@@ -4335,8 +4333,8 @@ pub struct SYSTEM_POOL_INFORMATION {
     pub TotalSize: usize,
     pub FirstEntry: *mut std::ffi::c_void,
     pub EntryOverhead: u16,
-    pub PoolTagPresent: BOOLEAN,
-    pub Spare0: BOOLEAN,
+    pub PoolTagPresent: bool,
+    pub Spare0: bool,
     pub NumberOfEntries: u32,
     pub Entries: [SYSTEM_POOL_ENTRY; 1],
 }
@@ -4415,12 +4413,12 @@ pub enum WATCHDOG_HANDLER_ACTION {
     WdActionQueryState = 7,
 }
 
-pub type PSYSTEM_WATCHDOG_HANDLER = std::option::Option<
+pub type PSYSTEM_WATCHDOG_HANDLER = Option<
     unsafe extern "system" fn(
         Action: WATCHDOG_HANDLER_ACTION,
         Context: *mut std::ffi::c_void,
         DataValue: *mut u32,
-        NoLocks: BOOLEAN,
+        NoLocks: bool,
     ) -> NTSTATUS,
 >;
 
@@ -4617,8 +4615,8 @@ impl std::fmt::Debug for SYSTEM_VERIFIER_CANCELLATION_INFORMATION {
 
 #[repr(C)]
 pub struct SYSTEM_REF_TRACE_INFORMATION {
-    pub TraceEnable: BOOLEAN,
-    pub TracePermanent: BOOLEAN,
+    pub TraceEnable: bool,
+    pub TracePermanent: bool,
     pub TraceProcessName: UNICODE_STRING,
     pub TracePoolTags: UNICODE_STRING,
 }
@@ -4673,10 +4671,10 @@ impl std::fmt::Debug for SYSTEM_PROCESS_ID_INFORMATION {
 
 #[repr(C)]
 pub struct SYSTEM_HYPERVISOR_QUERY_INFORMATION {
-    pub HypervisorConnected: BOOLEAN,
-    pub HypervisorDebuggingEnabled: BOOLEAN,
-    pub HypervisorPresent: BOOLEAN,
-    pub Spare0: [BOOLEAN; 5],
+    pub HypervisorConnected: bool,
+    pub HypervisorDebuggingEnabled: bool,
+    pub HypervisorPresent: bool,
+    pub Spare0: [bool; 5],
     pub EnabledEnlightenments: u64,
 }
 
@@ -7428,8 +7426,8 @@ pub struct SYSTEM_REGISTRY_APPEND_STRING_PARAMETERS {
     pub Type: u32,
     pub AppendBuffer: *mut u8,
     pub AppendBufferLength: u32,
-    pub CreateIfDoesntExist: BOOLEAN,
-    pub TruncateExistingValue: BOOLEAN,
+    pub CreateIfDoesntExist: bool,
+    pub TruncateExistingValue: bool,
 }
 
 impl Default for SYSTEM_REGISTRY_APPEND_STRING_PARAMETERS {
@@ -7446,7 +7444,7 @@ impl std::fmt::Debug for SYSTEM_REGISTRY_APPEND_STRING_PARAMETERS {
 
 #[repr(C)]
 pub struct SYSTEM_VHD_BOOT_INFORMATION {
-    pub OsDiskIsVhd: BOOLEAN,
+    pub OsDiskIsVhd: bool,
     pub OsVhdFilePathOffset: u32,
     pub OsVhdParentVolume: [u16; 1],
 }
@@ -8004,7 +8002,7 @@ impl std::fmt::Debug for PROCESSOR_PROFILE_CONTROL_AREA {
 #[repr(C)]
 pub struct SYSTEM_PROCESSOR_PROFILE_CONTROL_AREA {
     pub ProcessorProfileControlArea: PROCESSOR_PROFILE_CONTROL_AREA,
-    pub Allocate: BOOLEAN,
+    pub Allocate: bool,
 }
 
 impl Default for SYSTEM_PROCESSOR_PROFILE_CONTROL_AREA {
@@ -8083,8 +8081,8 @@ impl std::fmt::Debug for MEMORY_COMBINE_INFORMATION_EX2 {
 #[repr(C)]
 pub struct SYSTEM_ENTROPY_TIMING_INFORMATION {
     pub EntropyRoutine:
-        std::option::Option<unsafe extern "system" fn(arg1: *mut std::ffi::c_void, arg2: u32)>,
-    pub InitializationRoutine: std::option::Option<
+        Option<unsafe extern "system" fn(arg1: *mut std::ffi::c_void, arg2: u32)>,
+    pub InitializationRoutine: Option<
         unsafe extern "system" fn(
             arg1: *mut std::ffi::c_void,
             arg2: u32,
@@ -8443,8 +8441,8 @@ impl std::fmt::Debug for SYSTEM_PAGEFILE_INFORMATION_EX {
 
 #[repr(C)]
 pub struct SYSTEM_SECUREBOOT_INFORMATION {
-    pub SecureBootEnabled: BOOLEAN,
-    pub SecureBootCapable: BOOLEAN,
+    pub SecureBootEnabled: bool,
+    pub SecureBootCapable: bool,
 }
 
 impl Default for SYSTEM_SECUREBOOT_INFORMATION {
@@ -8979,7 +8977,7 @@ impl std::fmt::Debug for SYSTEM_PROCESS_INFORMATION_EXTENSION {
 
 #[repr(C)]
 pub struct SYSTEM_PORTABLE_WORKSPACE_EFI_LAUNCHER_INFORMATION {
-    pub EfiLauncherEnabled: BOOLEAN,
+    pub EfiLauncherEnabled: bool,
 }
 
 impl Default for SYSTEM_PORTABLE_WORKSPACE_EFI_LAUNCHER_INFORMATION {
@@ -8999,9 +8997,9 @@ impl std::fmt::Debug for SYSTEM_PORTABLE_WORKSPACE_EFI_LAUNCHER_INFORMATION {
 
 #[repr(C)]
 pub struct SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX {
-    pub DebuggerAllowed: BOOLEAN,
-    pub DebuggerEnabled: BOOLEAN,
-    pub DebuggerPresent: BOOLEAN,
+    pub DebuggerAllowed: bool,
+    pub DebuggerEnabled: bool,
+    pub DebuggerPresent: bool,
 }
 
 impl Default for SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX {
@@ -9132,7 +9130,7 @@ impl std::fmt::Debug for SYSTEM_MANUFACTURING_INFORMATION {
 
 #[repr(C)]
 pub struct SYSTEM_ENERGY_ESTIMATION_CONFIG_INFORMATION {
-    pub Enabled: BOOLEAN,
+    pub Enabled: bool,
 }
 
 impl Default for SYSTEM_ENERGY_ESTIMATION_CONFIG_INFORMATION {
@@ -9237,10 +9235,10 @@ impl std::fmt::Debug for SYSTEM_TPM_INFORMATION {
 
 #[repr(C)]
 pub struct SYSTEM_VSM_PROTECTION_INFORMATION {
-    pub DmaProtectionsAvailable: BOOLEAN,
-    pub DmaProtectionsInUse: BOOLEAN,
-    pub HardwareMbecAvailable: BOOLEAN,
-    pub ApicVirtualizationAvailable: BOOLEAN,
+    pub DmaProtectionsAvailable: bool,
+    pub DmaProtectionsInUse: bool,
+    pub HardwareMbecAvailable: bool,
+    pub ApicVirtualizationAvailable: bool,
 }
 
 impl Default for SYSTEM_VSM_PROTECTION_INFORMATION {
@@ -9257,7 +9255,7 @@ impl std::fmt::Debug for SYSTEM_VSM_PROTECTION_INFORMATION {
 
 #[repr(C)]
 pub struct SYSTEM_KERNEL_DEBUGGER_FLAGS {
-    pub KernelDebuggerIgnoreUmExceptions: BOOLEAN,
+    pub KernelDebuggerIgnoreUmExceptions: bool,
 }
 
 impl Default for SYSTEM_KERNEL_DEBUGGER_FLAGS {
@@ -9296,7 +9294,7 @@ impl std::fmt::Debug for SYSTEM_CODEINTEGRITYPOLICY_INFORMATION {
 pub struct SYSTEM_ISOLATED_USER_MODE_INFORMATION {
     _bitfield_align_1: [u8; 0],
     _bitfield_1: BitfieldUnit<[u8; 2]>,
-    pub Spare0: [BOOLEAN; 6],
+    pub Spare0: [bool; 6],
     pub Spare1: u64,
 }
 
@@ -9328,217 +9326,157 @@ impl std::fmt::Debug for SYSTEM_ISOLATED_USER_MODE_INFORMATION {
 
 impl SYSTEM_ISOLATED_USER_MODE_INFORMATION {
     #[inline]
-    pub fn SecureKernelRunning(&self) -> BOOLEAN {
+    pub fn SecureKernelRunning(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(0usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_SecureKernelRunning(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(0usize, 1u8, val as u64)
-        }
+    pub fn set_SecureKernelRunning(&mut self, val: bool) {
+        self._bitfield_1.set(0usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn HvciEnabled(&self) -> BOOLEAN {
+    pub fn HvciEnabled(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(1usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_HvciEnabled(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(1usize, 1u8, val as u64)
-        }
+    pub fn set_HvciEnabled(&mut self, val: bool) {
+        self._bitfield_1.set(1usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn HvciStrictMode(&self) -> BOOLEAN {
+    pub fn HvciStrictMode(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(2usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_HvciStrictMode(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(2usize, 1u8, val as u64)
-        }
+    pub fn set_HvciStrictMode(&mut self, val: bool) {
+        self._bitfield_1.set(2usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn DebugEnabled(&self) -> BOOLEAN {
+    pub fn DebugEnabled(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(3usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_DebugEnabled(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(3usize, 1u8, val as u64)
-        }
+    pub fn set_DebugEnabled(&mut self, val: bool) {
+        self._bitfield_1.set(3usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn FirmwarePageProtection(&self) -> BOOLEAN {
+    pub fn FirmwarePageProtection(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(4usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_FirmwarePageProtection(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(4usize, 1u8, val as u64)
-        }
+    pub fn set_FirmwarePageProtection(&mut self, val: bool) {
+        self._bitfield_1.set(4usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn EncryptionKeyAvailable(&self) -> BOOLEAN {
+    pub fn EncryptionKeyAvailable(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(5usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_EncryptionKeyAvailable(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(5usize, 1u8, val as u64)
-        }
+    pub fn set_EncryptionKeyAvailable(&mut self, val: bool) {
+        self._bitfield_1.set(5usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn SpareFlags(&self) -> BOOLEAN {
+    pub fn SpareFlags(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(6usize, 2u8) as u8) }
     }
 
     #[inline]
-    pub fn set_SpareFlags(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(6usize, 2u8, val as u64)
-        }
+    pub fn set_SpareFlags(&mut self, val: bool) {
+        self._bitfield_1.set(6usize, 2u8, val as u64)
     }
 
     #[inline]
-    pub fn TrustletRunning(&self) -> BOOLEAN {
+    pub fn TrustletRunning(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(8usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_TrustletRunning(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(8usize, 1u8, val as u64)
-        }
+    pub fn set_TrustletRunning(&mut self, val: bool) {
+        self._bitfield_1.set(8usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn HvciDisableAllowed(&self) -> BOOLEAN {
+    pub fn HvciDisableAllowed(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(9usize, 1u8) as u8) }
     }
 
     #[inline]
-    pub fn set_HvciDisableAllowed(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(9usize, 1u8, val as u64)
-        }
+    pub fn set_HvciDisableAllowed(&mut self, val: bool) {
+        self._bitfield_1.set(9usize, 1u8, val as u64)
     }
 
     #[inline]
-    pub fn SpareFlags2(&self) -> BOOLEAN {
+    pub fn SpareFlags2(&self) -> bool {
         unsafe { std::mem::transmute(self._bitfield_1.get(10usize, 6u8) as u8) }
     }
 
     #[inline]
-    pub fn set_SpareFlags2(&mut self, val: BOOLEAN) {
-        unsafe {
-            let val: u8 = std::mem::transmute(val);
-
-            self._bitfield_1.set(10usize, 6u8, val as u64)
-        }
+    pub fn set_SpareFlags2(&mut self, val: bool) {
+        self._bitfield_1.set(10usize, 6u8, val as u64)
     }
 
     #[inline]
     pub fn new_bitfield_1(
-        SecureKernelRunning: BOOLEAN,
-        HvciEnabled: BOOLEAN,
-        HvciStrictMode: BOOLEAN,
-        DebugEnabled: BOOLEAN,
-        FirmwarePageProtection: BOOLEAN,
-        EncryptionKeyAvailable: BOOLEAN,
-        SpareFlags: BOOLEAN,
-        TrustletRunning: BOOLEAN,
-        HvciDisableAllowed: BOOLEAN,
-        SpareFlags2: BOOLEAN,
+        SecureKernelRunning: bool,
+        HvciEnabled: bool,
+        HvciStrictMode: bool,
+        DebugEnabled: bool,
+        FirmwarePageProtection: bool,
+        EncryptionKeyAvailable: bool,
+        SpareFlags: bool,
+        TrustletRunning: bool,
+        HvciDisableAllowed: bool,
+        SpareFlags2: bool,
     ) -> BitfieldUnit<[u8; 2]> {
         let mut bitfield_unit: BitfieldUnit<[u8; 2]> = Default::default();
 
         bitfield_unit.set(0usize, 1u8, {
-            let SecureKernelRunning: u8 = unsafe { std::mem::transmute(SecureKernelRunning) };
-
             SecureKernelRunning as u64
         });
 
         bitfield_unit.set(1usize, 1u8, {
-            let HvciEnabled: u8 = unsafe { std::mem::transmute(HvciEnabled) };
-
             HvciEnabled as u64
         });
 
         bitfield_unit.set(2usize, 1u8, {
-            let HvciStrictMode: u8 = unsafe { std::mem::transmute(HvciStrictMode) };
-
             HvciStrictMode as u64
         });
 
         bitfield_unit.set(3usize, 1u8, {
-            let DebugEnabled: u8 = unsafe { std::mem::transmute(DebugEnabled) };
-
             DebugEnabled as u64
         });
 
         bitfield_unit.set(4usize, 1u8, {
-            let FirmwarePageProtection: u8 = unsafe { std::mem::transmute(FirmwarePageProtection) };
-
             FirmwarePageProtection as u64
         });
 
         bitfield_unit.set(5usize, 1u8, {
-            let EncryptionKeyAvailable: u8 = unsafe { std::mem::transmute(EncryptionKeyAvailable) };
-
             EncryptionKeyAvailable as u64
         });
 
         bitfield_unit.set(6usize, 2u8, {
-            let SpareFlags: u8 = unsafe { std::mem::transmute(SpareFlags) };
-
             SpareFlags as u64
         });
 
         bitfield_unit.set(8usize, 1u8, {
-            let TrustletRunning: u8 = unsafe { std::mem::transmute(TrustletRunning) };
-
             TrustletRunning as u64
         });
 
         bitfield_unit.set(9usize, 1u8, {
-            let HvciDisableAllowed: u8 = unsafe { std::mem::transmute(HvciDisableAllowed) };
-
             HvciDisableAllowed as u64
         });
 
         bitfield_unit.set(10usize, 6u8, {
-            let SpareFlags2: u8 = unsafe { std::mem::transmute(SpareFlags2) };
-
             SpareFlags2 as u64
         });
 
@@ -11042,7 +10980,7 @@ impl std::fmt::Debug for SYSTEM_SPECULATION_CONTROL_INFORMATION {
 
 #[repr(C)]
 pub struct SYSTEM_DMA_GUARD_POLICY_INFORMATION {
-    pub DmaGuardPolicyEnabled: BOOLEAN,
+    pub DmaGuardPolicyEnabled: bool,
 }
 
 impl Default for SYSTEM_DMA_GUARD_POLICY_INFORMATION {
@@ -12350,7 +12288,7 @@ impl std::fmt::Debug for SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_INPUT {
 #[repr(C)]
 pub struct SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_OUTPUT {
     pub Version: u32,
-    pub FeatureIsEnabled: BOOLEAN,
+    pub FeatureIsEnabled: bool,
 }
 
 impl Default for SYSTEM_ORIGINAL_IMAGE_FEATURE_INFORMATION_OUTPUT {
@@ -13016,12 +12954,12 @@ pub enum ALTERNATIVE_ARCHITECTURE_TYPE {
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtQueryDefaultLocale(UserProfile: BOOLEAN, DefaultLocaleId: *mut u32) -> NTSTATUS;
+    pub fn NtQueryDefaultLocale(UserProfile: bool, DefaultLocaleId: *mut u32) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
 extern "system" {
-    pub fn NtSetDefaultLocale(UserProfile: BOOLEAN, DefaultLocaleId: u32) -> NTSTATUS;
+    pub fn NtSetDefaultLocale(UserProfile: bool, DefaultLocaleId: u32) -> NTSTATUS;
 }
 
 #[link(name = "ntdll.dll", kind = "raw-dylib", modifiers = "+verbatim")]
